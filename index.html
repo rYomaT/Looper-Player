@@ -132,6 +132,17 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .add-panel.row{display:flex;flex-direction:column;gap:8px}
 .add-panel label{font-size:.86rem;font-weight:700;color:var(--ink2)}
 .hint{font-size:.85rem;color:var(--ink2);margin-top:6px}
+.flow-box{margin-top:14px;background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:12px;padding:14px}
+.flow-box h4{margin:0 0 4px;font-size:.95rem;font-weight:900;color:var(--accent)}
+.flow-box .lead{margin:0 0 10px;font-size:.88rem;color:var(--ink2)}
+.flow-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.flow-steps li{display:flex;gap:10px;align-items:flex-start;position:relative;padding:8px 0}
+.flow-steps li:not(:last-child)::after{content:"↓";position:absolute;left:15px;top:38px;font-size:.85rem;color:var(--accent);font-weight:900}
+.flow-num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.flow-steps .ft{flex:1;min-width:0}
+.flow-steps .ft strong{display:block;font-size:.93rem;line-height:1.4}
+.flow-steps .ft span{display:block;font-size:.84rem;color:var(--ink2);line-height:1.5;margin-top:2px}
+.flow-box .btn{margin-top:10px;width:100%}
 
 /* Comments */
 .comments-card{position:sticky;top:14px}
@@ -182,7 +193,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
 <li><strong>書き出しを読み込む：</strong>コメント欄の一番下にある「書き出しを読み込む」から、書き出したテキストファイルを選ぶ（またはテキストを貼り付ける）と、ライブラリ・コメント・保存したループが戻ります。すでにある曲・コメントは重複して追加されません。ローカルMP3はファイル自体がテキストに入らないため、曲名だけ戻ります（再生にはもう一度ファイルを追加してください）。</li>
 </ul>
-<p class="note">※ Driveの共有リンクは、ブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。そのときは曲の「Driveで開く」からDriveのプレビューで再生してください。ローカルMP3は確実に再生できます。<br>
+<p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
 ※ このページの曲・コメント・保存したループは、開いている間だけブラウザの中にあります。ページを閉じると消えるので、大事なものは書き出して残してください（保存したループも書き出しテキストに含まれます）。</p>
 </details>
 </header>
@@ -212,7 +223,17 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div><label for="drTitle">曲名</label><input id="drTitle" type="text" placeholder="例：スタジオ録音 2026-11-15"></div>
 <div><label for="drUrl">Drive共有リンク、またはMP3のURL</label><input id="drUrl" type="url" placeholder="https://drive.google.com/file/d/…/view?usp=sharing"></div>
 <button class="btn primary" id="addDrive" type="button">ライブラリに追加</button>
-<p class="hint">Driveは「リンクを知っている全員が閲覧可」に共有したリンクを貼ってください。直接再生できないファイルは「Driveで開く」からプレビュー再生できます。</p>
+<p class="hint">Driveは「リンクを知っている全員が閲覧可」に共有したリンクを貼ってください。</p>
+<div class="flow-box" aria-label="MP3をダウンロードしてローカルで追加する流れ">
+<h4>▶ Driveの曲は、この流れがおすすめです</h4>
+<p class="lead">Driveリンクのままでは再生できないことがあります。MP3をダウンロードしてローカルで追加すると、確実に再生・ループできます。</p>
+<ol class="flow-steps">
+<li><span class="flow-num">1</span><div class="ft"><strong>Driveで開いて、MP3をダウンロード</strong><span>共有リンクをDriveで開き、ダウンロードボタンからMP3ファイルを端末に保存してください。</span></div></li>
+<li><span class="flow-num">2</span><div class="ft"><strong>「ローカルMP3」タブで追加</strong><span>下のボタンを押すと「ローカルMP3」タブに切り替わります。そこで、ダウンロードしたMP3を選んでください。</span></div></li>
+<li><span class="flow-num">3</span><div class="ft"><strong>そのまま再生・ループ練習</strong><span>追加された曲はライブラリから選ぶだけで再生できます。速度変更もA–Bループもそのまま使えます。</span></div></li>
+</ol>
+<button class="btn primary" id="goLocalFromDrive" type="button">② ローカルMP3で追加する →</button>
+</div>
 </div>
 </div>
 
@@ -220,7 +241,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="row">
 <div><label for="localFiles">MP3ファイル（複数OK）</label><input id="localFiles" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple></div>
 <button class="btn primary" id="addLocal" type="button">ライブラリに追加</button>
-<p class="hint">ファイルはこのページの中だけで再生されます（どこにもアップロードされません）。</p>
+<p class="hint"><strong>Driveの曲はここがゴールです：</strong>DriveからダウンロードしたMP3をここで選ぶと、確実に再生・ループできます。ファイルはこのページの中だけで再生されます（どこにもアップロードされません）。</p>
 </div>
 </div>
 </section>
@@ -243,8 +264,15 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 </div>
 <audio id="audioEl" controls style="display:none"></audio>
-<div style="margin-top:8px;display:none" id="driveOpenRow">
-<a class="btn small" id="driveOpenLink" href="#" target="_blank" rel="noopener">Driveで開く（再生できないとき）</a>
+<div style="margin-top:10px;display:none" id="driveOpenRow">
+<div class="flow-box" style="margin-top:0">
+<h4>Driveの曲が再生できないときは、この流れで</h4>
+<p class="lead" style="margin-bottom:8px">① Driveで開いてMP3をダウンロード → ② ライブラリの「ローカルMP3」で追加 → ③ そのまま再生できます。</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<a class="btn small" id="driveOpenLink" href="#" target="_blank" rel="noopener">① Driveで開く</a>
+<button class="btn small primary" id="goLocalFromPlayer" type="button">② ローカルMP3で追加する →</button>
+</div>
+</div>
 </div>
 
 <div class="seekrow">
@@ -550,6 +578,15 @@ x.setAttribute("aria-selected", x.dataset.tab === key? "true": "false");
 document.querySelectorAll(".add-tabs .btn").forEach(function(b){
 b.addEventListener("click", function(){ selectAddTab(b.dataset.tab);});
 });
+function goToLocalAdd(){
+selectAddTab("local");
+var lib = document.querySelector(".library");
+if (lib) lib.scrollIntoView({ behavior:"smooth", block:"start"});
+var f = $("localFiles"); if (f) setTimeout(function(){ f.focus();}, 450);
+toast("ダウンロードしたMP3をここで選んでください");
+}
+var gl1 = $("goLocalFromDrive"); if (gl1) gl1.addEventListener("click", goToLocalAdd);
+var gl2 = $("goLocalFromPlayer"); if (gl2) gl2.addEventListener("click", goToLocalAdd);
 
 /* YouTube title auto-fetch via oEmbed (no API key needed) */
 var ytAutoTitle = "", ytFetchTimer = null;
