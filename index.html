@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>ギター練習プレイヤー（友達用）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#f4f1ea; --bg2:#ece7db; --panel:#fffdf8; --panel2:#f8f4ea;
+--ink:#221d15; --ink2:#5c5344; --line:#ddd3bf; --line2:#cbbfa4;
+--accent:#c2570b; --accent-ink:#fff; --accent-soft:#fbe9d7;
+--teal:#14655a; --teal-soft:#dff0ec;
+--danger:#b3372a; --danger-soft:#fbe7e3;
+--chip:#efe9db; --shadow:0 10px 28px rgba(60,45,20,.10);
+--radius:14px;
+}
+@media (prefers-color-scheme: dark){
+:root{
+--bg:#171410; --bg2:#100e0b; --panel:#221e18; --panel2:#2a251d;
+--ink:#f2ead9; --ink2:#b8ab93; --line:#3d362a; --line2:#554a38;
+--accent:#e8791e; --accent-ink:#1c1206; --accent-soft:#3d2712;
+--teal:#4cc2ae; --teal-soft:#17332d;
+--danger:#ff8a7a; --danger-soft:#3a1d18;
+--chip:#2e291f; --shadow:0 10px 28px rgba(0,0,0,.45);
+}
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+color:var(--ink);
+font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic UI",system-ui,sans-serif;
+line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+button,[role="button"],select,summary,input:not([type="checkbox"],[type="radio"]){min-height:2.25rem}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit;font-size:1rem;color:var(--ink);background:var(--panel);border:1.5px solid var(--line2);border-radius:10px;padding:.55rem.7rem;width:100%}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+textarea{resize:vertical;min-height:4.2rem}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 16px 64px}
+
+header.intro{margin:6px 0 18px}
+header.intro h1{font-size:clamp(1.45rem,4.5vw,2.1rem);font-weight:900;letter-spacing:.01em;margin:0 0 6px;line-height:1.3}
+header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
+.howto{margin-top:12px;background:var(--panel);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow)}
+.howto summary{font-weight:700;cursor:pointer;padding:4px 0}
+.howto ul{margin:8px 0 4px;padding-left:1.2em}
+.howto li{margin:3px 0;font-size:.93rem}
+.howto.note{font-size:.88rem;color:var(--ink2)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start}
+@media (max-width:920px){.layout{grid-template-columns:1fr}}
+
+.card{background:var(--panel);border:1.5px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.card h2{font-size:1.08rem;font-weight:900;margin:0 0 10px;display:flex;align-items:center;gap:.5em}
+.card h2.count{font-size:.78rem;font-weight:700;background:var(--chip);border-radius:999px;padding:.1em.7em;color:var(--ink2)}
+
+/* Player */
+.now{margin-bottom:12px}
+.now.title{font-weight:900;font-size:1.15rem;line-height:1.35}
+.now.artist{color:var(--ink2);font-size:.92rem}
+.now.badge{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:.12em.7em;margin-left:.5em;vertical-align:middle}
+.badge.yt{background:var(--danger-soft);color:var(--danger)}
+.badge.audio,.badge.drive{background:var(--teal-soft);color:var(--teal)}
+.badge.local{background:var(--accent-soft);color:var(--accent)}
+.stage{background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+.stage iframe,.stage #yt-holder{width:100%;height:100%;border:0;display:block}
+.stage.audio-mode{aspect-ratio:auto;padding:26px 16px;background:var(--panel2)}
+.stage.audio-msg{text-align:center;color:var(--ink2);font-size:.95rem}
+.stage.audio-msg.big{font-size:2rem;display:block;margin-bottom:6px}
+audio#audioEl{width:100%;margin-top:10px}
+.empty-msg{padding:28px 10px;text-align:center;color:var(--ink2);font-size:.95rem}
+
+.seekrow{display:flex;align-items:center;gap:10px;margin-top:14px}
+.seekrow.t{font-size:.86rem;min-width:3.4em;text-align:center}
+input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-color:var(--accent);height:2.25rem}
+.transport{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.btn{border:1.5px solid var(--line2);background:var(--panel2);color:var(--ink);border-radius:10px;padding:.45rem.9rem;font-weight:700;font-size:.93rem;display:inline-flex;align-items:center;gap:.4em;justify-content:center}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);min-width:7.5em}
+.btn.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:.3rem.65rem;font-size:.85rem;min-height:2.25rem}
+.btn.danger{color:var(--danger)}
+.btn:disabled{opacity:.45;cursor:default}
+
+.ctl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:560px){.ctl-grid{grid-template-columns:1fr}}
+.ctl-box{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2)}
+.ctl-box h3{margin:0 0 8px;font-size:.9rem;font-weight:900}
+.speed-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.speed-val{font-weight:700}
+.ab-times{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0 10px}
+.ab-chip{background:var(--chip);border-radius:8px;padding:.25em.7em;font-size:.88rem;font-weight:700}
+.ab-chip.set{background:var(--accent-soft);color:var(--accent)}
+.loop-state{font-size:.85rem;color:var(--ink2)}
+.loop-save{margin-top:12px;border-top:1.5px dashed var(--line2);padding-top:10px}
+.loop-save h4{margin:0 0 6px;font-size:.85rem;font-weight:900}
+.loop-save .row{display:flex;gap:8px}
+.loop-save .row input{flex:1}
+.loop-save .row .btn{flex:none}
+.loop-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.loop-item{display:flex;align-items:center;gap:8px;background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:7px 10px}
+.loop-item.active{border-color:var(--accent);background:var(--accent-soft)}
+.loop-item .meta{flex:1;min-width:0}
+.loop-item .name{font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loop-item .range{font-size:.8rem;color:var(--ink2)}
+.loop-item .del{flex:none;border:none;background:transparent;color:var(--ink2);font-size:1rem;padding:.25rem.45rem;min-height:2.25rem;cursor:pointer}
+.loop-item .del:hover{color:var(--danger)}
+.loop-empty{font-size:.85rem;color:var(--ink2);margin-top:8px}
+
+/* Library */
+.library{margin-top:18px}
+.song-list{display:flex;flex-direction:column;gap:8px}
+.song{display:flex;gap:10px;align-items:center;text-align:left;width:100%;background:var(--panel2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink)}
+.song:hover{border-color:var(--accent)}
+.song.playing{border-color:var(--accent);background:var(--accent-soft)}
+.song.meta{flex:1;min-width:0}
+.song.st{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song.sa{font-size:.84rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song.del{flex:none;border:none;background:transparent;color:var(--ink2);font-size:1.05rem;padding:.3rem.5rem;min-height:2.25rem}
+.song.del:hover{color:var(--danger)}
+.type-tag{flex:none;font-size:.7rem;font-weight:700;border-radius:999px;padding:.15em.65em}
+.add-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 10px}
+.add-tabs.btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.add-panel{display:none;border-top:1.5px dashed var(--line2);padding-top:12px}
+.add-panel.open{display:block}
+.add-panel.row{display:flex;flex-direction:column;gap:8px}
+.add-panel label{font-size:.86rem;font-weight:700;color:var(--ink2)}
+.hint{font-size:.85rem;color:var(--ink2);margin-top:6px}
+
+/* Comments */
+.comments-card{position:sticky;top:14px}
+@media (max-width:920px){.comments-card{position:static}}
+.c-form{display:flex;flex-direction:column;gap:8px}
+.c-form.row2{display:flex;gap:8px}
+.c-form.row2>*{flex:1}
+.stamp-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stamp-view{font-weight:700;background:var(--chip);padding:.2em.7em;border-radius:8px;font-size:.9rem}
+.c-list{margin-top:14px;display:flex;flex-direction:column;gap:10px;max-height:62vh;overflow:auto;padding-right:2px}
+@media (max-width:920px){.c-list{max-height:none}}
+.comment{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel2)}
+.comment.reply{margin-left:22px;background:var(--panel)}
+.comment.head{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.83rem;color:var(--ink2)}
+.comment.who{font-weight:700;color:var(--ink)}
+.comment.stamp{border:none;background:var(--accent-soft);color:var(--accent);font-weight:700;border-radius:8px;padding:.25em.7em;font-size:.85rem;cursor:pointer;min-height:2rem}
+.comment.stamp:hover{text-decoration:underline}
+.comment.body{margin:4px 0 6px;white-space:pre-wrap;word-break:break-word;font-size:.95rem}
+.comment.acts{display:flex;gap:6px}
+.reply-form{display:none;margin-top:8px;flex-direction:column;gap:8px}
+.reply-form.open{display:flex}
+.no-comments{color:var(--ink2);font-size:.92rem;text-align:center;padding:14px 0}
+.export-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;border-top:1.5px dashed var(--line2);padding-top:12px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.9rem;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="intro">
+<h1>ギター練習プレイヤー（友達用）</h1>
+<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。ゆっくり再生（0.5〜2倍）、難しいところのA–Bループ、±10秒スキップ、再生位置つきコメントで、気づきを曲ごとに残せます。</p>
+<details class="howto">
+<summary>使い方と、Driveリンクの注意点</summary>
+<ul>
+<li><strong>曲を足す：</strong>下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
+<li><strong>ループ練習：</strong>再生中に「Aを設定」「Bを設定」を押すと、その区間を繰り返します。速度を落として指の動きを確認するのがおすすめです。決めた区間は名前を付けて何個でも保存でき、「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>コメント：</strong>「現在時刻を入れる」を押してから書くと、その再生位置にジャンプできるコメントになります。コメントへの返信もできます。</li>
+<li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
+</ul>
+<p class="note">※ Driveの共有リンクは、ブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。そのときは曲の「Driveで開く」からDriveのプレビューで再生してください。ローカルMP3は確実に再生できます。<br>
+※ このページの曲・コメント・保存したループは、開いている間だけブラウザの中にあります。ページを閉じると消えるので、大事なものは書き出して残してください（保存したループも書き出しテキストに含まれます）。</p>
+</details>
+</header>
+
+<div class="layout">
+<!-- LEFT: player + library -->
+<div>
+<section class="card" aria-label="プレイヤー">
+<div class="now" id="nowBox">
+<div class="title" id="nowTitle">曲を選んでください</div>
+<div class="artist" id="nowArtist">下のライブラリから再生したい曲をタップ</div>
+</div>
+
+<div class="stage" id="stage">
+<div class="empty-msg" id="emptyMsg">🎸 ライブラリから曲を選ぶと、ここで再生できます</div>
+<div id="yt-holder" style="display:none"></div>
+<div class="audio-msg" id="audioMsg" style="display:none">
+<span class="big">🎧</span>
+音声ファイル再生中<br><span class="mono" id="audioFileName"></span>
+</div>
+</div>
+<audio id="audioEl" controls style="display:none"></audio>
+<div style="margin-top:8px;display:none" id="driveOpenRow">
+<a class="btn small" id="driveOpenLink" href="#" target="_blank" rel="noopener">Driveで開く（再生できないとき）</a>
+</div>
+
+<div class="seekrow">
+<span class="t mono" id="curTime">0:00</span>
+<input type="range" id="seekBar" min="0" max="1000" value="0" step="1" aria-label="再生位置">
+<span class="t mono" id="durTime">0:00</span>
+</div>
+
+<div class="transport">
+<button class="btn" id="back10" type="button">⏪ −10秒</button>
+<button class="btn primary" id="playBtn" type="button">▶ 再生</button>
+<button class="btn" id="fwd10" type="button">+10秒 ⏩</button>
+</div>
+
+<div class="ctl-grid">
+<div class="ctl-box">
+<h3>再生速度 <span class="speed-val mono" id="speedVal">1.00×</span></h3>
+<input type="range" id="speedRange" min="0.5" max="2" step="0.05" value="1" aria-label="再生速度 0.5から2倍">
+<div class="speed-presets" id="speedPresets">
+<button class="btn small" type="button" data-speed="0.5">0.5×</button>
+<button class="btn small" type="button" data-speed="0.75">0.75×</button>
+<button class="btn small active" type="button" data-speed="1">1×</button>
+<button class="btn small" type="button" data-speed="1.25">1.25×</button>
+<button class="btn small" type="button" data-speed="1.5">1.5×</button>
+<button class="btn small" type="button" data-speed="2">2×</button>
+</div>
+</div>
+<div class="ctl-box">
+<h3>A–Bループ</h3>
+<div class="ab-times">
+<span class="ab-chip mono" id="aChip">A —</span>
+<span class="ab-chip mono" id="bChip">B —</span>
+<span class="loop-state" id="loopState">未設定</span>
+</div>
+<div class="transport" style="margin-top:0">
+<button class="btn small" id="setA" type="button">Aを設定</button>
+<button class="btn small" id="setB" type="button">Bを設定</button>
+<button class="btn small" id="toggleLoop" type="button">ループ OFF</button>
+<button class="btn small danger" id="clearAB" type="button">クリア</button>
+</div>
+<div class="loop-save">
+<h4>ループを保存する</h4>
+<div class="row">
+<input id="loopName" type="text" placeholder="名前（例：サビの速弾き）">
+<button class="btn small primary" id="saveLoop" type="button">保存</button>
+</div>
+<p class="hint" style="margin:4px 0 0">AとBを設定してから保存してください。名前は空でもOK（自動で「ループ1」のように付きます）。</p>
+<div class="loop-list" id="loopList"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="card library" aria-label="ライブラリ">
+<h2>ライブラリ <span class="count" id="songCount">0曲</span></h2>
+<div class="song-list" id="songList"></div>
+
+<div class="add-tabs" role="tablist" aria-label="曲の追加方法">
+<button class="btn small" type="button" data-tab="yt" aria-selected="true">YouTubeを追加</button>
+<button class="btn small" type="button" data-tab="drive" aria-selected="false">Drive / MP3 URL</button>
+<button class="btn small" type="button" data-tab="local" aria-selected="false">ローカルMP3</button>
+</div>
+
+<div class="add-panel open" id="panel-yt">
+<div class="row">
+<div><label for="ytTitle">曲名</label><input id="ytTitle" type="text" placeholder="例：Hotel California"></div>
+<div><label for="ytArtist">アーティスト（任意）</label><input id="ytArtist" type="text" placeholder="例：Eagles"></div>
+<div><label for="ytUrl">YouTubeのURL</label><input id="ytUrl" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
+<button class="btn primary" id="addYt" type="button">ライブラリに追加</button>
+</div>
+</div>
+
+<div class="add-panel" id="panel-drive">
+<div class="row">
+<div><label for="drTitle">曲名</label><input id="drTitle" type="text" placeholder="例：スタジオ録音 2026-11-15"></div>
+<div><label for="drUrl">Drive共有リンク、またはMP3のURL</label><input id="drUrl" type="url" placeholder="https://drive.google.com/file/d/…/view?usp=sharing"></div>
+<button class="btn primary" id="addDrive" type="button">ライブラリに追加</button>
+<p class="hint">Driveは「リンクを知っている全員が閲覧可」に共有したリンクを貼ってください。直接再生できないファイルは「Driveで開く」からプレビュー再生できます。</p>
+</div>
+</div>
+
+<div class="add-panel" id="panel-local">
+<div class="row">
+<div><label for="localFiles">MP3ファイル（複数OK）</label><input id="localFiles" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple></div>
+<button class="btn primary" id="addLocal" type="button">ライブラリに追加</button>
+<p class="hint">ファイルはこのページの中だけで再生されます（どこにもアップロードされません）。</p>
+</div>
+</div>
+</section>
+</div>
+
+<!-- RIGHT: comments -->
+<aside class="card comments-card" aria-label="コメント">
+<h2>コメント <span class="count" id="commentCount">0件</span></h2>
+<form class="c-form" id="commentForm">
+<input id="cName" type="text" placeholder="名前（例：たろう）" autocomplete="name">
+<div class="stamp-row">
+<button class="btn small" id="stampBtn" type="button">⏱ 現在時刻を入れる</button>
+<span class="stamp-view mono" id="stampView">位置なし</span>
+<button class="btn small" id="stampClear" type="button" style="display:none">外す</button>
+</div>
+<textarea id="cText" placeholder="気づいたことを書く（例：ここのブリッジミュートが難しい）"></textarea>
+<button class="btn primary" type="submit">コメントする</button>
+</form>
+
+<div class="c-list" id="commentList"></div>
+
+<div class="export-row">
+<button class="btn" id="exportBtn" type="button">📄 テキストで書き出し</button>
+<button class="btn" id="copyBtn" type="button">コピーする</button>
+</div>
+<p class="hint">書き出したテキストを友達に送ると、曲リストとコメントをそのまま共有できます。</p>
+</aside>
+</div>
+
+<footer>ギター練習プレイヤー（友達用）／ サンプルの曲は公式YouTubeリンクです。自分の曲は上の「ライブラリ」から追加してください。</footer>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- Sample data: linked official YouTube videos only ---------- */
+var SAMPLES = [
+{ title:"Wish You Were Here", artist:"Pink Floyd", type:"youtube",
+url:"https://www.youtube.com/watch?v=K6qj09OHvjw", sample:true},
+{ title:"Come Together", artist:"The Beatles", type:"youtube",
+url:"https://www.youtube.com/watch?v=45cYwDMibGo", sample:true},
+{ title:"Stairway to Heaven (Official Audio)", artist:"Led Zeppelin", type:"youtube",
+url:"https://www.youtube.com/watch?v=QkF3oxziUI4", sample:true},
+{ title:"Bohemian Rhapsody", artist:"Queen", type:"youtube",
+url:"https://www.youtube.com/watch?v=fJ9rUzIMcZQ", sample:true}
+];
+
+/* ---------- State (in-memory only; page session) ---------- */
+var uid = 1;
+function nextId(){ return uid++;}
+var songs = [];
+var comments = []; // {id, songId, time|null, name, text, parentId}
+var currentSong = null;
+var mode = null; // 'youtube' | 'audio'
+var ytPlayer = null, ytReady = false, pendingVideoId = null;
+var loopA = null, loopB = null, loopOn = false;
+var loopSections = {}; // songId -> [{id, name, a, b}] (in-memory only)
+var stampTime = null;
+var speed = 1;
+
+SAMPLES.forEach(function(s){
+songs.push({ id: nextId(), title:s.title, artist:s.artist, type:s.type,
+url:s.url, videoId: ytId(s.url), sample:true});
+});
+// A couple of starter comments on the first sample so friends see how it works
+comments.push({ id: nextId(), songId: songs[0].id, time: 0, name:"サンプル", text:"イントロの12弦アルペジオ。まずは0.75倍で指の順番を確認するのがおすすめ。", parentId:null});
+comments.push({ id: nextId(), songId: songs[0].id, time: 62, name:"サンプル", text:"歌に入る前のコードチェンジ（Em→G）が引っかかりやすいところ。A–Bループでここだけ繰り返そう。", parentId:null});
+
+/* ---------- DOM ---------- */
+function $(id){ return document.getElementById(id);}
+var audioEl = $("audioEl"), stage = $("stage");
+
+function toast(msg){
+var t = $("toast"); t.textContent = msg; t.classList.add("show");
+clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove("show");}, 2600);
+}
+function fmt(sec){
+if (sec == null || isNaN(sec)) return "0:00";
+sec = Math.max(0, Math.floor(sec));
+var m = Math.floor(sec/60), s = sec%60;
+return m + ":" + (s<10?"0":"") + s;
+}
+function fmtTenths(sec){
+if (sec == null || isNaN(sec)) return "—";
+var m = Math.floor(sec/60), s = sec - m*60;
+return m + ":" + (s<10?"0":"") + s.toFixed(1);
+}
+function ytId(url){
+if (!url) return null;
+var m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+return m? m[1]: null;
+}
+function driveId(url){
+if (!url) return null;
+var m = String(url).match(/drive\.google\.com\/file\/d\/([^/]+)/) || String(url).match(/[?&]id=([^&]+)/);
+return m? m[1]: null;
+}
+function esc(s){
+return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+});
+}
+
+/* ---------- Player abstraction ---------- */
+function getTime(){
+try{
+if (mode === "youtube" && ytPlayer && ytPlayer.getCurrentTime) return ytPlayer.getCurrentTime() || 0;
+if (mode === "audio") return audioEl.currentTime || 0;
+}catch(e){}
+return 0;
+}
+function getDur(){
+try{
+if (mode === "youtube" && ytPlayer && ytPlayer.getDuration) return ytPlayer.getDuration() || 0;
+if (mode === "audio") return audioEl.duration || 0;
+}catch(e){}
+return 0;
+}
+function isPlaying(){
+if (mode === "youtube" && ytPlayer && window.YT) return ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING;
+if (mode === "audio") return!audioEl.paused;
+return false;
+}
+function play(){ if (mode==="youtube" && ytPlayer) ytPlayer.playVideo(); else if (mode==="audio") audioEl.play(); syncPlayBtn();}
+function pause(){ if (mode==="youtube" && ytPlayer) ytPlayer.pauseVideo(); else if (mode==="audio") audioEl.pause(); syncPlayBtn();}
+function seekTo(sec){
+sec = Math.max(0, sec);
+if (mode==="youtube" && ytPlayer) ytPlayer.seekTo(sec, true);
+else if (mode==="audio") audioEl.currentTime = sec;
+}
+function applySpeed(){
+if (mode==="youtube" && ytPlayer && ytPlayer.setPlaybackRate) ytPlayer.setPlaybackRate(speed);
+if (mode==="audio") audioEl.playbackRate = speed;
+$("speedVal").textContent = speed.toFixed(2) + "×";
+var btns = $("speedPresets").querySelectorAll("button");
+btns.forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
+}
+function syncPlayBtn(){ $("playBtn").textContent = isPlaying()? "⏸ 一時停止": "▶ 再生";}
+
+/* ---------- YouTube API ---------- */
+window.onYouTubeIframeAPIReady = function(){
+ytPlayer = new YT.Player("yt-holder", {
+width:"100%", height:"100%",
+playerVars:{ playsinline:1, rel:0},
+events:{
+onReady:function(){ ytReady = true; if (pendingVideoId){ ytPlayer.loadVideoById(pendingVideoId); pendingVideoId = null;} applySpeed();},
+onStateChange:function(){ syncPlayBtn();}
+}
+});
+};
+
+/* ---------- Load a song ---------- */
+function loadSong(song, autoplay){
+currentSong = song;
+clearAB(false);
+stampTime = null; updateStampView();
+$("nowTitle").innerHTML = esc(song.title) + ' <span class="badge ' +
+(song.type==="youtube"? "yt\">YouTube": song.type==="local"? "local\">ローカルMP3": song.type==="drive"? "drive\">Drive": "audio\">MP3") + "</span>" +
+(song.sample? ' <span class="badge local">サンプル</span>': "");
+$("nowArtist").textContent = song.artist || "";
+$("emptyMsg").style.display = "none";
+$("driveOpenRow").style.display = song.type === "drive"? "block": "none";
+if (song.type === "drive") $("driveOpenLink").href = song.url;
+
+if (song.type === "youtube"){
+mode = "youtube";
+stage.classList.remove("audio-mode");
+$("yt-holder").style.display = "block";
+$("audioMsg").style.display = "none";
+audioEl.style.display = "none"; audioEl.pause(); audioEl.removeAttribute("src");
+var vid = song.videoId || ytId(song.url);
+if (ytReady && ytPlayer){ ytPlayer.loadVideoById(vid); if (!autoplay) setTimeout(function(){ ytPlayer.pauseVideo();}, 350);}
+else pendingVideoId = vid;
+} else {
+mode = "audio";
+if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+$("yt-holder").style.display = "none";
+stage.classList.add("audio-mode");
+$("audioMsg").style.display = "block";
+$("audioFileName").textContent = song.title;
+audioEl.style.display = "block";
+audioEl.src = song.playUrl || song.url;
+audioEl.playbackRate = speed;
+if (autoplay) audioEl.play().catch(function(){});
+}
+renderSongs(); renderComments(); syncPlayBtn();
+}
+
+/* ---------- Library rendering ---------- */
+function typeTag(s){
+if (s.type==="youtube") return '<span class="type-tag badge yt">YouTube</span>';
+if (s.type==="local") return '<span class="type-tag badge local">MP3</span>';
+if (s.type==="drive") return '<span class="type-tag badge drive">Drive</span>';
+return '<span class="type-tag badge audio">URL</span>';
+}
+function renderSongs(){
+$("songCount").textContent = songs.length + "曲";
+var list = $("songList"); list.innerHTML = "";
+if (!songs.length){ list.innerHTML = '<p class="hint">まだ曲がありません。下のフォームから追加してください。</p>'; return;}
+songs.forEach(function(s){
+var row = document.createElement("div"); row.className = "song" + (currentSong && currentSong.id===s.id? " playing": "");
+row.setAttribute("role","button"); row.tabIndex = 0;
+row.innerHTML = '<div class="meta"><div class="st">' + esc(s.title) + '</div><div class="sa">' + esc(s.artist||"") + '</div></div>' + typeTag(s) +
+'<button class="del" type="button" title="削除" aria-label="削除">✕</button>';
+row.addEventListener("click", function(e){ if (e.target.classList.contains("del")) return; loadSong(s, true);});
+row.addEventListener("keydown", function(e){ if (e.key==="Enter"||e.key===" "){ e.preventDefault(); loadSong(s, true);}});
+row.querySelector(".del").addEventListener("click", function(){
+songs = songs.filter(function(x){ return x.id!== s.id;});
+comments = comments.filter(function(c){ return c.songId!== s.id;});
+delete loopSections[s.id];
+if (s.objectUrl) URL.revokeObjectURL(s.objectUrl);
+if (currentSong && currentSong.id === s.id){ currentSong = null;}
+renderSongs(); renderComments(); toast("削除しました");
+});
+list.appendChild(row);
+});
+}
+
+/* ---------- Add songs ---------- */
+document.querySelectorAll(".add-tabs.btn").forEach(function(b){
+b.addEventListener("click", function(){
+document.querySelectorAll(".add-tabs.btn").forEach(function(x){ x.setAttribute("aria-selected","false");});
+b.setAttribute("aria-selected","true");
+["yt","drive","local"].forEach(function(k){ $("panel-"+k).classList.toggle("open", k===b.dataset.tab);});
+});
+});
+$("addYt").addEventListener("click", function(){
+var url = $("ytUrl").value.trim(), vid = ytId(url);
+if (!vid){ toast("YouTubeのURLを正しく入れてください"); return;}
+var s = { id: nextId(), title: $("ytTitle").value.trim() || "YouTube動画", artist: $("ytArtist").value.trim(), type:"youtube", url:url, videoId:vid};
+songs.push(s); $("ytTitle").value = $("ytArtist").value = $("ytUrl").value = "";
+renderSongs(); loadSong(s, true); toast("追加しました");
+});
+$("addDrive").addEventListener("click", function(){
+var url = $("drUrl").value.trim();
+if (!url){ toast("リンクを入れてください"); return;}
+var did = driveId(url), s;
+if (did){
+s = { id: nextId(), title: $("drTitle").value.trim() || "Driveの曲", artist:"Google Drive", type:"drive", url:url,
+playUrl:"https://drive.google.com/uc?export=download&id=" + did};
+} else {
+s = { id: nextId(), title: $("drTitle").value.trim() || "MP3 URL", artist:"", type:"audio", url:url, playUrl:url};
+}
+songs.push(s); $("drTitle").value = $("drUrl").value = "";
+renderSongs(); loadSong(s, true); toast("追加しました");
+});
+$("addLocal").addEventListener("click", function(){
+var files = $("localFiles").files;
+if (!files ||!files.length){ toast("MP3ファイルを選んでください"); return;}
+var first = null;
+Array.prototype.forEach.call(files, function(f){
+var objUrl = URL.createObjectURL(f);
+var s = { id: nextId(), title: f.name.replace(/\.[^.]+$/,""), artist:"ローカルファイル", type:"local", url:f.name, playUrl:objUrl, objectUrl:objUrl};
+songs.push(s); if (!first) first = s;
+});
+$("localFiles").value = "";
+renderSongs(); if (first) loadSong(first, true); toast(files.length + "曲追加しました");
+});
+
+/* ---------- Transport ---------- */
+$("playBtn").addEventListener("click", function(){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+isPlaying()? pause(): play();
+});
+$("back10").addEventListener("click", function(){ seekTo(getTime() - 10);});
+$("fwd10").addEventListener("click", function(){ seekTo(getTime() + 10);});
+$("seekBar").addEventListener("input", function(){
+var d = getDur(); if (d > 0) seekTo(parseFloat(this.value)/1000 * d);
+});
+audioEl.addEventListener("play", syncPlayBtn);
+audioEl.addEventListener("pause", syncPlayBtn);
+audioEl.addEventListener("loadedmetadata", function(){ applySpeed();});
+
+/* Speed */
+$("speedRange").addEventListener("input", function(){ speed = parseFloat(this.value); applySpeed();});
+$("speedPresets").querySelectorAll("button").forEach(function(b){
+b.addEventListener("click", function(){ speed = parseFloat(b.dataset.speed); $("speedRange").value = speed; applySpeed();});
+});
+
+/* A-B loop */
+function updateAB(){
+$("aChip").textContent = "A " + (loopA==null? "—": fmtTenths(loopA));
+$("bChip").textContent = "B " + (loopB==null? "—": fmtTenths(loopB));
+$("aChip").classList.toggle("set", loopA!=null);
+$("bChip").classList.toggle("set", loopB!=null);
+$("loopState").textContent = (loopA!=null && loopB!=null)? (loopOn? "ループ中": "設定済み（OFF）"): "未設定";
+$("toggleLoop").textContent = loopOn? "ループ ON": "ループ OFF";
+$("toggleLoop").classList.toggle("active", loopOn);
+renderSections();
+}
+function clearAB(announce){
+loopA = loopB = null; loopOn = false; updateAB();
+if (announce!== false) toast("A–Bをクリアしました");
+}
+$("setA").addEventListener("click", function(){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+loopA = getTime(); if (loopB!=null && loopB <= loopA) loopB = null;
+if (loopA!=null && loopB!=null) loopOn = true;
+updateAB(); toast("A = " + fmtTenths(loopA));
+});
+$("setB").addEventListener("click", function(){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+loopB = getTime(); if (loopA!=null && loopB <= loopA){ toast("BはAより後ろにしてください"); loopB = null; updateAB(); return;}
+if (loopA!=null && loopB!=null) loopOn = true;
+updateAB(); toast("B = " + fmtTenths(loopB));
+});
+$("toggleLoop").addEventListener("click", function(){
+if (loopA==null || loopB==null){ toast("先にAとBを設定してください"); return;}
+loopOn =!loopOn; updateAB();
+});
+$("clearAB").addEventListener("click", function(){ clearAB(true);});
+
+/* Saved loop sections (per song) */
+function sectionsOf(songId){
+if (!loopSections[songId]) loopSections[songId] = [];
+return loopSections[songId];
+}
+function isActiveSection(sec){
+return loopA != null && loopB != null &&
+Math.abs(sec.a - loopA) < 0.005 && Math.abs(sec.b - loopB) < 0.005;
+}
+function renderSections(){
+var list = $("loopList"); if (!list) return;
+list.innerHTML = "";
+if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; return;}
+var secs = sectionsOf(currentSong.id);
+if (!secs.length){ list.innerHTML = '<p class="loop-empty">この曲にはまだ保存したループがありません。</p>'; return;}
+secs.forEach(function(sec){
+var item = document.createElement("div");
+item.className = "loop-item" + (isActiveSection(sec)? " active": "");
+item.innerHTML = '<div class="meta"><div class="name">' + esc(sec.name) + '</div>' +
+'<div class="range mono">' + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + "</div></div>" +
+'<button class="btn small" type="button">▶ 有効化</button>' +
+'<button class="del" type="button" title="削除" aria-label="削除">✕</button>';
+item.querySelector(".btn").addEventListener("click", function(){
+loopA = sec.a; loopB = sec.b; loopOn = true;
+updateAB(); seekTo(sec.a); play();
+toast("「" + sec.name + "」を有効化しました");
+});
+item.querySelector(".del").addEventListener("click", function(){
+loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
+renderSections(); toast("ループを削除しました");
+});
+list.appendChild(item);
+});
+}
+$("saveLoop").addEventListener("click", function(){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+if (loopA == null || loopB == null){ toast("先にAとBを設定してください"); return;}
+var secs = sectionsOf(currentSong.id);
+var name = $("loopName").value.trim() || ("ループ" + (secs.length + 1));
+secs.push({ id: nextId(), name: name, a: Math.round(loopA*100)/100, b: Math.round(loopB*100)/100});
+$("loopName").value = "";
+renderSections(); toast("ループ「" + name + "」を保存しました");
+});
+
+/* Progress + loop polling */
+setInterval(function(){
+if (!currentSong) return;
+var t = getTime(), d = getDur();
+$("curTime").textContent = fmt(t);
+$("durTime").textContent = fmt(d);
+if (d > 0 && document.activeElement!== $("seekBar")) $("seekBar").value = Math.round(t/d*1000);
+if (loopOn && loopA!=null && loopB!=null && t >= loopB) seekTo(loopA);
+syncPlayBtn();
+}, 250);
+
+/* ---------- Comments ---------- */
+function updateStampView(){
+$("stampView").textContent = stampTime==null? "位置なし": fmt(stampTime);
+$("stampClear").style.display = stampTime==null? "none": "";
+}
+$("stampBtn").addEventListener("click", function(){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+stampTime = Math.floor(getTime()); updateStampView();
+});
+$("stampClear").addEventListener("click", function(){ stampTime = null; updateStampView();});
+
+$("commentForm").addEventListener("submit", function(e){
+e.preventDefault();
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+var text = $("cText").value.trim();
+if (!text){ toast("コメントを書いてください"); return;}
+comments.push({ id: nextId(), songId: currentSong.id, time: stampTime, name: $("cName").value.trim() || "名無し", text:text, parentId:null});
+$("cText").value = ""; stampTime = null; updateStampView();
+renderComments(); toast("コメントしました");
+});
+
+function commentEl(c, isReply){
+var el = document.createElement("div");
+el.className = "comment" + (isReply? " reply": "");
+var head = '<div class="head"><span class="who">' + esc(c.name) + "</span>";
+if (c.time!= null) head += '<button class="stamp mono" type="button" data-t="' + c.time + '">▶ ' + fmt(c.time) + "</button>";
+head += "</div>";
+el.innerHTML = head + '<div class="body">' + esc(c.text) + "</div>" +
+'<div class="acts">' +
+(isReply? "": '<button class="btn small reply-btn" type="button">返信</button>') +
+'<button class="btn small danger del-btn" type="button">削除</button></div>' +
+(isReply? "": '<form class="reply-form"><input type="text" class="r-name" placeholder="名前"><textarea class="r-text" placeholder="返信を書く"></textarea><button class="btn small primary" type="submit">返信する</button></form>');
+var stamp = el.querySelector(".stamp");
+if (stamp) stamp.addEventListener("click", function(){ seekTo(parseFloat(stamp.dataset.t)); play();});
+el.querySelector(".del-btn").addEventListener("click", function(){
+comments = comments.filter(function(x){ return x.id!== c.id && x.parentId!== c.id;});
+renderComments(); toast("削除しました");
+});
+if (!isReply){
+var form = el.querySelector(".reply-form");
+el.querySelector(".reply-btn").addEventListener("click", function(){ form.classList.toggle("open"); form.querySelector(".r-text").focus();});
+form.addEventListener("submit", function(e){
+e.preventDefault();
+var txt = form.querySelector(".r-text").value.trim();
+if (!txt) return;
+comments.push({ id: nextId(), songId: c.songId, time: null,
+name: form.querySelector(".r-name").value.trim() || $("cName").value.trim() || "名無し",
+text: txt, parentId: c.id});
+renderComments(); toast("返信しました");
+});
+}
+return el;
+}
+function renderComments(){
+var list = $("commentList"); list.innerHTML = "";
+var mine = currentSong? comments.filter(function(c){ return c.songId === currentSong.id;}): [];
+$("commentCount").textContent = mine.length + "件";
+if (!currentSong){ list.innerHTML = '<p class="no-comments">曲を選ぶと、その曲のコメントが表示されます。</p>'; return;}
+if (!mine.length){ list.innerHTML = '<p class="no-comments">まだコメントがありません。<br>気づいたことを残してみましょう。</p>'; return;}
+var tops = mine.filter(function(c){ return!c.parentId;});
+tops.sort(function(a,b){
+var ta = a.time==null? 1e12: a.time, tb = b.time==null? 1e12: b.time;
+return ta - tb || a.id - b.id;
+});
+tops.forEach(function(c){
+list.appendChild(commentEl(c, false));
+mine.filter(function(r){ return r.parentId === c.id;})
+.sort(function(a,b){ return a.id - b.id;})
+.forEach(function(r){ list.appendChild(commentEl(r, true));});
+});
+}
+
+/* ---------- Export ---------- */
+function buildExportText(){
+var lines = [];
+lines.push("ギター練習プレイヤー（友達用）— ライブラリ & コメント書き出し");
+lines.push("書き出し日: " + new Date().toLocaleString("ja-JP"));
+lines.push("");
+lines.push("■ ライブラリ（" + songs.length + "曲）");
+songs.forEach(function(s, i){
+var kind = s.type==="youtube"? "YouTube": s.type==="drive"? "Drive": s.type==="local"? "ローカルMP3": "MP3 URL";
+lines.push((i+1) + ". " + s.title + (s.artist? " — " + s.artist: "") + " [" + kind + "]");
+if (s.type!== "local") lines.push(" " + s.url);
+});
+lines.push("");
+lines.push("■ コメント");
+songs.forEach(function(s){
+var mine = comments.filter(function(c){ return c.songId === s.id;});
+var secs = loopSections[s.id] || [];
+if (!mine.length && !secs.length) return;
+lines.push("");
+lines.push("【" + s.title + (s.artist? " — " + s.artist: "") + "】");
+secs.forEach(function(sec){
+lines.push("🔁 ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b));
+});
+mine.filter(function(c){ return!c.parentId;}).forEach(function(c){
+lines.push("[" + (c.time==null? "--:--": fmt(c.time)) + "] " + c.name + ": " + c.text);
+mine.filter(function(r){ return r.parentId === c.id;}).forEach(function(r){
+lines.push(" ↳ " + r.name + ": " + r.text);
+});
+});
+});
+return lines.join("\n");
+}
+$("exportBtn").addEventListener("click", function(){
+var blob = new Blob([buildExportText()], { type:"text/plain;charset=utf-8"});
+var a = document.createElement("a");
+a.href = URL.createObjectURL(blob);
+a.download = "guitar-practice-export.txt";
+document.body.appendChild(a); a.click(); a.remove();
+setTimeout(function(){ URL.revokeObjectURL(a.href);}, 2000);
+toast("テキストを書き出しました");
+});
+$("copyBtn").addEventListener("click", function(){
+var text = buildExportText();
+if (navigator.clipboard && navigator.clipboard.writeText){
+navigator.clipboard.writeText(text).then(function(){ toast("コピーしました");}, function(){ toast("コピーできませんでした");});
+} else { toast("このブラウザではコピーできません。書き出しを使ってください");}
+});
+
+/* ---------- Init ---------- */
+renderSongs(); renderComments(); updateAB(); updateStampView();
+if (songs.length) loadSong(songs[0], false);
+})();
+</script>
+</body>
+</html>
