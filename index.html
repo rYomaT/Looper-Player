@@ -114,7 +114,7 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-empty{font-size:.85rem;color:var(--ink2);margin-top:8px}
 
 /* Library */
-.library{margin-top:18px}
+.library{margin-bottom:18px}
 .song-list{display:flex;flex-direction:column;gap:8px}
 .song{display:flex;gap:10px;align-items:center;text-align:left;width:100%;background:var(--panel2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink)}
 .song:hover{border-color:var(--accent)}
@@ -155,6 +155,13 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .reply-form.open{display:flex}
 .no-comments{color:var(--ink2);font-size:.92rem;text-align:center;padding:14px 0}
 .export-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;border-top:1.5px dashed var(--line2);padding-top:12px}
+.import-box{margin-top:14px;border-top:1.5px dashed var(--line2);padding-top:12px}
+.import-box h3{margin:0 0 6px;font-size:.92rem;font-weight:900}
+.import-row{display:flex;gap:8px;flex-wrap:wrap}
+.import-paste{margin-top:10px}
+.import-paste summary{font-weight:700;cursor:pointer;font-size:.9rem;padding:4px 0}
+.import-paste textarea{margin-top:8px;min-height:6rem;font-size:.88rem}
+.import-paste .btn{margin-top:8px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.9rem;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
@@ -169,23 +176,61 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
-<li><strong>曲を足す：</strong>下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
+<li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
 <li><strong>ループ練習：</strong>再生中に「Aを設定」「Bを設定」を押すと、その区間を繰り返します。速度を落として指の動きを確認するのがおすすめです。決めた区間は名前を付けて何個でも保存でき、「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>コメント：</strong>「現在時刻を入れる」を押してから書くと、その再生位置にジャンプできるコメントになります。コメントへの返信もできます。</li>
 <li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
+<li><strong>書き出しを読み込む：</strong>コメント欄の一番下にある「書き出しを読み込む」から、書き出したテキストファイルを選ぶ（またはテキストを貼り付ける）と、ライブラリ・コメント・保存したループが戻ります。すでにある曲・コメントは重複して追加されません。ローカルMP3はファイル自体がテキストに入らないため、曲名だけ戻ります（再生にはもう一度ファイルを追加してください）。</li>
 </ul>
 <p class="note">※ Driveの共有リンクは、ブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。そのときは曲の「Driveで開く」からDriveのプレビューで再生してください。ローカルMP3は確実に再生できます。<br>
 ※ このページの曲・コメント・保存したループは、開いている間だけブラウザの中にあります。ページを閉じると消えるので、大事なものは書き出して残してください（保存したループも書き出しテキストに含まれます）。</p>
 </details>
 </header>
 
+<section class="card library" aria-label="ライブラリ">
+<h2>ライブラリ <span class="count" id="songCount">0曲</span></h2>
+<div class="song-list" id="songList"></div>
+
+<div class="add-tabs" role="tablist" aria-label="曲の追加方法">
+<button class="btn small" type="button" data-tab="yt" aria-selected="true">YouTubeを追加</button>
+<button class="btn small" type="button" data-tab="drive" aria-selected="false">Drive / MP3 URL</button>
+<button class="btn small" type="button" data-tab="local" aria-selected="false">ローカルMP3</button>
+</div>
+
+<div class="add-panel open" id="panel-yt">
+<div class="row">
+<div><label for="ytTitle">曲名</label><input id="ytTitle" type="text" placeholder="例：Hotel California"></div>
+<div><label for="ytArtist">アーティスト（任意）</label><input id="ytArtist" type="text" placeholder="例：Eagles"></div>
+<div><label for="ytUrl">YouTubeのURL</label><input id="ytUrl" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
+<button class="btn primary" id="addYt" type="button">ライブラリに追加</button>
+</div>
+</div>
+
+<div class="add-panel" id="panel-drive">
+<div class="row">
+<div><label for="drTitle">曲名</label><input id="drTitle" type="text" placeholder="例：スタジオ録音 2026-11-15"></div>
+<div><label for="drUrl">Drive共有リンク、またはMP3のURL</label><input id="drUrl" type="url" placeholder="https://drive.google.com/file/d/…/view?usp=sharing"></div>
+<button class="btn primary" id="addDrive" type="button">ライブラリに追加</button>
+<p class="hint">Driveは「リンクを知っている全員が閲覧可」に共有したリンクを貼ってください。直接再生できないファイルは「Driveで開く」からプレビュー再生できます。</p>
+</div>
+</div>
+
+<div class="add-panel" id="panel-local">
+<div class="row">
+<div><label for="localFiles">MP3ファイル（複数OK）</label><input id="localFiles" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple></div>
+<button class="btn primary" id="addLocal" type="button">ライブラリに追加</button>
+<p class="hint">ファイルはこのページの中だけで再生されます（どこにもアップロードされません）。</p>
+</div>
+</div>
+</section>
+
 <div class="layout">
-<!-- LEFT: player + library -->
+<!-- LEFT: player -->
 <div>
 <section class="card" aria-label="プレイヤー">
 <div class="now" id="nowBox">
 <div class="title" id="nowTitle">曲を選んでください</div>
-<div class="artist" id="nowArtist">下のライブラリから再生したい曲をタップ</div>
+<div class="artist" id="nowArtist">上のライブラリから再生したい曲をタップ</div>
 </div>
 
 <div class="stage" id="stage">
@@ -251,43 +296,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 </div>
 </section>
-
-<section class="card library" aria-label="ライブラリ">
-<h2>ライブラリ <span class="count" id="songCount">0曲</span></h2>
-<div class="song-list" id="songList"></div>
-
-<div class="add-tabs" role="tablist" aria-label="曲の追加方法">
-<button class="btn small" type="button" data-tab="yt" aria-selected="true">YouTubeを追加</button>
-<button class="btn small" type="button" data-tab="drive" aria-selected="false">Drive / MP3 URL</button>
-<button class="btn small" type="button" data-tab="local" aria-selected="false">ローカルMP3</button>
-</div>
-
-<div class="add-panel open" id="panel-yt">
-<div class="row">
-<div><label for="ytTitle">曲名</label><input id="ytTitle" type="text" placeholder="例：Hotel California"></div>
-<div><label for="ytArtist">アーティスト（任意）</label><input id="ytArtist" type="text" placeholder="例：Eagles"></div>
-<div><label for="ytUrl">YouTubeのURL</label><input id="ytUrl" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
-<button class="btn primary" id="addYt" type="button">ライブラリに追加</button>
-</div>
-</div>
-
-<div class="add-panel" id="panel-drive">
-<div class="row">
-<div><label for="drTitle">曲名</label><input id="drTitle" type="text" placeholder="例：スタジオ録音 2026-11-15"></div>
-<div><label for="drUrl">Drive共有リンク、またはMP3のURL</label><input id="drUrl" type="url" placeholder="https://drive.google.com/file/d/…/view?usp=sharing"></div>
-<button class="btn primary" id="addDrive" type="button">ライブラリに追加</button>
-<p class="hint">Driveは「リンクを知っている全員が閲覧可」に共有したリンクを貼ってください。直接再生できないファイルは「Driveで開く」からプレビュー再生できます。</p>
-</div>
-</div>
-
-<div class="add-panel" id="panel-local">
-<div class="row">
-<div><label for="localFiles">MP3ファイル（複数OK）</label><input id="localFiles" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple></div>
-<button class="btn primary" id="addLocal" type="button">ライブラリに追加</button>
-<p class="hint">ファイルはこのページの中だけで再生されます（どこにもアップロードされません）。</p>
-</div>
-</div>
-</section>
 </div>
 
 <!-- RIGHT: comments -->
@@ -311,10 +319,24 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button class="btn" id="copyBtn" type="button">コピーする</button>
 </div>
 <p class="hint">書き出したテキストを友達に送ると、曲リストとコメントをそのまま共有できます。</p>
+
+<div class="import-box" aria-label="書き出しの読み込み">
+<h3>書き出しを読み込む</h3>
+<p class="hint" style="margin:0 0 8px">書き出したテキストファイル（guitar-practice-export.txt）を選ぶか、書き出したテキストを貼り付けると、ライブラリ・コメント・保存したループが戻ります。すでにあるものは重複しません。</p>
+<div class="import-row">
+<button class="btn" id="importBtn" type="button">📂 ファイルから読み込む</button>
+<input id="importFile" type="file" accept=".txt,text/plain" style="display:none" aria-label="書き出したテキストファイル">
+</div>
+<details class="import-paste">
+<summary>テキストを貼り付けて読み込む</summary>
+<textarea id="importText" placeholder="書き出したテキストをここに貼り付け" aria-label="書き出したテキストを貼り付け"></textarea>
+<button class="btn primary" id="importPasteBtn" type="button">貼り付けた内容を読み込む</button>
+</details>
+</div>
 </aside>
 </div>
 
-<footer>ギター練習プレイヤー（友達用）／ サンプルの曲は公式YouTubeリンクです。自分の曲は上の「ライブラリ」から追加してください。</footer>
+<footer>ギター練習プレイヤー（友達用）／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。</footer>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -344,6 +366,7 @@ var comments = []; // {id, songId, time|null, name, text, parentId}
 var currentSong = null;
 var mode = null; // 'youtube' | 'audio'
 var ytPlayer = null, ytReady = false, pendingVideoId = null;
+var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
 var loopSections = {}; // songId -> [{id, name, a, b}] (in-memory only)
 var stampTime = null;
@@ -412,7 +435,7 @@ if (mode === "youtube" && ytPlayer && window.YT) return ytPlayer.getPlayerState 
 if (mode === "audio") return!audioEl.paused;
 return false;
 }
-function play(){ if (mode==="youtube" && ytPlayer) ytPlayer.playVideo(); else if (mode==="audio") audioEl.play(); syncPlayBtn();}
+function play(){ if (mode==="youtube"){ if (ytPlayer && ytReady) ytPlayer.playVideo(); else setLoading(true);} else if (mode==="audio") audioEl.play(); syncPlayBtn();}
 function pause(){ if (mode==="youtube" && ytPlayer) ytPlayer.pauseVideo(); else if (mode==="audio") audioEl.pause(); syncPlayBtn();}
 function seekTo(sec){
 sec = Math.max(0, sec);
@@ -426,7 +449,12 @@ $("speedVal").textContent = speed.toFixed(2) + "×";
 var btns = $("speedPresets").querySelectorAll("button");
 btns.forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
 }
-function syncPlayBtn(){ $("playBtn").textContent = isPlaying()? "⏸ 一時停止": "▶ 再生";}
+function setLoading(on){ mediaLoading = !!on; syncPlayBtn();}
+function syncPlayBtn(){
+var btn = $("playBtn");
+if (mediaLoading){ btn.textContent = "⏳ 読み込み中…"; return;}
+btn.textContent = isPlaying()? "⏸ 一時停止": "▶ 再生";
+}
 
 /* ---------- YouTube API ---------- */
 window.onYouTubeIframeAPIReady = function(){
@@ -434,8 +462,8 @@ ytPlayer = new YT.Player("yt-holder", {
 width:"100%", height:"100%",
 playerVars:{ playsinline:1, rel:0},
 events:{
-onReady:function(){ ytReady = true; if (pendingVideoId){ ytPlayer.loadVideoById(pendingVideoId); pendingVideoId = null;} applySpeed();},
-onStateChange:function(){ syncPlayBtn();}
+onReady:function(){ ytReady = true; if (pendingVideoId){ setLoading(true); ytPlayer.loadVideoById(pendingVideoId); pendingVideoId = null;} applySpeed();},
+onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERING) mediaLoading = true; else if (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED || e.data === YT.PlayerState.CUED) mediaLoading = false;} syncPlayBtn();}
 }
 });
 };
@@ -460,6 +488,7 @@ $("yt-holder").style.display = "block";
 $("audioMsg").style.display = "none";
 audioEl.style.display = "none"; audioEl.pause(); audioEl.removeAttribute("src");
 var vid = song.videoId || ytId(song.url);
+setLoading(true);
 if (ytReady && ytPlayer){ ytPlayer.loadVideoById(vid); if (!autoplay) setTimeout(function(){ ytPlayer.pauseVideo();}, 350);}
 else pendingVideoId = vid;
 } else {
@@ -470,9 +499,15 @@ stage.classList.add("audio-mode");
 $("audioMsg").style.display = "block";
 $("audioFileName").textContent = song.title;
 audioEl.style.display = "block";
+if (song.type === "local" && !song.objectUrl && !song.playUrl){
+audioEl.removeAttribute("src");
+toast("読み込んだローカルMP3は、ファイルの再追加が必要です");
+} else {
+setLoading(true);
 audioEl.src = song.playUrl || song.url;
 audioEl.playbackRate = speed;
 if (autoplay) audioEl.play().catch(function(){});
+}
 }
 renderSongs(); renderComments(); syncPlayBtn();
 }
@@ -559,8 +594,14 @@ $("seekBar").addEventListener("input", function(){
 var d = getDur(); if (d > 0) seekTo(parseFloat(this.value)/1000 * d);
 });
 audioEl.addEventListener("play", syncPlayBtn);
-audioEl.addEventListener("pause", syncPlayBtn);
+audioEl.addEventListener("pause", function(){ if (mode==="audio") mediaLoading = false; syncPlayBtn();});
 audioEl.addEventListener("loadedmetadata", function(){ applySpeed();});
+audioEl.addEventListener("waiting", function(){ if (mode==="audio") setLoading(true);});
+audioEl.addEventListener("seeking", function(){ if (mode==="audio") setLoading(true);});
+audioEl.addEventListener("canplay", function(){ if (mode==="audio") setLoading(false);});
+audioEl.addEventListener("playing", function(){ if (mode==="audio") setLoading(false); syncPlayBtn();});
+audioEl.addEventListener("error", function(){ if (mode==="audio") setLoading(false);});
+audioEl.addEventListener("emptied", function(){ if (mode==="audio") setLoading(false);});
 
 /* Speed */
 $("speedRange").addEventListener("input", function(){ speed = parseFloat(this.value); applySpeed();});
@@ -758,7 +799,38 @@ lines.push(" ↳ " + r.name + ": " + r.text);
 });
 });
 });
+lines.push("");
+lines.push("---");
+lines.push("【読み込み用データ】この下は「書き出しを読み込む」で使うデータです。消さずにそのまま送ってください。");
+lines.push("<<<DATA");
+lines.push(JSON.stringify(buildExportData()));
+lines.push("DATA>>>");
 return lines.join("\n");
+}
+function buildExportData(){
+var songIndex = {};
+songs.forEach(function(s, i){ songIndex[s.id] = i;});
+var commentIndex = {};
+comments.forEach(function(c, i){ commentIndex[c.id] = i;});
+var loopData = [];
+Object.keys(loopSections).forEach(function(sid){
+var idx = songIndex[sid];
+if (idx == null) return;
+(loopSections[sid] || []).forEach(function(sec){
+loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b});
+});
+});
+return {
+v: 1,
+songs: songs.map(function(s){
+return { title: s.title, artist: s.artist || "", type: s.type, url: s.type === "local"? "": (s.url || "")};
+}),
+comments: comments.map(function(c){
+return { song: songIndex[c.songId], time: c.time, name: c.name, text: c.text,
+parent: c.parentId == null? null: commentIndex[c.parentId]};
+}),
+loops: loopData
+};
 }
 $("exportBtn").addEventListener("click", function(){
 var blob = new Blob([buildExportText()], { type:"text/plain;charset=utf-8"});
@@ -774,6 +846,226 @@ var text = buildExportText();
 if (navigator.clipboard && navigator.clipboard.writeText){
 navigator.clipboard.writeText(text).then(function(){ toast("コピーしました");}, function(){ toast("コピーできませんでした");});
 } else { toast("このブラウザではコピーできません。書き出しを使ってください");}
+});
+
+/* ---------- Import (read back an exported text) ---------- */
+function makeSongFromImport(imp){
+var s = { id: nextId(), title: imp.title || "無題", artist: imp.artist || "", type: imp.type || "audio", url: imp.url || ""};
+if (s.type === "youtube"){
+s.videoId = ytId(s.url);
+if (!s.videoId) return null;
+} else if (s.type === "drive"){
+var did = driveId(s.url);
+s.playUrl = did? "https://drive.google.com/uc?export=download&id=" + did: s.url;
+if (!s.artist) s.artist = "Google Drive";
+} else if (s.type === "local"){
+s.url = s.title; s.playUrl = ""; s.artist = s.artist || "ローカルファイル（再追加が必要）";
+} else {
+s.type = "audio"; s.playUrl = s.url;
+}
+return s;
+}
+function ensureSong(imp, stats){
+var found = null;
+if (imp.url){
+found = songs.filter(function(s){ return s.type !== "local" && s.url === imp.url;})[0] || null;
+}
+if (!found && imp.title){
+found = songs.filter(function(s){ return s.title === imp.title && s.type === imp.type;})[0] || null;
+}
+if (found) return found;
+var s = makeSongFromImport(imp);
+if (!s) { stats.skippedSongs++; return null;}
+songs.push(s); stats.addedSongs++;
+return s;
+}
+function ensureLoop(songId, name, a, b, stats){
+if (a == null || b == null || isNaN(a) || isNaN(b) || b <= a) return;
+var secs = sectionsOf(songId);
+var dup = secs.some(function(x){ return x.name === name && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005;});
+if (dup) { stats.skipped++; return;}
+secs.push({ id: nextId(), name: name || ("ループ" + (secs.length + 1)), a: Math.round(a*100)/100, b: Math.round(b*100)/100});
+stats.addedLoops++;
+}
+function ensureComment(songId, time, name, text, parentId, stats){
+var dup = comments.filter(function(c){
+return c.songId === songId && c.time === time && c.name === name && c.text === text && c.parentId === parentId;
+})[0];
+if (dup) { stats.skipped++; return dup;}
+var c = { id: nextId(), songId: songId, time: time, name: name || "名無し", text: text, parentId: parentId};
+comments.push(c); stats.addedComments++;
+return c;
+}
+function finishImport(stats){
+renderSongs(); renderComments(); updateAB();
+if (!stats.addedSongs && !stats.addedComments && !stats.addedLoops){
+toast("新しいものはありませんでした（すべて取り込み済みです）");
+} else {
+toast("読み込みました：曲" + stats.addedSongs + "件・コメント" + stats.addedComments + "件・ループ" + stats.addedLoops + "件");
+}
+}
+function newImportStats(){ return { addedSongs:0, addedComments:0, addedLoops:0, skipped:0, skippedSongs:0};}
+function importFromData(data){
+if (!data || !Array.isArray(data.songs)) return false;
+var stats = newImportStats();
+var songMap = {};
+data.songs.forEach(function(imp, i){
+var s = ensureSong(imp, stats);
+if (s) songMap[i] = s.id;
+});
+(data.loops || []).forEach(function(l){
+if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats);
+});
+var commentMap = {};
+(data.comments || []).forEach(function(c, i){
+if (songMap[c.song] == null) return;
+var parentId = (c.parent != null && commentMap[c.parent] != null)? commentMap[c.parent]: null;
+var created = ensureComment(songMap[c.song], c.time == null? null: c.time, c.name, c.text, parentId, stats);
+if (created) commentMap[i] = created.id;
+});
+finishImport(stats);
+return true;
+}
+function parseClock(str, keepTenths){
+if (!str || str.indexOf("-") !== -1) return null;
+var parts = String(str).trim().split(":");
+if (parts.length !== 2) return null;
+var m = parseInt(parts[0], 10), s = parseFloat(parts[1]);
+if (isNaN(m) || isNaN(s)) return null;
+var v = m*60 + s;
+return keepTenths? Math.round(v*100)/100: Math.floor(v);
+}
+function typeFromKind(kind){
+if (kind === "YouTube") return "youtube";
+if (kind === "Drive") return "drive";
+if (kind === "ローカルMP3") return "local";
+return "audio";
+}
+function importFromText(text){
+var lines = String(text).split(/\r?\n/);
+var stats = newImportStats();
+var section = "";
+var impSongs = [];
+var pendingSong = null;
+var titleToSongId = {};
+function flushPendingUrl(line){
+if (pendingSong && /^https?:\/\//.test(line)){
+pendingSong.url = line;
+pendingSong = null;
+return true;
+}
+pendingSong = null;
+return false;
+}
+var currentSongId = null;
+var lastTopId = null;
+var lastComment = null; // {kind:'top'|'reply', ref object placeholder}
+var pendingComments = []; // resolved after songs are ensured
+// First pass: library
+lines.forEach(function(raw){
+var line = raw.trim();
+if (line.indexOf("<<<DATA") === 0) section = "data";
+if (section === "data") return;
+if (line.indexOf("■ ライブラリ") === 0) { section = "library"; return;}
+if (line.indexOf("■ コメント") === 0) { section = "comments"; return;}
+if (section === "library"){
+var m = line.match(/^\d+\.\s+(.+)$/);
+if (m){
+var rest = m[1];
+var kind = null;
+var km = rest.match(/\[(YouTube|Drive|ローカルMP3|MP3 URL)\]\s*$/);
+if (km){ kind = km[1]; rest = rest.slice(0, km.index).trim();}
+var bits = rest.split(" — ");
+var title = bits.shift().trim();
+var artist = bits.join(" — ").trim();
+pendingSong = { title: title, artist: artist, type: typeFromKind(kind), url: ""};
+impSongs.push(pendingSong);
+return;
+}
+if (pendingSong) flushPendingUrl(line);
+}
+});
+// Ensure library songs and build title map
+impSongs.forEach(function(imp){
+var s = ensureSong(imp, stats);
+if (s && titleToSongId[s.title] == null) titleToSongId[s.title] = s.id;
+});
+songs.forEach(function(s){ if (titleToSongId[s.title] == null) titleToSongId[s.title] = s.id;});
+// Second pass: comments + loops
+section = "";
+lines.forEach(function(raw){
+var trimmed = raw.trim();
+if (trimmed.indexOf("<<<DATA") === 0) section = "data";
+if (section === "data") return;
+if (trimmed.indexOf("■ コメント") === 0) { section = "comments"; return;}
+if (section !== "comments") return;
+if (!trimmed) return;
+if (trimmed === "---" || trimmed.indexOf("【読み込み用データ】") === 0){ lastComment = null; return;}
+var head = trimmed.match(/^【(.+)】$/);
+if (head){
+var inner = head[1];
+var title = inner.split(" — ")[0].trim();
+currentSongId = titleToSongId[title] != null? titleToSongId[title]: null;
+lastTopId = null; lastComment = null;
+return;
+}
+var loopM = trimmed.match(/^🔁\s*ループ「(.+?)」\s+(\S+)\s*[–—-]\s*(\S+)$/);
+if (loopM && currentSongId != null){
+ensureLoop(currentSongId, loopM[1], parseClock(loopM[2], true), parseClock(loopM[3], true), stats);
+lastComment = null;
+return;
+}
+var replyM = trimmed.match(/^↳\s+([^:：]+)[:：]\s*([\s\S]*)$/);
+if (replyM && currentSongId != null && lastTopId != null){
+var rc = ensureComment(currentSongId, null, replyM[1].trim(), replyM[2], lastTopId, stats);
+lastComment = rc;
+return;
+}
+var comM = trimmed.match(/^\[(.+?)\]\s+([^:：]+)[:：]\s*([\s\S]*)$/);
+if (comM && currentSongId != null){
+var cc = ensureComment(currentSongId, parseClock(comM[1], false), comM[2].trim(), comM[3], null, stats);
+lastTopId = cc.id; lastComment = cc;
+return;
+}
+// Continuation line of a multi-line comment / reply
+if (lastComment){
+lastComment.text += "\n" + trimmed;
+}
+});
+finishImport(stats);
+return true;
+}
+function importExportText(text){
+if (!text || !String(text).trim()){ toast("テキストが空です"); return;}
+var str = String(text);
+var ok = false;
+var m = str.match(/<<<DATA\s*\n([\s\S]*?)\nDATA>>>/);
+if (m){
+try { ok = importFromData(JSON.parse(m[1].trim()));} catch(e){ ok = false;}
+}
+if (!ok){
+if (str.indexOf("■ ライブラリ") === -1 && str.indexOf("■ コメント") === -1 && str.indexOf("【") === -1){
+toast("書き出しテキストではないようです");
+return;
+}
+importFromText(str);
+}
+}
+$("importBtn").addEventListener("click", function(){ $("importFile").click();});
+$("importFile").addEventListener("change", function(){
+var f = this.files && this.files[0];
+this.value = "";
+if (!f) return;
+var reader = new FileReader();
+reader.onload = function(){ importExportText(String(reader.result || ""));};
+reader.onerror = function(){ toast("ファイルを読み込めませんでした");};
+reader.readAsText(f);
+});
+$("importPasteBtn").addEventListener("click", function(){
+var v = $("importText").value;
+if (!v.trim()){ toast("書き出したテキストを貼り付けてください"); return;}
+importExportText(v);
+$("importText").value = "";
 });
 
 /* ---------- Init ---------- */
