@@ -172,7 +172,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <header class="intro">
 <h1>楽器演奏ルーパー</h1>
-<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。ゆっくり再生（0.5〜2倍）、難しいところのA–Bループ、±10秒スキップ、再生位置つきコメントで、気づきを曲ごとに残せます。</p>
+<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。ゆっくり再生（0.3〜1倍）、難しいところのA–Bループ、±10秒スキップ、再生位置つきコメントで、気づきを曲ごとに残せます。</p>
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
@@ -262,14 +262,11 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="ctl-grid">
 <div class="ctl-box">
 <h3>再生速度 <span class="speed-val mono" id="speedVal">1.00×</span></h3>
-<input type="range" id="speedRange" min="0.5" max="2" step="0.05" value="1" aria-label="再生速度 0.5から2倍">
 <div class="speed-presets" id="speedPresets">
+<button class="btn small" type="button" data-speed="0.3">0.3×</button>
 <button class="btn small" type="button" data-speed="0.5">0.5×</button>
 <button class="btn small" type="button" data-speed="0.75">0.75×</button>
 <button class="btn small active" type="button" data-speed="1">1×</button>
-<button class="btn small" type="button" data-speed="1.25">1.25×</button>
-<button class="btn small" type="button" data-speed="1.5">1.5×</button>
-<button class="btn small" type="button" data-speed="2">2×</button>
 </div>
 </div>
 <div class="ctl-box">
@@ -653,9 +650,8 @@ audioEl.addEventListener("error", function(){ if (mode==="audio") setLoading(fal
 audioEl.addEventListener("emptied", function(){ if (mode==="audio") setLoading(false);});
 
 /* Speed */
-$("speedRange").addEventListener("input", function(){ speed = parseFloat(this.value); applySpeed();});
 $("speedPresets").querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ speed = parseFloat(b.dataset.speed); $("speedRange").value = speed; applySpeed();});
+b.addEventListener("click", function(){ speed = parseFloat(b.dataset.speed); applySpeed();});
 });
 
 /* A-B loop */
