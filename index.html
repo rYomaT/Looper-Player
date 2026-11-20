@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
 <link rel="icon" href="data:," />
-<title>ギター練習プレイヤー（友達用）</title>
+<title>楽器演奏ルーパー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -126,7 +126,7 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .song.del:hover{color:var(--danger)}
 .type-tag{flex:none;font-size:.7rem;font-weight:700;border-radius:999px;padding:.15em.65em}
 .add-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 10px}
-.add-tabs.btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.add-tabs .btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .add-panel{display:none;border-top:1.5px dashed var(--line2);padding-top:12px}
 .add-panel.open{display:block}
 .add-panel.row{display:flex;flex-direction:column;gap:8px}
@@ -171,7 +171,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="wrap">
 
 <header class="intro">
-<h1>ギター練習プレイヤー（友達用）</h1>
+<h1>楽器演奏ルーパー</h1>
 <p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。ゆっくり再生（0.5〜2倍）、難しいところのA–Bループ、±10秒スキップ、再生位置つきコメントで、気づきを曲ごとに残せます。</p>
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
@@ -199,10 +199,11 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <div class="add-panel open" id="panel-yt">
 <div class="row">
-<div><label for="ytTitle">曲名</label><input id="ytTitle" type="text" placeholder="例：Hotel California"></div>
+<div><label for="ytTitle">曲名</label><input id="ytTitle" type="text" placeholder="URLを貼ると自動で入ります（手入力もOK）"></div>
 <div><label for="ytArtist">アーティスト（任意）</label><input id="ytArtist" type="text" placeholder="例：Eagles"></div>
 <div><label for="ytUrl">YouTubeのURL</label><input id="ytUrl" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
 <button class="btn primary" id="addYt" type="button">ライブラリに追加</button>
+<p class="hint">YouTubeのURLを貼り付けると、動画のタイトルが曲名に自動で入ります。</p>
 </div>
 </div>
 
@@ -322,7 +323,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <div class="import-box" aria-label="書き出しの読み込み">
 <h3>書き出しを読み込む</h3>
-<p class="hint" style="margin:0 0 8px">書き出したテキストファイル（guitar-practice-export.txt）を選ぶか、書き出したテキストを貼り付けると、ライブラリ・コメント・保存したループが戻ります。すでにあるものは重複しません。</p>
+<p class="hint" style="margin:0 0 8px">書き出したテキストファイル（looper-export.txt）を選ぶか、書き出したテキストを貼り付けると、ライブラリ・コメント・保存したループが戻ります。すでにあるものは重複しません。</p>
 <div class="import-row">
 <button class="btn" id="importBtn" type="button">📂 ファイルから読み込む</button>
 <input id="importFile" type="file" accept=".txt,text/plain" style="display:none" aria-label="書き出したテキストファイル">
@@ -336,7 +337,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </aside>
 </div>
 
-<footer>ギター練習プレイヤー（友達用）／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。</footer>
+<footer>楽器演奏ルーパー／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。</footer>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -543,23 +544,71 @@ list.appendChild(row);
 }
 
 /* ---------- Add songs ---------- */
-document.querySelectorAll(".add-tabs.btn").forEach(function(b){
-b.addEventListener("click", function(){
-document.querySelectorAll(".add-tabs.btn").forEach(function(x){ x.setAttribute("aria-selected","false");});
-b.setAttribute("aria-selected","true");
-["yt","drive","local"].forEach(function(k){ $("panel-"+k).classList.toggle("open", k===b.dataset.tab);});
+function selectAddTab(key){
+document.querySelectorAll(".add-tabs .btn").forEach(function(x){
+x.setAttribute("aria-selected", x.dataset.tab === key? "true": "false");
 });
+["yt","drive","local"].forEach(function(k){ $("panel-"+k).classList.toggle("open", k===key);});
+}
+document.querySelectorAll(".add-tabs .btn").forEach(function(b){
+b.addEventListener("click", function(){ selectAddTab(b.dataset.tab);});
+});
+
+/* YouTube title auto-fetch via oEmbed (no API key needed) */
+var ytAutoTitle = "", ytFetchTimer = null;
+function fetchYtMeta(url){
+return fetch("https://www.youtube.com/oembed?url=" + encodeURIComponent(url) + "&format=json")
+.then(function(r){ return r.ok? r.json(): null;})
+.catch(function(){ return null;});
+}
+function applyYtMeta(vid, d){
+if (!d || !d.title) return;
+if (ytId($("ytUrl").value.trim()) !== vid) return; // URL changed while fetching
+var cur = $("ytTitle").value.trim();
+if (!cur || cur === ytAutoTitle){ $("ytTitle").value = d.title; ytAutoTitle = d.title;}
+if (!$("ytArtist").value.trim() && d.author_name) $("ytArtist").value = d.author_name;
+}
+$("ytUrl").addEventListener("input", function(){
+clearTimeout(ytFetchTimer);
+var url = this.value.trim(), vid = ytId(url);
+if (!vid) return;
+ytFetchTimer = setTimeout(function(){
+fetchYtMeta(url).then(function(d){ applyYtMeta(vid, d);});
+}, 500);
 });
 $("addYt").addEventListener("click", function(){
 var url = $("ytUrl").value.trim(), vid = ytId(url);
-if (!vid){ toast("YouTubeのURLを正しく入れてください"); return;}
-var s = { id: nextId(), title: $("ytTitle").value.trim() || "YouTube動画", artist: $("ytArtist").value.trim(), type:"youtube", url:url, videoId:vid};
-songs.push(s); $("ytTitle").value = $("ytArtist").value = $("ytUrl").value = "";
+if (!vid){
+if (driveId(url)){
+selectAddTab("drive"); $("drUrl").value = url; $("ytUrl").value = "";
+toast("Driveのリンクは「Drive / MP3 URL」タブで追加します");
+return;
+}
+toast("YouTubeのURLを正しく入れてください"); return;
+}
+var artist = $("ytArtist").value.trim();
+function finish(title, art){
+var s = { id: nextId(), title: title || "YouTube動画", artist: art, type:"youtube", url:url, videoId:vid};
+songs.push(s); $("ytTitle").value = $("ytArtist").value = $("ytUrl").value = ""; ytAutoTitle = "";
 renderSongs(); loadSong(s, true); toast("追加しました");
+}
+var typed = $("ytTitle").value.trim();
+if (typed){ finish(typed, artist); return;}
+toast("曲名を取得しています…");
+fetchYtMeta(url).then(function(d){
+if (d && d.title) finish(d.title, artist || d.author_name || "");
+else finish("", artist);
+});
 });
 $("addDrive").addEventListener("click", function(){
 var url = $("drUrl").value.trim();
 if (!url){ toast("リンクを入れてください"); return;}
+if (ytId(url)){
+selectAddTab("yt"); $("ytUrl").value = url; $("drUrl").value = "";
+$("ytUrl").dispatchEvent(new Event("input"));
+toast("YouTubeのリンクは「YouTubeを追加」タブで追加します");
+return;
+}
 var did = driveId(url), s;
 if (did){
 s = { id: nextId(), title: $("drTitle").value.trim() || "Driveの曲", artist:"Google Drive", type:"drive", url:url,
@@ -772,7 +821,7 @@ mine.filter(function(r){ return r.parentId === c.id;})
 /* ---------- Export ---------- */
 function buildExportText(){
 var lines = [];
-lines.push("ギター練習プレイヤー（友達用）— ライブラリ & コメント書き出し");
+lines.push("楽器演奏ルーパー — ライブラリ & コメント書き出し");
 lines.push("書き出し日: " + new Date().toLocaleString("ja-JP"));
 lines.push("");
 lines.push("■ ライブラリ（" + songs.length + "曲）");
@@ -836,7 +885,7 @@ $("exportBtn").addEventListener("click", function(){
 var blob = new Blob([buildExportText()], { type:"text/plain;charset=utf-8"});
 var a = document.createElement("a");
 a.href = URL.createObjectURL(blob);
-a.download = "guitar-practice-export.txt";
+a.download = "looper-export.txt";
 document.body.appendChild(a); a.click(); a.remove();
 setTimeout(function(){ URL.revokeObjectURL(a.href);}, 2000);
 toast("テキストを書き出しました");
