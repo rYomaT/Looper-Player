@@ -256,10 +256,10 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>ループ練習：</strong>再生中に「⚑ 開始旗」「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノート・タグを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まります。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノート・タグを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更できます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。「プレビュー」で変更中の区間と速度を試聴でき、「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、コメント位置には目印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
-<li><strong>曲リスト：</strong>キーワードで検索できます。曲名の横にはコメント（💬）と保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。「隠す」を押すと今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
+<li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横にはコメント（💬）と保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>コメント：</strong>「現在時刻を入れる」を押してから書くと、その再生位置にジャンプできるコメントになります。コメントへの返信もできます。</li>
 <li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
@@ -273,10 +273,10 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <section class="card library" aria-label="ライブラリ">
 <div class="lib-head">
 <h2>曲リスト <span class="count" id="songCount">0曲</span></h2>
-<button class="btn small" id="toggleListBtn" type="button">隠す</button>
+<button class="btn small" id="toggleListBtn" type="button">全表示</button>
 </div>
 <div class="compact-bar" id="compactBar" style="display:none"></div>
-<div id="listBody">
+<div id="listBody" style="display:none">
 <div class="filters">
 <input id="songSearch" type="search" placeholder="曲名・バンド名で検索" aria-label="曲を検索">
 </div>
@@ -563,8 +563,8 @@ var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note, tags} while editing
 var stampTime = null;
 var speed = 1;
-/* Filters / list view (in-memory UI state) */
-var songQuery = "", listHidden = false;
+/* Filters / list view (in-memory UI state): sample list starts hidden */
+var songQuery = "", listHidden = true;
 
 /* Timeline zoom */
 var ZOOMS = [1, 2, 4, 8, 16, 32, 64], zoomIdx = 0, viewStart = 0, viewEnd = 0, rulerKey = "";
@@ -1102,7 +1102,9 @@ $("setA").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 loopA = Math.round(getTime()*100)/100; if (loopB!=null && loopB <= loopA) loopB = null;
 if (loopA!=null && loopB!=null) loopOn = true;
-updateAB(); showNameRow(true); toast("開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）");
+updateAB(); showNameRow(true);
+if (!isPlaying()) play();
+toast("開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）");
 });
 $("setB").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
@@ -1170,8 +1172,8 @@ var secs = visibleSections();
 secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
-var tagsHtml = (sec.tags || []).map(function(t){ return '<span class="tag-chip">#' + esc(t) + "</span>";}).join("");
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono">' + Number(sec.speed).toFixed(2) + '×</span>': "";
+var tagsHtml = (sec.tags || []).map(function(t){ return '<span class="tag-chip">#' + esc(t) + "</span>";}).join("");
 var isEditing = (editingLoopId === sec.id);
 var mainHtml = '<div class="loop-main"><div class="meta"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
 '<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? ' ・ ' + Number(sec.speed).toFixed(2) + '×': '') + "</div>" +
@@ -1192,11 +1194,11 @@ var editDiv = document.createElement("div");
 editDiv.className = "loop-edit";
 editDiv.innerHTML =
 '<div><label for="edit-name-' + sec.id + '">名前</label><input id="edit-name-' + sec.id + '" class="edit-name" type="text" value="' + esc(draft.name) + '"></div>' +
-'<div class="edit-grid">' +
+'<div style="display:flex;flex-direction:column;gap:10px">' +
 '<div><label for="edit-a-' + sec.id + '">開始時間（分:秒.小数 または 秒）</label><input id="edit-a-' + sec.id + '" class="edit-a mono" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="例：1:23.50">' +
-'<div class="time-adj" data-target="a"><button type="button" data-adj="-1">−1秒</button><button type="button" data-adj="-0.1">−0.1</button><button type="button" data-adj="-0.01">−0.01</button><button type="button" data-adj="0.01">＋0.01</button><button type="button" data-adj="0.1">＋0.1</button><button type="button" data-adj="1">＋1秒</button></div></div>' +
+'<div class="time-adj" data-target="a"><button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="開始を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="開始を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button></div></div>' +
 '<div><label for="edit-b-' + sec.id + '">終了時間（分:秒.小数 または 秒）</label><input id="edit-b-' + sec.id + '" class="edit-b mono" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="例：1:35.00">' +
-'<div class="time-adj" data-target="b"><button type="button" data-adj="-1">−1秒</button><button type="button" data-adj="-0.1">−0.1</button><button type="button" data-adj="-0.01">−0.01</button><button type="button" data-adj="0.1">＋0.1</button><button type="button" data-adj="1">＋1秒</button></div></div>' +
+'<div class="time-adj" data-target="b"><button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="終了を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="終了を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button></div></div>' +
 '</div>' +
 '<div><label for="edit-speed-' + sec.id + '">再生倍率（速度）</label><div class="speed-edit-row"><button class="btn small edit-speed-down" type="button">−0.05</button><input id="edit-speed-' + sec.id + '" class="edit-speed mono" type="number" min="0.25" max="2" step="0.05" value="' + curSpeedVal.toFixed(2) + '"><span class="mono">×</span><button class="btn small edit-speed-up" type="button">＋0.05</button><span class="hint" style="margin:0">0.25〜2.00</span></div>' +
 '<div class="speed-presets-edit">' +
@@ -1204,7 +1206,7 @@ editDiv.innerHTML =
 '</div></div>' +
 '<div class="edit-grid"><div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
 '<div><label for="edit-tags-' + sec.id + '">タグ（カンマ区切り）</label><input id="edit-tags-' + sec.id + '" class="edit-tags" type="text" value="' + esc(draft.tags || "") + '" placeholder="例：速弾き, ソロ"></div></div>' +
-'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。プレビューを押すと、編集中の時間と倍率でその場で再生して確認できます。</p>' +
+'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始・終了時間を変えると、保存しなくてもすぐプレイヤーのループに反映されます。プレビューを押すと、編集中の時間と倍率でその場で再生して確認できます。</p>' +
 '<div class="edit-actions"><button class="btn edit-preview" type="button">▶ プレビュー</button><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
 function syncDraftFromInputs(){
@@ -1220,6 +1222,23 @@ editDiv.querySelectorAll("input").forEach(function(inp){
 inp.addEventListener("input", syncDraftFromInputs);
 inp.addEventListener("change", syncDraftFromInputs);
 });
+// Live: reflect edited times into the player's loop immediately (no save needed)
+function applyLiveTimes(){
+var na = parseTimeInput(editDiv.querySelector(".edit-a").value);
+var nb = parseTimeInput(editDiv.querySelector(".edit-b").value);
+if (na == null || nb == null || nb <= na) return;
+loopA = na; loopB = nb; loopOn = true;
+$("aChip").textContent = "A " + fmtTenths(loopA);
+$("bChip").textContent = "B " + fmtTenths(loopB);
+$("aChip").classList.add("set"); $("bChip").classList.add("set");
+$("adjAVal").textContent = fmtH(loopA); $("adjBVal").textContent = fmtH(loopB);
+$("loopState").textContent = "ループ中";
+$("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
+if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
+rulerKey = "";
+}
+editDiv.querySelector(".edit-a").addEventListener("change", applyLiveTimes);
+editDiv.querySelector(".edit-b").addEventListener("change", applyLiveTimes);
 // wire time adjust buttons
 editDiv.querySelectorAll(".time-adj").forEach(function(row){
 var target = row.getAttribute("data-target");
@@ -1234,6 +1253,7 @@ var dur = getDur();
 if (target === "b" && dur > 0 && nv > dur) nv = Math.round(dur*100)/100;
 input.value = fmtH(nv);
 syncDraftFromInputs();
+applyLiveTimes();
 });
 });
 });
