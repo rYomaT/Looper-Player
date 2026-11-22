@@ -246,6 +246,14 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .adj-row button{flex:1;border:1.5px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:8px;font-weight:700;font-size:.85rem;padding:.35rem 0;min-height:2.25rem}
 .adj-row button:hover{border-color:var(--accent);color:var(--accent)}
 .speed-step{display:flex;align-items:center;gap:8px;margin-top:8px}
+.capture-btn{border-color:var(--teal);color:var(--teal);background:var(--teal-soft);font-weight:900;white-space:nowrap}
+.capture-btn:hover{border-color:var(--teal);background:var(--teal);color:#fff}
+@media (prefers-color-scheme: dark){.capture-btn:hover{color:#10201c}}
+.capture-box{margin-top:14px;border-top:1.5px dashed var(--line2);padding-top:12px}
+.capture-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
+.capture-box .hint{margin:6px 0 0}
+.capture-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.capture-row .btn{flex:1;min-width:0}
 .loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </style>
@@ -259,6 +267,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
+<li><strong>かんたんループ作成：</strong>プレイヤーのボタンやループリスト下の「今+5秒」「今+10秒」「今+15秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
@@ -367,6 +376,9 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button class="btn primary" id="playBtn" type="button">▶ 再生</button>
 <button class="btn" id="fwd10" type="button">+10秒 ⏩</button>
 <button class="btn" id="nextSong" type="button">次の曲 ⏭</button>
+<button class="btn capture-btn" type="button" data-capture="5" aria-label="今の位置から5秒のループを作る">今+5秒</button>
+<button class="btn capture-btn" type="button" data-capture="10" aria-label="今の位置から10秒のループを作る">今+10秒</button>
+<button class="btn capture-btn" type="button" data-capture="15" aria-label="今の位置から15秒のループを作る">今+15秒</button>
 </div>
 
 <div class="tl-head">
@@ -454,6 +466,15 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <h4>ループを保存する</h4>
 <button class="btn small primary" id="saveLoop" type="button" style="width:100%">保存</button>
 <div class="loop-list" id="loopList"></div>
+</div>
+<div class="capture-box" aria-label="今の位置からかんたんにループを作る">
+<h4>今の位置から作る</h4>
+<p class="hint" style="margin:0">押した瞬間を始まりにして、その長さのループを作って保存し、すぐ再生します。</p>
+<div class="capture-row">
+<button class="btn small capture-btn" type="button" data-capture="5" aria-label="今の位置から5秒のループを作る">今+5秒</button>
+<button class="btn small capture-btn" type="button" data-capture="10" aria-label="今の位置から10秒のループを作る">今+10秒</button>
+<button class="btn small capture-btn" type="button" data-capture="15" aria-label="今の位置から15秒のループを作る">今+15秒</button>
+</div>
 </div>
 </aside>
 
@@ -1137,6 +1158,33 @@ if (loopA == null || loopB == null) return;
 seekTo(loopA);
 if (!isPlaying()) play();
 }
+/* Quick capture: 今+5秒 / 今+10秒 / 今+15秒 — one tap sets A = now,
+   B = now + N seconds, turns the loop on, auto-saves it (same path as
+   終了旗) and plays it from the start. Buttons live in two places:
+   the player transport and below the loop list; both use data-capture. */
+function captureLoopFromNow(seconds){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+var now = getTime();
+if (now == null || isNaN(now)){ toast("再生位置が取得できませんでした"); return;}
+var a = Math.round(now*100)/100;
+var dur = getDur();
+var b = Math.round((a + seconds)*100)/100;
+if (dur > 0 && b > dur) b = Math.round(dur*100)/100;
+if (b <= a){ toast("曲の終わりなので、この長さのループは作れません"); return;}
+loopA = a; loopB = b; loopOn = true; flagSavedId = null;
+updateAB();
+var result = saveCurrentLoopFromFlags();
+previewLoopNow();
+if (result && result.sec){
+if (result.duplicate) toast("今+" + seconds + "秒：ループ「" + result.sec.name + "」は保存済みです（" + fmtH(result.sec.a) + " – " + fmtH(result.sec.b) + "）");
+else toast("今+" + seconds + "秒で保存しました：ループ「" + result.sec.name + "」 " + fmtH(result.sec.a) + " – " + fmtH(result.sec.b));
+} else {
+toast("今+" + seconds + "秒のループを設定しました：" + fmtH(a) + " – " + fmtH(b));
+}
+}
+document.querySelectorAll("[data-capture]").forEach(function(btn){
+btn.addEventListener("click", function(){ captureLoopFromNow(parseFloat(btn.getAttribute("data-capture")));});
+});
 $("setA").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 var hadLoop = (loopA!=null && loopB!=null) || loopOn;
