@@ -254,8 +254,8 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まります。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノートを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更できます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。「プレビュー」で変更中の区間と速度を試聴でき、「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノートを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更できます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並びます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
@@ -1051,11 +1051,15 @@ speed = Math.round(Math.min(2, Math.max(0.25, v)) * 100) / 100;
 applySpeed();
 if (t != null) waStart(t);
 }
+function setSpeedAndPlayIfLooping(v){
+setSpeed(v);
+if (loopA!=null && loopB!=null){ loopOn = true; $("loopState").textContent = "ループ中"; $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active"); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
+}
 $("speedPresets").querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ setSpeed(parseFloat(b.dataset.speed));});
+b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
 });
-$("speedDown").addEventListener("click", function(){ setSpeed(speed - 0.05);});
-$("speedUp").addEventListener("click", function(){ setSpeed(speed + 0.05);});
+$("speedDown").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed - 0.05);});
+$("speedUp").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed + 0.05);});
 
 /* A-B loop */
 function updateAB(){
@@ -1090,11 +1094,12 @@ if (!isPlaying()) play();
 }
 $("setA").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
-loopA = Math.round(getTime()*100)/100; if (loopB!=null && loopB <= loopA) loopB = null;
-if (loopA!=null && loopB!=null) loopOn = true;
+var hadLoop = (loopA!=null && loopB!=null) || loopOn;
+loopA = Math.round(getTime()*100)/100;
+loopB = null; loopOn = false;
 updateAB(); showNameRow(true);
 if (!isPlaying()) play();
-toast("開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）");
+toast(hadLoop? ("現在のループを解除しました。開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）"): ("開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）"));
 });
 $("setB").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
@@ -1193,7 +1198,7 @@ editDiv.innerHTML =
 [0.25,0.5,0.75,1,1.25,1.5].map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
 '</div></div>' +
 '<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
-'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始・終了時間を変えると、保存しなくてもすぐプレイヤーのループに反映されます。プレビューを押すと、編集中の時間と倍率でその場で再生して確認できます。</p>' +
+'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始・終了時間や再生倍率を変えると、保存しなくても変更直後にプレイヤーへ反映され、その区間が新しい倍率で再生されます。「保存」で確定します。</p>' +
 '<div class="edit-actions"><button class="btn edit-preview" type="button">▶ プレビュー</button><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
 function syncDraftFromInputs(){
@@ -1208,11 +1213,11 @@ editDiv.querySelectorAll("input").forEach(function(inp){
 inp.addEventListener("input", syncDraftFromInputs);
 inp.addEventListener("change", syncDraftFromInputs);
 });
-// Live: reflect edited times into the player's loop immediately (no save needed)
-function applyLiveTimes(){
+// Live: reflect edited times into the player's loop immediately (no save needed) and play from the new start
+function applyLiveTimes(shouldPlay){
 var na = parseTimeInput(editDiv.querySelector(".edit-a").value);
 var nb = parseTimeInput(editDiv.querySelector(".edit-b").value);
-if (na == null || nb == null || nb <= na) return;
+if (na == null || nb == null || nb <= na) return false;
 loopA = na; loopB = nb; loopOn = true;
 $("aChip").textContent = "A " + fmtTenths(loopA);
 $("bChip").textContent = "B " + fmtTenths(loopB);
@@ -1222,9 +1227,13 @@ $("loopState").textContent = "ループ中";
 $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
 if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
 rulerKey = "";
+if (shouldPlay){ seekTo(loopA); play();}
+return true;
 }
-editDiv.querySelector(".edit-a").addEventListener("change", applyLiveTimes);
-editDiv.querySelector(".edit-b").addEventListener("change", applyLiveTimes);
+editDiv.querySelector(".edit-a").addEventListener("input", function(){ applyLiveTimes(true);});
+editDiv.querySelector(".edit-b").addEventListener("input", function(){ applyLiveTimes(true);});
+editDiv.querySelector(".edit-a").addEventListener("change", function(){ applyLiveTimes(true);});
+editDiv.querySelector(".edit-b").addEventListener("change", function(){ applyLiveTimes(true);});
 // wire time adjust buttons
 editDiv.querySelectorAll(".time-adj").forEach(function(row){
 var target = row.getAttribute("data-target");
@@ -1239,16 +1248,22 @@ var dur = getDur();
 if (target === "b" && dur > 0 && nv > dur) nv = Math.round(dur*100)/100;
 input.value = fmtH(nv);
 syncDraftFromInputs();
-applyLiveTimes();
+applyLiveTimes(true);
 });
 });
 });
 // speed controls
 var speedInput = editDiv.querySelector(".edit-speed");
 function setEditSpeed(v){
+if (v == null || isNaN(v)) return;
 var nv = clampSpeed(v);
 speedInput.value = nv.toFixed(2);
 syncDraftFromInputs();
+// Reflect the new rate into the player immediately and play the edited loop
+var timeOk = applyLiveTimes(false);
+setSpeed(nv);
+if (timeOk || (loopA!=null && loopB!=null)){ seekTo(loopA); play();}
+else { play();}
 }
 editDiv.querySelector(".edit-speed-down").addEventListener("click", function(){ setEditSpeed(parseFloat(speedInput.value) - 0.05);});
 editDiv.querySelector(".edit-speed-up").addEventListener("click", function(){ setEditSpeed(parseFloat(speedInput.value) + 0.05);});
@@ -1256,6 +1271,14 @@ editDiv.querySelectorAll(".edit-speed-preset").forEach(function(b){
 b.addEventListener("click", function(){ setEditSpeed(parseFloat(b.getAttribute("data-v")));});
 });
 speedInput.addEventListener("change", function(){ setEditSpeed(parseFloat(this.value));});
+speedInput.addEventListener("input", function(){
+var v = parseFloat(this.value);
+if (isNaN(v)) return;
+syncDraftFromInputs();
+var timeOk = applyLiveTimes(false);
+setSpeed(clampSpeed(v));
+if (timeOk || (loopA!=null && loopB!=null)){ seekTo(loopA); play();}
+});
 function readEditValues(){
 var na = parseTimeInput(editDiv.querySelector(".edit-a").value);
 var nb = parseTimeInput(editDiv.querySelector(".edit-b").value);
