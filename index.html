@@ -128,7 +128,11 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-main .meta{flex:1;min-width:0;cursor:pointer}
 .loop-main .meta:hover .name{color:var(--accent)}
 .loop-actions{display:flex;gap:6px;flex:none;flex-wrap:wrap;align-items:center}
-.loop-speed-badge{display:inline-block;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:.08em.6em;font-size:.75rem;font-weight:700;margin-left:.4em;vertical-align:middle}
+.loop-speed-badge{display:inline-block;border:1.5px solid transparent;border-radius:999px;padding:.12em.7em;font-size:.78rem;font-weight:900;margin-left:.45em;vertical-align:middle;letter-spacing:.02em}
+.fader-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.fader-row .fl{font-size:.75rem;font-weight:700;color:var(--ink2);white-space:nowrap}
+.fader-row input[type="range"]{flex:1;min-width:0}
+.speed-compact .fader-row{flex:1 1 100%;margin-top:2px}
 .loop-edit{width:100%;border-top:1.5px dashed var(--line2);padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:10px}
 .loop-edit label{font-size:.82rem;font-weight:700;color:var(--ink2);display:block;margin-bottom:4px}
 .loop-edit .edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -308,9 +312,9 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+20秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／0.90×／1.00×／1.25×）でその場で変えられます。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+20秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／0.90×／1.00×／1.25×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ5つの倍率です。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループの倍率は、リストの中で色付きの丸いタグとして表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
@@ -435,9 +439,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="speed-presets" id="speedPresets">
 <button class="btn small" type="button" data-speed="0.5">0.50×</button>
 <button class="btn small" type="button" data-speed="0.75">0.75×</button>
-<button class="btn small" type="button" data-speed="0.9">0.90×</button>
 <button class="btn small active" type="button" data-speed="1">1.00×</button>
-<button class="btn small" type="button" data-speed="1.25">1.25×</button>
+</div>
+<div class="fader-row">
+<span class="fl">25%</span>
+<input type="range" class="speed-fader" min="0.25" max="2" step="0.01" value="1" aria-label="再生速度フェーダー（25%から200%）">
+<span class="fl">200%</span>
 </div>
 </div>
 
@@ -470,7 +477,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <p class="hint" style="margin:0">押した瞬間を始まりにして、その長さのループを作って保存し、すぐ再生します。</p>
 <div class="capture-multi" aria-label="クイックキャプチャで保存する倍率を選ぶ">
 <h5>保存する倍率（複数可）</h5>
-<p class="hint">チェックした倍率で、同時に保存します。今使っている倍率は最初からチェック済みです。再生速度を変えると、その倍率も自動でチェックされます。</p>
+<p class="hint">チェックした倍率で、同時に保存します。今使っている倍率は最初からチェック済みです（再生速度を変えても、チェックは変わりません）。</p>
 <div class="capture-speed-options" id="captureSpeedChecks"></div>
 <div class="capture-selected">選択倍率：<span class="mono" id="captureSelectedList">—</span></div>
 </div>
@@ -486,9 +493,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="speed-presets" id="speedPresetsLoop">
 <button class="btn small" type="button" data-speed="0.5">0.50×</button>
 <button class="btn small" type="button" data-speed="0.75">0.75×</button>
-<button class="btn small" type="button" data-speed="0.9">0.90×</button>
 <button class="btn small active" type="button" data-speed="1">1.00×</button>
-<button class="btn small" type="button" data-speed="1.25">1.25×</button>
+</div>
+<div class="fader-row">
+<span class="fl">25%</span>
+<input type="range" class="speed-fader" min="0.25" max="2" step="0.01" value="1" aria-label="再生速度フェーダー（25%から200%）">
+<span class="fl">200%</span>
 </div>
 </div>
 <div class="ab-times">
@@ -636,8 +646,9 @@ var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
 var speed = 1;
-/* Speed presets offered by the speed buttons and the copy-at-other-speeds panel */
-var SPEED_PRESETS = [0.5, 0.75, 0.9, 1, 1.25];
+/* Speed presets offered by the speed buttons and the copy-at-other-speeds panel.
+   Any other rate between 0.25× and 2.00× is set with the fader. */
+var SPEED_PRESETS = [0.5, 0.75, 1];
 var copyLoopId = null; // id of the saved loop whose copy panel is open
 var captureSpeedChoice = [1]; // speeds checked for quick capture (current speed is checked by default)
 /* Filters / list view (in-memory UI state): sample list starts hidden */
@@ -842,6 +853,7 @@ $("speedValLoop").textContent = speed.toFixed(2) + "×";
 [$("speedPresets"), $("speedPresetsLoop")].forEach(function(box){
 box.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
 });
+document.querySelectorAll(".speed-fader").forEach(function(f){ f.value = speed;});
 renderCaptureSpeedChecks();
 }
 function setLoading(on){ mediaLoading = !!on; syncPlayBtn();}
@@ -1137,7 +1149,6 @@ function setSpeed(v){
 var t = (waActive() && waPlaying)? waTime(): null;
 speed = Math.round(Math.min(2, Math.max(0.25, v)) * 100) / 100;
 applySpeed();
-ensureCaptureSpeedChecked(speed);
 if (t != null) waStart(t);
 }
 function setSpeedAndPlayIfLooping(v){
@@ -1149,6 +1160,11 @@ b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.da
 });
 $("speedPresetsLoop").querySelectorAll("button").forEach(function(b){
 b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
+});
+/* Speed fader (25%–200%): dragging adjusts the rate live, without
+   restarting the loop, and never touches the capture/copy checkboxes. */
+document.querySelectorAll(".speed-fader").forEach(function(f){
+f.addEventListener("input", function(){ setSpeed(parseFloat(this.value));});
 });
 
 /* A-B loop */
@@ -1237,9 +1253,10 @@ seekTo(loopA);
 if (!isPlaying()) play();
 }
 /* Quick capture speed selection: checkboxes in the capture box pick which
-   playback rates the capture saves at (several at once). The rate currently
-   in use is checked by default, and changing the playback speed checks the
-   new rate too. The choice is kept in captureSpeedChoice. */
+   playback rates the capture saves at (several at once). The rate in use
+   when the page opens is checked by default; changing the playback speed
+   afterwards never changes the checks. The choice is kept in
+   captureSpeedChoice. */
 function captureSpeedOptions(){
 var opts = SPEED_PRESETS.slice();
 captureSpeedChoice.forEach(function(v){ if (!opts.some(function(o){ return Math.abs(o - v) < 0.001;})) opts.push(clampSpeed(v));});
@@ -1281,11 +1298,6 @@ if (selEl){
 var sel = getSelectedCaptureSpeeds();
 selEl.textContent = sel.length? sel.map(function(v){ return Number(v).toFixed(2) + "×";}).join("、"): "未選択（今の倍率で保存します）";
 }
-}
-function ensureCaptureSpeedChecked(v){
-var nv = clampSpeed(v);
-if (!captureSpeedChoice.some(function(c){ return Math.abs(c - nv) < 0.001;})) captureSpeedChoice.push(nv);
-renderCaptureSpeedChecks();
 }
 /* Quick capture: 今+5秒 / 今+10秒 / 今+20秒 — one tap sets A = now,
    B = now + N seconds, turns the loop on, saves the section once per
@@ -1434,6 +1446,15 @@ var secs = sectionsOf(currentSong.id).slice();
 secs.sort(function(x, y){ return x.a - y.a || x.id - y.id;});
 return secs;
 }
+/* Colorful rounded tag for a saved loop's rate: the hue slides from blue
+   (slow) through green/yellow to red (fast) across 0.25×–2.00×, so each
+   rate reads as its own colored tag in the list. */
+function speedTagStyle(v){
+var t = (Math.log(v) / Math.LN2 + 2) / 3;
+t = Math.max(0, Math.min(1, t));
+var h = Math.round(210 - t * 210);
+return "background:hsl(" + h + ",85%,86%);color:hsl(" + h + ",65%,27%);border-color:hsl(" + h + ",70%,52%)";
+}
 function renderSections(){
 var list = $("loopList"); if (!list) return;
 list.innerHTML = "";
@@ -1444,11 +1465,11 @@ var secs = visibleSections();
 secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
-var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono">' + Number(sec.speed).toFixed(2) + '×</span>': "";
+var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
 var isCopying = (copyLoopId === sec.id);
 var mainHtml = '<div class="loop-main"><div class="meta" title="押すとこの区間から再生します"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
-'<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? ' ・ ' + Number(sec.speed).toFixed(2) + '×': '') + "</div>" +
+'<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + "</div>" +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") + "</div>" +
 '<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
