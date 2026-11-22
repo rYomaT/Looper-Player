@@ -142,6 +142,16 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-edit .edit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
 .loop-edit .edit-actions .btn{flex:1}
 .loop-edit .edit-actions .btn.primary{flex:1.2}
+/* Copy a loop at other speeds */
+.loop-copy{width:100%;border-top:1.5px dashed var(--line2);padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px}
+.loop-copy h5{margin:0;font-size:.85rem;font-weight:900}
+.copy-speeds{display:flex;flex-wrap:wrap;gap:6px}
+.copy-speed{display:inline-flex;align-items:center;gap:.35em;background:var(--panel2);border:1.5px solid var(--line2);border-radius:999px;padding:.3rem .7rem;font-weight:700;font-size:.88rem;cursor:pointer;min-height:2.25rem}
+.copy-speed input[type="checkbox"]{width:1.05rem;height:1.05rem;padding:0;border:none;background:transparent;accent-color:var(--accent);flex:none}
+.copy-speed.checked{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.copy-speed .copy-own{font-size:.72rem;font-weight:700;color:var(--ink2)}
+.copy-selected{font-size:.85rem;color:var(--ink2)}
+.copy-selected .mono{color:var(--ink);font-weight:700}
 
 /* Library */
 .library{margin-bottom:18px}
@@ -290,7 +300,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+15秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットと±0.05でその場で変えられます。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.40×／0.50×／0.60×／0.80×／1.00×／1.25×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ6つの倍率＋±0.05刻みです。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
@@ -413,9 +423,10 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="speed-compact" aria-label="再生速度を変更する">
 <span class="sc-label">再生速度 <span class="speed-val mono" id="speedVal">1.00×</span></span>
 <div class="speed-presets" id="speedPresets">
-<button class="btn small" type="button" data-speed="0.25">0.25×</button>
+<button class="btn small" type="button" data-speed="0.4">0.40×</button>
 <button class="btn small" type="button" data-speed="0.5">0.50×</button>
-<button class="btn small" type="button" data-speed="0.75">0.75×</button>
+<button class="btn small" type="button" data-speed="0.6">0.60×</button>
+<button class="btn small" type="button" data-speed="0.8">0.80×</button>
 <button class="btn small active" type="button" data-speed="1">1.00×</button>
 <button class="btn small" type="button" data-speed="1.25">1.25×</button>
 </div>
@@ -462,11 +473,16 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="speed-box" aria-label="再生速度を変更する">
 <h4>再生速度 <span class="speed-val mono" id="speedValLoop">1.00×</span></h4>
 <div class="speed-presets" id="speedPresetsLoop">
-<button class="btn small" type="button" data-speed="0.25">0.25×</button>
+<button class="btn small" type="button" data-speed="0.4">0.40×</button>
 <button class="btn small" type="button" data-speed="0.5">0.50×</button>
-<button class="btn small" type="button" data-speed="0.75">0.75×</button>
+<button class="btn small" type="button" data-speed="0.6">0.60×</button>
+<button class="btn small" type="button" data-speed="0.8">0.80×</button>
 <button class="btn small active" type="button" data-speed="1">1.00×</button>
 <button class="btn small" type="button" data-speed="1.25">1.25×</button>
+</div>
+<div class="speed-step">
+<button class="btn small" id="speedDownLoop" type="button" aria-label="再生速度を0.05下げる">−0.05</button>
+<button class="btn small" id="speedUpLoop" type="button" aria-label="再生速度を0.05上げる">＋0.05</button>
 </div>
 </div>
 <div class="ab-times">
@@ -614,6 +630,9 @@ var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
 var speed = 1;
+/* Speed presets offered by the speed buttons and the copy-at-other-speeds panel */
+var SPEED_PRESETS = [0.4, 0.5, 0.6, 0.8, 1, 1.25];
+var copyLoopId = null; // id of the saved loop whose copy panel is open
 /* Filters / list view (in-memory UI state): sample list starts hidden */
 var songQuery = "", listHidden = true;
 
@@ -839,7 +858,7 @@ onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERI
 /* ---------- Load a song ---------- */
 function loadSong(song, autoplay){
 currentSong = song;
-editingLoopId = null; loopEditDraft = null;
+editingLoopId = null; loopEditDraft = null; copyLoopId = null;
 waTeardown(); rulerKey = "";
 clearAB(false);
 stampTime = null; updateStampView();
@@ -1124,6 +1143,8 @@ b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.da
 });
 $("speedDown").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed - 0.05);});
 $("speedUp").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed + 0.05);});
+$("speedDownLoop").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed - 0.05);});
+$("speedUpLoop").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed + 0.05);});
 
 /* A-B loop */
 function syncLoopStateBtn(){
@@ -1340,11 +1361,13 @@ var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
+var isCopying = (copyLoopId === sec.id);
 var mainHtml = '<div class="loop-main"><div class="meta" title="押すとこの区間から再生します"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
 '<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? ' ・ ' + Number(sec.speed).toFixed(2) + '×': '') + "</div>" +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") + "</div>" +
 '<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
+'<button class="btn small act-copy" type="button">' + (isCopying? "閉じる": "コピー") + '</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>';
 item.innerHTML = mainHtml;
 if (isEditing){
@@ -1366,7 +1389,7 @@ editDiv.innerHTML =
 '</div>' +
 '<div><label for="edit-speed-' + sec.id + '">再生倍率（速度）</label><div class="speed-edit-row"><button class="btn small edit-speed-down" type="button">−0.05</button><input id="edit-speed-' + sec.id + '" class="edit-speed mono" type="number" min="0.25" max="2" step="0.05" value="' + curSpeedVal.toFixed(2) + '"><span class="mono">×</span><button class="btn small edit-speed-up" type="button">＋0.05</button><span class="hint" style="margin:0">0.25〜2.00</span></div>' +
 '<div class="speed-presets-edit">' +
-[0.25,0.5,0.75,1,1.25,1.5].map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
+SPEED_PRESETS.map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
 '</div></div>' +
 '<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
 '<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始・終了時間や再生倍率を変えると、保存しなくても変更直後にプレイヤーへ反映され、その区間が新しい倍率で再生されます。開始時間を変えたときは新しい開始位置から、終了時間を変えたときは終了の3秒前から再生して確認できます。「保存」で確定します。</p>' +
@@ -1509,11 +1532,64 @@ renderSections(); renderCompact();
 toast("ループ「" + sec.name + "」を更新しました（" + fmtH(sec.a) + " – " + fmtH(sec.b) + " ・ " + sec.speed.toFixed(2) + "×）");
 });
 }
+if (isCopying){
+var ownSpeed = (sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): null;
+var copyDiv = document.createElement("div");
+copyDiv.className = "loop-copy";
+copyDiv.innerHTML =
+'<h5>別の再生速度でコピー</h5>' +
+'<p class="hint" style="margin:0">コピーしたい倍率にチェックを入れると、同じ区間（' + fmtH(sec.a) + " – " + fmtH(sec.b) + '）をその倍率で複製します。元の倍率は ' + (ownSpeed != null? ownSpeed.toFixed(2) + "×": "未設定") + ' です。</p>' +
+'<div class="copy-speeds">' +
+SPEED_PRESETS.map(function(v){
+var isOwn = ownSpeed != null && Math.abs(v - ownSpeed) < 0.001;
+return '<label class="copy-speed"><input type="checkbox" value="' + v + '"' + (isOwn? " disabled": "") + '> <span class="mono">' + v.toFixed(2) + '×</span>' + (isOwn? '<span class="copy-own">現在</span>': "") + "</label>";
+}).join("") +
+"</div>" +
+'<div class="copy-selected">選択倍率：<span class="mono copy-selected-list">未選択</span></div>' +
+'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary copy-do" type="button" style="flex:1">選択した倍率でコピー</button><button class="btn copy-cancel" type="button">キャンセル</button></div>';
+item.appendChild(copyDiv);
+function selectedCopySpeeds(){
+var vals = [];
+copyDiv.querySelectorAll('input[type="checkbox"]:checked').forEach(function(cb){ vals.push(parseFloat(cb.value));});
+return vals;
+}
+function refreshCopySelected(){
+var vals = selectedCopySpeeds();
+copyDiv.querySelector(".copy-selected-list").textContent = vals.length? vals.map(function(v){ return v.toFixed(2) + "×";}).join("、"): "未選択";
+copyDiv.querySelectorAll(".copy-speed").forEach(function(lab){
+var cb = lab.querySelector("input");
+lab.classList.toggle("checked", !!(cb && cb.checked));
+});
+}
+copyDiv.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+cb.addEventListener("change", refreshCopySelected);
+});
+refreshCopySelected();
+copyDiv.querySelector(".copy-cancel").addEventListener("click", function(){
+copyLoopId = null; renderSections();
+});
+copyDiv.querySelector(".copy-do").addEventListener("click", function(){
+var vals = selectedCopySpeeds();
+if (!vals.length){ toast("コピーする倍率にチェックを入れてください"); return;}
+var secs = sectionsOf(currentSong.id);
+var made = 0, skipped = 0;
+vals.forEach(function(v){
+var dup = secs.some(function(x){ return Math.abs(x.a - sec.a) < 0.005 && Math.abs(x.b - sec.b) < 0.005 && x.speed != null && Math.abs(Number(x.speed) - v) < 0.001;});
+if (dup){ skipped++; return;}
+secs.push({ id: nextId(), name: sec.name + "（" + v.toFixed(2) + "×）", a: sec.a, b: sec.b, note: sec.note || "", speed: v});
+made++;
+});
+copyLoopId = null;
+renderSections(); renderCompact();
+if (made) toast("「" + sec.name + "」を " + made + "件コピーしました" + (skipped? "（同じ倍率のコピーがあった " + skipped + "件は除きました）": ""));
+else toast("選んだ倍率のコピーは、すでにあります");
+});
+}
 item.querySelector(".meta").addEventListener("click", function(){ activateSection(sec);});
 item.querySelector(".act-activate").addEventListener("click", function(){ activateSection(sec);});
 item.querySelector(".act-edit").addEventListener("click", function(){
 if (isEditing){ editingLoopId = null; loopEditDraft = null;}
-else { editingLoopId = sec.id; loopEditDraft = null;}
+else { editingLoopId = sec.id; loopEditDraft = null; copyLoopId = null;}
 renderSections();
 if (editingLoopId === sec.id){
 setTimeout(function(){
@@ -1522,8 +1598,14 @@ if (inp) inp.focus();
 }, 50);
 }
 });
+item.querySelector(".act-copy").addEventListener("click", function(){
+if (isCopying){ copyLoopId = null;}
+else { copyLoopId = sec.id; editingLoopId = null; loopEditDraft = null;}
+renderSections();
+});
 item.querySelector(".del").addEventListener("click", function(){
 if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
+if (copyLoopId === sec.id) copyLoopId = null;
 if (flagSavedId === sec.id) flagSavedId = null;
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
 renderSections(); renderCompact(); toast("ループを削除しました");
