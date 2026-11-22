@@ -268,6 +268,13 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .speed-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
 .speed-box .speed-presets{margin-top:8px}
 .speed-box .speed-presets .btn{flex:1;min-width:0}
+.speed-compact{margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--panel2);border:1.5px solid var(--line);border-radius:10px;padding:8px 10px}
+.speed-compact .sc-label{font-weight:900;font-size:.88rem;white-space:nowrap}
+.speed-compact .speed-presets{margin-top:0;flex:1 1 240px;flex-wrap:nowrap;gap:5px;min-width:0}
+.speed-compact .speed-presets .btn{flex:1;min-width:0;padding:.3rem .15rem}
+.speed-compact .sc-step{display:flex;gap:5px;flex:none;align-items:center}
+.speed-compact .sc-step .hint{white-space:nowrap}
+@media (max-width:560px){.speed-compact{gap:6px;padding:8px}.speed-compact .speed-presets{flex-wrap:wrap;flex-basis:100%;order:3}.speed-compact .speed-presets .btn{flex:1 1 18%}.speed-compact .sc-step{margin-left:auto}}
 .loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </style>
@@ -281,7 +288,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+15秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+15秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットと±0.05でその場で変えられます。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
@@ -403,6 +410,21 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button class="btn loop-state-btn" id="loopStateBtn" type="button" aria-label="ループの状態を切り替える">🔁 ループ 未設定</button>
 </div>
 
+<div class="speed-compact" aria-label="再生速度を変更する">
+<span class="sc-label">再生速度 <span class="speed-val mono" id="speedVal">1.00×</span></span>
+<div class="speed-presets" id="speedPresets">
+<button class="btn small" type="button" data-speed="0.25">0.25×</button>
+<button class="btn small" type="button" data-speed="0.5">0.50×</button>
+<button class="btn small" type="button" data-speed="0.75">0.75×</button>
+<button class="btn small active" type="button" data-speed="1">1.00×</button>
+<button class="btn small" type="button" data-speed="1.25">1.25×</button>
+</div>
+<span class="sc-step">
+<button class="btn small" id="speedDown" type="button" aria-label="再生速度を0.05下げる">−0.05</button>
+<button class="btn small" id="speedUp" type="button" aria-label="再生速度を0.05上げる">＋0.05</button>
+</span>
+</div>
+
 <div class="tl-head">
 <span>全体表示 <span class="mono" id="tlRange">—</span></span>
 <span class="mono" id="tlTick"></span>
@@ -422,24 +444,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 <div class="ruler" id="ruler"></div>
 <div class="tl-legend" id="tlLegend"></div>
-
-<div class="ctl-grid">
-<div class="ctl-box">
-<h3>再生速度 <span class="speed-val mono" id="speedVal">1.00×</span></h3>
-<div class="speed-presets" id="speedPresets">
-<button class="btn small" type="button" data-speed="0.25">0.25×</button>
-<button class="btn small" type="button" data-speed="0.5">0.50×</button>
-<button class="btn small" type="button" data-speed="0.75">0.75×</button>
-<button class="btn small active" type="button" data-speed="1">1.00×</button>
-<button class="btn small" type="button" data-speed="1.25">1.25×</button>
-</div>
-<div class="speed-step">
-<button class="btn small" id="speedDown" type="button">−0.05</button>
-<span class="hint" style="margin:0">0.05刻み（0.25〜2.00）</span>
-<button class="btn small" id="speedUp" type="button">＋0.05</button>
-</div>
-</div>
-</div>
 </section>
 
 <!-- RIGHT: loop list -->
