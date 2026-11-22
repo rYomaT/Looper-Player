@@ -415,12 +415,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <input id="ytSearchQuery" type="search" placeholder="例：Hotel California Eagles">
 <button class="btn primary" id="ytSearchBtn" type="button">検索</button>
 </div>
-<p class="hint" style="margin:6px 0 0">検索結果の一覧から動画を選ぶと、そのままライブラリに追加して再生します。検索には、APIキー不要の公開検索サービス（yt.lemnoslife.com）を使い、入力した曲名はそのサービスにだけ送られます。</p>
+<p class="hint" style="margin:6px 0 0">検索結果の一覧から動画を選ぶと、そのままライブラリに追加して再生します。検索には、APIキー不要の公開検索サービス（Piped の公開サーバー api.piped.private.coffee／pipedapi.kavin.rocks などと、yt.lemnoslife.com）を順番に試す方式を使い、1つが使えなくても別のサービスで検索します。入力した曲名は、それらの検索サービスにだけ送られます。</p>
 <div class="yt-search-status" id="ytSearchStatus" role="status"></div>
 <div class="yt-results" id="ytSearchResults"></div>
 <div class="yt-search-fallback" id="ytSearchFallback" style="display:none">
 <a class="btn small" id="ytSearchOpen" href="#" target="_blank" rel="noopener">YouTubeで検索を開く</a>
-<p class="hint">検索サービスに接続できませんでした。YouTubeで開いて動画のURLをコピーし、下のURL欄に貼っても追加できます。</p>
+<p class="hint">すべての検索サービスに接続できませんでした。YouTubeで開いて動画のURLをコピーし、下のURL欄に貼っても追加できます。</p>
 </div>
 </div>
 <div class="yt-or">または URLで追加</div>
@@ -1232,11 +1232,13 @@ else finish("", artist);
 });
 });
 /* ---------- YouTube title search (no API key) ----------
-   The typed query is sent to exactly one disclosed public search
-   service (yt.lemnoslife.com, a public keyless YouTube data API),
-   named in the hint under the search box. If it fails, a fallback
-   link to YouTube's own search page is shown and the URL-paste
-   flow above keeps working. */
+   The typed query is sent only to the disclosed public search
+   services named in the hint under the search box. Several keyless
+   services (public Piped API servers, then yt.lemnoslife.com) are
+   tried in order, so search keeps working when one of them is
+   down. If every service fails, a fallback link to YouTube's own
+   search page is shown and the URL-paste flow above keeps
+   working. */
 function decodeEntities(s){
 if (!s) return "";
 var t = document.createElement("textarea");
@@ -1269,13 +1271,42 @@ var sn = it.snippet || {};
 return { videoId: it.id.videoId, title: decodeEntities(sn.title || ""), channel: decodeEntities(sn.channelTitle || ""), duration: null };
 });
 }
+function parsePipedSearch(d){
+return ((d && d.items) || []).filter(function(it){
+return it && it.type === "stream" && typeof it.url === "string";
+}).map(function(it){
+var m = /[?&]v=([\w-]{6,})/.exec(it.url);
+if (!m) return null;
+return { videoId: m[1], title: decodeEntities(it.title || ""), channel: decodeEntities(it.uploaderName || ""),
+duration: (typeof it.duration === "number" && it.duration >= 0)? it.duration: null };
+}).filter(function(it){ return !!it; });
+}
+var YT_SEARCH_PROVIDERS = [
+{ name: "Piped (api.piped.private.coffee)",
+url: function(q){ return "https://api.piped.private.coffee/search?filter=videos&q=" + encodeURIComponent(q); },
+parse: parsePipedSearch },
+{ name: "Piped (pipedapi.kavin.rocks)",
+url: function(q){ return "https://pipedapi.kavin.rocks/search?filter=videos&q=" + encodeURIComponent(q); },
+parse: parsePipedSearch },
+{ name: "Piped (pipedapi.reallyaweso.me)",
+url: function(q){ return "https://pipedapi.reallyaweso.me/search?filter=videos&q=" + encodeURIComponent(q); },
+parse: parsePipedSearch },
+{ name: "yt.lemnoslife.com",
+url: function(q){ return "https://yt.lemnoslife.com/search?part=snippet&maxResults=12&q=" + encodeURIComponent(q); },
+parse: parseLemnosSearch }
+];
 function searchYouTube(q){
-return fetchJsonTimeout("https://yt.lemnoslife.com/search?part=snippet&maxResults=12&q=" + encodeURIComponent(q), 12000)
-.then(function(d){
-var items = parseLemnosSearch(d);
-if (!items.length) throw new Error("no videos");
+var chain = Promise.reject(new Error("no provider tried yet"));
+YT_SEARCH_PROVIDERS.forEach(function(p){
+chain = chain.catch(function(){
+return fetchJsonTimeout(p.url(q), 8000).then(function(d){
+var items = p.parse(d);
+if (!items.length) throw new Error("no videos from " + p.name);
 return items.slice(0, 12);
 });
+});
+});
+return chain;
 }
 var ytSearchSeq = 0;
 function runYtSearch(){
@@ -1287,6 +1318,7 @@ status.classList.remove("err");
 status.textContent = "検索中…";
 box.innerHTML = "";
 fb.style.display = "none";
+$("ytSearchOpen").href = "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
 $("ytSearchBtn").disabled = true;
 searchYouTube(q).then(function(items){
 if (seq !== ytSearchSeq) return;
