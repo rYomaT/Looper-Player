@@ -66,6 +66,16 @@ header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
 .now{margin-bottom:12px}
 .now.title{font-weight:900;font-size:1.15rem;line-height:1.35}
 .now.artist{color:var(--ink2);font-size:.92rem}
+.now-nav{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px}
+.now-center{text-align:center;min-width:0}
+.now-center .title{font-weight:900;font-size:1.15rem;line-height:1.35;word-break:break-word}
+.now-center .artist{color:var(--ink2);font-size:.92rem;text-align:center}
+.nav-song-btn{white-space:nowrap;flex:none}
+@media (max-width:560px){.now-nav{gap:6px}.nav-song-btn{padding:.3rem .55rem;font-size:.82rem}.now-center .title{font-size:1.02rem}}
+.capture-group{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.capture-label{font-weight:900;font-size:.88rem;color:var(--teal);white-space:nowrap}
+.loop-state-btn{white-space:nowrap}
+.loop-state-btn.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .now.badge{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:.12em.7em;margin-left:.5em;vertical-align:middle}
 .badge.yt{background:var(--danger-soft);color:var(--danger)}
 .badge.audio,.badge.drive{background:var(--teal-soft);color:var(--teal)}
@@ -267,7 +277,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>かんたんループ作成：</strong>プレイヤーのボタンやループリスト下の「今+5秒」「今+10秒」「今+15秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト下の「クイックキャプチャ: 今+5秒 今+10秒 今+15秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
@@ -340,8 +350,14 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <!-- LEFT TOP: player -->
 <section class="card player-card" aria-label="プレイヤー">
 <div class="now" id="nowBox">
+<div class="now-nav">
+<button class="btn small nav-song-btn" id="prevSong" type="button" aria-label="前の曲へ">⏮ 前の曲</button>
+<div class="now-center">
 <div class="title" id="nowTitle">曲を選んでください</div>
 <div class="artist" id="nowArtist">上のライブラリから再生したい曲をタップ</div>
+</div>
+<button class="btn small nav-song-btn" id="nextSong" type="button" aria-label="次の曲へ">次の曲 ⏭</button>
+</div>
 </div>
 
 <div class="stage" id="stage">
@@ -371,14 +387,16 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 
 <div class="transport">
-<button class="btn" id="prevSong" type="button">⏮ 前の曲</button>
 <button class="btn" id="back10" type="button">⏪ −10秒</button>
 <button class="btn primary" id="playBtn" type="button">▶ 再生</button>
 <button class="btn" id="fwd10" type="button">+10秒 ⏩</button>
-<button class="btn" id="nextSong" type="button">次の曲 ⏭</button>
-<button class="btn capture-btn" type="button" data-capture="5" aria-label="今の位置から5秒のループを作る">今+5秒</button>
-<button class="btn capture-btn" type="button" data-capture="10" aria-label="今の位置から10秒のループを作る">今+10秒</button>
-<button class="btn capture-btn" type="button" data-capture="15" aria-label="今の位置から15秒のループを作る">今+15秒</button>
+<span class="capture-group" role="group" aria-label="クイックキャプチャ">
+<span class="capture-label">クイックキャプチャ:</span>
+<button class="btn capture-btn" type="button" data-capture="5" aria-label="クイックキャプチャ：今の位置から5秒のループを作る">今+5秒</button>
+<button class="btn capture-btn" type="button" data-capture="10" aria-label="クイックキャプチャ：今の位置から10秒のループを作る">今+10秒</button>
+<button class="btn capture-btn" type="button" data-capture="15" aria-label="クイックキャプチャ：今の位置から15秒のループを作る">今+15秒</button>
+</span>
+<button class="btn loop-state-btn" id="loopStateBtn" type="button" aria-label="ループの状態を切り替える">🔁 ループ 未設定</button>
 </div>
 
 <div class="tl-head">
@@ -467,13 +485,13 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button class="btn small primary" id="saveLoop" type="button" style="width:100%">保存</button>
 <div class="loop-list" id="loopList"></div>
 </div>
-<div class="capture-box" aria-label="今の位置からかんたんにループを作る">
-<h4>今の位置から作る</h4>
+<div class="capture-box" aria-label="クイックキャプチャ：今の位置からかんたんにループを作る">
+<h4>クイックキャプチャ：今の位置から作る</h4>
 <p class="hint" style="margin:0">押した瞬間を始まりにして、その長さのループを作って保存し、すぐ再生します。</p>
 <div class="capture-row">
-<button class="btn small capture-btn" type="button" data-capture="5" aria-label="今の位置から5秒のループを作る">今+5秒</button>
-<button class="btn small capture-btn" type="button" data-capture="10" aria-label="今の位置から10秒のループを作る">今+10秒</button>
-<button class="btn small capture-btn" type="button" data-capture="15" aria-label="今の位置から15秒のループを作る">今+15秒</button>
+<button class="btn small capture-btn" type="button" data-capture="5" aria-label="クイックキャプチャ：今の位置から5秒のループを作る">今+5秒</button>
+<button class="btn small capture-btn" type="button" data-capture="10" aria-label="クイックキャプチャ：今の位置から10秒のループを作る">今+10秒</button>
+<button class="btn small capture-btn" type="button" data-capture="15" aria-label="クイックキャプチャ：今の位置から15秒のループを作る">今+15秒</button>
 </div>
 </div>
 </aside>
@@ -1076,7 +1094,7 @@ if (t != null) waStart(t);
 }
 function setSpeedAndPlayIfLooping(v){
 setSpeed(v);
-if (loopA!=null && loopB!=null){ loopOn = true; $("loopState").textContent = "ループ中"; $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active"); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
+if (loopA!=null && loopB!=null){ loopOn = true; $("loopState").textContent = "ループ中"; $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active"); syncLoopStateBtn(); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
 }
 $("speedPresets").querySelectorAll("button").forEach(function(b){
 b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
@@ -1085,6 +1103,16 @@ $("speedDown").addEventListener("click", function(){ setSpeedAndPlayIfLooping(sp
 $("speedUp").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed + 0.05);});
 
 /* A-B loop */
+function syncLoopStateBtn(){
+var b = $("loopStateBtn"); if (!b) return;
+if (loopA != null && loopB != null){
+b.textContent = loopOn? "🔁 ループ ON": "🔁 ループ OFF";
+b.classList.toggle("active", loopOn);
+} else {
+b.textContent = "🔁 ループ 未設定";
+b.classList.remove("active");
+}
+}
 function updateAB(){
 $("aChip").textContent = "A " + (loopA==null? "—": fmtTenths(loopA));
 $("bChip").textContent = "B " + (loopB==null? "—": fmtTenths(loopB));
@@ -1095,6 +1123,7 @@ $("adjBVal").textContent = fmtH(loopB);
 $("loopState").textContent = (loopA!=null && loopB!=null)? (loopOn? "ループ中": "設定済み（OFF）"): "未設定";
 $("toggleLoop").textContent = loopOn? "ループ ON": "ループ OFF";
 $("toggleLoop").classList.toggle("active", loopOn);
+syncLoopStateBtn();
 if (waActive() && waSrc){
 if (loopOn && loopA != null && loopB != null){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
 else waSrc.loop = false;
@@ -1240,6 +1269,11 @@ $("toggleLoop").addEventListener("click", function(){
 if (loopA==null || loopB==null){ toast("先にAとBを設定してください"); return;}
 loopOn =!loopOn; updateAB();
 });
+$("loopStateBtn").addEventListener("click", function(){
+if (loopA==null || loopB==null){ toast("ループは未設定です。開始旗・終了旗、またはクイックキャプチャでループを作ってください"); return;}
+loopOn =!loopOn; updateAB();
+toast(loopOn? "ループ ON：" + fmtH(loopA) + " – " + fmtH(loopB): "ループ OFF");
+});
 $("clearAB").addEventListener("click", function(){ clearAB(true);});
 
 /* Saved loop sections (per song) */
@@ -1333,6 +1367,7 @@ $("aChip").classList.add("set"); $("bChip").classList.add("set");
 $("adjAVal").textContent = fmtH(loopA); $("adjBVal").textContent = fmtH(loopB);
 $("loopState").textContent = "ループ中";
 $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
+syncLoopStateBtn();
 if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
 rulerKey = "";
 if (shouldPlay){ seekTo(loopA); play();}
@@ -1407,6 +1442,7 @@ $("aChip").classList.add("set"); $("bChip").classList.add("set");
 $("adjAVal").textContent = fmtH(loopA); $("adjBVal").textContent = fmtH(loopB);
 $("loopState").textContent = "ループ中";
 $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
+syncLoopStateBtn();
 rulerKey = "";
 seekTo(vals.a);
 play();
@@ -1635,6 +1671,7 @@ if (t >= loopB - 0.25 && t < loopB + 1 && now - lastYtLoopAt > 900){ lastYtLoopA
 }
 renderTimeline();
 syncPlayBtn();
+syncLoopStateBtn();
 }, 250);
 
 /* ---------- Comments ---------- */
