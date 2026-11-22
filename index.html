@@ -255,12 +255,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <header class="intro">
 <h1>楽器演奏ルーパー</h1>
-<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズームで繰り返し練習できます。保存したループは、あとから時間（開始・終了）と倍率を編集でき、そのときにノートも付けられます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
+<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズームで繰り返し練習できます。終了旗を押すと、その区間がそのままループとして保存されます。保存したループは、あとから時間（開始・終了）と倍率を編集でき、そのときにノートも付けられます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
@@ -423,7 +423,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button class="btn small danger" id="clearAB" type="button">ループ解除</button>
 </div>
 <div class="name-row" id="loopNameRow">
-<label for="loopName">次の区間の名前（任意）— 終了旗を押す前にどうぞ</label>
+<label for="loopName">次の区間の名前（任意）— 終了旗を押すと、この名前で保存されます</label>
 <input id="loopName" type="text" placeholder="例：サビの速弾き">
 </div>
 <div class="adj-block">
@@ -454,7 +454,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="loop-save">
 <h4>ループを保存する</h4>
 <button class="btn small primary" id="saveLoop" type="button" style="width:100%">保存</button>
-<p class="hint" style="margin:6px 0 0">開始旗と終了旗を設定してから保存してください。名前は上の入力欄（開始旗を押すと出ます）で、空でもOK（自動で「ループ1」のように付きます）。今の再生速度も一緒に保存されます。ノートは最初は不要で、保存したあとに各ループの「編集」から付けられます（時間と倍率の変更も「編集」からできます）。</p>
 <div class="loop-list" id="loopList"></div>
 </div>
 </aside>
@@ -554,6 +553,7 @@ var ytPlayer = null, ytReady = false, pendingVideoId = null;
 var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
 var loopSections = {}; // songId -> [{id, name, a, b, note, speed}] (in-memory only)
+var flagSavedId = null; // id of the loop auto-saved by the latest 終了旗 press in this A session
 var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
@@ -1087,8 +1087,51 @@ $("loopNameRow").classList.toggle("open", !!show);
 if (show) setTimeout(function(){ $("loopName").focus();}, 60);
 }
 function clearAB(announce){
-loopA = loopB = null; loopOn = false; showNameRow(false); updateAB();
+loopA = loopB = null; loopOn = false; flagSavedId = null; showNameRow(false); updateAB();
 if (announce!== false) toast("A–Bをクリアしました");
+}
+/* Save the current A–B range as a loop section. Called from 終了旗 (auto-save)
+   and from the manual 保存 button. Re-pressing within the same A session
+   updates the just-saved section instead of creating a duplicate; an exact
+   same-range section is reused as well. */
+function saveCurrentLoopFromFlags(){
+if (!currentSong || loopA == null || loopB == null) return null;
+var secs = sectionsOf(currentSong.id);
+var a = Math.round(loopA*100)/100, b = Math.round(loopB*100)/100;
+var typedName = $("loopName").value.trim();
+if (flagSavedId != null){
+var existing = null;
+secs.forEach(function(x){ if (x.id === flagSavedId) existing = x;});
+if (existing){
+if (typedName) existing.name = typedName;
+existing.a = a; existing.b = b; existing.speed = clampSpeed(speed);
+$("loopName").value = ""; showNameRow(false);
+renderSections(); renderCompact();
+return { sec: existing, updated: true, duplicate: false };
+}
+flagSavedId = null;
+}
+var dup = null;
+secs.forEach(function(x){ if (!dup && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005) dup = x;});
+if (dup){
+flagSavedId = dup.id;
+if (typedName && typedName !== dup.name) dup.name = typedName;
+$("loopName").value = ""; showNameRow(false);
+renderSections(); renderCompact();
+return { sec: dup, updated: false, duplicate: true };
+}
+var name = typedName || ("ループ" + (secs.length + 1));
+var sec = { id: nextId(), name: name, a: a, b: b, note: "", speed: clampSpeed(speed)};
+secs.push(sec); flagSavedId = sec.id;
+$("loopName").value = ""; showNameRow(false);
+renderSections(); renderCompact();
+return { sec: sec, updated: false, duplicate: false };
+}
+function syncFlagSavedSection(){
+if (flagSavedId == null || !currentSong || loopA == null || loopB == null) return;
+sectionsOf(currentSong.id).forEach(function(x){
+if (x.id === flagSavedId){ x.a = Math.round(loopA*100)/100; x.b = Math.round(loopB*100)/100;}
+});
 }
 function previewLoopNow(){
 if (loopA == null || loopB == null) return;
@@ -1099,17 +1142,23 @@ $("setA").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 var hadLoop = (loopA!=null && loopB!=null) || loopOn;
 loopA = Math.round(getTime()*100)/100;
-loopB = null; loopOn = false;
+loopB = null; loopOn = false; flagSavedId = null;
 updateAB(); showNameRow(true);
 if (!isPlaying()) play();
 toast(hadLoop? ("現在のループを解除しました。開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）"): ("開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）"));
 });
 $("setB").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
-loopB = Math.round(getTime()*100)/100; if (loopA!=null && loopB <= loopA){ toast("終了旗は開始旗より後ろにしてください"); loopB = null; updateAB(); return;}
-if (loopA!=null && loopB!=null){ loopOn = true; updateAB(); previewLoopNow();}
-else updateAB();
-toast("終了旗 = " + fmtH(loopB));
+if (loopA == null){ toast("先に開始旗を押してください"); return;}
+loopB = Math.round(getTime()*100)/100;
+if (loopB <= loopA){ toast("終了旗は開始旗より後ろにしてください"); loopB = null; updateAB(); return;}
+loopOn = true; updateAB();
+var result = saveCurrentLoopFromFlags();
+previewLoopNow();
+if (result && result.updated) toast("終了旗 = " + fmtH(loopB) + "｜ループ「" + result.sec.name + "」を更新して保存しました");
+else if (result && result.duplicate) toast("終了旗 = " + fmtH(loopB) + "｜ループ「" + result.sec.name + "」は保存済みです");
+else if (result) toast("終了旗で保存しました：ループ「" + result.sec.name + "」 " + fmtH(result.sec.a) + " – " + fmtH(result.sec.b) + "（" + clampSpeed(speed).toFixed(2) + "×）");
+else toast("終了旗 = " + fmtH(loopB));
 });
 /* Fine adjust: <<< << < > >> >>> = ±1 / ±0.1 / ±0.01 sec, with instant preview */
 document.querySelectorAll(".adj-row").forEach(function(row){
@@ -1130,6 +1179,7 @@ if (loopA != null && loopB <= loopA) loopB = Math.round((loopA + 0.01)*100)/100;
 if (dur > 0 && loopB > dur) loopB = Math.round(dur*100)/100;
 }
 if (loopA != null && loopB != null) loopOn = true;
+syncFlagSavedSection();
 updateAB();
 if (isPlaying() || loopOn) previewLoopNow();
 });
@@ -1157,7 +1207,7 @@ Math.abs(sec.a - loopA) < 0.005 && Math.abs(sec.b - loopB) < 0.005;
 /* Pressing a saved loop (its row, its timeline block, or ▶ 有効化) plays from that section */
 function activateSection(sec){
 if (!sec || !currentSong) return;
-loopA = sec.a; loopB = sec.b; loopOn = true;
+loopA = sec.a; loopB = sec.b; loopOn = true; flagSavedId = sec.id;
 if (sec.speed != null && !isNaN(sec.speed)) setSpeed(clampSpeed(sec.speed));
 updateAB(); seekTo(sec.a); play();
 toast("「" + sec.name + "」を再生中：" + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? "（" + Number(sec.speed).toFixed(2) + "×）": ""));
@@ -1173,7 +1223,7 @@ var list = $("loopList"); if (!list) return;
 list.innerHTML = "";
 if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; refreshSongBadges(); return;}
 var all = sectionsOf(currentSong.id);
-if (!all.length){ list.innerHTML = '<p class="loop-empty">この曲にはまだ保存したループがありません。</p>'; refreshSongBadges(); return;}
+if (!all.length){ list.innerHTML = ""; refreshSongBadges(); return;}
 var secs = visibleSections();
 secs.forEach(function(sec){
 var item = document.createElement("div");
@@ -1356,6 +1406,7 @@ if (inp) inp.focus();
 });
 item.querySelector(".del").addEventListener("click", function(){
 if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
+if (flagSavedId === sec.id) flagSavedId = null;
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
 renderSections(); renderCompact(); toast("ループを削除しました");
 });
@@ -1366,13 +1417,11 @@ refreshSongBadges();
 $("saveLoop").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 if (loopA == null || loopB == null){ toast("先に開始旗と終了旗を設定してください"); return;}
-var secs = sectionsOf(currentSong.id);
-var name = $("loopName").value.trim() || ("ループ" + (secs.length + 1));
-secs.push({ id: nextId(), name: name, a: Math.round(loopA*100)/100, b: Math.round(loopB*100)/100,
-note: "", speed: clampSpeed(speed)});
-$("loopName").value = "";
-showNameRow(false);
-renderSections(); renderCompact(); toast("ループ「" + name + "」を保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
+var result = saveCurrentLoopFromFlags();
+if (!result) return;
+if (result.duplicate) toast("ループ「" + result.sec.name + "」は保存済みです（同じ区間は重複しません）");
+else if (result.updated) toast("ループ「" + result.sec.name + "」を更新して保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
+else toast("ループ「" + result.sec.name + "」を保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
 });
 
 /* ---------- Color-coded timeline with zoom + ruler ---------- */
