@@ -227,6 +227,13 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 /* Library filters / compact bar */
 .lib-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lib-head h2{margin:0}
+.sample-order-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel2)}
+.sample-order-bar .sob-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.sample-order-bar .sob-text strong{font-size:.9rem;font-weight:900}
+.sample-order-bar .sob-status{font-size:.82rem;color:var(--ink2)}
+.sample-order-bar .sob-status.on{color:var(--teal);font-weight:700}
+.sample-order-bar .sob-actions{display:flex;gap:6px;flex-wrap:wrap;flex:none}
+@media (max-width:560px){.sample-order-bar .sob-actions{width:100%}.sample-order-bar .sob-actions .btn{flex:1}}
 .filters{display:block;margin:12px 0}
 .st-row{display:flex;align-items:center;gap:8px;min-width:0}
 .st-row .st{flex:1;min-width:0}
@@ -323,6 +330,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループの倍率は、リストの中で色付きの丸いタグとして表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
+<li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
@@ -335,6 +343,16 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="lib-head">
 <h2>曲リスト <span class="count" id="songCount">0曲</span></h2>
 <button class="btn small" id="toggleListBtn" type="button">全表示</button>
+</div>
+<div class="sample-order-bar" id="sampleOrderBar">
+<div class="sob-text">
+<strong>サンプル曲プレイリスト（16バンド・32曲）</strong>
+<span class="sob-status" id="sampleOrderStatus">元のバンド順です</span>
+</div>
+<div class="sob-actions">
+<button class="btn small" id="shuffleSamplesBtn" type="button">🔀 シャッフル</button>
+<button class="btn small" id="restoreSamplesBtn" type="button">バンド順に戻す</button>
+</div>
 </div>
 <div class="compact-bar" id="compactBar" style="display:none"></div>
 <div id="listBody" style="display:none">
@@ -668,6 +686,10 @@ var copyLoopId = null; // id of the saved loop whose copy panel is open
 var captureSpeedChoice = [1]; // speeds checked for quick capture (current speed is checked by default)
 /* Filters / list view (in-memory UI state): sample list starts hidden */
 var songQuery = "", listHidden = true;
+/* Sample playlist order: true while the 32 sample songs are shuffled.
+   Only songs with sample:true are ever reordered; user-added songs and
+   saved loops are untouched. */
+var samplesShuffled = false;
 
 /* Timeline zoom */
 var ZOOMS = [1, 2, 4, 8, 16, 32, 64], zoomIdx = 0, viewStart = 0, viewEnd = 0, rulerKey = "";
@@ -677,9 +699,9 @@ var waCtx = null, waBuffer = null, waSrc = null, waGain = null;
 var waStartCtx = 0, waStartOff = 0, waPlaying = false, waSongId = null, waDur = 0, seamless = false;
 var lastYtLoopAt = 0;
 
-SAMPLES.forEach(function(s){
+SAMPLES.forEach(function(s, idx){
 songs.push({ id: nextId(), title:s.title, artist:s.artist, type:s.type,
-url:s.url, videoId: ytId(s.url), sample:true});
+url:s.url, videoId: ytId(s.url), sample:true, sampleOrder: idx});
 });
 // A couple of starter comments on the first sample so friends see how it works
 comments.push({ id: nextId(), songId: songs[0].id, time: 0, name:"サンプル", text:"イントロの12弦アルペジオ。まずは0.75倍で指の順番を確認するのがおすすめ。", parentId:null});
@@ -979,6 +1001,46 @@ arr = arr.filter(function(s){ return (s.title + " " + (s.artist || "")).toLowerC
 }
 return arr;
 }
+/* ---------- Sample playlist shuffle ----------
+   Reorders only the sample songs among the positions they already
+   occupy, so user-added songs keep their exact places and order.
+   visibleSongs() / prev-next navigation follow the songs array order,
+   so the shuffled order is automatically the playback order. */
+function applySampleOrder(orderedSamples){
+var queue = orderedSamples.slice();
+songs = songs.map(function(s){ return s.sample? queue.shift(): s;});
+}
+function updateSampleOrderUI(){
+var st = $("sampleOrderStatus");
+if (st){
+st.textContent = samplesShuffled? "シャッフル中 — この順番で「前の曲／次の曲」へ進みます": "元のバンド順です";
+st.classList.toggle("on", samplesShuffled);
+}
+var rb = $("restoreSamplesBtn");
+if (rb) rb.disabled = !samplesShuffled;
+}
+function shuffleSampleSongs(announce, skipRender){
+var samples = songs.filter(function(s){ return s.sample;});
+if (samples.length < 2){ updateSampleOrderUI(); return;}
+for (var i = samples.length - 1; i > 0; i--){
+var j = Math.floor(Math.random() * (i + 1));
+var tmp = samples[i]; samples[i] = samples[j]; samples[j] = tmp;
+}
+applySampleOrder(samples);
+samplesShuffled = true;
+updateSampleOrderUI();
+if (!skipRender) renderSongs();
+if (announce) toast("サンプル曲をシャッフルしました（" + samples.length + "曲）");
+}
+function restoreSampleOrder(announce){
+var samples = songs.filter(function(s){ return s.sample;});
+samples.sort(function(a, b){ return (a.sampleOrder || 0) - (b.sampleOrder || 0);});
+applySampleOrder(samples);
+samplesShuffled = false;
+updateSampleOrderUI();
+renderSongs();
+if (announce) toast("サンプル曲を元のバンド順に戻しました");
+}
 function updateNavButtons(){
 var arr = visibleSongs();
 var i = currentSong? arr.findIndex(function(s){ return s.id === currentSong.id;}): -1;
@@ -1172,6 +1234,8 @@ this.textContent = listHidden? "全表示": "隠す";
 renderCompact();
 if (listHidden) $("compactBar").scrollIntoView({ behavior:"smooth", block:"nearest"});
 });
+$("shuffleSamplesBtn").addEventListener("click", function(){ shuffleSampleSongs(true, false);});
+$("restoreSamplesBtn").addEventListener("click", function(){ restoreSampleOrder(true);});
 $("seekBar").addEventListener("input", function(){
 var d = getDur(); if (d > 0) seekTo(parseFloat(this.value)/1000 * d);
 });
@@ -2313,7 +2377,9 @@ $("importText").value = "";
 });
 
 /* ---------- Init ---------- */
-renderSongs(); renderComments(); updateAB(); updateStampView(); renderCaptureSpeedChecks();
+/* Build the sample playlist in a random order on every open */
+shuffleSampleSongs(false, true);
+renderSongs(); renderComments(); updateAB(); updateStampView(); renderCaptureSpeedChecks(); updateSampleOrderUI();
 if (songs.length) loadSong(songs[0], false);
 })();
 </script>
