@@ -175,6 +175,52 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .import-paste .btn{margin-top:8px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.9rem;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Library filters / compact bar */
+.lib-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.lib-head h2{margin:0}
+.filters{display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr;gap:8px;margin:12px 0}
+@media (max-width:640px){.filters{grid-template-columns:1fr 1fr}}
+.compact-bar{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:10px 12px;margin-top:12px}
+.compact-main{display:flex;align-items:center;gap:10px}
+.compact-title{font-weight:900;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.compact-icons{display:inline-flex;gap:10px;color:var(--accent);flex:none;font-size:.85rem;font-weight:700}
+.compact-icons span{display:inline-flex;align-items:center;gap:3px}
+.compact-icons svg{width:16px;height:16px;fill:currentColor}
+.compact-band{margin-left:auto;text-align:right;color:var(--ink2);font-weight:700;flex:none}
+.compact-nav{display:flex;justify-content:space-between;gap:10px;margin-top:8px}
+.compact-nav .btn{max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.compact-none{color:var(--ink2);font-size:.88rem}
+/* Timeline */
+.tl-head{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:14px;font-size:.83rem;color:var(--ink2)}
+.tl-head .mono{color:var(--ink);font-weight:700}
+.tl-zoom{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.timeline{position:relative;height:38px;background:var(--panel2);border:1.5px solid var(--line2);border-radius:10px;margin-top:6px;overflow:hidden;cursor:pointer}
+.tl-fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent-soft);border-right:2px solid var(--accent)}
+.tl-sec{position:absolute;top:5px;bottom:5px;border-radius:5px;opacity:.85}
+.tl-sec.active{outline:2px solid var(--ink);outline-offset:-1px}
+.tl-mark{position:absolute;top:0;width:3px;height:9px;background:var(--ink);border-radius:2px;transform:translateX(-1px)}
+.tl-play{position:absolute;top:0;bottom:0;width:2.5px;background:var(--danger);transform:translateX(-1px)}
+.ruler{position:relative;height:22px;margin-top:2px;font-size:.68rem;color:var(--ink2)}
+.ruler .tick{position:absolute;top:0;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.ruler .tick::before{content:"";display:block;width:1.5px;height:6px;background:var(--line2);margin:0 auto}
+.ruler .minor{position:absolute;top:0;width:1px;height:3.5px;background:var(--line)}
+.tl-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.75rem;color:var(--ink2);margin-top:2px}
+.tl-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+/* Loop fine adjust */
+.flag-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px}
+.name-row{display:none;margin:10px 0;padding:10px;border:2px solid var(--accent);border-radius:10px;background:var(--accent-soft)}
+.name-row.open{display:block}
+.name-row label{font-size:.85rem;font-weight:900;color:var(--accent);display:block;margin-bottom:5px}
+.adj-block{margin-top:10px}
+.adj-label{font-size:.8rem;font-weight:900;letter-spacing:.04em;color:var(--ink2);margin:8px 0 4px}
+.adj-label .mono{color:var(--ink);font-size:.92rem}
+.adj-row{display:flex;gap:5px}
+.adj-row button{flex:1;border:1.5px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:8px;font-weight:700;font-size:.85rem;padding:.35rem 0;min-height:2.25rem}
+.adj-row button:hover{border-color:var(--accent);color:var(--accent)}
+.speed-step{display:flex;align-items:center;gap:8px;margin-top:8px}
+.loop-tools{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}
+.loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
+.tag-chip{display:inline-block;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:.05em.6em;font-size:.72rem;font-weight:700;margin:2px 3px 0 0}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </style>
 </head>
@@ -183,24 +229,49 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <header class="intro">
 <h1>楽器演奏ルーパー</h1>
-<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。ゆっくり再生（0.3〜1倍）、難しいところのA–Bループ、±10秒スキップ、再生位置つきコメントで、気づきを曲ごとに残せます。</p>
+<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズーム、再生位置つきコメントで、気づきを曲ごとに残せます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>ループ練習：</strong>再生中に「Aを設定」「Bを設定」を押すと、その区間を繰り返します。速度を落として指の動きを確認するのがおすすめです。決めた区間は名前を付けて何個でも保存でき、「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>ループ練習：</strong>再生中に「⚑ 開始旗」「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノート・タグを付けて何個でも保存でき、検索と並び替えもできます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、コメント位置には目印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
+<li><strong>曲リスト：</strong>バンド・種類・キーワードで絞り込み、並び替えができます。「隠す」を押すと今の曲だけの細い表示になり、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、絞り込んだ並び順で動き、端では無効になります。</li>
+<li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>コメント：</strong>「現在時刻を入れる」を押してから書くと、その再生位置にジャンプできるコメントになります。コメントへの返信もできます。</li>
 <li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
 <li><strong>書き出しを読み込む：</strong>コメント欄の一番下にある「書き出しを読み込む」から、書き出したテキストファイルを選ぶ（またはテキストを貼り付ける）と、ライブラリ・コメント・保存したループが戻ります。すでにある曲・コメントは重複して追加されません。ローカルMP3はファイル自体がテキストに入らないため、曲名だけ戻ります（再生にはもう一度ファイルを追加してください）。</li>
 </ul>
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
-※ このページの曲・コメント・保存したループは、開いている間だけブラウザの中にあります。ページを閉じると消えるので、大事なものは書き出して残してください（保存したループも書き出しテキストに含まれます）。</p>
+※ このページの曲・コメント・保存したループは、<strong>あなたのブラウザの中だけに残ります。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ページを閉じると消えるので、大事なものは書き出して残してください（保存したループも書き出しテキストに含まれます）。</p>
 </details>
 </header>
 
 <section class="card library" aria-label="ライブラリ">
-<h2>ライブラリ <span class="count" id="songCount">0曲</span></h2>
+<div class="lib-head">
+<h2>曲リスト <span class="count" id="songCount">0曲</span></h2>
+<button class="btn small" id="toggleListBtn" type="button">隠す</button>
+</div>
+<div class="compact-bar" id="compactBar" style="display:none"></div>
+<div id="listBody">
+<div class="filters">
+<input id="songSearch" type="search" placeholder="曲名・バンド名で検索" aria-label="曲を検索">
+<select id="bandFilter" aria-label="バンドで絞り込み"><option value="">すべてのバンド</option></select>
+<select id="typeFilter" aria-label="種類で絞り込み">
+<option value="">すべての種類</option>
+<option value="youtube">YouTube</option>
+<option value="local">ローカルMP3</option>
+<option value="drive">Drive</option>
+<option value="audio">MP3 URL</option>
+</select>
+<select id="songSort" aria-label="曲の並び替え">
+<option value="added">追加順</option>
+<option value="title">曲名順</option>
+<option value="band">バンド名順</option>
+</select>
+</div>
 <div class="song-list" id="songList"></div>
+</div>
 
 <div class="add-tabs" role="tablist" aria-label="曲の追加方法">
 <button class="btn small" type="button" data-tab="yt" aria-selected="true">YouTubeを追加</button>
@@ -282,19 +353,47 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 
 <div class="transport">
+<button class="btn" id="prevSong" type="button">⏮ 前の曲</button>
 <button class="btn" id="back10" type="button">⏪ −10秒</button>
 <button class="btn primary" id="playBtn" type="button">▶ 再生</button>
 <button class="btn" id="fwd10" type="button">+10秒 ⏩</button>
+<button class="btn" id="nextSong" type="button">次の曲 ⏭</button>
 </div>
+
+<div class="tl-head">
+<span>全体表示 <span class="mono" id="tlRange">—</span></span>
+<span class="mono" id="tlTick"></span>
+<span id="seamlessNote"></span>
+<span class="tl-zoom">
+<button class="btn small" id="zoomOut" type="button">− ズーム</button>
+<button class="btn small" id="zoomIn" type="button">＋ ズーム</button>
+<button class="btn small" id="zoomLoop" type="button">ループに合わせる</button>
+<button class="btn small" id="zoomAll" type="button">全体</button>
+</span>
+</div>
+<div class="timeline" id="timeline" role="slider" aria-label="全体タイムライン" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<div class="tl-fill" id="tlFill"></div>
+<div id="tlLoops"></div>
+<div id="tlMarks"></div>
+<div class="tl-play" id="tlPlay"></div>
+</div>
+<div class="ruler" id="ruler"></div>
+<div class="tl-legend" id="tlLegend"></div>
 
 <div class="ctl-grid">
 <div class="ctl-box">
 <h3>再生速度 <span class="speed-val mono" id="speedVal">1.00×</span></h3>
 <div class="speed-presets" id="speedPresets">
-<button class="btn small" type="button" data-speed="0.3">0.3×</button>
-<button class="btn small" type="button" data-speed="0.5">0.5×</button>
+<button class="btn small" type="button" data-speed="0.25">0.25×</button>
+<button class="btn small" type="button" data-speed="0.5">0.50×</button>
 <button class="btn small" type="button" data-speed="0.75">0.75×</button>
-<button class="btn small active" type="button" data-speed="1">1×</button>
+<button class="btn small active" type="button" data-speed="1">1.00×</button>
+<button class="btn small" type="button" data-speed="1.25">1.25×</button>
+</div>
+<div class="speed-step">
+<button class="btn small" id="speedDown" type="button">−0.05</button>
+<span class="hint" style="margin:0">0.05刻み（0.25〜2.00）</span>
+<button class="btn small" id="speedUp" type="button">＋0.05</button>
 </div>
 </div>
 <div class="ctl-box">
@@ -304,19 +403,58 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <span class="ab-chip mono" id="bChip">B —</span>
 <span class="loop-state" id="loopState">未設定</span>
 </div>
-<div class="transport" style="margin-top:0">
-<button class="btn small" id="setA" type="button">Aを設定</button>
-<button class="btn small" id="setB" type="button">Bを設定</button>
+<div class="flag-row">
+<button class="btn small" id="setA" type="button">⚑ 開始旗</button>
+<button class="btn small" id="setB" type="button">⚑ 終了旗</button>
+<button class="btn small danger" id="clearAB" type="button">ループ解除</button>
+</div>
+<div class="name-row" id="loopNameRow">
+<label for="loopName">次の区間の名前（任意）— 終了旗を押す前にどうぞ</label>
+<input id="loopName" type="text" placeholder="例：サビの速弾き">
+</div>
+<div class="adj-block">
+<div class="adj-label">LOOP START <span class="mono" id="adjAVal">—</span></div>
+<div class="adj-row" data-target="a">
+<button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button>
+<button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button>
+<button type="button" data-adj="-0.01" aria-label="開始を0.01秒戻す">&lt;</button>
+<button type="button" data-adj="0.01" aria-label="開始を0.01秒進める">&gt;</button>
+<button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button>
+<button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button>
+</div>
+<div class="adj-label">LOOP END <span class="mono" id="adjBVal">—</span></div>
+<div class="adj-row" data-target="b">
+<button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button>
+<button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button>
+<button type="button" data-adj="-0.01" aria-label="終了を0.01秒戻す">&lt;</button>
+<button type="button" data-adj="0.01" aria-label="終了を0.01秒進める">&gt;</button>
+<button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button>
+<button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button>
+</div>
+<p class="hint" style="margin:6px 0 0">ボタンは外側から±1秒／±0.1秒／±0.01秒。位置を変えると、再生中は新しい開始位置から即プレビューします。</p>
+</div>
+<div class="transport" style="margin-top:10px">
 <button class="btn small" id="toggleLoop" type="button">ループ OFF</button>
-<button class="btn small danger" id="clearAB" type="button">クリア</button>
+<button class="btn small" id="previewLoop" type="button">▶ プレビュー</button>
 </div>
 <div class="loop-save">
 <h4>ループを保存する</h4>
+<div class="row" style="margin-bottom:8px">
+<input id="loopNote" type="text" placeholder="ノート（任意：例 指が引っかかる）">
+</div>
 <div class="row">
-<input id="loopName" type="text" placeholder="名前（例：サビの速弾き）">
+<input id="loopTags" type="text" placeholder="タグ（任意：カンマ区切り 例 速弾き,ソロ）">
 <button class="btn small primary" id="saveLoop" type="button">保存</button>
 </div>
-<p class="hint" style="margin:4px 0 0">AとBを設定してから保存してください。名前は空でもOK（自動で「ループ1」のように付きます）。</p>
+<p class="hint" style="margin:4px 0 0">開始旗と終了旗を設定してから保存してください。名前は上の入力欄（開始旗を押すと出ます）で、空でもOK（自動で「ループ1」のように付きます）。</p>
+<div class="loop-tools">
+<input id="loopSearch" type="search" placeholder="保存ループを検索（名前・ノート・タグ）" aria-label="保存ループを検索">
+<select id="loopSort" aria-label="保存ループの並び替え">
+<option value="time">時間順</option>
+<option value="name">名前順</option>
+<option value="newest">新しい順</option>
+</select>
+</div>
 <div class="loop-list" id="loopList"></div>
 </div>
 </div>
@@ -374,14 +512,38 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 /* ---------- Sample data: linked official YouTube videos only ---------- */
 var SAMPLES = [
-{ title:"Wish You Were Here", artist:"Pink Floyd", type:"youtube",
-url:"https://www.youtube.com/watch?v=K6qj09OHvjw", sample:true},
-{ title:"Come Together", artist:"The Beatles", type:"youtube",
-url:"https://www.youtube.com/watch?v=45cYwDMibGo", sample:true},
-{ title:"Stairway to Heaven (Official Audio)", artist:"Led Zeppelin", type:"youtube",
-url:"https://www.youtube.com/watch?v=QkF3oxziUI4", sample:true},
-{ title:"Bohemian Rhapsody", artist:"Queen", type:"youtube",
-url:"https://www.youtube.com/watch?v=fJ9rUzIMcZQ", sample:true}
+{ title:"Wish You Were Here", artist:"Pink Floyd", type:"youtube", url:"https://www.youtube.com/watch?v=K6qj09OHvjw", sample:true},
+{ title:"Comfortably Numb", artist:"Pink Floyd", type:"youtube", url:"https://www.youtube.com/watch?v=x-xTttimcNk", sample:true},
+{ title:"Come Together", artist:"The Beatles", type:"youtube", url:"https://www.youtube.com/watch?v=45cYwDMibGo", sample:true},
+{ title:"Here Comes The Sun", artist:"The Beatles", type:"youtube", url:"https://www.youtube.com/watch?v=KQetemT1sWc", sample:true},
+{ title:"Stairway to Heaven (Official Audio)", artist:"Led Zeppelin", type:"youtube", url:"https://www.youtube.com/watch?v=QkF3oxziUI4", sample:true},
+{ title:"Whole Lotta Love", artist:"Led Zeppelin", type:"youtube", url:"https://www.youtube.com/watch?v=HQmmM_qwG4k", sample:true},
+{ title:"Bohemian Rhapsody", artist:"Queen", type:"youtube", url:"https://www.youtube.com/watch?v=fJ9rUzIMcZQ", sample:true},
+{ title:"Another One Bites the Dust", artist:"Queen", type:"youtube", url:"https://www.youtube.com/watch?v=rY0WxgSXdEE", sample:true},
+{ title:"(I Can't Get No) Satisfaction", artist:"The Rolling Stones", type:"youtube", url:"https://www.youtube.com/watch?v=jLp4SOeiCIs", sample:true},
+{ title:"Paint It Black", artist:"The Rolling Stones", type:"youtube", url:"https://www.youtube.com/watch?v=AF85_vVnrbo", sample:true},
+{ title:"Back In Black", artist:"AC/DC", type:"youtube", url:"https://www.youtube.com/watch?v=pAgnJDJN4VA", sample:true},
+{ title:"Highway to Hell", artist:"AC/DC", type:"youtube", url:"https://www.youtube.com/watch?v=l482T0yNkeo", sample:true},
+{ title:"With or Without You", artist:"U2", type:"youtube", url:"https://www.youtube.com/watch?v=ujNeHIo7oTE", sample:true},
+{ title:"One", artist:"U2", type:"youtube", url:"https://www.youtube.com/watch?v=ftjEcrrf7r0", sample:true},
+{ title:"Enter Sandman", artist:"Metallica", type:"youtube", url:"https://www.youtube.com/watch?v=CD-E-LDc384", sample:true},
+{ title:"Nothing Else Matters", artist:"Metallica", type:"youtube", url:"https://www.youtube.com/watch?v=tAGnKpE4NCI", sample:true},
+{ title:"Sweet Child O' Mine", artist:"Guns N' Roses", type:"youtube", url:"https://www.youtube.com/watch?v=1w7OgIMMRc4", sample:true},
+{ title:"November Rain", artist:"Guns N' Roses", type:"youtube", url:"https://www.youtube.com/watch?v=8SbUC-UaAxE", sample:true},
+{ title:"Smells Like Teen Spirit", artist:"Nirvana", type:"youtube", url:"https://www.youtube.com/watch?v=hTWKbfoikeg", sample:true},
+{ title:"Come As You Are", artist:"Nirvana", type:"youtube", url:"https://www.youtube.com/watch?v=vabnZ9-ex7o", sample:true},
+{ title:"Wonderwall", artist:"Oasis", type:"youtube", url:"https://www.youtube.com/watch?v=6hzrDeceEKc", sample:true},
+{ title:"Don't Look Back In Anger", artist:"Oasis", type:"youtube", url:"https://www.youtube.com/watch?v=cmpRLQZkTb8", sample:true},
+{ title:"Under the Bridge", artist:"Red Hot Chili Peppers", type:"youtube", url:"https://www.youtube.com/watch?v=GLvohMXgcBo", sample:true},
+{ title:"Californication", artist:"Red Hot Chili Peppers", type:"youtube", url:"https://www.youtube.com/watch?v=YlUKcNNmywk", sample:true},
+{ title:"Yellow", artist:"Coldplay", type:"youtube", url:"https://www.youtube.com/watch?v=yKNxeF4KMsY", sample:true},
+{ title:"Viva La Vida", artist:"Coldplay", type:"youtube", url:"https://www.youtube.com/watch?v=dvgZkm1xWPE", sample:true},
+{ title:"In the End", artist:"Linkin Park", type:"youtube", url:"https://www.youtube.com/watch?v=eVTXPUF4Oz4", sample:true},
+{ title:"Numb", artist:"Linkin Park", type:"youtube", url:"https://www.youtube.com/watch?v=kXYiU_JCYtU", sample:true},
+{ title:"This Love", artist:"Maroon 5", type:"youtube", url:"https://www.youtube.com/watch?v=aqB77l-fvpw", sample:true},
+{ title:"Sugar", artist:"Maroon 5", type:"youtube", url:"https://www.youtube.com/watch?v=09R8_2nJtjg", sample:true},
+{ title:"Basket Case", artist:"Green Day", type:"youtube", url:"https://www.youtube.com/watch?v=NUTGr5t3MoY", sample:true},
+{ title:"Boulevard of Broken Dreams", artist:"Green Day", type:"youtube", url:"https://www.youtube.com/watch?v=Soa3gO7tL-c", sample:true}
 ];
 
 /* ---------- State (in-memory only; page session) ---------- */
@@ -394,9 +556,19 @@ var mode = null; // 'youtube' | 'audio'
 var ytPlayer = null, ytReady = false, pendingVideoId = null;
 var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
-var loopSections = {}; // songId -> [{id, name, a, b}] (in-memory only)
+var loopSections = {}; // songId -> [{id, name, a, b, note, tags[]}] (in-memory only)
 var stampTime = null;
 var speed = 1;
+/* Filters / list view (in-memory UI state) */
+var songQuery = "", bandSel = "", typeSel = "", songSortMode = "added", listHidden = false;
+var loopQuery = "", loopSortMode = "time";
+/* Timeline zoom */
+var ZOOMS = [1, 2, 4, 8, 16, 32, 64], zoomIdx = 0, viewStart = 0, viewEnd = 0, rulerKey = "";
+/* Seamless Web Audio (audio files only) */
+var AC = window.AudioContext || window.webkitAudioContext || null;
+var waCtx = null, waBuffer = null, waSrc = null, waGain = null;
+var waStartCtx = 0, waStartOff = 0, waPlaying = false, waSongId = null, waDur = 0, seamless = false;
+var lastYtLoopAt = 0;
 
 SAMPLES.forEach(function(s){
 songs.push({ id: nextId(), title:s.title, artist:s.artist, type:s.type,
@@ -425,6 +597,11 @@ if (sec == null || isNaN(sec)) return "—";
 var m = Math.floor(sec/60), s = sec - m*60;
 return m + ":" + (s<10?"0":"") + s.toFixed(1);
 }
+function fmtH(sec){
+if (sec == null || isNaN(sec)) return "—";
+var m = Math.floor(sec/60), s = sec - m*60;
+return m + ":" + (s<10?"0":"") + s.toFixed(2);
+}
 function ytId(url){
 if (!url) return null;
 var m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -441,9 +618,77 @@ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
 });
 }
 
+/* ---------- Seamless Web Audio engine (local MP3 / Drive / MP3 URL) ---------- */
+function waActive(){ return seamless && !!waBuffer && currentSong && waSongId === currentSong.id;}
+function waTime(){
+if (!waBuffer) return waStartOff;
+if (!waPlaying) return waStartOff;
+var t = waStartOff + (waCtx.currentTime - waStartCtx) * speed;
+if (loopOn && loopA != null && loopB != null && loopB > loopA && t >= loopA){
+t = loopA + ((t - loopA) % (loopB - loopA));
+}
+return Math.min(t, waBuffer.duration);
+}
+function waStopSrc(){
+if (waSrc){ try{ waSrc.stop();}catch(e){} try{ waSrc.disconnect();}catch(e){} waSrc = null;}
+}
+function waStart(off){
+if (!waBuffer || !waCtx) return;
+if (waCtx.state === "suspended") waCtx.resume();
+waStopSrc();
+if (loopOn && loopA != null && loopB != null && off >= loopB) off = loopA;
+off = Math.max(0, Math.min(off, waBuffer.duration - 0.05));
+waSrc = waCtx.createBufferSource();
+waSrc.buffer = waBuffer;
+waSrc.playbackRate.value = speed;
+waSrc.connect(waGain);
+if (loopOn && loopA != null && loopB != null && loopB > loopA){
+waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;
+}
+waSrc.start(0, off);
+waStartCtx = waCtx.currentTime; waStartOff = off; waPlaying = true;
+}
+function waPause(){
+if (waPlaying) waStartOff = waTime();
+waStopSrc(); waPlaying = false;
+}
+function waTeardown(){
+waStopSrc(); waPlaying = false; waBuffer = null; waSongId = null; waDur = 0; seamless = false;
+updateSeamlessNote();
+}
+function updateSeamlessNote(){
+var el = $("seamlessNote"); if (!el) return;
+if (mode === "audio" && waActive()) el.textContent = "シームレス再生モード（つなぎ目なし）";
+else if (mode === "audio") el.textContent = "";
+else if (mode === "youtube") el.textContent = "YouTubeは早めの巻き戻しでつなぎ目を小さくします";
+else el.textContent = "";
+}
+function waLoad(song){
+if (!AC || !song.playUrl) return;
+var mySong = song;
+fetch(song.playUrl).then(function(r){
+if (!r.ok) throw new Error("fetch");
+return r.arrayBuffer();
+}).then(function(buf){
+if (!waCtx){ waCtx = new AC(); waGain = waCtx.createGain(); waGain.connect(waCtx.destination);}
+return waCtx.decodeAudioData(buf);
+}).then(function(decoded){
+if (currentSong !== mySong || mode !== "audio") return;
+var pos = audioEl.currentTime || 0;
+var wasPlaying = !audioEl.paused;
+waBuffer = decoded; waSongId = mySong.id; waDur = decoded.duration; seamless = true;
+audioEl.pause(); audioEl.removeAttribute("src"); audioEl.style.display = "none";
+waStartOff = pos;
+setLoading(false);
+if (wasPlaying) waStart(pos);
+updateSeamlessNote(); syncPlayBtn();
+}).catch(function(){ /* CORS等で読めない場合は通常のaudio再生のまま */ });
+}
+
 /* ---------- Player abstraction ---------- */
 function getTime(){
 try{
+if (waActive()) return waTime();
 if (mode === "youtube" && ytPlayer && ytPlayer.getCurrentTime) return ytPlayer.getCurrentTime() || 0;
 if (mode === "audio") return audioEl.currentTime || 0;
 }catch(e){}
@@ -451,24 +696,38 @@ return 0;
 }
 function getDur(){
 try{
+if (waActive()) return waDur;
 if (mode === "youtube" && ytPlayer && ytPlayer.getDuration) return ytPlayer.getDuration() || 0;
 if (mode === "audio") return audioEl.duration || 0;
 }catch(e){}
 return 0;
 }
 function isPlaying(){
+if (waActive()) return waPlaying;
 if (mode === "youtube" && ytPlayer && window.YT) return ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING;
 if (mode === "audio") return!audioEl.paused;
 return false;
 }
-function play(){ if (mode==="youtube"){ if (ytPlayer && ytReady) ytPlayer.playVideo(); else setLoading(true);} else if (mode==="audio") audioEl.play(); syncPlayBtn();}
-function pause(){ if (mode==="youtube" && ytPlayer) ytPlayer.pauseVideo(); else if (mode==="audio") audioEl.pause(); syncPlayBtn();}
+function play(){
+if (waActive()){ waStart(waPlaying? waTime(): waStartOff);}
+else if (mode==="youtube"){ if (ytPlayer && ytReady) ytPlayer.playVideo(); else setLoading(true);}
+else if (mode==="audio") audioEl.play();
+syncPlayBtn();
+}
+function pause(){
+if (waActive()) waPause();
+else if (mode==="youtube" && ytPlayer) ytPlayer.pauseVideo();
+else if (mode==="audio") audioEl.pause();
+syncPlayBtn();
+}
 function seekTo(sec){
 sec = Math.max(0, sec);
-if (mode==="youtube" && ytPlayer) ytPlayer.seekTo(sec, true);
+if (waActive()){ if (waPlaying) waStart(sec); else waStartOff = sec;}
+else if (mode==="youtube" && ytPlayer) ytPlayer.seekTo(sec, true);
 else if (mode==="audio") audioEl.currentTime = sec;
 }
 function applySpeed(){
+if (waActive() && waSrc) waSrc.playbackRate.value = speed;
 if (mode==="youtube" && ytPlayer && ytPlayer.setPlaybackRate) ytPlayer.setPlaybackRate(speed);
 if (mode==="audio") audioEl.playbackRate = speed;
 $("speedVal").textContent = speed.toFixed(2) + "×";
@@ -497,6 +756,7 @@ onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERI
 /* ---------- Load a song ---------- */
 function loadSong(song, autoplay){
 currentSong = song;
+waTeardown(); rulerKey = "";
 clearAB(false);
 stampTime = null; updateStampView();
 $("nowTitle").innerHTML = esc(song.title) + ' <span class="badge ' +
@@ -533,9 +793,10 @@ setLoading(true);
 audioEl.src = song.playUrl || song.url;
 audioEl.playbackRate = speed;
 if (autoplay) audioEl.play().catch(function(){});
+waLoad(song);
 }
 }
-renderSongs(); renderComments(); syncPlayBtn();
+renderSongs(); renderComments(); syncPlayBtn(); updateSeamlessNote(); renderCompact();
 }
 
 /* ---------- Library rendering ---------- */
@@ -545,11 +806,74 @@ if (s.type==="local") return '<span class="type-tag badge local">MP3</span>';
 if (s.type==="drive") return '<span class="type-tag badge drive">Drive</span>';
 return '<span class="type-tag badge audio">URL</span>';
 }
+/* Filtering pipeline: band -> type -> keyword -> sort */
+function visibleSongs(){
+var arr = songs.slice();
+if (bandSel) arr = arr.filter(function(s){ return (s.artist || "") === bandSel;});
+if (typeSel) arr = arr.filter(function(s){ return s.type === typeSel;});
+if (songQuery){
+var q = songQuery.toLowerCase();
+arr = arr.filter(function(s){ return (s.title + " " + (s.artist || "")).toLowerCase().indexOf(q) >= 0;});
+}
+if (songSortMode === "title") arr.sort(function(a, b){ return a.title.localeCompare(b.title, "ja");});
+else if (songSortMode === "band") arr.sort(function(a, b){
+return (a.artist || "").localeCompare(b.artist || "", "ja") || a.title.localeCompare(b.title, "ja");
+});
+return arr;
+}
+function refreshBandOptions(){
+var sel = $("bandFilter");
+var seen = {}, names = [];
+songs.forEach(function(s){ var a = s.artist || ""; if (a && !seen[a]){ seen[a] = 1; names.push(a);}});
+names.sort(function(a, b){ return a.localeCompare(b, "ja");});
+var html = '<option value="">すべてのバンド</option>' + names.map(function(n){
+return '<option value="' + esc(n) + '"' + (n === bandSel? " selected": "") + ">" + esc(n) + "</option>";
+}).join("");
+if (sel.innerHTML !== html) sel.innerHTML = html;
+}
+function updateNavButtons(){
+var arr = visibleSongs();
+var i = currentSong? arr.findIndex(function(s){ return s.id === currentSong.id;}): -1;
+$("prevSong").disabled = !(i > 0);
+$("nextSong").disabled = !(i >= 0 && i < arr.length - 1);
+}
+var ICON_COMMENT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V4a1 1 0 0 1 1-1z"/></svg>';
+var ICON_LOOP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4V1L6.5 6 12 11V7a5 5 0 1 1-5 5H4.5A7.5 7.5 0 1 0 12 4z"/></svg>';
+function renderCompact(){
+var bar = $("compactBar");
+if (!listHidden){ bar.style.display = "none"; return;}
+bar.style.display = "block";
+if (!currentSong){ bar.innerHTML = '<p class="compact-none" style="margin:0">曲が選ばれていません。下の「全表示」から曲を選んでください。</p>'; return;}
+var cc = comments.filter(function(c){ return c.songId === currentSong.id;}).length;
+var lc = (loopSections[currentSong.id] || []).length;
+var arr = visibleSongs();
+var i = arr.findIndex(function(s){ return s.id === currentSong.id;});
+var prev = i > 0? arr[i - 1]: null;
+var next = (i >= 0 && i < arr.length - 1)? arr[i + 1]: null;
+var nav;
+if (!prev && !next) nav = '<span class="compact-none">前後の曲はありません</span>';
+else nav =
+'<button class="btn small" type="button" id="cPrev"' + (prev? "": " disabled") + '>前：' + (prev? esc(prev.title): "―") + "</button>" +
+'<button class="btn small" type="button" id="cNext"' + (next? "": " disabled") + '>次：' + (next? esc(next.title): "―") + "</button>";
+bar.innerHTML =
+'<div class="compact-main"><span class="compact-title">' + esc(currentSong.title) + "</span>" +
+'<span class="compact-icons"><span>' + ICON_COMMENT + cc + '</span><span>' + ICON_LOOP + lc + "</span></span>" +
+'<span class="compact-band">' + esc(currentSong.artist || "") + "</span></div>" +
+'<div class="compact-nav">' + nav + "</div>";
+var cp = $("cPrev"), cn = $("cNext");
+if (cp && prev) cp.addEventListener("click", function(){ loadSong(prev, true);});
+if (cn && next) cn.addEventListener("click", function(){ loadSong(next, true);});
+}
 function renderSongs(){
-$("songCount").textContent = songs.length + "曲";
+refreshBandOptions();
+var arr = visibleSongs();
+var filtered = bandSel || typeSel || songQuery;
+$("songCount").textContent = filtered? (arr.length + "曲 / 全" + songs.length + "曲"): (songs.length + "曲");
 var list = $("songList"); list.innerHTML = "";
+updateNavButtons(); renderCompact();
 if (!songs.length){ list.innerHTML = '<p class="hint">まだ曲がありません。下のフォームから追加してください。</p>'; return;}
-songs.forEach(function(s){
+if (!arr.length){ list.innerHTML = '<p class="hint">条件に合う曲がありません。絞り込みを変えてみてください。</p>'; return;}
+arr.forEach(function(s){
 var row = document.createElement("div"); row.className = "song" + (currentSong && currentSong.id===s.id? " playing": "");
 row.setAttribute("role","button"); row.tabIndex = 0;
 row.innerHTML = '<div class="meta"><div class="st">' + esc(s.title) + '</div><div class="sa">' + esc(s.artist||"") + '</div></div>' + typeTag(s) +
@@ -673,6 +997,27 @@ isPlaying()? pause(): play();
 });
 $("back10").addEventListener("click", function(){ seekTo(getTime() - 10);});
 $("fwd10").addEventListener("click", function(){ seekTo(getTime() + 10);});
+function stepSong(dir){
+var arr = visibleSongs();
+if (!currentSong) return;
+var i = arr.findIndex(function(s){ return s.id === currentSong.id;});
+var n = (i >= 0)? arr[i + dir]: null;
+if (n) loadSong(n, true);
+}
+$("prevSong").addEventListener("click", function(){ stepSong(-1);});
+$("nextSong").addEventListener("click", function(){ stepSong(1);});
+/* Song list filters / hide */
+$("songSearch").addEventListener("input", function(){ songQuery = this.value.trim(); renderSongs();});
+$("bandFilter").addEventListener("change", function(){ bandSel = this.value; renderSongs();});
+$("typeFilter").addEventListener("change", function(){ typeSel = this.value; renderSongs();});
+$("songSort").addEventListener("change", function(){ songSortMode = this.value; renderSongs();});
+$("toggleListBtn").addEventListener("click", function(){
+listHidden = !listHidden;
+$("listBody").style.display = listHidden? "none": "";
+this.textContent = listHidden? "全表示": "隠す";
+renderCompact();
+if (listHidden) $("compactBar").scrollIntoView({ behavior:"smooth", block:"nearest"});
+});
 $("seekBar").addEventListener("input", function(){
 var d = getDur(); if (d > 0) seekTo(parseFloat(this.value)/1000 * d);
 });
@@ -687,9 +1032,17 @@ audioEl.addEventListener("error", function(){ if (mode==="audio") setLoading(fal
 audioEl.addEventListener("emptied", function(){ if (mode==="audio") setLoading(false);});
 
 /* Speed */
+function setSpeed(v){
+var t = (waActive() && waPlaying)? waTime(): null;
+speed = Math.round(Math.min(2, Math.max(0.25, v)) * 100) / 100;
+applySpeed();
+if (t != null) waStart(t);
+}
 $("speedPresets").querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ speed = parseFloat(b.dataset.speed); applySpeed();});
+b.addEventListener("click", function(){ setSpeed(parseFloat(b.dataset.speed));});
 });
+$("speedDown").addEventListener("click", function(){ setSpeed(speed - 0.05);});
+$("speedUp").addEventListener("click", function(){ setSpeed(speed + 0.05);});
 
 /* A-B loop */
 function updateAB(){
@@ -697,26 +1050,71 @@ $("aChip").textContent = "A " + (loopA==null? "—": fmtTenths(loopA));
 $("bChip").textContent = "B " + (loopB==null? "—": fmtTenths(loopB));
 $("aChip").classList.toggle("set", loopA!=null);
 $("bChip").classList.toggle("set", loopB!=null);
+$("adjAVal").textContent = fmtH(loopA);
+$("adjBVal").textContent = fmtH(loopB);
 $("loopState").textContent = (loopA!=null && loopB!=null)? (loopOn? "ループ中": "設定済み（OFF）"): "未設定";
 $("toggleLoop").textContent = loopOn? "ループ ON": "ループ OFF";
 $("toggleLoop").classList.toggle("active", loopOn);
+if (waActive() && waSrc){
+if (loopOn && loopA != null && loopB != null){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
+else waSrc.loop = false;
+}
+rulerKey = "";
 renderSections();
 }
+function showNameRow(show){
+$("loopNameRow").classList.toggle("open", !!show);
+if (show) setTimeout(function(){ $("loopName").focus();}, 60);
+}
 function clearAB(announce){
-loopA = loopB = null; loopOn = false; updateAB();
+loopA = loopB = null; loopOn = false; showNameRow(false); updateAB();
 if (announce!== false) toast("A–Bをクリアしました");
+}
+function previewLoopNow(){
+if (loopA == null || loopB == null) return;
+seekTo(loopA);
+if (!isPlaying()) play();
 }
 $("setA").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
-loopA = getTime(); if (loopB!=null && loopB <= loopA) loopB = null;
+loopA = Math.round(getTime()*100)/100; if (loopB!=null && loopB <= loopA) loopB = null;
 if (loopA!=null && loopB!=null) loopOn = true;
-updateAB(); toast("A = " + fmtTenths(loopA));
+updateAB(); showNameRow(true); toast("開始旗 = " + fmtH(loopA) + "（区間の名前を入れてください）");
 });
 $("setB").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
-loopB = getTime(); if (loopA!=null && loopB <= loopA){ toast("BはAより後ろにしてください"); loopB = null; updateAB(); return;}
-if (loopA!=null && loopB!=null) loopOn = true;
-updateAB(); toast("B = " + fmtTenths(loopB));
+loopB = Math.round(getTime()*100)/100; if (loopA!=null && loopB <= loopA){ toast("終了旗は開始旗より後ろにしてください"); loopB = null; updateAB(); return;}
+if (loopA!=null && loopB!=null){ loopOn = true; updateAB(); previewLoopNow();}
+else updateAB();
+toast("終了旗 = " + fmtH(loopB));
+});
+/* Fine adjust: <<< << < > >> >>> = ±1 / ±0.1 / ±0.01 sec, with instant preview */
+document.querySelectorAll(".adj-row").forEach(function(row){
+row.querySelectorAll("button").forEach(function(btn){
+btn.addEventListener("click", function(){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+var which = row.dataset.target, d = parseFloat(btn.dataset.adj);
+var dur = getDur();
+if (which === "a"){
+if (loopA == null){ toast("先に開始旗を押してください"); return;}
+loopA = Math.round((loopA + d)*100)/100;
+if (loopA < 0) loopA = 0;
+if (loopB != null && loopA >= loopB) loopA = Math.round((loopB - 0.01)*100)/100;
+} else {
+if (loopB == null){ toast("先に終了旗を押してください"); return;}
+loopB = Math.round((loopB + d)*100)/100;
+if (loopA != null && loopB <= loopA) loopB = Math.round((loopA + 0.01)*100)/100;
+if (dur > 0 && loopB > dur) loopB = Math.round(dur*100)/100;
+}
+if (loopA != null && loopB != null) loopOn = true;
+updateAB();
+if (isPlaying() || loopOn) previewLoopNow();
+});
+});
+});
+$("previewLoop").addEventListener("click", function(){
+if (loopA==null || loopB==null){ toast("先に開始旗と終了旗を設定してください"); return;}
+loopOn = true; updateAB(); previewLoopNow();
 });
 $("toggleLoop").addEventListener("click", function(){
 if (loopA==null || loopB==null){ toast("先にAとBを設定してください"); return;}
@@ -733,17 +1131,36 @@ function isActiveSection(sec){
 return loopA != null && loopB != null &&
 Math.abs(sec.a - loopA) < 0.005 && Math.abs(sec.b - loopB) < 0.005;
 }
+function visibleSections(){
+if (!currentSong) return [];
+var secs = sectionsOf(currentSong.id).slice();
+if (loopQuery){
+var q = loopQuery.toLowerCase();
+secs = secs.filter(function(sec){
+return (sec.name + " " + (sec.note || "") + " " + (sec.tags || []).join(" ")).toLowerCase().indexOf(q) >= 0;
+});
+}
+if (loopSortMode === "name") secs.sort(function(x, y){ return x.name.localeCompare(y.name, "ja");});
+else if (loopSortMode === "newest") secs.sort(function(x, y){ return y.id - x.id;});
+else secs.sort(function(x, y){ return x.a - y.a || x.id - y.id;});
+return secs;
+}
 function renderSections(){
 var list = $("loopList"); if (!list) return;
 list.innerHTML = "";
 if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; return;}
-var secs = sectionsOf(currentSong.id);
-if (!secs.length){ list.innerHTML = '<p class="loop-empty">この曲にはまだ保存したループがありません。</p>'; return;}
+var all = sectionsOf(currentSong.id);
+if (!all.length){ list.innerHTML = '<p class="loop-empty">この曲にはまだ保存したループがありません。</p>'; return;}
+var secs = visibleSections();
+if (!secs.length){ list.innerHTML = '<p class="loop-empty">検索に合うループがありません。</p>'; return;}
 secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
+var tagsHtml = (sec.tags || []).map(function(t){ return '<span class="tag-chip">#' + esc(t) + "</span>";}).join("");
 item.innerHTML = '<div class="meta"><div class="name">' + esc(sec.name) + '</div>' +
-'<div class="range mono">' + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + "</div></div>" +
+'<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + "</div>" +
+(sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") +
+(tagsHtml? "<div>" + tagsHtml + "</div>": "") + "</div>" +
 '<button class="btn small" type="button">▶ 有効化</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button>';
 item.querySelector(".btn").addEventListener("click", function(){
@@ -753,19 +1170,132 @@ toast("「" + sec.name + "」を有効化しました");
 });
 item.querySelector(".del").addEventListener("click", function(){
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
-renderSections(); toast("ループを削除しました");
+renderSections(); renderCompact(); toast("ループを削除しました");
 });
 list.appendChild(item);
 });
 }
 $("saveLoop").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
-if (loopA == null || loopB == null){ toast("先にAとBを設定してください"); return;}
+if (loopA == null || loopB == null){ toast("先に開始旗と終了旗を設定してください"); return;}
 var secs = sectionsOf(currentSong.id);
 var name = $("loopName").value.trim() || ("ループ" + (secs.length + 1));
-secs.push({ id: nextId(), name: name, a: Math.round(loopA*100)/100, b: Math.round(loopB*100)/100});
-$("loopName").value = "";
-renderSections(); toast("ループ「" + name + "」を保存しました");
+var tags = $("loopTags").value.split(/[,、]/).map(function(t){ return t.trim();}).filter(function(t){ return t;});
+secs.push({ id: nextId(), name: name, a: Math.round(loopA*100)/100, b: Math.round(loopB*100)/100,
+note: $("loopNote").value.trim(), tags: tags});
+$("loopName").value = ""; $("loopNote").value = ""; $("loopTags").value = "";
+showNameRow(false);
+renderSections(); renderCompact(); toast("ループ「" + name + "」を保存しました");
+});
+$("loopSearch").addEventListener("input", function(){ loopQuery = this.value.trim(); renderSections();});
+$("loopSort").addEventListener("change", function(){ loopSortMode = this.value; renderSections();});
+
+/* ---------- Color-coded timeline with zoom + ruler ---------- */
+var SEC_COLORS = ["#c2570b", "#14655a", "#7a4fa3", "#1f6fb2", "#b3372a", "#8a6d1a", "#0e7c86", "#a03d63"];
+function tickInterval(span){
+if (span <= 2) return 0.1;
+if (span <= 12) return 1;
+if (span <= 45) return 5;
+if (span <= 150) return 10;
+if (span <= 420) return 30;
+return 60;
+}
+function renderTimeline(){
+var d = getDur(), t = getTime();
+var fill = $("tlFill"), play = $("tlPlay");
+if (!currentSong || !d){
+$("tlRange").textContent = "—";
+$("tlTick").textContent = "";
+$("tlLoops").innerHTML = ""; $("tlMarks").innerHTML = ""; $("ruler").innerHTML = ""; $("tlLegend").innerHTML = "";
+fill.style.width = "0%"; play.style.left = "0%";
+return;
+}
+var zoom = ZOOMS[zoomIdx];
+var span = d / zoom;
+if (zoom === 1){ viewStart = 0; viewEnd = d;}
+else {
+if (viewEnd - viewStart !== span || t < viewStart || t > viewEnd){
+viewStart = Math.min(Math.max(0, t - span/2), Math.max(0, d - span));
+viewEnd = viewStart + span;
+}
+}
+var pct = function(x){ return ((x - viewStart) / span * 100) + "%";};
+var tp = (t - viewStart) / span;
+fill.style.width = Math.max(0, Math.min(100, tp * 100)) + "%";
+fill.style.left = "0%";
+if (tp < 0) fill.style.width = "0%";
+play.style.left = Math.max(0, Math.min(100, tp * 100)) + "%";
+$("timeline").setAttribute("aria-valuenow", Math.round(Math.max(0, Math.min(1, t / d)) * 100));
+/* Colored saved sections + active loop */
+var loopsHtml = "", legend = [];
+var secs = sectionsOf(currentSong.id);
+secs.forEach(function(sec, idx){
+if (sec.b < viewStart || sec.a > viewEnd) return;
+var col = SEC_COLORS[idx % SEC_COLORS.length];
+var active = isActiveSection(sec);
+loopsHtml += '<div class="tl-sec' + (active? " active": "") + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
+';width:' + Math.max(0.8, (Math.min(sec.b, viewEnd) - Math.max(sec.a, viewStart)) / span * 100) +
+'%;background:' + col + '" title="' + esc(sec.name) + '"></div>';
+legend.push('<span><i style="background:' + col + '"></i>' + esc(sec.name) + "</span>");
+});
+if (loopA != null && loopB != null && !(secs.some(function(s){ return isActiveSection(s);}))) {
+if (!(loopB < viewStart || loopA > viewEnd)){
+loopsHtml += '<div class="tl-sec active" style="left:' + pct(Math.max(loopA, viewStart)) +
+';width:' + Math.max(0.8, (Math.min(loopB, viewEnd) - Math.max(loopA, viewStart)) / span * 100) +
+'%;background:var(--danger)"></div>';
+}
+legend.push('<span><i style="background:var(--danger)"></i>編集中のループ</span>');
+}
+$("tlLoops").innerHTML = loopsHtml;
+$("tlLegend").innerHTML = legend.join("");
+/* Comment markers */
+var marks = "";
+comments.filter(function(c){ return c.songId === currentSong.id && c.time != null;}).forEach(function(c){
+if (c.time < viewStart || c.time > viewEnd) return;
+marks += '<div class="tl-mark" style="left:' + pct(c.time) + '" title="' + fmt(c.time) + " " + esc(c.name) + '"></div>';
+});
+$("tlMarks").innerHTML = marks;
+/* Ruler: interval follows zoom */
+var iv = tickInterval(span);
+$("tlRange").textContent = fmt(viewStart) + " – " + fmt(viewEnd) + " / 全長 " + fmt(d);
+$("tlTick").textContent = "目盛り " + (iv < 1? iv.toFixed(1): iv) + "秒ごと ・ ズーム ×" + zoom;
+var key = Math.round(viewStart * 20) + "|" + iv + "|" + Math.round(span * 10) + "|" + Math.round(d);
+if (key !== rulerKey){
+rulerKey = key;
+var rh = "";
+var minor = iv / 5;
+var startMinor = Math.ceil(viewStart / minor) * minor;
+for (var x = startMinor; x <= viewEnd + 0.0001 && (x - startMinor) / minor < 400; x += minor){
+var isMajor = Math.abs(x / iv - Math.round(x / iv)) < 0.001;
+var left = ((x - viewStart) / span * 100);
+if (isMajor){
+rh += '<div class="tick mono" style="left:' + left + '%">' + (iv < 1? fmtTenths(x): fmt(x)) + "</div>";
+} else {
+rh += '<div class="minor" style="left:' + left + '%"></div>';
+}
+}
+$("ruler").innerHTML = rh;
+}
+}
+$("timeline").addEventListener("click", function(e){
+var d = getDur(); if (!currentSong || !d) return;
+var r = this.getBoundingClientRect();
+var ratio = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+seekTo(viewStart + ratio * (viewEnd - viewStart));
+});
+$("zoomIn").addEventListener("click", function(){ if (zoomIdx < ZOOMS.length - 1){ zoomIdx++; viewStart = viewEnd = 0; rulerKey = ""; renderTimeline();}});
+$("zoomOut").addEventListener("click", function(){ if (zoomIdx > 0){ zoomIdx--; viewStart = viewEnd = 0; rulerKey = ""; renderTimeline();}});
+$("zoomAll").addEventListener("click", function(){ zoomIdx = 0; rulerKey = ""; renderTimeline();});
+$("zoomLoop").addEventListener("click", function(){
+var d = getDur();
+if (!d || loopA == null || loopB == null){ toast("先にループを設定してください"); return;}
+var want = (loopB - loopA) * 1.5;
+var best = 0;
+ZOOMS.forEach(function(z, i){ if (d / z >= want) best = i;});
+zoomIdx = best;
+viewStart = Math.max(0, loopA - (d / ZOOMS[zoomIdx] - (loopB - loopA)) / 2);
+viewEnd = viewStart + d / ZOOMS[zoomIdx];
+rulerKey = ""; renderTimeline();
 });
 
 /* Progress + loop polling */
@@ -775,7 +1305,14 @@ var t = getTime(), d = getDur();
 $("curTime").textContent = fmt(t);
 $("durTime").textContent = fmt(d);
 if (d > 0 && document.activeElement!== $("seekBar")) $("seekBar").value = Math.round(t/d*1000);
-if (loopOn && loopA!=null && loopB!=null && t >= loopB) seekTo(loopA);
+if (loopOn && loopA!=null && loopB!=null && !waActive()){
+if (mode === "youtube"){
+/* YouTube: seek back up to 0.25s early to shrink the gap */
+var now = Date.now();
+if (t >= loopB - 0.25 && t < loopB + 1 && now - lastYtLoopAt > 900){ lastYtLoopAt = now; seekTo(loopA);}
+} else if (t >= loopB) seekTo(loopA);
+}
+renderTimeline();
 syncPlayBtn();
 }, 250);
 
@@ -836,8 +1373,8 @@ function renderComments(){
 var list = $("commentList"); list.innerHTML = "";
 var mine = currentSong? comments.filter(function(c){ return c.songId === currentSong.id;}): [];
 $("commentCount").textContent = mine.length + "件";
-if (!currentSong){ list.innerHTML = '<p class="no-comments">曲を選ぶと、その曲のコメントが表示されます。</p>'; return;}
-if (!mine.length){ list.innerHTML = '<p class="no-comments">まだコメントがありません。<br>気づいたことを残してみましょう。</p>'; return;}
+if (!currentSong){ list.innerHTML = '<p class="no-comments">曲を選ぶと、その曲のコメントが表示されます。</p>'; renderCompact(); return;}
+if (!mine.length){ list.innerHTML = '<p class="no-comments">まだコメントがありません。<br>気づいたことを残してみましょう。</p>'; renderCompact(); return;}
 var tops = mine.filter(function(c){ return!c.parentId;});
 tops.sort(function(a,b){
 var ta = a.time==null? 1e12: a.time, tb = b.time==null? 1e12: b.time;
@@ -849,6 +1386,7 @@ mine.filter(function(r){ return r.parentId === c.id;})
 .sort(function(a,b){ return a.id - b.id;})
 .forEach(function(r){ list.appendChild(commentEl(r, true));});
 });
+renderCompact();
 }
 
 /* ---------- Export ---------- */
@@ -873,6 +1411,8 @@ lines.push("");
 lines.push("【" + s.title + (s.artist? " — " + s.artist: "") + "】");
 secs.forEach(function(sec){
 lines.push("🔁 ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b));
+if (sec.note) lines.push(" ノート：" + sec.note);
+if (sec.tags && sec.tags.length) lines.push(" タグ：" + sec.tags.map(function(t){ return "#" + t;}).join(" "));
 });
 mine.filter(function(c){ return!c.parentId;}).forEach(function(c){
 lines.push("[" + (c.time==null? "--:--": fmt(c.time)) + "] " + c.name + ": " + c.text);
@@ -899,7 +1439,7 @@ Object.keys(loopSections).forEach(function(sid){
 var idx = songIndex[sid];
 if (idx == null) return;
 (loopSections[sid] || []).forEach(function(sec){
-loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b});
+loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b, note: sec.note || "", tags: sec.tags || []});
 });
 });
 return {
@@ -961,12 +1501,13 @@ if (!s) { stats.skippedSongs++; return null;}
 songs.push(s); stats.addedSongs++;
 return s;
 }
-function ensureLoop(songId, name, a, b, stats){
+function ensureLoop(songId, name, a, b, stats, note, tags){
 if (a == null || b == null || isNaN(a) || isNaN(b) || b <= a) return;
 var secs = sectionsOf(songId);
 var dup = secs.some(function(x){ return x.name === name && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005;});
 if (dup) { stats.skipped++; return;}
-secs.push({ id: nextId(), name: name || ("ループ" + (secs.length + 1)), a: Math.round(a*100)/100, b: Math.round(b*100)/100});
+secs.push({ id: nextId(), name: name || ("ループ" + (secs.length + 1)), a: Math.round(a*100)/100, b: Math.round(b*100)/100,
+note: note || "", tags: Array.isArray(tags)? tags: []});
 stats.addedLoops++;
 }
 function ensureComment(songId, time, name, text, parentId, stats){
@@ -996,7 +1537,7 @@ var s = ensureSong(imp, stats);
 if (s) songMap[i] = s.id;
 });
 (data.loops || []).forEach(function(l){
-if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats);
+if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats, l.note, l.tags);
 });
 var commentMap = {};
 (data.comments || []).forEach(function(c, i){
