@@ -264,6 +264,10 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .capture-box .hint{margin:6px 0 0}
 .capture-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .capture-row .btn{flex:1;min-width:0}
+.speed-box{margin:0 0 12px;border-bottom:1.5px dashed var(--line2);padding-bottom:12px}
+.speed-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
+.speed-box .speed-presets{margin-top:8px}
+.speed-box .speed-presets .btn{flex:1;min-width:0}
 .loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </style>
@@ -451,6 +455,16 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 </div>
 <div class="loop-list" id="loopList"></div>
+<div class="speed-box" aria-label="再生速度を変更する">
+<h4>再生速度 <span class="speed-val mono" id="speedValLoop">1.00×</span></h4>
+<div class="speed-presets" id="speedPresetsLoop">
+<button class="btn small" type="button" data-speed="0.25">0.25×</button>
+<button class="btn small" type="button" data-speed="0.5">0.50×</button>
+<button class="btn small" type="button" data-speed="0.75">0.75×</button>
+<button class="btn small active" type="button" data-speed="1">1.00×</button>
+<button class="btn small" type="button" data-speed="1.25">1.25×</button>
+</div>
+</div>
 <div class="ab-times">
 <span class="ab-chip mono" id="aChip">A —</span>
 <span class="ab-chip mono" id="bChip">B —</span>
@@ -794,8 +808,10 @@ if (waActive() && waSrc) waSrc.playbackRate.value = speed;
 if (mode==="youtube" && ytPlayer && ytPlayer.setPlaybackRate) ytPlayer.setPlaybackRate(speed);
 if (mode==="audio") audioEl.playbackRate = speed;
 $("speedVal").textContent = speed.toFixed(2) + "×";
-var btns = $("speedPresets").querySelectorAll("button");
-btns.forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
+$("speedValLoop").textContent = speed.toFixed(2) + "×";
+[$("speedPresets"), $("speedPresetsLoop")].forEach(function(box){
+box.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
+});
 }
 function setLoading(on){ mediaLoading = !!on; syncPlayBtn();}
 function syncPlayBtn(){
@@ -1097,6 +1113,9 @@ setSpeed(v);
 if (loopA!=null && loopB!=null){ loopOn = true; $("loopState").textContent = "ループ中"; $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active"); syncLoopStateBtn(); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
 }
 $("speedPresets").querySelectorAll("button").forEach(function(b){
+b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
+});
+$("speedPresetsLoop").querySelectorAll("button").forEach(function(b){
 b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
 });
 $("speedDown").addEventListener("click", function(){ setSpeedAndPlayIfLooping(speed - 0.05);});
