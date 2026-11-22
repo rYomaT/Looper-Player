@@ -80,8 +80,14 @@ header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
 .badge.yt{background:var(--danger-soft);color:var(--danger)}
 .badge.audio,.badge.drive{background:var(--teal-soft);color:var(--teal)}
 .badge.local{background:var(--accent-soft);color:var(--accent)}
-.stage{background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+.stage{position:relative;background:#000;border-radius:12px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
 .stage iframe,.stage #yt-holder{width:100%;height:100%;border:0;display:block}
+.yt-error{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:var(--panel2);color:var(--ink);padding:20px 18px;overflow:auto}
+.yt-error .yt-error-icon{font-size:2rem;line-height:1}
+.yt-error .yt-error-title{font-weight:900;font-size:1.05rem;line-height:1.4}
+.yt-error .yt-error-msg{margin:0;font-size:.9rem;color:var(--ink2);max-width:34em;line-height:1.6}
+.yt-error .yt-error-code{font-size:.75rem;color:var(--ink2)}
+.yt-error .btn{text-decoration:none}
 .stage.audio-mode{aspect-ratio:auto;padding:26px 16px;background:var(--panel2)}
 .stage.audio-msg{text-align:center;color:var(--ink2);font-size:.95rem}
 .stage.audio-msg.big{font-size:2rem;display:block;margin-bottom:6px}
@@ -318,6 +324,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
+<li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
 ※ このページの曲・保存したループは、<strong>あなたのブラウザの中だけに残ります。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ページを閉じると消えます。</p>
@@ -401,6 +408,14 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="audio-msg" id="audioMsg" style="display:none">
 <span class="big">🎧</span>
 音声ファイル再生中<br><span class="mono" id="audioFileName"></span>
+</div>
+<div class="yt-error" id="ytError" style="display:none" role="alert">
+<div class="yt-error-icon" aria-hidden="true">⚠️</div>
+<div class="yt-error-title">この動画は、ここでは再生できません</div>
+<p class="yt-error-msg" id="ytErrorMsg">この動画は埋め込み再生が許可されていないため、このページの中では再生できません。YouTubeで開くと、そのまま再生できます。</p>
+<a class="btn primary" id="ytErrorOpen" href="#" target="_blank" rel="noopener">▶ YouTubeで開く</a>
+<p class="yt-error-msg">ループ一覧など、ほかの機能はそのまま使えます。別の曲を選ぶと、この案内は消えます。</p>
+<div class="yt-error-code mono" id="ytErrorCode"></div>
 </div>
 </div>
 <audio id="audioEl" controls style="display:none"></audio>
@@ -864,13 +879,38 @@ btn.textContent = isPlaying()? "⏸ 一時停止": "▶ 再生";
 }
 
 /* ---------- YouTube API ---------- */
+/* Embed errors (101/150: embedding disabled by the owner, 153: player
+   configuration error, 100: not found / private, 2/5: other) are caught via
+   onError and replaced with a friendly notice inside the player area, so the
+   raw YouTube error screen never shows and the rest of the page keeps working. */
+function hideYtError(){
+$("ytError").style.display = "none";
+}
+function showYtError(code){
+setLoading(false);
+var msg;
+if (code === 101 || code === 150 || code === 153){
+msg = "この動画は、YouTube側で埋め込み再生が許可されていないため、このページの中では再生できません。YouTubeで開くと、そのまま再生できます。";
+} else if (code === 100){
+msg = "動画が見つかりませんでした。削除されたか、非公開になっている可能性があります。YouTubeで開いて確認できます。";
+} else {
+msg = "YouTubeの再生でエラーが発生しました。YouTubeで開くと、そのまま再生できます。";
+}
+$("ytErrorMsg").textContent = msg;
+$("ytErrorCode").textContent = (code != null && code !== "")? ("エラーコード: " + code): "";
+var vid = currentSong? (currentSong.videoId || ytId(currentSong.url || "")): null;
+$("ytErrorOpen").href = vid? ("https://www.youtube.com/watch?v=" + vid): "https://www.youtube.com/";
+$("ytError").style.display = "flex";
+syncPlayBtn();
+}
 window.onYouTubeIframeAPIReady = function(){
 ytPlayer = new YT.Player("yt-holder", {
 width:"100%", height:"100%",
 playerVars:{ playsinline:1, rel:0},
 events:{
 onReady:function(){ ytReady = true; if (pendingVideoId){ setLoading(true); ytPlayer.loadVideoById(pendingVideoId); pendingVideoId = null;} applySpeed();},
-onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERING) mediaLoading = true; else if (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED || e.data === YT.PlayerState.CUED) mediaLoading = false;} syncPlayBtn();}
+onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERING) mediaLoading = true; else if (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED || e.data === YT.PlayerState.CUED) mediaLoading = false; if (e.data === YT.PlayerState.PLAYING) hideYtError();} syncPlayBtn();},
+onError:function(e){ showYtError(e && e.data); }
 }
 });
 };
@@ -878,6 +918,7 @@ onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERI
 /* ---------- Load a song ---------- */
 function loadSong(song, autoplay){
 currentSong = song;
+hideYtError();
 editingLoopId = null; loopEditDraft = null; copyLoopId = null;
 waTeardown(); rulerKey = "";
 clearAB(false);
