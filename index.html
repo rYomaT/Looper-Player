@@ -121,10 +121,14 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-save .row input{flex:1}
 .loop-save .row .btn{flex:none}
 .loop-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-.loop-item{display:flex;align-items:center;gap:8px;background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:7px 10px}
-.loop-item.active{border-color:var(--accent);background:var(--accent-soft)}
+.loop-item{display:flex;align-items:center;gap:8px;background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 9%,var(--panel));border:1.5px solid color-mix(in srgb,hsl(var(--loop-h,28) 70% 48%) 34%,var(--line));border-radius:10px;padding:7px 10px}
+.loop-item.active{border-color:hsl(var(--loop-h,28) 70% 45%);background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 20%,var(--panel))}
 .loop-item .meta{flex:1;min-width:0}
-.loop-item .name{font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loop-first-row{display:flex;align-items:center;gap:.5em;flex-wrap:wrap;min-width:0}
+.loop-color-dot{flex:none;width:11px;height:11px;border-radius:50%;background:hsl(var(--loop-h,28) 75% 48%);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.loop-first-row .loop-speed-badge{margin-left:0}
+.loop-first-row .range{font-size:.88rem;color:var(--ink);font-weight:700}
+.loop-item .name{font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
 .loop-item .range{font-size:.8rem;color:var(--ink2)}
 .loop-item .del{flex:none;border:none;background:transparent;color:var(--ink2);font-size:1rem;padding:.25rem.45rem;min-height:2.25rem;cursor:pointer}
 .loop-item .del:hover{color:var(--danger)}
@@ -327,7 +331,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+20秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループの倍率は、リストの中で色付きの丸いタグとして表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に「倍率タグ　開始時間 〜 終了時間」が表示され、ループ名はその下に出ます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -371,7 +375,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="add-panel open" id="panel-yt">
 <div class="row">
 <div><label for="ytTitle">曲名</label><input id="ytTitle" type="text" placeholder="URLを貼ると自動で入ります（手入力もOK）"></div>
-<div><label for="ytArtist">アーティスト（任意）</label><input id="ytArtist" type="text" placeholder="例：Eagles"></div>
 <div><label for="ytUrl">YouTubeのURL</label><input id="ytUrl" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
 <button class="btn primary" id="addYt" type="button">ライブラリに追加</button>
 <p class="hint">YouTubeのURLを貼り付けると、動画のタイトルが曲名に自動で入ります。</p>
@@ -1132,7 +1135,7 @@ var gl1 = $("goLocalFromDrive"); if (gl1) gl1.addEventListener("click", goToLoca
 var gl2 = $("goLocalFromPlayer"); if (gl2) gl2.addEventListener("click", goToLocalAdd);
 
 /* YouTube title auto-fetch via oEmbed (no API key needed) */
-var ytAutoTitle = "", ytFetchTimer = null;
+var ytAutoTitle = "", ytAutoArtist = "", ytFetchTimer = null;
 function fetchYtMeta(url){
 return fetch("https://www.youtube.com/oembed?url=" + encodeURIComponent(url) + "&format=json")
 .then(function(r){ return r.ok? r.json(): null;})
@@ -1143,7 +1146,7 @@ if (!d || !d.title) return;
 if (ytId($("ytUrl").value.trim()) !== vid) return; // URL changed while fetching
 var cur = $("ytTitle").value.trim();
 if (!cur || cur === ytAutoTitle){ $("ytTitle").value = d.title; ytAutoTitle = d.title;}
-if (!$("ytArtist").value.trim() && d.author_name) $("ytArtist").value = d.author_name;
+if (d.author_name) ytAutoArtist = d.author_name;
 }
 $("ytUrl").addEventListener("input", function(){
 clearTimeout(ytFetchTimer);
@@ -1163,10 +1166,10 @@ return;
 }
 toast("YouTubeのURLを正しく入れてください"); return;
 }
-var artist = $("ytArtist").value.trim();
+var artist = ytAutoArtist;
 function finish(title, art){
 var s = { id: nextId(), title: title || "YouTube動画", artist: art, type:"youtube", url:url, videoId:vid};
-songs.push(s); $("ytTitle").value = $("ytArtist").value = $("ytUrl").value = ""; ytAutoTitle = "";
+songs.push(s); $("ytTitle").value = $("ytUrl").value = ""; ytAutoTitle = ""; ytAutoArtist = "";
 renderSongs(); loadSong(s, true); toast("追加しました");
 }
 var typed = $("ytTitle").value.trim();
@@ -1560,6 +1563,19 @@ t = Math.max(0, Math.min(1, t));
 var h = Math.round(210 - t * 210);
 return "background:hsl(" + h + ",85%,86%);color:hsl(" + h + ",65%,27%);border-color:hsl(" + h + ",70%,52%)";
 }
+/* Each saved loop gets its own automatically generated color. Hues are
+   spread by the golden angle (137.508°) from the loop's id, so colors do
+   not overlap / repeat and a loop keeps the same color when the list is
+   re-sorted or another loop is deleted. The list item is tinted lightly
+   with this color, and the timeline block for the same loop uses the
+   same color, so the two match. */
+function loopHue(sec){
+var seed = (sec && sec.id)? sec.id: 1;
+return Math.round((seed * 137.508) % 360);
+}
+function loopColor(sec){
+return "hsl(" + loopHue(sec) + ",65%,46%)";
+}
 function renderSections(){
 var list = $("loopList"); if (!list) return;
 list.innerHTML = "";
@@ -1570,11 +1586,13 @@ var secs = visibleSections();
 secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
+item.style.setProperty("--loop-h", loopHue(sec));
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
 var isCopying = (copyLoopId === sec.id);
-var mainHtml = '<div class="loop-main"><div class="meta" title="押すとこの区間から再生します"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
-'<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + "</div>" +
+var mainHtml = '<div class="loop-main"><div class="meta" title="押すとこの区間から再生します"><div class="loop-first-row"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge +
+'<span class="range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span></div>' +
+'<div class="name">' + esc(sec.name) + '</div>' +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") + "</div>" +
 '<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
@@ -1883,7 +1901,7 @@ tlDomKey = domKey;
 var loopsHtml = "", legend = [], marksHtml = "";
 secs.forEach(function(sec, idx){
 if (sec.b < viewStart || sec.a > viewEnd) return;
-var col = SEC_COLORS[idx % SEC_COLORS.length];
+var col = loopColor(sec);
 var active = isActiveSection(sec);
 var wPct = (Math.min(sec.b, viewEnd) - Math.max(sec.a, viewStart)) / span * 100;
 loopsHtml += '<div class="tl-sec' + (active? " active": "") + '" data-sec-id="' + sec.id + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
