@@ -142,6 +142,9 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-main .meta{min-width:0;cursor:pointer}
 .loop-actions{display:flex;gap:6px;flex:none;flex-wrap:wrap;align-items:center}
 .loop-speed-badge{display:inline-block;border:1.5px solid transparent;border-radius:999px;padding:.12em.7em;font-size:.78rem;font-weight:900;margin-left:.45em;vertical-align:middle;letter-spacing:.02em}
+.loop-item .act-activate.loop-off{background:var(--danger);border-color:var(--danger);color:#fff;font-weight:900}
+.loop-item .act-activate.loop-off:hover{border-color:var(--danger);filter:brightness(1.08)}
+@media (prefers-color-scheme: dark){.loop-item .act-activate.loop-off{color:#2b100c}}
 /* YouTube title search (no API key) */
 .yt-search-box{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2)}
 .yt-search-box>label{font-size:.86rem;font-weight:700;color:var(--ink2);display:block;margin-bottom:6px}
@@ -363,8 +366,8 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ: 今+5秒 今+10秒 今+20秒」を押すと、押した瞬間を開始時間に、その秒数あとを終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、時間を押すと出てくる±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化・編集・コピー・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。ループが始まると、そのカードのボタンは「Loop Off」に変わります。「Loop Off」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、時間を押すと出てくる±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／Loop Off・編集・コピー・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -1714,6 +1717,30 @@ function isActiveSection(sec){
 return loopA != null && loopB != null &&
 Math.abs(sec.a - loopA) < 0.005 && Math.abs(sec.b - loopB) < 0.005;
 }
+/* True only while this saved section is actually looping right now
+   (its range is the current A–B and loopOn is on). The card button
+   shows Loop Off in exactly this state. */
+function isLoopingSection(sec){
+return loopOn && isActiveSection(sec);
+}
+/* Stop looping only — the song itself keeps playing from where it is.
+   A–B stay set, so ▶ 有効化 can start the same loop again. For the
+   seamless Web Audio engine, capture the wrapped loop position first
+   and restart the source there without looping, so playback does not
+   jump ahead when the native loop is released. */
+function stopLoopOnly(){
+if (!loopOn) return;
+if (waActive() && waPlaying){
+var t = waTime();
+loopOn = false;
+updateAB();
+waStart(t);
+} else {
+loopOn = false;
+updateAB();
+}
+toast("ループ OFF（曲はそのまま再生します）");
+}
 /* Pressing a saved loop (its row, its timeline block, or ▶ 有効化) plays from that section */
 function activateSection(sec){
 if (!sec || !currentSong) return;
@@ -1764,9 +1791,10 @@ item.style.setProperty("--loop-h", loopHue(sec));
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
 var isCopying = (copyLoopId === sec.id);
+var isLooping = isLoopingSection(sec);
 var mainHtml = '<div class="loop-main">' +
 '<div class="loop-first-row"><span class="loop-rate meta" title="押すとこの区間から再生します"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge + '</span>' +
-'<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
+'<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "Loop Off": "▶ 有効化") + '</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
 '<button class="btn small act-copy" type="button">' + (isCopying? "閉じる": "コピー") + '</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>' +
@@ -1999,7 +2027,12 @@ else toast("選んだ倍率のコピーは、すでにあります");
 });
 }
 item.querySelectorAll(".meta").forEach(function(el){ el.addEventListener("click", function(){ activateSection(sec);});});
-item.querySelector(".act-activate").addEventListener("click", function(){ activateSection(sec);});
+item.querySelector(".act-activate").addEventListener("click", function(){
+/* While this section is looping, the same button reads Loop Off:
+   pressing it stops only the loop — playback of the song continues. */
+if (isLoopingSection(sec)) stopLoopOnly();
+else activateSection(sec);
+});
 item.querySelector(".act-edit").addEventListener("click", function(){
 if (isEditing){ editingLoopId = null; loopEditDraft = null;}
 else { editingLoopId = sec.id; loopEditDraft = null; copyLoopId = null;}
