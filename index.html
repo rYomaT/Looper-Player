@@ -115,7 +115,8 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-empty{font-size:.85rem;color:var(--ink2);margin-top:8px}
 .loop-item{flex-wrap:wrap;align-items:flex-start}
 .loop-main{display:flex;align-items:flex-start;gap:8px;width:100%}
-.loop-main .meta{flex:1;min-width:0}
+.loop-main .meta{flex:1;min-width:0;cursor:pointer}
+.loop-main .meta:hover .name{color:var(--accent)}
 .loop-actions{display:flex;gap:6px;flex:none;flex-wrap:wrap;align-items:center}
 .loop-speed-badge{display:inline-block;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:.08em.6em;font-size:.75rem;font-weight:700;margin-left:.4em;vertical-align:middle}
 .loop-edit{width:100%;border-top:1.5px dashed var(--line2);padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:10px}
@@ -216,10 +217,15 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .tl-head{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:14px;font-size:.83rem;color:var(--ink2)}
 .tl-head .mono{color:var(--ink);font-weight:700}
 .tl-zoom{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
-.timeline{position:relative;height:38px;background:var(--panel2);border:1.5px solid var(--line2);border-radius:10px;margin-top:6px;overflow:hidden;cursor:pointer}
+.timeline{position:relative;height:46px;background:var(--panel2);border:1.5px solid var(--line2);border-radius:10px;margin-top:6px;overflow:hidden;cursor:pointer;touch-action:none}
 .tl-fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent-soft);border-right:2px solid var(--accent)}
-.tl-sec{position:absolute;top:5px;bottom:5px;border-radius:5px;opacity:.85}
+.tl-sec{position:absolute;top:5px;bottom:5px;border-radius:5px;opacity:.9;display:flex;align-items:center;overflow:hidden;cursor:pointer}
+.tl-sec:hover{filter:brightness(1.12)}
 .tl-sec.active{outline:2px solid var(--ink);outline-offset:-1px}
+.tl-sec-name{font-size:.68rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px;pointer-events:none}
+.tl-flag{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);transform:translateX(-1px);pointer-events:none;z-index:2}
+.tl-flag span{position:absolute;top:1px;left:3px;font-size:.6rem;font-weight:900;background:var(--ink);color:var(--bg);border-radius:3px;padding:0 .35em;line-height:1.6}
+.tl-flag.b span{left:auto;right:3px}
 .tl-mark{position:absolute;top:0;width:3px;height:9px;background:var(--ink);border-radius:2px;transform:translateX(-1px)}
 .tl-play{position:absolute;top:0;bottom:0;width:2.5px;background:var(--danger);transform:translateX(-1px)}
 .ruler{position:relative;height:22px;margin-top:2px;font-size:.68rem;color:var(--ink2)}
@@ -254,9 +260,9 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前を付けて何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、名前や時間の表示部分を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
-<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並びます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
+<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 </ul>
@@ -1148,6 +1154,14 @@ function isActiveSection(sec){
 return loopA != null && loopB != null &&
 Math.abs(sec.a - loopA) < 0.005 && Math.abs(sec.b - loopB) < 0.005;
 }
+/* Pressing a saved loop (its row, its timeline block, or ▶ 有効化) plays from that section */
+function activateSection(sec){
+if (!sec || !currentSong) return;
+loopA = sec.a; loopB = sec.b; loopOn = true;
+if (sec.speed != null && !isNaN(sec.speed)) setSpeed(clampSpeed(sec.speed));
+updateAB(); seekTo(sec.a); play();
+toast("「" + sec.name + "」を再生中：" + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? "（" + Number(sec.speed).toFixed(2) + "×）": ""));
+}
 function visibleSections(){
 if (!currentSong) return [];
 var secs = sectionsOf(currentSong.id).slice();
@@ -1166,7 +1180,7 @@ var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
-var mainHtml = '<div class="loop-main"><div class="meta"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
+var mainHtml = '<div class="loop-main"><div class="meta" title="押すとこの区間から再生します"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
 '<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? ' ・ ' + Number(sec.speed).toFixed(2) + '×': '') + "</div>" +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") + "</div>" +
 '<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
@@ -1327,12 +1341,8 @@ renderSections(); renderCompact();
 toast("ループ「" + sec.name + "」を更新しました（" + fmtH(sec.a) + " – " + fmtH(sec.b) + " ・ " + sec.speed.toFixed(2) + "×）");
 });
 }
-item.querySelector(".act-activate").addEventListener("click", function(){
-loopA = sec.a; loopB = sec.b; loopOn = true;
-if (sec.speed != null && !isNaN(sec.speed)) setSpeed(clampSpeed(sec.speed));
-updateAB(); seekTo(sec.a); play();
-toast("「" + sec.name + "」を有効化しました" + (sec.speed != null? "（" + Number(sec.speed).toFixed(2) + "×）": ""));
-});
+item.querySelector(".meta").addEventListener("click", function(){ activateSection(sec);});
+item.querySelector(".act-activate").addEventListener("click", function(){ activateSection(sec);});
 item.querySelector(".act-edit").addEventListener("click", function(){
 if (isEditing){ editingLoopId = null; loopEditDraft = null;}
 else { editingLoopId = sec.id; loopEditDraft = null;}
@@ -1375,6 +1385,7 @@ if (span <= 150) return 10;
 if (span <= 420) return 30;
 return 60;
 }
+var tlDomKey = "";
 function renderTimeline(){
 var d = getDur(), t = getTime();
 var fill = $("tlFill"), play = $("tlPlay");
@@ -1382,6 +1393,7 @@ if (!currentSong || !d){
 $("tlRange").textContent = "—";
 $("tlTick").textContent = "";
 $("tlLoops").innerHTML = ""; $("tlMarks").innerHTML = ""; $("ruler").innerHTML = ""; $("tlLegend").innerHTML = "";
+tlDomKey = "";
 fill.style.width = "0%"; play.style.left = "0%";
 return;
 }
@@ -1401,16 +1413,24 @@ fill.style.left = "0%";
 if (tp < 0) fill.style.width = "0%";
 play.style.left = Math.max(0, Math.min(100, tp * 100)) + "%";
 $("timeline").setAttribute("aria-valuenow", Math.round(Math.max(0, Math.min(1, t / d)) * 100));
-/* Colored saved sections + active loop */
-var loopsHtml = "", legend = [];
+/* Colored saved sections + active loop. Rebuilt only when the layout actually
+   changes (this runs every 250ms; constant innerHTML churn would eat taps). */
 var secs = sectionsOf(currentSong.id);
+var domKey = Math.round(viewStart * 100) + "|" + Math.round(viewEnd * 100) + "|" +
+secs.map(function(s){ return s.id + ":" + s.a + "-" + s.b + ":" + s.name;}).join(",") + "|" +
+(loopA == null? "": loopA) + "|" + (loopB == null? "": loopB) + "|" + (loopOn? 1: 0);
+if (domKey !== tlDomKey){
+tlDomKey = domKey;
+var loopsHtml = "", legend = [], marksHtml = "";
 secs.forEach(function(sec, idx){
 if (sec.b < viewStart || sec.a > viewEnd) return;
 var col = SEC_COLORS[idx % SEC_COLORS.length];
 var active = isActiveSection(sec);
-loopsHtml += '<div class="tl-sec' + (active? " active": "") + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
-';width:' + Math.max(0.8, (Math.min(sec.b, viewEnd) - Math.max(sec.a, viewStart)) / span * 100) +
-'%;background:' + col + '" title="' + esc(sec.name) + '"></div>';
+var wPct = (Math.min(sec.b, viewEnd) - Math.max(sec.a, viewStart)) / span * 100;
+loopsHtml += '<div class="tl-sec' + (active? " active": "") + '" data-sec-id="' + sec.id + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
+';width:' + Math.max(0.8, wPct) +
+'%;background:' + col + '" title="' + esc(sec.name) + " " + fmtH(sec.a) + " – " + fmtH(sec.b) + '（押すとこの区間から再生）">' +
+(wPct >= 13? '<span class="tl-sec-name">' + esc(sec.name) + "</span>": "") + "</div>";
 legend.push('<span><i style="background:' + col + '"></i>' + esc(sec.name) + "</span>");
 });
 if (loopA != null && loopB != null && !(secs.some(function(s){ return isActiveSection(s);}))) {
@@ -1421,9 +1441,14 @@ loopsHtml += '<div class="tl-sec active" style="left:' + pct(Math.max(loopA, vie
 }
 legend.push('<span><i style="background:var(--danger)"></i>編集中のループ</span>');
 }
+if (loopA != null && loopA >= viewStart && loopA <= viewEnd)
+marksHtml += '<div class="tl-flag a" style="left:' + pct(loopA) + '"><span>A</span></div>';
+if (loopB != null && loopB >= viewStart && loopB <= viewEnd)
+marksHtml += '<div class="tl-flag b" style="left:' + pct(loopB) + '"><span>B</span></div>';
 $("tlLoops").innerHTML = loopsHtml;
 $("tlLegend").innerHTML = legend.join("");
-$("tlMarks").innerHTML = "";
+$("tlMarks").innerHTML = marksHtml;
+}
 /* Ruler: interval follows zoom */
 var iv = tickInterval(span);
 $("tlRange").textContent = fmt(viewStart) + " – " + fmt(viewEnd) + " / 全長 " + fmt(d);
@@ -1446,11 +1471,42 @@ rh += '<div class="minor" style="left:' + left + '%"></div>';
 $("ruler").innerHTML = rh;
 }
 }
-$("timeline").addEventListener("click", function(e){
+/* Timeline interaction: tap a colored section to play that loop, tap elsewhere
+   to jump there, drag to scrub. A drag ending on a section must not activate it. */
+var tlDrag = null, tlSuppressClickUntil = 0;
+function tlSeekAt(clientX){
 var d = getDur(); if (!currentSong || !d) return;
-var r = this.getBoundingClientRect();
-var ratio = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+var r = $("timeline").getBoundingClientRect();
+var ratio = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
 seekTo(viewStart + ratio * (viewEnd - viewStart));
+}
+$("timeline").addEventListener("pointerdown", function(e){
+if (!currentSong || !getDur()) return;
+tlDrag = { x: e.clientX, moved: false};
+try{ this.setPointerCapture(e.pointerId);}catch(err){}
+tlSeekAt(e.clientX);
+});
+$("timeline").addEventListener("pointermove", function(e){
+if (!tlDrag) return;
+if (Math.abs(e.clientX - tlDrag.x) > 6) tlDrag.moved = true;
+if (tlDrag.moved) tlSeekAt(e.clientX);
+});
+function tlDragEnd(){
+if (tlDrag && tlDrag.moved) tlSuppressClickUntil = Date.now() + 350;
+tlDrag = null;
+}
+$("timeline").addEventListener("pointerup", tlDragEnd);
+$("timeline").addEventListener("pointercancel", tlDragEnd);
+$("timeline").addEventListener("click", function(e){
+if (Date.now() < tlSuppressClickUntil) return;
+if (!currentSong || !getDur()) return;
+var secEl = e.target && e.target.closest? e.target.closest(".tl-sec"): null;
+if (secEl && secEl.getAttribute("data-sec-id")){
+var sid = parseInt(secEl.getAttribute("data-sec-id"), 10);
+var sec = sectionsOf(currentSong.id).filter(function(s){ return s.id === sid;})[0];
+if (sec){ activateSection(sec); return;}
+}
+tlSeekAt(e.clientX);
 });
 $("zoomIn").addEventListener("click", function(){ if (zoomIdx < ZOOMS.length - 1){ zoomIdx++; viewStart = viewEnd = 0; rulerKey = ""; renderTimeline();}});
 $("zoomOut").addEventListener("click", function(){ if (zoomIdx > 0){ zoomIdx--; viewStart = viewEnd = 0; rulerKey = ""; renderTimeline();}});
