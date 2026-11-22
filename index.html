@@ -178,14 +178,18 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 /* Library filters / compact bar */
 .lib-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lib-head h2{margin:0}
-.filters{display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr;gap:8px;margin:12px 0}
-@media (max-width:640px){.filters{grid-template-columns:1fr 1fr}}
+.filters{display:block;margin:12px 0}
+.st-row{display:flex;align-items:center;gap:8px;min-width:0}
+.st-row .st{flex:1;min-width:0}
+.song-icons{display:inline-flex;gap:9px;flex:none;font-size:.88rem;line-height:1}
+.song-icons .cbadge{display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
+.song-icons .cnum{font-weight:700;font-size:.85rem;color:var(--ink2)}
 .compact-bar{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:10px 12px;margin-top:12px}
 .compact-main{display:flex;align-items:center;gap:10px}
 .compact-title{font-weight:900;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.compact-icons{display:inline-flex;gap:10px;color:var(--accent);flex:none;font-size:.85rem;font-weight:700}
-.compact-icons span{display:inline-flex;align-items:center;gap:3px}
-.compact-icons svg{width:16px;height:16px;fill:currentColor}
+.compact-icons{display:inline-flex;gap:10px;color:var(--accent);flex:none;font-size:.88rem;font-weight:700}
+.compact-icons .cbadge{display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
+.compact-icons .cnum{font-weight:700}
 .compact-band{margin-left:auto;text-align:right;color:var(--ink2);font-weight:700;flex:none}
 .compact-nav{display:flex;justify-content:space-between;gap:10px;margin-top:8px}
 .compact-nav .btn{max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -236,7 +240,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
 <li><strong>ループ練習：</strong>再生中に「⚑ 開始旗」「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノート・タグを付けて何個でも保存でき、検索と並び替えもできます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、コメント位置には目印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
-<li><strong>曲リスト：</strong>バンド・種類・キーワードで絞り込み、並び替えができます。「隠す」を押すと今の曲だけの細い表示になり、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、絞り込んだ並び順で動き、端では無効になります。</li>
+<li><strong>曲リスト：</strong>キーワードで検索できます。曲名の横にはコメント（💬）と保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。「隠す」を押すと今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>コメント：</strong>「現在時刻を入れる」を押してから書くと、その再生位置にジャンプできるコメントになります。コメントへの返信もできます。</li>
 <li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
@@ -256,19 +260,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div id="listBody">
 <div class="filters">
 <input id="songSearch" type="search" placeholder="曲名・バンド名で検索" aria-label="曲を検索">
-<select id="bandFilter" aria-label="バンドで絞り込み"><option value="">すべてのバンド</option></select>
-<select id="typeFilter" aria-label="種類で絞り込み">
-<option value="">すべての種類</option>
-<option value="youtube">YouTube</option>
-<option value="local">ローカルMP3</option>
-<option value="drive">Drive</option>
-<option value="audio">MP3 URL</option>
-</select>
-<select id="songSort" aria-label="曲の並び替え">
-<option value="added">追加順</option>
-<option value="title">曲名順</option>
-<option value="band">バンド名順</option>
-</select>
 </div>
 <div class="song-list" id="songList"></div>
 </div>
@@ -560,7 +551,7 @@ var loopSections = {}; // songId -> [{id, name, a, b, note, tags[]}] (in-memory 
 var stampTime = null;
 var speed = 1;
 /* Filters / list view (in-memory UI state) */
-var songQuery = "", bandSel = "", typeSel = "", songSortMode = "added", listHidden = false;
+var songQuery = "", listHidden = false;
 var loopQuery = "", loopSortMode = "time";
 /* Timeline zoom */
 var ZOOMS = [1, 2, 4, 8, 16, 32, 64], zoomIdx = 0, viewStart = 0, viewEnd = 0, rulerKey = "";
@@ -806,30 +797,14 @@ if (s.type==="local") return '<span class="type-tag badge local">MP3</span>';
 if (s.type==="drive") return '<span class="type-tag badge drive">Drive</span>';
 return '<span class="type-tag badge audio">URL</span>';
 }
-/* Filtering pipeline: band -> type -> keyword -> sort */
+/* Filtering: keyword search only (no dropdowns), original order kept */
 function visibleSongs(){
 var arr = songs.slice();
-if (bandSel) arr = arr.filter(function(s){ return (s.artist || "") === bandSel;});
-if (typeSel) arr = arr.filter(function(s){ return s.type === typeSel;});
 if (songQuery){
 var q = songQuery.toLowerCase();
 arr = arr.filter(function(s){ return (s.title + " " + (s.artist || "")).toLowerCase().indexOf(q) >= 0;});
 }
-if (songSortMode === "title") arr.sort(function(a, b){ return a.title.localeCompare(b.title, "ja");});
-else if (songSortMode === "band") arr.sort(function(a, b){
-return (a.artist || "").localeCompare(b.artist || "", "ja") || a.title.localeCompare(b.title, "ja");
-});
 return arr;
-}
-function refreshBandOptions(){
-var sel = $("bandFilter");
-var seen = {}, names = [];
-songs.forEach(function(s){ var a = s.artist || ""; if (a && !seen[a]){ seen[a] = 1; names.push(a);}});
-names.sort(function(a, b){ return a.localeCompare(b, "ja");});
-var html = '<option value="">すべてのバンド</option>' + names.map(function(n){
-return '<option value="' + esc(n) + '"' + (n === bandSel? " selected": "") + ">" + esc(n) + "</option>";
-}).join("");
-if (sel.innerHTML !== html) sel.innerHTML = html;
 }
 function updateNavButtons(){
 var arr = visibleSongs();
@@ -837,15 +812,26 @@ var i = currentSong? arr.findIndex(function(s){ return s.id === currentSong.id;}
 $("prevSong").disabled = !(i > 0);
 $("nextSong").disabled = !(i >= 0 && i < arr.length - 1);
 }
-var ICON_COMMENT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V4a1 1 0 0 1 1-1z"/></svg>';
-var ICON_LOOP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4V1L6.5 6 12 11V7a5 5 0 1 1-5 5H4.5A7.5 7.5 0 1 0 12 4z"/></svg>';
+/* Comment / loop badges beside a song title: 💬 and 🔁, number shown only when > 0 */
+function badgesHtml(songId){
+var cc = comments.filter(function(c){ return c.songId === songId;}).length;
+var lc = (loopSections[songId] || []).length;
+return '<span class="cbadge" title="コメント ' + cc + '件">💬' + (cc > 0? '<span class="cnum">' + cc + "</span>": "") + "</span>" +
+'<span class="cbadge" title="保存ループ ' + lc + '件">🔁' + (lc > 0? '<span class="cnum">' + lc + "</span>": "") + "</span>";
+}
+function refreshSongBadges(){
+document.querySelectorAll("#songList .song").forEach(function(row){
+var holder = row.querySelector(".song-icons");
+var id = parseInt(row.getAttribute("data-song-id"), 10);
+if (holder && !isNaN(id)) holder.innerHTML = badgesHtml(id);
+});
+renderCompact();
+}
 function renderCompact(){
 var bar = $("compactBar");
 if (!listHidden){ bar.style.display = "none"; return;}
 bar.style.display = "block";
 if (!currentSong){ bar.innerHTML = '<p class="compact-none" style="margin:0">曲が選ばれていません。下の「全表示」から曲を選んでください。</p>'; return;}
-var cc = comments.filter(function(c){ return c.songId === currentSong.id;}).length;
-var lc = (loopSections[currentSong.id] || []).length;
 var arr = visibleSongs();
 var i = arr.findIndex(function(s){ return s.id === currentSong.id;});
 var prev = i > 0? arr[i - 1]: null;
@@ -857,7 +843,7 @@ else nav =
 '<button class="btn small" type="button" id="cNext"' + (next? "": " disabled") + '>次：' + (next? esc(next.title): "―") + "</button>";
 bar.innerHTML =
 '<div class="compact-main"><span class="compact-title">' + esc(currentSong.title) + "</span>" +
-'<span class="compact-icons"><span>' + ICON_COMMENT + cc + '</span><span>' + ICON_LOOP + lc + "</span></span>" +
+'<span class="compact-icons song-icons">' + badgesHtml(currentSong.id) + "</span>" +
 '<span class="compact-band">' + esc(currentSong.artist || "") + "</span></div>" +
 '<div class="compact-nav">' + nav + "</div>";
 var cp = $("cPrev"), cn = $("cNext");
@@ -865,9 +851,8 @@ if (cp && prev) cp.addEventListener("click", function(){ loadSong(prev, true);})
 if (cn && next) cn.addEventListener("click", function(){ loadSong(next, true);});
 }
 function renderSongs(){
-refreshBandOptions();
 var arr = visibleSongs();
-var filtered = bandSel || typeSel || songQuery;
+var filtered = !!songQuery;
 $("songCount").textContent = filtered? (arr.length + "曲 / 全" + songs.length + "曲"): (songs.length + "曲");
 var list = $("songList"); list.innerHTML = "";
 updateNavButtons(); renderCompact();
@@ -876,7 +861,8 @@ if (!arr.length){ list.innerHTML = '<p class="hint">条件に合う曲があり�
 arr.forEach(function(s){
 var row = document.createElement("div"); row.className = "song" + (currentSong && currentSong.id===s.id? " playing": "");
 row.setAttribute("role","button"); row.tabIndex = 0;
-row.innerHTML = '<div class="meta"><div class="st">' + esc(s.title) + '</div><div class="sa">' + esc(s.artist||"") + '</div></div>' + typeTag(s) +
+row.setAttribute("data-song-id", s.id);
+row.innerHTML = '<div class="meta"><div class="st-row"><span class="st">' + esc(s.title) + '</span><span class="song-icons">' + badgesHtml(s.id) + '</span></div><div class="sa">' + esc(s.artist||"") + '</div></div>' + typeTag(s) +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button>';
 row.addEventListener("click", function(e){ if (e.target.classList.contains("del")) return; loadSong(s, true);});
 row.addEventListener("keydown", function(e){ if (e.key==="Enter"||e.key===" "){ e.preventDefault(); loadSong(s, true);}});
@@ -1008,9 +994,6 @@ $("prevSong").addEventListener("click", function(){ stepSong(-1);});
 $("nextSong").addEventListener("click", function(){ stepSong(1);});
 /* Song list filters / hide */
 $("songSearch").addEventListener("input", function(){ songQuery = this.value.trim(); renderSongs();});
-$("bandFilter").addEventListener("change", function(){ bandSel = this.value; renderSongs();});
-$("typeFilter").addEventListener("change", function(){ typeSel = this.value; renderSongs();});
-$("songSort").addEventListener("change", function(){ songSortMode = this.value; renderSongs();});
 $("toggleListBtn").addEventListener("click", function(){
 listHidden = !listHidden;
 $("listBody").style.display = listHidden? "none": "";
@@ -1148,11 +1131,11 @@ return secs;
 function renderSections(){
 var list = $("loopList"); if (!list) return;
 list.innerHTML = "";
-if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; return;}
+if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; refreshSongBadges(); return;}
 var all = sectionsOf(currentSong.id);
-if (!all.length){ list.innerHTML = '<p class="loop-empty">この曲にはまだ保存したループがありません。</p>'; return;}
+if (!all.length){ list.innerHTML = '<p class="loop-empty">この曲にはまだ保存したループがありません。</p>'; refreshSongBadges(); return;}
 var secs = visibleSections();
-if (!secs.length){ list.innerHTML = '<p class="loop-empty">検索に合うループがありません。</p>'; return;}
+if (!secs.length){ list.innerHTML = '<p class="loop-empty">検索に合うループがありません。</p>'; refreshSongBadges(); return;}
 secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
@@ -1174,6 +1157,7 @@ renderSections(); renderCompact(); toast("ループを削除しました");
 });
 list.appendChild(item);
 });
+refreshSongBadges();
 }
 $("saveLoop").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
@@ -1373,8 +1357,8 @@ function renderComments(){
 var list = $("commentList"); list.innerHTML = "";
 var mine = currentSong? comments.filter(function(c){ return c.songId === currentSong.id;}): [];
 $("commentCount").textContent = mine.length + "件";
-if (!currentSong){ list.innerHTML = '<p class="no-comments">曲を選ぶと、その曲のコメントが表示されます。</p>'; renderCompact(); return;}
-if (!mine.length){ list.innerHTML = '<p class="no-comments">まだコメントがありません。<br>気づいたことを残してみましょう。</p>'; renderCompact(); return;}
+if (!currentSong){ list.innerHTML = '<p class="no-comments">曲を選ぶと、その曲のコメントが表示されます。</p>'; refreshSongBadges(); return;}
+if (!mine.length){ list.innerHTML = '<p class="no-comments">まだコメントがありません。<br>気づいたことを残してみましょう。</p>'; refreshSongBadges(); return;}
 var tops = mine.filter(function(c){ return!c.parentId;});
 tops.sort(function(a,b){
 var ta = a.time==null? 1e12: a.time, tb = b.time==null? 1e12: b.time;
@@ -1386,7 +1370,7 @@ mine.filter(function(r){ return r.parentId === c.id;})
 .sort(function(a,b){ return a.id - b.id;})
 .forEach(function(r){ list.appendChild(commentEl(r, true));});
 });
-renderCompact();
+refreshSongBadges();
 }
 
 /* ---------- Export ---------- */
