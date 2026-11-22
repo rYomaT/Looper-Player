@@ -53,8 +53,11 @@ header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
 .howto li{margin:3px 0;font-size:.93rem}
 .howto.note{font-size:.88rem;color:var(--ink2)}
 
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start}
-@media (max-width:920px){.layout{grid-template-columns:1fr}}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start;grid-template-areas:"player loops" "comments loops"}
+.player-card{grid-area:player;min-width:0}
+.loops-card{grid-area:loops;min-width:0;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto}
+.comments-card{grid-area:comments;min-width:0}
+@media (max-width:920px){.layout{grid-template-columns:1fr;grid-template-areas:"player" "loops" "comments"}.loops-card{position:static;max-height:none;overflow:visible}}
 
 .card{background:var(--panel);border:1.5px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
 .card h2{font-size:1.08rem;font-weight:900;margin:0 0 10px;display:flex;align-items:center;gap:.5em}
@@ -88,8 +91,7 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .btn.danger{color:var(--danger)}
 .btn:disabled{opacity:.45;cursor:default}
 
-.ctl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-@media (max-width:560px){.ctl-grid{grid-template-columns:1fr}}
+.ctl-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
 .ctl-box{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2)}
 .ctl-box h3{margin:0 0 8px;font-size:.9rem;font-weight:900}
 .speed-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -112,6 +114,24 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-item .del{flex:none;border:none;background:transparent;color:var(--ink2);font-size:1rem;padding:.25rem.45rem;min-height:2.25rem;cursor:pointer}
 .loop-item .del:hover{color:var(--danger)}
 .loop-empty{font-size:.85rem;color:var(--ink2);margin-top:8px}
+.loop-item{flex-wrap:wrap;align-items:flex-start}
+.loop-main{display:flex;align-items:flex-start;gap:8px;width:100%}
+.loop-main .meta{flex:1;min-width:0}
+.loop-actions{display:flex;gap:6px;flex:none;flex-wrap:wrap;align-items:center}
+.loop-speed-badge{display:inline-block;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:.08em.6em;font-size:.75rem;font-weight:700;margin-left:.4em;vertical-align:middle}
+.loop-edit{width:100%;border-top:1.5px dashed var(--line2);padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:10px}
+.loop-edit label{font-size:.82rem;font-weight:700;color:var(--ink2);display:block;margin-bottom:4px}
+.loop-edit .edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.loop-edit .edit-grid{grid-template-columns:1fr}}
+.loop-edit .time-adj{display:flex;gap:4px;margin-top:5px}
+.loop-edit .time-adj button{flex:1;border:1.5px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:7px;font-weight:700;font-size:.8rem;padding:.28rem 0;min-height:2rem}
+.loop-edit .time-adj button:hover{border-color:var(--accent);color:var(--accent)}
+.loop-edit .speed-edit-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.loop-edit .speed-edit-row input{width:6.5em;flex:none;text-align:center}
+.loop-edit .speed-presets-edit{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.loop-edit .edit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.loop-edit .edit-actions .btn{flex:1}
+.loop-edit .edit-actions .btn.primary{flex:1.2}
 
 /* Library */
 .library{margin-bottom:18px}
@@ -145,8 +165,7 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .flow-box .btn{margin-top:10px;width:100%}
 
 /* Comments */
-.comments-card{position:sticky;top:14px}
-@media (max-width:920px){.comments-card{position:static}}
+.comments-card{position:static}
 .c-form{display:flex;flex-direction:column;gap:8px}
 .c-form.row2{display:flex;gap:8px}
 .c-form.row2>*{flex:1}
@@ -232,12 +251,13 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <header class="intro">
 <h1>楽器演奏ルーパー</h1>
-<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズーム、再生位置つきコメントで、気づきを曲ごとに残せます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
+<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズーム、再生位置つきコメントで、気づきを曲ごとに残せます。保存したループはあとから時間（開始・終了）と倍率を編集できます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
 <li><strong>ループ練習：</strong>再生中に「⚑ 開始旗」「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノート・タグを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更できます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。「プレビュー」で変更中の区間と速度を試聴でき、「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、コメント位置には目印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
 <li><strong>曲リスト：</strong>キーワードで検索できます。曲名の横にはコメント（💬）と保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。「隠す」を押すと今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
@@ -308,9 +328,8 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </section>
 
 <div class="layout">
-<!-- LEFT: player -->
-<div>
-<section class="card" aria-label="プレイヤー">
+<!-- LEFT TOP: player -->
+<section class="card player-card" aria-label="プレイヤー">
 <div class="now" id="nowBox">
 <div class="title" id="nowTitle">曲を選んでください</div>
 <div class="artist" id="nowArtist">上のライブラリから再生したい曲をタップ</div>
@@ -386,8 +405,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button class="btn small" id="speedUp" type="button">＋0.05</button>
 </div>
 </div>
-<div class="ctl-box">
-<h3>A–Bループ</h3>
+</div>
+</section>
+
+<!-- RIGHT: loop list -->
+<aside class="card loops-card" aria-label="ループリスト">
+<h2>A–Bループ・ループリスト</h2>
 <div class="ab-times">
 <span class="ab-chip mono" id="aChip">A —</span>
 <span class="ab-chip mono" id="bChip">B —</span>
@@ -436,15 +459,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <input id="loopTags" type="text" placeholder="タグ（任意：カンマ区切り 例 速弾き,ソロ）">
 <button class="btn small primary" id="saveLoop" type="button">保存</button>
 </div>
-<p class="hint" style="margin:4px 0 0">開始旗と終了旗を設定してから保存してください。名前は上の入力欄（開始旗を押すと出ます）で、空でもOK（自動で「ループ1」のように付きます）。</p>
+<p class="hint" style="margin:4px 0 0">開始旗と終了旗を設定してから保存してください。名前は上の入力欄（開始旗を押すと出ます）で、空でもOK（自動で「ループ1」のように付きます）。今の再生速度も一緒に保存され、あとから各ループの「編集」で時間と倍率を変更できます。</p>
 <div class="loop-list" id="loopList"></div>
 </div>
-</div>
-</div>
-</section>
-</div>
+</aside>
 
-<!-- RIGHT: comments -->
+<!-- LEFT BOTTOM: comments -->
 <aside class="card comments-card" aria-label="コメント">
 <h2>コメント <span class="count" id="commentCount">0件</span></h2>
 <form class="c-form" id="commentForm">
@@ -538,7 +558,9 @@ var mode = null; // 'youtube' | 'audio'
 var ytPlayer = null, ytReady = false, pendingVideoId = null;
 var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
-var loopSections = {}; // songId -> [{id, name, a, b, note, tags[]}] (in-memory only)
+var loopSections = {}; // songId -> [{id, name, a, b, note, tags[], speed}] (in-memory only)
+var editingLoopId = null;
+var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note, tags} while editing
 var stampTime = null;
 var speed = 1;
 /* Filters / list view (in-memory UI state) */
@@ -583,6 +605,32 @@ function fmtH(sec){
 if (sec == null || isNaN(sec)) return "—";
 var m = Math.floor(sec/60), s = sec - m*60;
 return m + ":" + (s<10?"0":"") + s.toFixed(2);
+}
+function parseTimeInput(str){
+if (str == null) return null;
+var s = String(str).trim();
+if (!s) return null;
+if (s.indexOf(":") >= 0){
+var parts = s.split(":");
+if (parts.length === 2){
+var mm = parseFloat(parts[0]), ss = parseFloat(parts[1]);
+if (isNaN(mm) || isNaN(ss)) return null;
+return Math.round((mm*60 + ss)*100)/100;
+}
+if (parts.length === 3){
+var hh = parseFloat(parts[0]), mm2 = parseFloat(parts[1]), ss2 = parseFloat(parts[2]);
+if (isNaN(hh) || isNaN(mm2) || isNaN(ss2)) return null;
+return Math.round((hh*3600 + mm2*60 + ss2)*100)/100;
+}
+return null;
+}
+var v = parseFloat(s);
+if (isNaN(v)) return null;
+return Math.round(v*100)/100;
+}
+function clampSpeed(v){
+if (v == null || isNaN(v)) return 1;
+return Math.round(Math.min(2, Math.max(0.25, v))*100)/100;
 }
 function ytId(url){
 if (!url) return null;
@@ -738,6 +786,7 @@ onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERI
 /* ---------- Load a song ---------- */
 function loadSong(song, autoplay){
 currentSong = song;
+editingLoopId = null; loopEditDraft = null;
 waTeardown(); rulerKey = "";
 clearAB(false);
 stampTime = null; updateStampView();
@@ -1122,18 +1171,156 @@ secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
 var tagsHtml = (sec.tags || []).map(function(t){ return '<span class="tag-chip">#' + esc(t) + "</span>";}).join("");
-item.innerHTML = '<div class="meta"><div class="name">' + esc(sec.name) + '</div>' +
-'<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + "</div>" +
+var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono">' + Number(sec.speed).toFixed(2) + '×</span>': "";
+var isEditing = (editingLoopId === sec.id);
+var mainHtml = '<div class="loop-main"><div class="meta"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
+'<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? ' ・ ' + Number(sec.speed).toFixed(2) + '×': '') + "</div>" +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") +
 (tagsHtml? "<div>" + tagsHtml + "</div>": "") + "</div>" +
-'<button class="btn small" type="button">▶ 有効化</button>' +
-'<button class="del" type="button" title="削除" aria-label="削除">✕</button>';
-item.querySelector(".btn").addEventListener("click", function(){
+'<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
+'<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
+'<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>';
+item.innerHTML = mainHtml;
+if (isEditing){
+if (!loopEditDraft || loopEditDraft.id !== sec.id){
+loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.b), speedStr: ((sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed).toFixed(2), note: sec.note || "", tags: (sec.tags || []).join(", ")};
+}
+var draft = loopEditDraft;
+var curSpeedVal = parseFloat(draft.speedStr);
+if (isNaN(curSpeedVal)) curSpeedVal = (sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed;
+var editDiv = document.createElement("div");
+editDiv.className = "loop-edit";
+editDiv.innerHTML =
+'<div><label for="edit-name-' + sec.id + '">名前</label><input id="edit-name-' + sec.id + '" class="edit-name" type="text" value="' + esc(draft.name) + '"></div>' +
+'<div class="edit-grid">' +
+'<div><label for="edit-a-' + sec.id + '">開始時間（分:秒.小数 または 秒）</label><input id="edit-a-' + sec.id + '" class="edit-a mono" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="例：1:23.50">' +
+'<div class="time-adj" data-target="a"><button type="button" data-adj="-1">−1秒</button><button type="button" data-adj="-0.1">−0.1</button><button type="button" data-adj="-0.01">−0.01</button><button type="button" data-adj="0.01">＋0.01</button><button type="button" data-adj="0.1">＋0.1</button><button type="button" data-adj="1">＋1秒</button></div></div>' +
+'<div><label for="edit-b-' + sec.id + '">終了時間（分:秒.小数 または 秒）</label><input id="edit-b-' + sec.id + '" class="edit-b mono" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="例：1:35.00">' +
+'<div class="time-adj" data-target="b"><button type="button" data-adj="-1">−1秒</button><button type="button" data-adj="-0.1">−0.1</button><button type="button" data-adj="-0.01">−0.01</button><button type="button" data-adj="0.1">＋0.1</button><button type="button" data-adj="1">＋1秒</button></div></div>' +
+'</div>' +
+'<div><label for="edit-speed-' + sec.id + '">再生倍率（速度）</label><div class="speed-edit-row"><button class="btn small edit-speed-down" type="button">−0.05</button><input id="edit-speed-' + sec.id + '" class="edit-speed mono" type="number" min="0.25" max="2" step="0.05" value="' + curSpeedVal.toFixed(2) + '"><span class="mono">×</span><button class="btn small edit-speed-up" type="button">＋0.05</button><span class="hint" style="margin:0">0.25〜2.00</span></div>' +
+'<div class="speed-presets-edit">' +
+[0.25,0.5,0.75,1,1.25,1.5].map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
+'</div></div>' +
+'<div class="edit-grid"><div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
+'<div><label for="edit-tags-' + sec.id + '">タグ（カンマ区切り）</label><input id="edit-tags-' + sec.id + '" class="edit-tags" type="text" value="' + esc(draft.tags || "") + '" placeholder="例：速弾き, ソロ"></div></div>' +
+'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。プレビューを押すと、編集中の時間と倍率でその場で再生して確認できます。</p>' +
+'<div class="edit-actions"><button class="btn edit-preview" type="button">▶ プレビュー</button><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
+item.appendChild(editDiv);
+function syncDraftFromInputs(){
+if (!loopEditDraft || loopEditDraft.id !== sec.id) return;
+loopEditDraft.name = editDiv.querySelector(".edit-name").value;
+loopEditDraft.aStr = editDiv.querySelector(".edit-a").value;
+loopEditDraft.bStr = editDiv.querySelector(".edit-b").value;
+loopEditDraft.speedStr = editDiv.querySelector(".edit-speed").value;
+loopEditDraft.note = editDiv.querySelector(".edit-note").value;
+loopEditDraft.tags = editDiv.querySelector(".edit-tags").value;
+}
+editDiv.querySelectorAll("input").forEach(function(inp){
+inp.addEventListener("input", syncDraftFromInputs);
+inp.addEventListener("change", syncDraftFromInputs);
+});
+// wire time adjust buttons
+editDiv.querySelectorAll(".time-adj").forEach(function(row){
+var target = row.getAttribute("data-target");
+row.querySelectorAll("button").forEach(function(btn){
+btn.addEventListener("click", function(){
+var input = editDiv.querySelector(target === "a"? ".edit-a": ".edit-b");
+var cur = parseTimeInput(input.value);
+if (cur == null) cur = target === "a"? sec.a: sec.b;
+var nv = Math.round((cur + parseFloat(btn.getAttribute("data-adj")))*100)/100;
+if (nv < 0) nv = 0;
+var dur = getDur();
+if (target === "b" && dur > 0 && nv > dur) nv = Math.round(dur*100)/100;
+input.value = fmtH(nv);
+syncDraftFromInputs();
+});
+});
+});
+// speed controls
+var speedInput = editDiv.querySelector(".edit-speed");
+function setEditSpeed(v){
+var nv = clampSpeed(v);
+speedInput.value = nv.toFixed(2);
+syncDraftFromInputs();
+}
+editDiv.querySelector(".edit-speed-down").addEventListener("click", function(){ setEditSpeed(parseFloat(speedInput.value) - 0.05);});
+editDiv.querySelector(".edit-speed-up").addEventListener("click", function(){ setEditSpeed(parseFloat(speedInput.value) + 0.05);});
+editDiv.querySelectorAll(".edit-speed-preset").forEach(function(b){
+b.addEventListener("click", function(){ setEditSpeed(parseFloat(b.getAttribute("data-v")));});
+});
+speedInput.addEventListener("change", function(){ setEditSpeed(parseFloat(this.value));});
+function readEditValues(){
+var na = parseTimeInput(editDiv.querySelector(".edit-a").value);
+var nb = parseTimeInput(editDiv.querySelector(".edit-b").value);
+var ns = clampSpeed(parseFloat(speedInput.value));
+return {a: na, b: nb, speed: ns};
+}
+editDiv.querySelector(".edit-preview").addEventListener("click", function(){
+syncDraftFromInputs();
+var vals = readEditValues();
+if (vals.a == null || vals.b == null){ toast("開始・終了時間を正しく入れてください（例：1:23.50）"); return;}
+if (vals.b <= vals.a){ toast("終了時間は開始時間より後にしてください"); return;}
+loopA = vals.a; loopB = vals.b; loopOn = true;
+setSpeed(vals.speed);
+// update chips without re-creating the edit form (preserve draft inputs)
+$("aChip").textContent = "A " + fmtTenths(loopA);
+$("bChip").textContent = "B " + fmtTenths(loopB);
+$("aChip").classList.add("set"); $("bChip").classList.add("set");
+$("adjAVal").textContent = fmtH(loopA); $("adjBVal").textContent = fmtH(loopB);
+$("loopState").textContent = "ループ中";
+$("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
+rulerKey = "";
+seekTo(vals.a);
+play();
+toast("プレビュー中：" + fmtH(vals.a) + " – " + fmtH(vals.b) + " ・ " + vals.speed.toFixed(2) + "×");
+});
+editDiv.querySelector(".edit-cancel").addEventListener("click", function(){
+editingLoopId = null; loopEditDraft = null;
+renderSections();
+});
+editDiv.querySelector(".edit-save").addEventListener("click", function(){
+var vals = readEditValues();
+if (vals.a == null || vals.b == null){ toast("開始・終了時間を正しく入れてください（例：1:23.50）"); return;}
+if (vals.a < 0){ toast("開始時間は0以上にしてください"); return;}
+if (vals.b <= vals.a){ toast("終了時間は開始時間より後にしてください"); return;}
+var dur = getDur();
+if (dur > 0 && vals.b > dur){ toast("終了時間が曲の長さを超えています"); return;}
+var wasActive = isActiveSection(sec);
+var newName = editDiv.querySelector(".edit-name").value.trim() || sec.name;
+sec.name = newName;
+sec.a = vals.a; sec.b = vals.b; sec.speed = vals.speed;
+sec.note = editDiv.querySelector(".edit-note").value.trim();
+sec.tags = editDiv.querySelector(".edit-tags").value.split(/[,、]/).map(function(t){ return t.trim();}).filter(function(t){ return t;});
+editingLoopId = null; loopEditDraft = null;
+if (wasActive || (loopA != null && loopB != null)){
+// if this loop was the active one, keep player in sync with new values
+if (wasActive){ loopA = sec.a; loopB = sec.b; setSpeed(sec.speed); }
+}
+updateAB();
+renderSections(); renderCompact();
+toast("ループ「" + sec.name + "」を更新しました（" + fmtH(sec.a) + " – " + fmtH(sec.b) + " ・ " + sec.speed.toFixed(2) + "×）");
+});
+}
+item.querySelector(".act-activate").addEventListener("click", function(){
 loopA = sec.a; loopB = sec.b; loopOn = true;
+if (sec.speed != null && !isNaN(sec.speed)) setSpeed(clampSpeed(sec.speed));
 updateAB(); seekTo(sec.a); play();
-toast("「" + sec.name + "」を有効化しました");
+toast("「" + sec.name + "」を有効化しました" + (sec.speed != null? "（" + Number(sec.speed).toFixed(2) + "×）": ""));
+});
+item.querySelector(".act-edit").addEventListener("click", function(){
+if (isEditing){ editingLoopId = null; loopEditDraft = null;}
+else { editingLoopId = sec.id; loopEditDraft = null;}
+renderSections();
+if (editingLoopId === sec.id){
+setTimeout(function(){
+var inp = document.querySelector("#loopList .edit-a");
+if (inp) inp.focus();
+}, 50);
+}
 });
 item.querySelector(".del").addEventListener("click", function(){
+if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
 renderSections(); renderCompact(); toast("ループを削除しました");
 });
@@ -1148,10 +1335,10 @@ var secs = sectionsOf(currentSong.id);
 var name = $("loopName").value.trim() || ("ループ" + (secs.length + 1));
 var tags = $("loopTags").value.split(/[,、]/).map(function(t){ return t.trim();}).filter(function(t){ return t;});
 secs.push({ id: nextId(), name: name, a: Math.round(loopA*100)/100, b: Math.round(loopB*100)/100,
-note: $("loopNote").value.trim(), tags: tags});
+note: $("loopNote").value.trim(), tags: tags, speed: clampSpeed(speed)});
 $("loopName").value = ""; $("loopNote").value = ""; $("loopTags").value = "";
 showNameRow(false);
-renderSections(); renderCompact(); toast("ループ「" + name + "」を保存しました");
+renderSections(); renderCompact(); toast("ループ「" + name + "」を保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
 });
 
 /* ---------- Color-coded timeline with zoom + ruler ---------- */
@@ -1374,7 +1561,7 @@ if (!mine.length && !secs.length) return;
 lines.push("");
 lines.push("【" + s.title + (s.artist? " — " + s.artist: "") + "】");
 secs.forEach(function(sec){
-lines.push("🔁 ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b));
+lines.push("🔁 ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + (sec.speed != null? " 速度 " + Number(sec.speed).toFixed(2) + "×": ""));
 if (sec.note) lines.push(" ノート：" + sec.note);
 if (sec.tags && sec.tags.length) lines.push(" タグ：" + sec.tags.map(function(t){ return "#" + t;}).join(" "));
 });
@@ -1403,7 +1590,7 @@ Object.keys(loopSections).forEach(function(sid){
 var idx = songIndex[sid];
 if (idx == null) return;
 (loopSections[sid] || []).forEach(function(sec){
-loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b, note: sec.note || "", tags: sec.tags || []});
+loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b, note: sec.note || "", tags: sec.tags || [], speed: sec.speed != null? sec.speed: null});
 });
 });
 return {
@@ -1465,13 +1652,13 @@ if (!s) { stats.skippedSongs++; return null;}
 songs.push(s); stats.addedSongs++;
 return s;
 }
-function ensureLoop(songId, name, a, b, stats, note, tags){
+function ensureLoop(songId, name, a, b, stats, note, tags, speedVal){
 if (a == null || b == null || isNaN(a) || isNaN(b) || b <= a) return;
 var secs = sectionsOf(songId);
 var dup = secs.some(function(x){ return x.name === name && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005;});
 if (dup) { stats.skipped++; return;}
 secs.push({ id: nextId(), name: name || ("ループ" + (secs.length + 1)), a: Math.round(a*100)/100, b: Math.round(b*100)/100,
-note: note || "", tags: Array.isArray(tags)? tags: []});
+note: note || "", tags: Array.isArray(tags)? tags: [], speed: (speedVal != null && !isNaN(speedVal))? clampSpeed(speedVal): null});
 stats.addedLoops++;
 }
 function ensureComment(songId, time, name, text, parentId, stats){
@@ -1501,7 +1688,7 @@ var s = ensureSong(imp, stats);
 if (s) songMap[i] = s.id;
 });
 (data.loops || []).forEach(function(l){
-if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats, l.note, l.tags);
+if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats, l.note, l.tags, l.speed);
 });
 var commentMap = {};
 (data.comments || []).forEach(function(c, i){
@@ -1596,9 +1783,10 @@ currentSongId = titleToSongId[title] != null? titleToSongId[title]: null;
 lastTopId = null; lastComment = null;
 return;
 }
-var loopM = trimmed.match(/^🔁\s*ループ「(.+?)」\s+(\S+)\s*[–—-]\s*(\S+)$/);
+var loopM = trimmed.match(/^🔁\s*ループ「(.+?)」\s+(\S+)\s*[–—-]\s*(\S+?)(?:\s+速度\s*([0-9.]+)×)?$/);
 if (loopM && currentSongId != null){
-ensureLoop(currentSongId, loopM[1], parseClock(loopM[2], true), parseClock(loopM[3], true), stats);
+var spd = loopM[4]? parseFloat(loopM[4]): null;
+ensureLoop(currentSongId, loopM[1], parseClock(loopM[2], true), parseClock(loopM[3], true), stats, "", [], spd);
 lastComment = null;
 return;
 }
