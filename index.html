@@ -53,11 +53,10 @@ header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
 .howto li{margin:3px 0;font-size:.93rem}
 .howto.note{font-size:.88rem;color:var(--ink2)}
 
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start;grid-template-areas:"player loops" "comments loops"}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start;grid-template-areas:"player loops"}
 .player-card{grid-area:player;min-width:0}
 .loops-card{grid-area:loops;min-width:0;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto}
-.comments-card{grid-area:comments;min-width:0}
-@media (max-width:920px){.layout{grid-template-columns:1fr;grid-template-areas:"player" "loops" "comments"}.loops-card{position:static;max-height:none;overflow:visible}}
+@media (max-width:920px){.layout{grid-template-columns:1fr;grid-template-areas:"player" "loops"}.loops-card{position:static;max-height:none;overflow:visible}}
 
 .card{background:var(--panel);border:1.5px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
 .card h2{font-size:1.08rem;font-weight:900;margin:0 0 10px;display:flex;align-items:center;gap:.5em}
@@ -164,8 +163,8 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .flow-steps .ft span{display:block;font-size:.84rem;color:var(--ink2);line-height:1.5;margin-top:2px}
 .flow-box .btn{margin-top:10px;width:100%}
 
-/* Comments */
-.comments-card{position:static}
+/* Comments (hidden for now) */
+.comments-card{display:none}
 .c-form{display:flex;flex-direction:column;gap:8px}
 .c-form.row2{display:flex;gap:8px}
 .c-form.row2>*{flex:1}
@@ -242,7 +241,6 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .adj-row button:hover{border-color:var(--accent);color:var(--accent)}
 .speed-step{display:flex;align-items:center;gap:8px;margin-top:8px}
 .loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
-.tag-chip{display:inline-block;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:.05em.6em;font-size:.72rem;font-weight:700;margin:2px 3px 0 0}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </style>
 </head>
@@ -251,22 +249,19 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <header class="intro">
 <h1>楽器演奏ルーパー</h1>
-<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズーム、再生位置つきコメントで、気づきを曲ごとに残せます。保存したループはあとから時間（開始・終了）と倍率を編集できます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
+<p>YouTube・手元のMP3・Google Driveの共有リンクを、ひとつのライブラリに入れて練習できます。再生速度は0.25〜1.25倍のボタンと0.05刻みの調整、難しいところは開始旗・終了旗のA–Bループ（0.01秒単位の微調整つき）、色分けタイムラインとズームで繰り返し練習できます。保存したループにはノートを付けられて、あとから時間（開始・終了）と倍率を編集できます。最初から16バンド・32曲のサンプル（公式YouTubeリンク）が入っています。</p>
 <details class="howto">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まります。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノート・タグを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まります。続けて「⚑ 終了旗」を押すと、その区間を繰り返します。開始旗を押すと区間の名前の入力欄が出るので、名前を入れてから終了旗を押すのがおすすめです。開始・終了位置は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、変えると再生中は新しい開始位置から即プレビューします。決めた区間は名前・ノートを付けて何個でも保存できます。「▶ 有効化」を押すとその区間に切り替えて再生が始まります。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すと、その場で開始・終了時間と再生倍率（速度）を変更できます。時間は「1:23.50」のような表記でも、秒数（例：83.5）でも入力でき、±ボタンで0.01秒単位の微調整もできます。倍率はプリセットや±0.05ボタン、数値入力で変えられます。「プレビュー」で変更中の区間と速度を試聴でき、「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。</li>
-<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、コメント位置には目印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
-<li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横にはコメント（💬）と保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
+<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並びます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動します。</li>
+<li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
-<li><strong>コメント：</strong>「現在時刻を入れる」を押してから書くと、その再生位置にジャンプできるコメントになります。コメントへの返信もできます。</li>
-<li><strong>友達と共有：</strong>「書き出し」ボタンで、ライブラリとコメントをテキストファイルに保存できます。友達に送れば、同じ曲・同じコメントを見ながら練習できます。</li>
-<li><strong>書き出しを読み込む：</strong>コメント欄の一番下にある「書き出しを読み込む」から、書き出したテキストファイルを選ぶ（またはテキストを貼り付ける）と、ライブラリ・コメント・保存したループが戻ります。すでにある曲・コメントは重複して追加されません。ローカルMP3はファイル自体がテキストに入らないため、曲名だけ戻ります（再生にはもう一度ファイルを追加してください）。</li>
 </ul>
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
-※ このページの曲・コメント・保存したループは、<strong>あなたのブラウザの中だけに残ります。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ページを閉じると消えるので、大事なものは書き出して残してください（保存したループも書き出しテキストに含まれます）。</p>
+※ このページの曲・保存したループは、<strong>あなたのブラウザの中だけに残ります。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ページを閉じると消えます。</p>
 </details>
 </header>
 
@@ -452,11 +447,8 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 <div class="loop-save">
 <h4>ループを保存する</h4>
-<div class="row" style="margin-bottom:8px">
-<input id="loopNote" type="text" placeholder="ノート（任意：例 指が引っかかる）">
-</div>
 <div class="row">
-<input id="loopTags" type="text" placeholder="タグ（任意：カンマ区切り 例 速弾き,ソロ）">
+<input id="loopNote" type="text" placeholder="ノート（任意：例 指が引っかかる）">
 <button class="btn small primary" id="saveLoop" type="button">保存</button>
 </div>
 <p class="hint" style="margin:4px 0 0">開始旗と終了旗を設定してから保存してください。名前は上の入力欄（開始旗を押すと出ます）で、空でもOK（自動で「ループ1」のように付きます）。今の再生速度も一緒に保存され、あとから各ループの「編集」で時間と倍率を変更できます。</p>
@@ -464,8 +456,8 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 </aside>
 
-<!-- LEFT BOTTOM: comments -->
-<aside class="card comments-card" aria-label="コメント">
+<!-- LEFT BOTTOM: comments (hidden for now) -->
+<aside class="card comments-card" aria-label="コメント" hidden aria-hidden="true">
 <h2>コメント <span class="count" id="commentCount">0件</span></h2>
 <form class="c-form" id="commentForm">
 <input id="cName" type="text" placeholder="名前（例：たろう）" autocomplete="name">
@@ -558,9 +550,9 @@ var mode = null; // 'youtube' | 'audio'
 var ytPlayer = null, ytReady = false, pendingVideoId = null;
 var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
-var loopSections = {}; // songId -> [{id, name, a, b, note, tags[], speed}] (in-memory only)
+var loopSections = {}; // songId -> [{id, name, a, b, note, speed}] (in-memory only)
 var editingLoopId = null;
-var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note, tags} while editing
+var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
 var speed = 1;
 /* Filters / list view (in-memory UI state): sample list starts hidden */
@@ -852,12 +844,10 @@ var i = currentSong? arr.findIndex(function(s){ return s.id === currentSong.id;}
 $("prevSong").disabled = !(i > 0);
 $("nextSong").disabled = !(i >= 0 && i < arr.length - 1);
 }
-/* Comment / loop badges beside a song title: 💬 and 🔁, number shown only when > 0 */
+/* Loop badge beside a song title: 🔁, number shown only when > 0 (comments are hidden) */
 function badgesHtml(songId){
-var cc = comments.filter(function(c){ return c.songId === songId;}).length;
 var lc = (loopSections[songId] || []).length;
-return '<span class="cbadge" title="コメント ' + cc + '件">💬' + (cc > 0? '<span class="cnum">' + cc + "</span>": "") + "</span>" +
-'<span class="cbadge" title="保存ループ ' + lc + '件">🔁' + (lc > 0? '<span class="cnum">' + lc + "</span>": "") + "</span>";
+return '<span class="cbadge" title="保存ループ ' + lc + '件">🔁' + (lc > 0? '<span class="cnum">' + lc + "</span>": "") + "</span>";
 }
 function refreshSongBadges(){
 document.querySelectorAll("#songList .song").forEach(function(row){
@@ -1173,19 +1163,17 @@ secs.forEach(function(sec){
 var item = document.createElement("div");
 item.className = "loop-item" + (isActiveSection(sec)? " active": "");
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono">' + Number(sec.speed).toFixed(2) + '×</span>': "";
-var tagsHtml = (sec.tags || []).map(function(t){ return '<span class="tag-chip">#' + esc(t) + "</span>";}).join("");
 var isEditing = (editingLoopId === sec.id);
 var mainHtml = '<div class="loop-main"><div class="meta"><div class="name">' + esc(sec.name) + speedBadge + '</div>' +
 '<div class="range mono">' + fmtH(sec.a) + " – " + fmtH(sec.b) + (sec.speed != null? ' ・ ' + Number(sec.speed).toFixed(2) + '×': '') + "</div>" +
-(sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") +
-(tagsHtml? "<div>" + tagsHtml + "</div>": "") + "</div>" +
+(sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") + "</div>" +
 '<div class="loop-actions"><button class="btn small act-activate" type="button">▶ 有効化</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>';
 item.innerHTML = mainHtml;
 if (isEditing){
 if (!loopEditDraft || loopEditDraft.id !== sec.id){
-loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.b), speedStr: ((sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed).toFixed(2), note: sec.note || "", tags: (sec.tags || []).join(", ")};
+loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.b), speedStr: ((sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed).toFixed(2), note: sec.note || ""};
 }
 var draft = loopEditDraft;
 var curSpeedVal = parseFloat(draft.speedStr);
@@ -1204,8 +1192,7 @@ editDiv.innerHTML =
 '<div class="speed-presets-edit">' +
 [0.25,0.5,0.75,1,1.25,1.5].map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
 '</div></div>' +
-'<div class="edit-grid"><div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
-'<div><label for="edit-tags-' + sec.id + '">タグ（カンマ区切り）</label><input id="edit-tags-' + sec.id + '" class="edit-tags" type="text" value="' + esc(draft.tags || "") + '" placeholder="例：速弾き, ソロ"></div></div>' +
+'<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
 '<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始・終了時間を変えると、保存しなくてもすぐプレイヤーのループに反映されます。プレビューを押すと、編集中の時間と倍率でその場で再生して確認できます。</p>' +
 '<div class="edit-actions"><button class="btn edit-preview" type="button">▶ プレビュー</button><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
@@ -1216,7 +1203,6 @@ loopEditDraft.aStr = editDiv.querySelector(".edit-a").value;
 loopEditDraft.bStr = editDiv.querySelector(".edit-b").value;
 loopEditDraft.speedStr = editDiv.querySelector(".edit-speed").value;
 loopEditDraft.note = editDiv.querySelector(".edit-note").value;
-loopEditDraft.tags = editDiv.querySelector(".edit-tags").value;
 }
 editDiv.querySelectorAll("input").forEach(function(inp){
 inp.addEventListener("input", syncDraftFromInputs);
@@ -1311,7 +1297,6 @@ var newName = editDiv.querySelector(".edit-name").value.trim() || sec.name;
 sec.name = newName;
 sec.a = vals.a; sec.b = vals.b; sec.speed = vals.speed;
 sec.note = editDiv.querySelector(".edit-note").value.trim();
-sec.tags = editDiv.querySelector(".edit-tags").value.split(/[,、]/).map(function(t){ return t.trim();}).filter(function(t){ return t;});
 editingLoopId = null; loopEditDraft = null;
 if (wasActive || (loopA != null && loopB != null)){
 // if this loop was the active one, keep player in sync with new values
@@ -1353,10 +1338,9 @@ if (!currentSong){ toast("先に曲を選んでください"); return;}
 if (loopA == null || loopB == null){ toast("先に開始旗と終了旗を設定してください"); return;}
 var secs = sectionsOf(currentSong.id);
 var name = $("loopName").value.trim() || ("ループ" + (secs.length + 1));
-var tags = $("loopTags").value.split(/[,、]/).map(function(t){ return t.trim();}).filter(function(t){ return t;});
 secs.push({ id: nextId(), name: name, a: Math.round(loopA*100)/100, b: Math.round(loopB*100)/100,
-note: $("loopNote").value.trim(), tags: tags, speed: clampSpeed(speed)});
-$("loopName").value = ""; $("loopNote").value = ""; $("loopTags").value = "";
+note: $("loopNote").value.trim(), speed: clampSpeed(speed)});
+$("loopName").value = ""; $("loopNote").value = "";
 showNameRow(false);
 renderSections(); renderCompact(); toast("ループ「" + name + "」を保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
 });
@@ -1419,13 +1403,7 @@ legend.push('<span><i style="background:var(--danger)"></i>編集中のループ
 }
 $("tlLoops").innerHTML = loopsHtml;
 $("tlLegend").innerHTML = legend.join("");
-/* Comment markers */
-var marks = "";
-comments.filter(function(c){ return c.songId === currentSong.id && c.time != null;}).forEach(function(c){
-if (c.time < viewStart || c.time > viewEnd) return;
-marks += '<div class="tl-mark" style="left:' + pct(c.time) + '" title="' + fmt(c.time) + " " + esc(c.name) + '"></div>';
-});
-$("tlMarks").innerHTML = marks;
+$("tlMarks").innerHTML = "";
 /* Ruler: interval follows zoom */
 var iv = tickInterval(span);
 $("tlRange").textContent = fmt(viewStart) + " – " + fmt(viewEnd) + " / 全長 " + fmt(d);
@@ -1583,7 +1561,6 @@ lines.push("【" + s.title + (s.artist? " — " + s.artist: "") + "】");
 secs.forEach(function(sec){
 lines.push("🔁 ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + (sec.speed != null? " 速度 " + Number(sec.speed).toFixed(2) + "×": ""));
 if (sec.note) lines.push(" ノート：" + sec.note);
-if (sec.tags && sec.tags.length) lines.push(" タグ：" + sec.tags.map(function(t){ return "#" + t;}).join(" "));
 });
 mine.filter(function(c){ return!c.parentId;}).forEach(function(c){
 lines.push("[" + (c.time==null? "--:--": fmt(c.time)) + "] " + c.name + ": " + c.text);
@@ -1610,7 +1587,7 @@ Object.keys(loopSections).forEach(function(sid){
 var idx = songIndex[sid];
 if (idx == null) return;
 (loopSections[sid] || []).forEach(function(sec){
-loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b, note: sec.note || "", tags: sec.tags || [], speed: sec.speed != null? sec.speed: null});
+loopData.push({ song: idx, name: sec.name, a: sec.a, b: sec.b, note: sec.note || "", speed: sec.speed != null? sec.speed: null});
 });
 });
 return {
@@ -1672,13 +1649,13 @@ if (!s) { stats.skippedSongs++; return null;}
 songs.push(s); stats.addedSongs++;
 return s;
 }
-function ensureLoop(songId, name, a, b, stats, note, tags, speedVal){
+function ensureLoop(songId, name, a, b, stats, note, speedVal){
 if (a == null || b == null || isNaN(a) || isNaN(b) || b <= a) return;
 var secs = sectionsOf(songId);
 var dup = secs.some(function(x){ return x.name === name && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005;});
 if (dup) { stats.skipped++; return;}
 secs.push({ id: nextId(), name: name || ("ループ" + (secs.length + 1)), a: Math.round(a*100)/100, b: Math.round(b*100)/100,
-note: note || "", tags: Array.isArray(tags)? tags: [], speed: (speedVal != null && !isNaN(speedVal))? clampSpeed(speedVal): null});
+note: note || "", speed: (speedVal != null && !isNaN(speedVal))? clampSpeed(speedVal): null});
 stats.addedLoops++;
 }
 function ensureComment(songId, time, name, text, parentId, stats){
@@ -1708,7 +1685,7 @@ var s = ensureSong(imp, stats);
 if (s) songMap[i] = s.id;
 });
 (data.loops || []).forEach(function(l){
-if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats, l.note, l.tags, l.speed);
+if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats, l.note, l.speed);
 });
 var commentMap = {};
 (data.comments || []).forEach(function(c, i){
@@ -1806,7 +1783,7 @@ return;
 var loopM = trimmed.match(/^🔁\s*ループ「(.+?)」\s+(\S+)\s*[–—-]\s*(\S+?)(?:\s+速度\s*([0-9.]+)×)?$/);
 if (loopM && currentSongId != null){
 var spd = loopM[4]? parseFloat(loopM[4]): null;
-ensureLoop(currentSongId, loopM[1], parseClock(loopM[2], true), parseClock(loopM[3], true), stats, "", [], spd);
+ensureLoop(currentSongId, loopM[1], parseClock(loopM[2], true), parseClock(loopM[3], true), stats, "", spd);
 lastComment = null;
 return;
 }
