@@ -7,6 +7,10 @@
 <link rel="icon" href="data:," />
 <title>楽器演奏ルーパー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.youtube.com">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preconnect" href="https://www.google.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -486,6 +490,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <div class="yt-error-title">この動画は、ここでは再生できません</div>
 <p class="yt-error-msg" id="ytErrorMsg">この動画は埋め込み再生が許可されていないため、このページの中では再生できません。YouTubeで開くと、そのまま再生できます。</p>
 <a class="btn primary" id="ytErrorOpen" href="#" target="_blank" rel="noopener">▶ YouTubeで開く</a>
+<button class="btn" id="ytErrorRetry" type="button" style="display:none">↻ もう一度読み込む</button>
 <p class="yt-error-msg">ループ一覧など、ほかの機能はそのまま使えます。別の曲を選ぶと、この案内は消えます。</p>
 <div class="yt-error-code mono" id="ytErrorCode"></div>
 </div>
@@ -676,7 +681,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
 (function(){
 "use strict";
@@ -724,7 +728,9 @@ var songs = [];
 var comments = []; // {id, songId, time|null, name, text, parentId}
 var currentSong = null;
 var mode = null; // 'youtube' | 'audio'
-var ytPlayer = null, ytReady = false, pendingVideoId = null;
+var ytPlayer = null, ytReady = false, pendingVideoId = null, pendingAutoplay = true;
+var ytApiAttempts = 0, ytApiTimer = null, ytApiGivenUp = false;
+var ytLoadTimer = null, ytLoadRetries = 0, ytStalled = false, ytWantPlay = false;
 var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
 var loopSections = {}; // songId -> [{id, name, a, b, note, speed}] (in-memory only)
@@ -919,7 +925,7 @@ return false;
 }
 function play(){
 if (waActive()){ waStart(waPlaying? waTime(): waStartOff);}
-else if (mode==="youtube"){ if (ytPlayer && ytReady) ytPlayer.playVideo(); else setLoading(true);}
+else if (mode==="youtube"){ if (ytStalled && ytReady && ytPlayer && currentSong){ loadYtVideo(currentSong.videoId || ytId(currentSong.url), true);} else if (ytPlayer && ytReady) ytPlayer.playVideo(); else { setLoading(true); if (!ytReady) ensureYtApi();}}
 else if (mode==="audio") audioEl.play();
 syncPlayBtn();
 }
@@ -958,43 +964,152 @@ btn.textContent = isPlaying()? "⏸ 一時停止": "▶ 再生";
 /* Embed errors (101/150: embedding disabled by the owner, 153: player
    configuration error, 100: not found / private, 2/5: other) are caught via
    onError and replaced with a friendly notice inside the player area, so the
-   raw YouTube error screen never shows and the rest of the page keeps working. */
+   raw YouTube error screen never shows and the rest of the page keeps working.
+
+   Loading reliability: the IFrame API script used to be a plain blocking
+   <script> tag — if youtube.com was slow, the whole app waited, and if the
+   request failed, nothing ever retried and the play button sat on
+   "読み込み中…" forever. Now the API is injected asynchronously (the app
+   starts instantly either way), a watchdog re-injects it with backoff when
+   it does not become ready, and each video load has its own watchdog that
+   retries once and then offers a manual reload instead of spinning forever. */
 function hideYtError(){
 $("ytError").style.display = "none";
 }
 function showYtError(code){
 setLoading(false);
-var msg;
+var msg, retryable = true;
 if (code === 101 || code === 150 || code === 153){
 msg = "この動画は、YouTube側で埋め込み再生が許可されていないため、このページの中では再生できません。YouTubeで開くと、そのまま再生できます。";
+retryable = false;
 } else if (code === 100){
 msg = "動画が見つかりませんでした。削除されたか、非公開になっている可能性があります。YouTubeで開いて確認できます。";
+retryable = false;
+} else if (code === "stall"){
+msg = "動画の読み込みに時間がかかりすぎています。通信が不安定なときに起こります。「もう一度読み込む」を押すか、YouTubeで開いて再生できます。";
+} else if (code === "api"){
+msg = "YouTubeのプレイヤーを読み込めませんでした。通信が不安定なときに起こります。「もう一度読み込む」を押すか、YouTubeで開いて再生できます。";
 } else {
-msg = "YouTubeの再生でエラーが発生しました。YouTubeで開くと、そのまま再生できます。";
+msg = "YouTubeの再生でエラーが発生しました。「もう一度読み込む」を押すか、YouTubeで開くと、そのまま再生できます。";
 }
 $("ytErrorMsg").textContent = msg;
-$("ytErrorCode").textContent = (code != null && code !== "")? ("エラーコード: " + code): "";
+$("ytErrorCode").textContent = (code != null && code !== "" && code !== "stall" && code !== "api")? ("エラーコード: " + code): "";
+$("ytErrorRetry").style.display = retryable? "": "none";
 var vid = currentSong? (currentSong.videoId || ytId(currentSong.url || "")): null;
 $("ytErrorOpen").href = vid? ("https://www.youtube.com/watch?v=" + vid): "https://www.youtube.com/";
 $("ytError").style.display = "flex";
 syncPlayBtn();
 }
-window.onYouTubeIframeAPIReady = function(){
+$("ytErrorRetry").addEventListener("click", function(){
+hideYtError();
+if (!currentSong || currentSong.type !== "youtube") return;
+if (!ytReady){ ytApiGivenUp = false; ytApiAttempts = 0; ensureYtApi(); loadSong(currentSong, true); return;}
+ytLoadRetries = 0;
+loadYtVideo(currentSong.videoId || ytId(currentSong.url), true);
+});
+
+/* --- IFrame API loading with retry --- */
+function ensureYtApi(){
+if (ytReady || ytPlayer) return;
+if (window.YT && YT.Player){ createYtPlayer(); return;}
+if (ytApiGivenUp) return;
+if (document.querySelector("script[data-yt-api]")) return; // an attempt is in flight
+ytApiAttempts++;
+var tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+tag.async = true;
+tag.setAttribute("data-yt-api", "1");
+tag.onerror = function(){
+tag.remove();
+scheduleYtApiRetry();
+};
+document.head.appendChild(tag);
+clearTimeout(ytApiTimer);
+ytApiTimer = setTimeout(function(){
+/* The script arrived (or is stuck) but the API never became ready:
+   drop the tag so the next attempt can inject a fresh one. */
+var old = document.querySelector("script[data-yt-api]");
+if (old) old.remove();
+if (!ytReady) scheduleYtApiRetry();
+}, 10000);
+}
+function scheduleYtApiRetry(){
+if (ytReady || ytPlayer || ytApiGivenUp) return;
+if (ytApiAttempts >= 5){
+ytApiGivenUp = true;
+if (mode === "youtube" && currentSong) showYtError("api");
+return;
+}
+clearTimeout(ytApiTimer);
+ytApiTimer = setTimeout(ensureYtApi, Math.min(1000 * ytApiAttempts, 4000));
+}
+window.addEventListener("online", function(){
+if (!ytReady && !ytPlayer){ ytApiGivenUp = false; ytApiAttempts = 0; ensureYtApi();}
+});
+window.onYouTubeIframeAPIReady = function(){ createYtPlayer(); };
+function createYtPlayer(){
+if (ytPlayer || !(window.YT && YT.Player)) return;
+clearTimeout(ytApiTimer);
 ytPlayer = new YT.Player("yt-holder", {
 width:"100%", height:"100%",
 playerVars:{ playsinline:1, rel:0},
 events:{
-onReady:function(){ ytReady = true; if (pendingVideoId){ setLoading(true); ytPlayer.loadVideoById(pendingVideoId); pendingVideoId = null;} applySpeed();},
-onStateChange:function(e){ if (window.YT){ if (e.data === YT.PlayerState.BUFFERING) mediaLoading = true; else if (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED || e.data === YT.PlayerState.CUED) mediaLoading = false; if (e.data === YT.PlayerState.PLAYING) hideYtError();} syncPlayBtn();},
-onError:function(e){ showYtError(e && e.data); }
+onReady:function(){
+ytReady = true; ytApiGivenUp = false;
+if (pendingVideoId){ var v = pendingVideoId, ap = pendingAutoplay; pendingVideoId = null; loadYtVideo(v, ap);}
+applySpeed();
+},
+onStateChange:function(e){
+if (window.YT){
+if (e.data === YT.PlayerState.BUFFERING){ mediaLoading = true; }
+else if (e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED || e.data === YT.PlayerState.CUED){
+mediaLoading = false; clearYtLoadWatchdog(); ytStalled = false;
+}
+if (e.data === YT.PlayerState.PLAYING) hideYtError();
+}
+syncPlayBtn();
+},
+onError:function(e){ clearYtLoadWatchdog(); showYtError(e && e.data); }
 }
 });
-};
+}
+/* Safety net: if the API finished loading before our ready callback was
+   assigned (cache / back-forward cache), create the player directly. */
+setInterval(function(){ if (!ytPlayer && window.YT && YT.Player) createYtPlayer(); }, 800);
+
+/* --- Per-video load watchdog: one automatic retry, then a manual one --- */
+function clearYtLoadWatchdog(){ clearTimeout(ytLoadTimer); ytLoadTimer = null;}
+function armYtLoadWatchdog(vid, autoplay){
+clearYtLoadWatchdog();
+ytLoadTimer = setTimeout(function(){
+ytLoadTimer = null;
+if (mode !== "youtube" || !currentSong) return;
+if ((currentSong.videoId || ytId(currentSong.url)) !== vid) return;
+if (!mediaLoading) return; // settled already (playing / paused / cued)
+if (ytLoadRetries < 1){
+ytLoadRetries++;
+try{ if (autoplay) ytPlayer.loadVideoById(vid); else ytPlayer.cueVideoById(vid);}catch(e){}
+armYtLoadWatchdog(vid, autoplay);
+} else {
+ytStalled = true;
+showYtError("stall");
+}
+}, 12000);
+}
+function loadYtVideo(vid, autoplay){
+if (!vid || !ytPlayer || !ytReady) return;
+hideYtError();
+ytStalled = false; ytWantPlay = !!autoplay;
+setLoading(true);
+try{ if (autoplay) ytPlayer.loadVideoById(vid); else ytPlayer.cueVideoById(vid);}catch(e){}
+armYtLoadWatchdog(vid, autoplay);
+}
 
 /* ---------- Load a song ---------- */
 function loadSong(song, autoplay){
 currentSong = song;
 hideYtError();
+clearYtLoadWatchdog(); ytStalled = false; ytLoadRetries = 0;
 editingLoopId = null; loopEditDraft = null; copyLoopId = null;
 waTeardown(); rulerKey = "";
 clearAB(false);
@@ -1014,9 +1129,8 @@ $("yt-holder").style.display = "block";
 $("audioMsg").style.display = "none";
 audioEl.style.display = "none"; audioEl.pause(); audioEl.removeAttribute("src");
 var vid = song.videoId || ytId(song.url);
-setLoading(true);
-if (ytReady && ytPlayer){ ytPlayer.loadVideoById(vid); if (!autoplay) setTimeout(function(){ ytPlayer.pauseVideo();}, 350);}
-else pendingVideoId = vid;
+if (ytReady && ytPlayer){ loadYtVideo(vid, autoplay); }
+else { pendingVideoId = vid; pendingAutoplay = !!autoplay; setLoading(true); ensureYtApi(); }
 } else {
 mode = "audio";
 if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
@@ -2647,6 +2761,7 @@ $("importText").value = "";
 /* ---------- Init ---------- */
 /* Build the sample playlist in a random order on every open */
 shuffleSampleSongs(false, true);
+ensureYtApi(); // start the YouTube API loading in parallel right away
 renderSongs(); renderComments(); updateAB(); updateStampView(); renderCaptureSpeedChecks(); updateSampleOrderUI();
 if (songs.length) loadSong(songs[0], false);
 })();
