@@ -403,6 +403,27 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 @media (max-width:560px){.speed-compact{gap:6px;padding:8px}.speed-compact .speed-presets{flex-wrap:wrap;flex-basis:100%;order:3}.speed-compact .speed-presets .btn{flex:1 1 18%}.speed-compact .sc-step{margin-left:auto}}
 .loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
+/* Phone (<=920px): the fixed bottom bar carries transport, quick capture,
+   loop on/off and speed, so the duplicate in-page controls are hidden and
+   the gaps they left are tightened. The hidden elements stay in the DOM:
+   the bottom bar proxies its taps to them, and the state-sync code keeps
+   updating them. Start/end flags, the A-B time chips and the fine-adjust
+   times stay visible for making loops. Desktop (>920px) is untouched. */
+@media (max-width:920px){
+.player-card .transport{display:none}
+.player-card .speed-compact{display:none}
+.loops-card .speed-box{display:none}
+.loops-card .capture-box>h4,.loops-card .capture-box>.hint,.loops-card .capture-row{display:none}
+.loops-card #toggleLoop{display:none}
+.layout{gap:12px}
+.seekrow{margin-top:10px}
+.tl-head{margin-top:8px}
+.capture-box{margin-bottom:8px;padding-bottom:10px}
+.capture-multi{margin-top:0!important}
+.loop-list{margin-top:6px}
+.ab-times{margin:2px 0 6px}
+.loops-card .transport{margin-top:6px!important}
+}
 </style>
 </head>
 <body>
