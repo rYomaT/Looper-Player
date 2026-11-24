@@ -411,6 +411,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .mgmt-queue{border:1.5px solid var(--teal);background:var(--teal-soft);border-radius:12px;padding:10px 12px;margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .loop-addlist{width:100%;border-top:1.5px dashed var(--line2);padding-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .loop-addlist input{flex:1;min-width:140px;width:auto}
+.loop-edit .edit-addlist .loop-addlist{border-top:none;padding-top:2px}
 .mgmt-empty{color:var(--ink2);font-size:.92rem;padding:10px 0;margin:0}
 .settings-box{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2);margin-bottom:10px}
 .settings-box h3{margin:0 0 6px;font-size:1rem}
@@ -472,14 +473,14 @@ body.docked .timeline{height:28px}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、ループリスト上部の「キャプチャ秒数」で5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（最小時間＝初期0.3秒＝より短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（最小時間＝初期0.3秒＝より短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
-<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの「リストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目を変更できます（初期値はいままで通りで、変更は保存されます）。</li>
+<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目を変更できます（初期値はいままで通りで、変更は保存されます）。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
@@ -673,18 +674,7 @@ body.docked .timeline{height:28px}
 <h2>A–Bループ・ループリスト</h2>
 <div class="capture-box" aria-label="クイックキャプチャ：今の位置からかんたんにループを作る">
 <h4 style="margin-top:0">クイックキャプチャ：<span class="cap-sec-txt">10</span>秒間のループを作る</h4>
-<p class="hint" style="margin:0">「<span class="cap-sec-txt">10</span>秒間」は今から<span class="cap-sec-txt">10</span>秒間、「今までの<span class="cap-sec-txt">10</span>秒間」は今までの<span class="cap-sec-txt">10</span>秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（押している時間が最小時間＝初期0.3秒、管理画面の「設定」で変更できます＝より短いと保存されません）。キャプチャの秒数は、下のプリセットか入力欄で変更でき、設定は保存されます。</p>
-<div class="capture-sec" aria-label="クイックキャプチャの秒数を変更する">
-<span class="capture-sec-label">キャプチャ秒数</span>
-<div class="capture-sec-presets" id="captureSecPresets">
-<button class="btn small" type="button" data-capture-sec="5">5秒</button>
-<button class="btn small" type="button" data-capture-sec="10">10秒</button>
-<button class="btn small" type="button" data-capture-sec="15">15秒</button>
-<button class="btn small" type="button" data-capture-sec="20">20秒</button>
-</div>
-<input type="number" class="capture-sec-input" id="captureSecInput" min="1" max="120" step="1" value="10" aria-label="任意の秒数を入力（1〜120秒）">
-<span class="capture-sec-unit">秒（任意入力）</span>
-</div>
+<p class="hint" style="margin:0">「<span class="cap-sec-txt">10</span>秒間」は今から<span class="cap-sec-txt">10</span>秒間、「今までの<span class="cap-sec-txt">10</span>秒間」は今までの<span class="cap-sec-txt">10</span>秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（押している時間が最小時間＝初期0.3秒、管理画面の「設定」で変更できます＝より短いと保存されません）。キャプチャの秒数は、管理画面の「設定」タブで変更でき、設定は保存されます。</p>
 <div class="capture-row">
 <button class="btn small capture-btn" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="btn small capture-btn" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
@@ -1963,10 +1953,11 @@ toast(label + "：この区間のループは保存済みです（" + rangeTxt +
 document.querySelectorAll("[data-capture]").forEach(function(btn){
 btn.addEventListener("click", function(){ captureLoop(btn.getAttribute("data-capture"));});
 });
-/* Quick-capture length: presets (5/10/15/20s) or a free number input
-   (1–120s). The chosen length relabels every capture button in all
-   three places (transport, loop card, mobile bottom bar) and is
-   persisted with the rest of the state (see buildLocalData). */
+/* Quick-capture length: changed only in the management screen's
+   settings tab (presets 5/10/15/20s or a free number input, 1–120s).
+   The chosen length relabels every capture button in all three places
+   (transport, loop card, mobile bottom bar) and is persisted with the
+   rest of the state (see buildLocalData). */
 function capSecTxt(){
 var v = Math.round(captureSec * 10) / 10;
 return (v % 1 === 0)? String(Math.round(v)): String(v);
@@ -1979,12 +1970,6 @@ btn.textContent = (mode === "back"? "今までの": "") + txt + "秒間";
 btn.setAttribute("aria-label", "クイックキャプチャ：" + (mode === "back"? "今までの": "今から") + txt + "秒間のループを作る");
 });
 document.querySelectorAll(".cap-sec-txt").forEach(function(el){ el.textContent = txt; });
-var presets = $("captureSecPresets");
-if (presets) presets.querySelectorAll("button").forEach(function(b){
-b.classList.toggle("active", Math.abs(parseFloat(b.getAttribute("data-capture-sec")) - captureSec) < 0.001);
-});
-var inp = $("captureSecInput");
-if (inp && document.activeElement !== inp) inp.value = txt;
 }
 function setCaptureSec(v, announce){
 if (v == null || isNaN(v)) { syncCaptureSecUI(); return; }
@@ -1992,15 +1977,6 @@ captureSec = Math.round(Math.min(120, Math.max(1, v)) * 10) / 10;
 syncCaptureSecUI();
 saveSettingsNow();
 if (announce) toast("クイックキャプチャの秒数を" + capSecTxt() + "秒にしました");
-}
-var capPresetsEl = $("captureSecPresets");
-if (capPresetsEl) capPresetsEl.querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ setCaptureSec(parseFloat(b.getAttribute("data-capture-sec")), true); });
-});
-var capInputEl = $("captureSecInput");
-if (capInputEl){
-capInputEl.addEventListener("change", function(){ setCaptureSec(parseFloat(this.value), true); });
-capInputEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); this.blur(); } });
 }
 /* 長押しループ (hold-to-loop): pressing the button marks the loop start
    at the press position; releasing marks the end at the release
@@ -2202,38 +2178,12 @@ var mainHtml = '<div class="loop-main">' +
 '<div class="loop-first-row"><span class="loop-rate meta" title="押すとこの区間から再生します（長押しで編集）"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge + '</span>' +
 '<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "ループ OFF": "▶ 有効化") + '</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
-'<button class="btn small act-addlist" type="button" aria-expanded="' + (addListOpenFor === sec.id? "true": "false") + '">リストに追加</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>' +
 '<div class="loop-second-row meta" title="押すとこの区間から再生します（長押しで編集）"><span class="range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
 (sec.name? '<span class="name">' + esc(sec.name) + '</span>': "") + '</div>' +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") +
 '</div>';
 item.innerHTML = mainHtml;
-if (addListOpenFor === sec.id){
-var addPanel = document.createElement("div");
-addPanel.className = "loop-addlist";
-var addHtml = "";
-if (practiceLists.length){
-addHtml += practiceLists.map(function(l){
-var has = l.items.some(function(it){ return it.songId === currentSong.id && it.loopId === sec.id;});
-return '<button class="btn small addlist-pick" type="button" data-list="' + l.id + '"' + (has? " disabled": "") + '>「' + esc(l.name) + '」に' + (has? "追加済み": "追加") + "</button>";
-}).join("");
-}
-addHtml += '<input type="text" class="addlist-new-name" placeholder="新しい保存ループリスト名（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
-addPanel.innerHTML = addHtml;
-item.appendChild(addPanel);
-addPanel.querySelectorAll(".addlist-pick").forEach(function(b){
-b.addEventListener("click", function(){ addLoopToPracticeList(parseInt(b.getAttribute("data-list"), 10), currentSong.id, sec.id); renderSections(); });
-});
-addPanel.querySelector(".addlist-create").addEventListener("click", function(){
-var nm = addPanel.querySelector(".addlist-new-name").value.trim();
-if (!nm){ toast("保存ループリストの名前を入れてください"); return;}
-var nl = { id: nextId(), name: nm, items: [] };
-practiceLists.push(nl);
-addLoopToPracticeList(nl.id, currentSong.id, sec.id);
-renderSections();
-});
-}
 if (isEditing){
 if (!loopEditDraft || loopEditDraft.id !== sec.id){
 loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.b), speedStr: ((sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed).toFixed(2), note: sec.note || ""};
@@ -2241,6 +2191,16 @@ loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.
 var draft = loopEditDraft;
 var curSpeedVal = parseFloat(draft.speedStr);
 if (isNaN(curSpeedVal)) curSpeedVal = (sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed;
+/* Add-to-list lives in the edit form (not on the loop row): one pick
+   button per saved-loop list, plus create-a-new-list-and-add. */
+var addListBtnsHtml = "";
+if (practiceLists.length){
+addListBtnsHtml += practiceLists.map(function(l){
+var has = l.items.some(function(it){ return it.songId === currentSong.id && it.loopId === sec.id;});
+return '<button class="btn small addlist-pick" type="button" data-list="' + l.id + '"' + (has? " disabled": "") + '>「' + esc(l.name) + '」に' + (has? "追加済み": "追加") + "</button>";
+}).join("");
+}
+addListBtnsHtml += '<input type="text" class="addlist-new-name" placeholder="新しい保存ループリスト名（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
 var editDiv = document.createElement("div");
 editDiv.className = "loop-edit";
 editDiv.innerHTML =
@@ -2264,8 +2224,20 @@ SPEED_PRESETS.map(function(v){ return '<button class="btn edit-speed-preset" typ
 '<div><label for="edit-name-' + sec.id + '">名前</label><input id="edit-name-' + sec.id + '" class="edit-name" type="text" value="' + esc(draft.name) + '"></div>' +
 '<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
 '</div></details>' +
+'<div class="edit-addlist"><label>保存ループリストに追加</label><div class="loop-addlist">' + addListBtnsHtml + '</div></div>' +
 '<div class="edit-actions"><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
+editDiv.querySelectorAll(".addlist-pick").forEach(function(b){
+b.addEventListener("click", function(){ addLoopToPracticeList(parseInt(b.getAttribute("data-list"), 10), currentSong.id, sec.id); renderSections(); });
+});
+editDiv.querySelector(".addlist-create").addEventListener("click", function(){
+var nm = editDiv.querySelector(".addlist-new-name").value.trim();
+if (!nm){ toast("保存ループリストの名前を入れてください"); return;}
+var nl = { id: nextId(), name: nm, items: [] };
+practiceLists.push(nl);
+addLoopToPracticeList(nl.id, currentSong.id, sec.id);
+renderSections();
+});
 function syncDraftFromInputs(){
 if (!loopEditDraft || loopEditDraft.id !== sec.id) return;
 loopEditDraft.name = editDiv.querySelector(".edit-name").value;
@@ -2484,10 +2456,6 @@ item.querySelector(".act-activate").addEventListener("click", function(){
 if (isLoopingSection(sec)) stopLoopOnly();
 else activateSection(sec);
 });
-item.querySelector(".act-addlist").addEventListener("click", function(){
-addListOpenFor = (addListOpenFor === sec.id)? null: sec.id;
-renderSections();
-});
 item.querySelector(".act-edit").addEventListener("click", function(){
 if (isEditing){ editingLoopId = null; loopEditDraft = null; renderSections();}
 else openLoopEditor(sec);
@@ -2496,7 +2464,6 @@ item.querySelector(".del").addEventListener("click", function(){
 if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
 if (flagSavedId === sec.id) flagSavedId = null;
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
-if (addListOpenFor === sec.id) addListOpenFor = null;
 cleanupListRefs();
 renderSections(); renderCompact(); toast("ループを削除しました");
 });
@@ -3171,7 +3138,6 @@ var mgmtTab = "loops";
 var mgmtLoopQuery = "", mgmtSongQuery = "";
 var expandedPracticeId = null, expandedSetlistId = null;
 var editingSongMgmtId = null;
-var addListOpenFor = null; // loop id whose リストに追加 panel is open in the per-song loop list
 var practiceQueue = null;  // {name, items:[{songId, loopId}], idx, wraps, lastT}
 var pendingPlaySection = null; // {songId, loopId, tries} activated once a switched-to song can play
 var PRACTICE_REPEATS = 3;
@@ -3358,7 +3324,7 @@ html += '<div class="mgmt-queue"><strong>▶ 連続練習中：「' + esc(q.name
 '<p class="hint" style="margin:0 0 10px">各ループを' + PRACTICE_REPEATS + '回繰り返すと、自動で次へ進みます。別のループを手動で選ぶと連続練習は止まります。</p>';
 }
 if (!practiceLists.length){
-html += '<p class="mgmt-empty">保存ループリストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの「リストに追加」から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
+html += '<p class="mgmt-empty">保存ループリストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの編集画面から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
 return html;
 }
 html += practiceLists.map(function(l){
@@ -3464,7 +3430,7 @@ html += '<div class="settings-box"><h3>2. ジャンプする秒数</h3>' +
 '<p class="hint" style="margin:0">プレイヤーの「⏪ −○秒／+○秒 ⏩」ボタンと、携帯の下部バーで前後にジャンプする秒数です（初期は10秒）。</p>' +
 chips("set-jump", numOpts([5, 10, 15, 30], "秒"), jumpSec) + "</div>";
 html += '<div class="settings-box"><h3>3. クイックキャプチャの秒数</h3>' +
-'<p class="hint" style="margin:0">「○秒間」「今までの○秒間」で作るループの長さです（初期は10秒）。ループリスト上部の「キャプチャ秒数」と同じ設定で、どちらで変えても連動します。</p>' +
+'<p class="hint" style="margin:0">「○秒間」「今までの○秒間」で作るループの長さです（初期は10秒）。</p>' +
 chips("set-capture-preset", numOpts([5, 10, 15, 20], "秒"), captureSec) +
 '<div class="capture-sec" style="margin-top:8px"><input type="number" id="setCaptureSecInput" min="1" max="120" step="1" value="' + capSecTxt() + '" aria-label="任意の秒数を入力（1〜120秒）"><span class="capture-sec-unit">秒（任意入力）</span></div></div>';
 html += '<div class="settings-box"><h3>4. 長押しループの最小時間</h3>' +
@@ -3527,7 +3493,6 @@ else if (act === "loop-del"){
 if (loopSections[songId]) loopSections[songId] = loopSections[songId].filter(function(x){ return x.id !== loopId; });
 if (editingLoopId === loopId){ editingLoopId = null; loopEditDraft = null; }
 if (flagSavedId === loopId) flagSavedId = null;
-if (addListOpenFor === loopId) addListOpenFor = null;
 cleanupListRefs(); renderSections(); renderMgmtRows();
 toast("ループを削除しました");
 }
