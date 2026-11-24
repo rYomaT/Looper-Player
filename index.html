@@ -182,8 +182,8 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-edit .time-adj{display:flex;gap:5px;margin-top:6px}
 .loop-edit .time-adj button{flex:1;border:1.5px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:9px;font-weight:700;font-size:.95rem;padding:.4rem 0;min-height:2.9rem}
 .loop-edit .time-adj button:hover{border-color:var(--accent);color:var(--accent)}
-.loop-edit .speed-presets-edit{display:flex;gap:8px;margin-top:6px}
-.loop-edit .speed-presets-edit .btn{flex:1;min-height:3rem;font-size:1.05rem;padding:.5rem .2rem}
+.loop-edit .speed-presets-edit{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.loop-edit .speed-presets-edit .btn{flex:1 1 22%;min-height:3rem;font-size:1.05rem;padding:.5rem .2rem}
 .loop-edit .speed-presets-edit .btn.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .loop-edit .edit-time-block{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel2)}
 .loop-edit .edit-time-head{display:flex;align-items:center;gap:10px}
@@ -288,7 +288,7 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .mb-speed-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:900;font-size:.9rem}
 .mb-speed-head .btn{min-height:2rem;padding:.15rem .6rem}
 .mb-speed-panel .speed-presets{margin-top:8px}
-.mb-speed-panel .speed-presets .btn{flex:1}
+.mb-speed-panel .speed-presets .btn{flex:1 1 22%}
 .mb-speed-panel .fader-row{margin-top:6px}
 }
 @media (max-width:380px){.mb-btn .mb-lb{font-size:.58rem}.mb-btn .mb-ic{font-size:1rem}.mb-cap{font-size:.78rem}.mb-cap-label{font-size:.62rem}}
@@ -364,11 +364,11 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .speed-box{margin:0 0 12px;border-bottom:1.5px dashed var(--line2);padding-bottom:12px}
 .speed-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
 .speed-box .speed-presets{margin-top:8px}
-.speed-box .speed-presets .btn{flex:1;min-width:0}
+.speed-box .speed-presets .btn{flex:1 1 3.2em;min-width:0}
 .speed-compact{margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--panel2);border:1.5px solid var(--line);border-radius:10px;padding:8px 10px}
 .speed-compact .sc-label{font-weight:900;font-size:.88rem;white-space:nowrap}
-.speed-compact .speed-presets{margin-top:0;flex:1 1 240px;flex-wrap:nowrap;gap:5px;min-width:0}
-.speed-compact .speed-presets .btn{flex:1;min-width:0;padding:.3rem .15rem}
+.speed-compact .speed-presets{margin-top:0;flex:1 1 240px;flex-wrap:wrap;gap:5px;min-width:0}
+.speed-compact .speed-presets .btn{flex:1 1 3.2em;min-width:0;padding:.3rem .15rem}
 .speed-compact .sc-step{display:flex;gap:5px;flex:none;align-items:center}
 .speed-compact .sc-step .hint{white-space:nowrap}
 @media (max-width:560px){.speed-compact{gap:6px;padding:8px}.speed-compact .speed-presets{flex-wrap:wrap;flex-basis:100%;order:3}.speed-compact .speed-presets .btn{flex:1 1 18%}.speed-compact .sc-step{margin-left:auto}}
@@ -412,6 +412,12 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .loop-addlist{width:100%;border-top:1.5px dashed var(--line2);padding-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .loop-addlist input{flex:1;min-width:140px;width:auto}
 .mgmt-empty{color:var(--ink2);font-size:.92rem;padding:10px 0;margin:0}
+.settings-box{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2);margin-bottom:10px}
+.settings-box h3{margin:0 0 6px;font-size:1rem}
+.sp-combos{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.sp-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sp-chips .btn{min-width:4em}
+.settings-box input[type="number"]{width:4.6em;flex:none;text-align:center}
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
    so the current time and loop ranges stay visible while capturing or
@@ -466,21 +472,21 @@ body.docked .timeline{height:28px}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、ループリスト上部の「キャプチャ秒数」で5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、ループリスト上部の「キャプチャ秒数」で5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（最小時間＝初期0.3秒＝より短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
-<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>練習リスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの「リストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。練習リストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。</li>
+<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの「リストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目を変更できます（初期値はいままで通りで、変更は保存されます）。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
 ※ 保存したループ・追加した曲・コメント・再生速度は、<strong>あなたのブラウザの保存領域（localStorage）に自動保存され、次に開いたときに復元されます。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ただし保存領域はサイトごとに別々です（このページとGitHub Pages版では別々に保存されます）。サイト間の引っ越しやバックアップには、書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体を保存できないため、曲名などの情報だけが残り、音を再生するにはファイルの再追加が必要です。</p>
 </details>
-<div style="margin-top:12px"><button class="btn" id="gotoMgmt" type="button">🗂 管理画面へ（全ループ・練習リスト・曲リスト・曲）</button></div>
+<div style="margin-top:12px"><button class="btn" id="gotoMgmt" type="button">🗂 管理画面へ（全ループ・保存ループリスト・曲リスト・曲）</button></div>
 </header>
 
 <section class="card library" aria-label="ライブラリ">
@@ -667,7 +673,7 @@ body.docked .timeline{height:28px}
 <h2>A–Bループ・ループリスト</h2>
 <div class="capture-box" aria-label="クイックキャプチャ：今の位置からかんたんにループを作る">
 <h4 style="margin-top:0">クイックキャプチャ：<span class="cap-sec-txt">10</span>秒間のループを作る</h4>
-<p class="hint" style="margin:0">「<span class="cap-sec-txt">10</span>秒間」は今から<span class="cap-sec-txt">10</span>秒間、「今までの<span class="cap-sec-txt">10</span>秒間」は今までの<span class="cap-sec-txt">10</span>秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（0.3秒未満の短い押下は保存されません）。キャプチャの秒数は、下のプリセットか入力欄で変更でき、設定は保存されます。</p>
+<p class="hint" style="margin:0">「<span class="cap-sec-txt">10</span>秒間」は今から<span class="cap-sec-txt">10</span>秒間、「今までの<span class="cap-sec-txt">10</span>秒間」は今までの<span class="cap-sec-txt">10</span>秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（押している時間が最小時間＝初期0.3秒、管理画面の「設定」で変更できます＝より短いと保存されません）。キャプチャの秒数は、下のプリセットか入力欄で変更でき、設定は保存されます。</p>
 <div class="capture-sec" aria-label="クイックキャプチャの秒数を変更する">
 <span class="capture-sec-label">キャプチャ秒数</span>
 <div class="capture-sec-presets" id="captureSecPresets">
@@ -741,12 +747,13 @@ body.docked .timeline{height:28px}
 
 <section class="card mgmt-card" id="mgmtSection" aria-label="管理画面">
 <h2>🗂 管理画面 <span class="count" id="mgmtCount"></span></h2>
-<p class="hint" style="margin:0">曲をまたいで、保存ループ・練習リスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。練習リストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。</p>
+<p class="hint" style="margin:0">曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。保存ループリストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。「設定」タブでは、再生速度の倍率ボタンやジャンプする秒数など9項目を変更できます。</p>
 <div class="mgmt-tabs" role="tablist" aria-label="管理画面の切り替え">
 <button class="btn small" type="button" data-mtab="loops" aria-selected="true">全ループ</button>
-<button class="btn small" type="button" data-mtab="practice" aria-selected="false">練習リスト</button>
+<button class="btn small" type="button" data-mtab="practice" aria-selected="false">保存ループリスト</button>
 <button class="btn small" type="button" data-mtab="setlists" aria-selected="false">曲リスト</button>
 <button class="btn small" type="button" data-mtab="songs" aria-selected="false">曲</button>
+<button class="btn small" type="button" data-mtab="settings" aria-selected="false">設定</button>
 <button class="btn small" type="button" data-mtab="share" aria-selected="false">共有・書き出し</button>
 </div>
 <div id="mgmtBody"></div>
@@ -849,9 +856,90 @@ var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editin
 var stampTime = null;
 var speed = 1;
 var captureSec = 10; // quick-capture length in seconds (user-changeable, persisted)
-/* Speed presets offered by the speed buttons.
-   Any other rate between 0.25× and 2.00× is set with the fader. */
+/* Speed preset buttons: the user picks which rates are shown, in the
+   管理画面「設定」tab (persisted with the rest of the state).
+   SPEED_CANDIDATES is every rate that can be chosen; SPEED_PRESETS is
+   the currently shown selection (default 0.50× / 0.75× / 1.00×).
+   Any other rate between 0.25× and 2.00× is set with the fader.
+   The loop edit form's big preset buttons use the same selection. */
+var SPEED_CANDIDATES = [0.25, 0.5, 0.6, 0.75, 0.8, 0.9, 1, 1.1, 1.25, 1.5, 1.75, 2];
 var SPEED_PRESETS = [0.5, 0.75, 1];
+var SPEED_COMBOS = [
+{ key: "standard", label: "標準（0.50／0.75／1.00）", vals: [0.5, 0.75, 1] },
+{ key: "slow", label: "ゆっくり練習（0.25／0.50／0.75／1.00）", vals: [0.25, 0.5, 0.75, 1] },
+{ key: "fine", label: "細かく（0.50〜1.25を少しずつ）", vals: [0.5, 0.6, 0.75, 0.9, 1, 1.1, 1.25] },
+{ key: "fast", label: "速く（1.00／1.25／1.50／1.75／2.00）", vals: [1, 1.25, 1.5, 1.75, 2] },
+{ key: "all", label: "全部表示", vals: SPEED_CANDIDATES }
+];
+function sanitizeSpeedPresets(arr){
+if (!Array.isArray(arr)) return null;
+var out = [];
+arr.forEach(function(v){
+v = parseFloat(v);
+if (!isNaN(v) && SPEED_CANDIDATES.indexOf(v) >= 0 && out.indexOf(v) < 0) out.push(v);
+});
+out.sort(function(a, b){ return a - b; });
+return out.length? out: null;
+}
+function renderSpeedPresetButtons(){
+["speedPresets", "speedPresetsLoop", "mbSpeedPresets"].forEach(function(id){
+var box = $(id); if (!box) return;
+box.innerHTML = SPEED_PRESETS.map(function(v){
+return '<button class="btn small" type="button" data-speed="' + v + '">' + v.toFixed(2) + "×</button>";
+}).join("");
+});
+applySpeed();
+}
+function setSpeedPresetsSel(arr, announce){
+var clean = sanitizeSpeedPresets(arr);
+if (!clean) return;
+SPEED_PRESETS = clean;
+renderSpeedPresetButtons();
+saveSettingsNow();
+if (announce) toast("倍率ボタンの表示を更新しました（" + clean.length + "個：" + clean.map(function(v){ return v.toFixed(2) + "×"; }).join("／") + "）");
+}
+/* ---------- User settings (管理画面「設定」tab) ----------
+   Every value keeps its long-standing default; each one can be
+   changed in the settings tab and is persisted with the rest of
+   the state (see buildLocalData / restoreLocal). */
+var jumpSec = 10;               // ⏪/⏩ jump length (default 10s)
+var holdMinSec = 0.3;           // 長押しループ minimum hold (default 0.3s)
+var ADJ_COMBOS = [
+{ key: "standard", label: "標準（1秒／0.1秒／0.01秒）", vals: [1, 0.1, 0.01] },
+{ key: "coarse", label: "大きく（5秒／1秒／0.1秒）", vals: [5, 1, 0.1] },
+{ key: "fine", label: "細かく（0.5秒／0.05秒／0.01秒）", vals: [0.5, 0.05, 0.01] }
+];
+var adjSteps = [1, 0.1, 0.01];  // 微調整 buttons, large to small (default 標準)
+var endPreviewSec = 3;          // end-time edits preview from this many seconds before the end (default 3s)
+var sampleShuffleOnLoad = true; // shuffle the sample songs on open (default on)
+var loopSortOrder = "start";    // saved-loop order: start | created | name | speed (default start)
+var autoSave = true;            // localStorage auto-save (default on)
+var LOOP_SORTS = [
+{ key: "start", label: "開始時間順" },
+{ key: "created", label: "作った順" },
+{ key: "name", label: "名前順" },
+{ key: "speed", label: "倍率順" }
+];
+function secTxt(v){ var n = Math.round(v * 100) / 100; return (n % 1 === 0)? String(Math.round(n)): String(n); }
+function adjButtonsHtml(target){
+var nm = target === "a"? "開始": "終了";
+var defs = [[-adjSteps[0], "&lt;&lt;&lt;"], [-adjSteps[1], "&lt;&lt;"], [-adjSteps[2], "&lt;"], [adjSteps[2], "&gt;"], [adjSteps[1], "&gt;&gt;"], [adjSteps[0], "&gt;&gt;&gt;"]];
+return '<div class="time-adj" data-target="' + target + '">' + defs.map(function(d){
+return '<button type="button" data-adj="' + d[0] + '" aria-label="' + nm + "を" + secTxt(Math.abs(d[0])) + "秒" + (d[0] < 0? "戻す": "進める") + '">' + d[1] + "</button>";
+}).join("") + "</div>";
+}
+function syncJumpUI(){
+var t = secTxt(jumpSec);
+var b1 = $("back10"), b2 = $("fwd10");
+if (b1){ b1.textContent = "⏪ −" + t + "秒"; b1.setAttribute("aria-label", t + "秒戻す"); }
+if (b2){ b2.textContent = "+" + t + "秒 ⏩"; b2.setAttribute("aria-label", t + "秒進める"); }
+var mb1 = document.querySelector("#mbBack10 .mb-lb"), mb2 = document.querySelector("#mbFwd10 .mb-lb");
+if (mb1) mb1.textContent = "−" + t + "秒";
+if (mb2) mb2.textContent = "＋" + t + "秒";
+var mbB = $("mbBack10"), mbF = $("mbFwd10");
+if (mbB) mbB.setAttribute("aria-label", t + "秒戻す");
+if (mbF) mbF.setAttribute("aria-label", t + "秒進める");
+}
 var suppressRowClickUntil = 0; // after a row long-press, swallow the click that follows it
 /* Filters / list view (in-memory UI state): sample list starts hidden */
 var songQuery = "", listHidden = true;
@@ -1645,8 +1733,8 @@ $("playBtn").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 isPlaying()? pause(): play();
 });
-$("back10").addEventListener("click", function(){ seekTo(getTime() - 10);});
-$("fwd10").addEventListener("click", function(){ seekTo(getTime() + 10);});
+$("back10").addEventListener("click", function(){ seekTo(getTime() - jumpSec);});
+$("fwd10").addEventListener("click", function(){ seekTo(getTime() + jumpSec);});
 /* Mobile bottom bar: every button proxies to the existing control so the
    bar and the in-page controls always do exactly the same thing.
    Quick-capture buttons in the bar carry data-capture and are wired by
@@ -1718,15 +1806,15 @@ function setSpeedAndPlayIfLooping(v){
 setSpeed(v);
 if (loopA!=null && loopB!=null){ loopOn = true; syncLoopStateBtn(); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
 }
-$("speedPresets").querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
+/* The preset buttons are rebuilt whenever the shown selection changes
+   (管理画面の「設定」), so clicks are delegated to the containers. */
+[$("speedPresets"), $("speedPresetsLoop"), $("mbSpeedPresets")].forEach(function(box){
+if (!box) return;
+box.addEventListener("click", function(e){
+var b = e.target && e.target.closest? e.target.closest("button[data-speed]"): null;
+if (!b) return;
+setSpeedAndPlayIfLooping(parseFloat(b.getAttribute("data-speed")));
 });
-$("speedPresetsLoop").querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
-});
-var mbPresets = $("mbSpeedPresets");
-if (mbPresets) mbPresets.querySelectorAll("button").forEach(function(b){
-b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
 });
 /* Speed fader (25%–200%): dragging adjusts the rate live, without
    restarting the loop, and never touches the capture checkboxes. */
@@ -1902,7 +1990,7 @@ function setCaptureSec(v, announce){
 if (v == null || isNaN(v)) { syncCaptureSecUI(); return; }
 captureSec = Math.round(Math.min(120, Math.max(1, v)) * 10) / 10;
 syncCaptureSecUI();
-saveLocal();
+saveSettingsNow();
 if (announce) toast("クイックキャプチャの秒数を" + capSecTxt() + "秒にしました");
 }
 var capPresetsEl = $("captureSecPresets");
@@ -1918,7 +2006,8 @@ capInputEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.pr
    at the press position; releasing marks the end at the release
    position. The range is saved at the current playback rate (same as
    quick capture, via saveCaptureRange) and plays immediately. Holds
-   shorter than 0.3 seconds are treated as mis-taps and save nothing.
+   shorter than holdMinSec (default 0.3s, changeable in the settings
+   tab) are treated as mis-taps and save nothing.
    While held, both buttons switch to a recording state; the card button
    also shows the start time and the live end position. Buttons live in
    the loop card's capture row and in the mobile bottom bar. */
@@ -1953,7 +2042,7 @@ if (!currentSong || currentSong.id !== songId){ toast("曲が変わったので�
 var b = Math.round(getTime()*100)/100;
 var dur = getDur();
 if (dur > 0 && b > dur) b = Math.round(dur*100)/100;
-if (b - a < 0.3){ toast("短すぎるので保存しませんでした（0.3秒以上押してください）"); return;}
+if (b - a < holdMinSec){ toast("短すぎるので保存しませんでした（" + secTxt(holdMinSec) + "秒以上押してください）"); return;}
 saveCaptureRange(a, b, "長押しループ");
 }
 holdBtns.forEach(function(btn){
@@ -2062,7 +2151,10 @@ if (ed && ed.scrollIntoView) ed.scrollIntoView({ behavior:"smooth", block:"neare
 function visibleSections(){
 if (!currentSong) return [];
 var secs = sectionsOf(currentSong.id).slice();
-secs.sort(function(x, y){ return x.a - y.a || x.id - y.id;});
+if (loopSortOrder === "created") secs.sort(function(x, y){ return x.id - y.id; });
+else if (loopSortOrder === "name") secs.sort(function(x, y){ return String(x.name || "").localeCompare(String(y.name || ""), "ja") || x.a - y.a || x.id - y.id; });
+else if (loopSortOrder === "speed") secs.sort(function(x, y){ return (x.speed == null? 1: Number(x.speed)) - (y.speed == null? 1: Number(y.speed)) || x.a - y.a || x.id - y.id; });
+else secs.sort(function(x, y){ return x.a - y.a || x.id - y.id; });
 return secs;
 }
 /* Colorful rounded tag for a saved loop's rate: the hue slides from blue
@@ -2127,7 +2219,7 @@ var has = l.items.some(function(it){ return it.songId === currentSong.id && it.l
 return '<button class="btn small addlist-pick" type="button" data-list="' + l.id + '"' + (has? " disabled": "") + '>「' + esc(l.name) + '」に' + (has? "追加済み": "追加") + "</button>";
 }).join("");
 }
-addHtml += '<input type="text" class="addlist-new-name" placeholder="新しい練習リスト名（例：苦手なソロ集）" aria-label="新しい練習リストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
+addHtml += '<input type="text" class="addlist-new-name" placeholder="新しい保存ループリスト名（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
 addPanel.innerHTML = addHtml;
 item.appendChild(addPanel);
 addPanel.querySelectorAll(".addlist-pick").forEach(function(b){
@@ -2135,7 +2227,7 @@ b.addEventListener("click", function(){ addLoopToPracticeList(parseInt(b.getAttr
 });
 addPanel.querySelector(".addlist-create").addEventListener("click", function(){
 var nm = addPanel.querySelector(".addlist-new-name").value.trim();
-if (!nm){ toast("練習リストの名前を入れてください"); return;}
+if (!nm){ toast("保存ループリストの名前を入れてください"); return;}
 var nl = { id: nextId(), name: nm, items: [] };
 practiceLists.push(nl);
 addLoopToPracticeList(nl.id, currentSong.id, sec.id);
@@ -2154,11 +2246,11 @@ editDiv.className = "loop-edit";
 editDiv.innerHTML =
 '<div class="edit-time-block">' +
 '<div class="edit-time-head"><label class="edit-time-label" for="edit-a-' + sec.id + '">開始時間</label><input id="edit-a-' + sec.id + '" class="edit-a mono edit-time-input" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="1:23.50"><button class="btn edit-now-btn" type="button" data-now-target="a" aria-label="開始時間を現在の再生位置に設定する">今</button></div>' +
-'<div class="time-adj" data-target="a"><button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="開始を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="開始を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button></div>' +
+adjButtonsHtml("a") +
 '</div>' +
 '<div class="edit-time-block">' +
 '<div class="edit-time-head"><label class="edit-time-label" for="edit-b-' + sec.id + '">終了時間</label><input id="edit-b-' + sec.id + '" class="edit-b mono edit-time-input" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="1:35.00"><button class="btn edit-now-btn" type="button" data-now-target="b" aria-label="終了時間を現在の再生位置に設定する">今</button></div>' +
-'<div class="time-adj" data-target="b"><button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="終了を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="終了を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button></div>' +
+adjButtonsHtml("b") +
 '</div>' +
 '<button class="btn primary edit-preview edit-preview-big" type="button">▶ プレビュー再生</button>' +
 '<div><label>再生倍率（速度） <span class="edit-speed-val mono">' + curSpeedVal.toFixed(2) + '×</span></label>' +
@@ -2188,7 +2280,8 @@ inp.addEventListener("change", syncDraftFromInputs);
 });
 // Live: reflect edited times into the player's loop immediately (no save needed).
 // Editing the start plays from the new start; editing the end plays from
-// 3 seconds before the new end so the loop's tail can be checked right away.
+// endPreviewSec (default 3s, changeable in the settings tab) before
+// the new end so the loop's tail can be checked right away.
 function applyLiveTimes(shouldPlay, fromEnd){
 var na = parseTimeInput(editDiv.querySelector(".edit-a").value);
 var nb = parseTimeInput(editDiv.querySelector(".edit-b").value);
@@ -2198,7 +2291,7 @@ syncLoopStateBtn();
 if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
 rulerKey = "";
 if (shouldPlay){
-if (fromEnd) seekTo(Math.max(loopA, Math.round((loopB - 3)*100)/100));
+if (fromEnd) seekTo(Math.max(loopA, Math.round((loopB - endPreviewSec)*100)/100));
 else seekTo(loopA);
 play();
 }
@@ -2220,7 +2313,7 @@ inp.addEventListener("click", showAdj);
 // 「今」buttons in the edit form: set the start / end field to the
 // current playback position, then reflect it live exactly like typing
 // or the fine-adjust buttons (start previews from the new start; end
-// previews from 3 seconds before the new end).
+// previews from endPreviewSec before the new end).
 editDiv.querySelectorAll(".edit-now-btn").forEach(function(btn){
 btn.addEventListener("click", function(){
 var target = btn.getAttribute("data-now-target");
@@ -2901,8 +2994,8 @@ var sec = (loopSections[sid] || []).filter(function(x){ return Math.abs(x.a - it
 if (sec && !items.some(function(y){ return y.songId === sid && y.loopId === sec.id;})) items.push({ songId: sid, loopId: sec.id });
 });
 if (!items.length) return;
-var dupPl = practiceLists.some(function(l){ return l.name === (pl.name || "練習リスト") && l.items.length === items.length && l.items.every(function(y, i){ return items[i] && y.songId === items[i].songId && y.loopId === items[i].loopId;});});
-if (!dupPl) practiceLists.push({ id: nextId(), name: pl.name || "練習リスト", items: items });
+var dupPl = practiceLists.some(function(l){ return l.name === (pl.name || "保存ループリスト") && l.items.length === items.length && l.items.every(function(y, i){ return items[i] && y.songId === items[i].songId && y.loopId === items[i].loopId;});});
+if (!dupPl) practiceLists.push({ id: nextId(), name: pl.name || "保存ループリスト", items: items });
 });
 (data.songLists || []).forEach(function(sl){
 var ids = [];
@@ -3132,7 +3225,7 @@ else { pendingPlaySection = { songId: songId, loopId: loopId, tries: 0 }; loadSo
 function startPracticeList(list){
 cleanupListRefs();
 var items = list.items.filter(function(it){ return findSongById(it.songId) && findSection(it.songId, it.loopId); });
-if (!items.length){ toast("この練習リストにはループがありません"); return; }
+if (!items.length){ toast("この保存ループリストにはループがありません"); return; }
 practiceQueue = { name: list.name, items: items.slice(), idx: 0, wraps: 0, lastT: null };
 toast("連続練習を開始：「" + list.name + "」（" + items.length + "件、各" + PRACTICE_REPEATS + "回ずつ）");
 playPracticeItem(0);
@@ -3148,7 +3241,7 @@ renderMgmtRows();
 function endPracticeQueue(finished){
 var name = practiceQueue? practiceQueue.name: "";
 practiceQueue = null;
-if (finished) toast("練習リスト「" + name + "」を最後まで練習しました");
+if (finished) toast("保存ループリスト「" + name + "」を最後まで練習しました");
 renderMgmtRows();
 }
 /* --- Per-practice-list share export (same DATA format as the full export) --- */
@@ -3173,16 +3266,16 @@ practiceLists: [{ name: list.name, items: plItems }], songLists: [] };
 function downloadPracticeList(list){
 cleanupListRefs();
 var lines = [];
-lines.push("楽器演奏ルーパー — 練習リスト書き出し");
+lines.push("楽器演奏ルーパー — 保存ループリスト書き出し");
 lines.push("書き出し日: " + new Date().toLocaleString("ja-JP"));
 lines.push("");
-lines.push("練習リスト「" + list.name + "」（" + list.items.length + "件）");
+lines.push("保存ループリスト「" + list.name + "」（" + list.items.length + "件）");
 list.items.forEach(function(it, i){
 var song = findSongById(it.songId), sec = findSection(it.songId, it.loopId);
 if (song && sec) lines.push((i + 1) + ". " + song.title + " ／ ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + (sec.speed != null? " 速度 " + Number(sec.speed).toFixed(2) + "×": ""));
 });
 lines.push("");
-lines.push("このファイルを友達に送ると、相手は管理画面の「共有・書き出し」タブ（または書き出し読み込み）から読み込むだけで、同じ練習リストが使えます。ローカルMP3の音源ファイル自体は含まれません。");
+lines.push("このファイルを友達に送ると、相手は管理画面の「共有・書き出し」タブ（または書き出し読み込み）から読み込むだけで、同じ保存ループリストが使えます。ローカルMP3の音源ファイル自体は含まれません。");
 lines.push("---");
 lines.push("【読み込み用データ】この下は「書き出しを読み込む」で使うデータです。消さずにそのまま送ってください。");
 lines.push("<<<DATA");
@@ -3194,11 +3287,11 @@ a.href = URL.createObjectURL(blob);
 a.download = "looper-practice-list.txt";
 document.body.appendChild(a); a.click(); a.remove();
 setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
-toast("練習リスト「" + list.name + "」を書き出しました");
+toast("保存ループリスト「" + list.name + "」を書き出しました");
 }
 /* --- Rendering --- */
 function mgmtCountText(){
-return "全ループ " + allLoopsFlat().length + "件 ・ 練習リスト " + practiceLists.length + "件 ・ 曲リスト " + songLists.length + "件 ・ 曲 " + songs.length + "曲";
+return "全ループ " + allLoopsFlat().length + "件 ・ 保存ループリスト " + practiceLists.length + "件 ・ 曲リスト " + songLists.length + "件 ・ 曲 " + songs.length + "曲";
 }
 function renderMgmt(){
 var body = $("mgmtBody"); if (!body) return;
@@ -3209,7 +3302,7 @@ var cnt = $("mgmtCount"); if (cnt) cnt.textContent = mgmtCountText();
 if (mgmtTab === "loops"){
 body.innerHTML = '<input class="mgmt-search" id="mgmtLoopSearch" type="search" placeholder="曲名・ループ名・ノートで検索" aria-label="全ループを検索" value="' + esc(mgmtLoopQuery) + '"><div id="mgmtRows"></div>';
 } else if (mgmtTab === "practice"){
-body.innerHTML = '<div class="mgmt-create"><input id="newPracticeName" type="text" placeholder="新しい練習リストの名前（例：苦手なソロ集）" aria-label="新しい練習リストの名前"><button class="btn primary" type="button" data-act="pl-create">練習リストを作る</button></div><div id="mgmtRows"></div>';
+body.innerHTML = '<div class="mgmt-create"><input id="newPracticeName" type="text" placeholder="新しい保存ループリストの名前（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn primary" type="button" data-act="pl-create">保存ループリストを作る</button></div><div id="mgmtRows"></div>';
 } else if (mgmtTab === "setlists"){
 body.innerHTML = '<div class="mgmt-create"><input id="newSetlistName" type="text" placeholder="新しい曲リストの名前（例：ライブ用セット）" aria-label="新しい曲リストの名前"><button class="btn primary" type="button" data-act="sl-create">曲リストを作る</button></div><div id="mgmtRows"></div>';
 } else if (mgmtTab === "songs"){
@@ -3226,6 +3319,7 @@ if (mgmtTab === "loops") rows.innerHTML = mgmtLoopRowsHtml();
 else if (mgmtTab === "practice") rows.innerHTML = mgmtPracticeHtml();
 else if (mgmtTab === "setlists") rows.innerHTML = mgmtSetlistHtml();
 else if (mgmtTab === "songs") rows.innerHTML = mgmtSongsHtml();
+else if (mgmtTab === "settings") rows.innerHTML = mgmtSettingsHtml();
 else rows.innerHTML = mgmtShareHtml();
 }
 function mgmtLoopRowsHtml(){
@@ -3241,8 +3335,8 @@ return rows.map(function(x){
 var sec = x.sec, song = x.song;
 var badge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + "×</span>": "";
 var listCtl = practiceLists.length?
-'<select class="mgmt-pl-select" aria-label="追加先の練習リスト">' + practiceLists.map(function(l){ return '<option value="' + l.id + '">' + esc(l.name) + "（" + l.items.length + "件）</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="loop-addlist" data-song="' + song.id + '" data-loop="' + sec.id + '">リストに追加</button>'
-: '<button class="btn small" type="button" data-act="goto-practice">リストに追加（先に練習リスト作成）</button>';
+'<select class="mgmt-pl-select" aria-label="追加先の保存ループリスト">' + practiceLists.map(function(l){ return '<option value="' + l.id + '">' + esc(l.name) + "（" + l.items.length + "件）</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="loop-addlist" data-song="' + song.id + '" data-loop="' + sec.id + '">リストに追加</button>'
+: '<button class="btn small" type="button" data-act="goto-practice">リストに追加（先に保存ループリスト作成）</button>';
 return '<div class="mgmt-row"><span class="loop-color-dot" style="background:hsl(' + loopHue(sec) + ',75%,48%);margin-top:7px" aria-hidden="true"></span>' +
 '<div class="mg-main"><div class="mg-title">' + esc(sec.name) + " " + badge + "</div>" +
 '<div class="mg-sub">' + esc(song.title) + (song.artist? " — " + esc(song.artist): "") + "</div>" +
@@ -3264,7 +3358,7 @@ html += '<div class="mgmt-queue"><strong>▶ 連続練習中：「' + esc(q.name
 '<p class="hint" style="margin:0 0 10px">各ループを' + PRACTICE_REPEATS + '回繰り返すと、自動で次へ進みます。別のループを手動で選ぶと連続練習は止まります。</p>';
 }
 if (!practiceLists.length){
-html += '<p class="mgmt-empty">練習リストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの「リストに追加」から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
+html += '<p class="mgmt-empty">保存ループリストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの「リストに追加」から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
 return html;
 }
 html += practiceLists.map(function(l){
@@ -3339,8 +3433,62 @@ return '<div class="mgmt-row"><div class="mg-main"><div class="mg-title">' + esc
 '<div class="mg-actions"><button class="btn small primary" type="button" data-act="song-play" data-song="' + s.id + '">▶ 再生</button><button class="btn small" type="button" data-act="song-edit" data-song="' + s.id + '">名前を編集</button><button class="btn small danger" type="button" data-act="song-del" data-song="' + s.id + '">削除</button></div></div>';
 }).join("");
 }
+function mgmtSettingsHtml(){
+function chips(act, options, current){
+return '<div class="sp-chips">' + options.map(function(o){
+var sel = String(o.v) === String(current);
+return '<button class="btn small' + (sel? " active": "") + '" type="button" data-act="' + act + '" data-v="' + o.v + '" aria-pressed="' + (sel? "true": "false") + '">' + esc(o.label) + "</button>";
+}).join("") + "</div>";
+}
+function numOpts(vals, suffix){ return vals.map(function(v){ return { v: v, label: secTxt(v) + suffix }; }); }
+var curTxt = SPEED_PRESETS.map(function(v){ return v.toFixed(2) + "×"; }).join("／");
+var comboHtml = SPEED_COMBOS.map(function(c){
+var active = c.vals.length === SPEED_PRESETS.length && c.vals.every(function(v, i){ return Math.abs(v - SPEED_PRESETS[i]) < 0.001; });
+return '<button class="btn small' + (active? " active": "") + '" type="button" data-act="sp-combo" data-combo="' + c.key + '" aria-pressed="' + (active? "true": "false") + '">' + esc(c.label) + "</button>";
+}).join("");
+var chipHtml = SPEED_CANDIDATES.map(function(v){
+var sel = SPEED_PRESETS.indexOf(v) >= 0;
+return '<button class="btn small sp-chip' + (sel? " active": "") + '" type="button" data-act="sp-toggle" data-v="' + v + '" aria-pressed="' + (sel? "true": "false") + '">' + v.toFixed(2) + "×</button>";
+}).join("");
+var adjHtml = ADJ_COMBOS.map(function(c){
+var active = c.vals.every(function(v, i){ return Math.abs(v - adjSteps[i]) < 0.0001; });
+return '<button class="btn small' + (active? " active": "") + '" type="button" data-act="set-adj" data-key="' + c.key + '" aria-pressed="' + (active? "true": "false") + '">' + esc(c.label) + "</button>";
+}).join("");
+var html = '<p class="hint" style="margin-top:0">どの設定も、初期値（デフォルト）は今まで通りです。変更は保存され、次に開いたときも使えます。設定自体の変更は、自動保存がオフのときでも保存されます。</p>';
+html += '<div class="settings-box"><h3>1. 再生速度の倍率ボタン</h3>' +
+'<p class="hint" style="margin:0">プレイヤーに表示する倍率ボタンを選べます。今は' + SPEED_PRESETS.length + "個（" + curTxt + "）を表示中です（初期は0.50×／0.75×／1.00×の3つ）。選んだ倍率は、プレイヤーの速度ボタン（プレイヤー下・右側カード・携帯の下部パネル）と、ループ編集の倍率ボタンにすぐ反映されます。ここにない倍率は、今まで通りフェーダーで0.25〜2.00×の範囲で自由に変えられます。</p>" +
+'<p class="hint" style="margin:10px 0 0">よく使う組み合わせから選ぶ：</p><div class="sp-combos">' + comboHtml + "</div>" +
+'<p class="hint" style="margin:10px 0 0">または、倍率を1つずつ押して表示／非表示を切り替える：</p><div class="sp-chips">' + chipHtml + "</div>" +
+'<p class="hint" style="margin:10px 0 0">倍率ボタンは最低1つ表示します。歌のフレーズのように細かく刻みたいときは「細かく」や「ゆっくり練習」がおすすめです。</p></div>';
+html += '<div class="settings-box"><h3>2. ジャンプする秒数</h3>' +
+'<p class="hint" style="margin:0">プレイヤーの「⏪ −○秒／+○秒 ⏩」ボタンと、携帯の下部バーで前後にジャンプする秒数です（初期は10秒）。</p>' +
+chips("set-jump", numOpts([5, 10, 15, 30], "秒"), jumpSec) + "</div>";
+html += '<div class="settings-box"><h3>3. クイックキャプチャの秒数</h3>' +
+'<p class="hint" style="margin:0">「○秒間」「今までの○秒間」で作るループの長さです（初期は10秒）。ループリスト上部の「キャプチャ秒数」と同じ設定で、どちらで変えても連動します。</p>' +
+chips("set-capture-preset", numOpts([5, 10, 15, 20], "秒"), captureSec) +
+'<div class="capture-sec" style="margin-top:8px"><input type="number" id="setCaptureSecInput" min="1" max="120" step="1" value="' + capSecTxt() + '" aria-label="任意の秒数を入力（1〜120秒）"><span class="capture-sec-unit">秒（任意入力）</span></div></div>';
+html += '<div class="settings-box"><h3>4. 長押しループの最小時間</h3>' +
+'<p class="hint" style="margin:0">「長押しループ」で、これより短い押下は誤タップとして保存しません（初期は0.3秒）。歌のフレーズなど、短い区間を確実に取りたいときは短めに、誤タップを減らしたいときは長めにします。</p>' +
+chips("set-holdmin", numOpts([0.2, 0.3, 0.5, 1], "秒"), holdMinSec) + "</div>";
+html += '<div class="settings-box"><h3>5. 微調整ボタンの刻み</h3>' +
+'<p class="hint" style="margin:0">ループ編集の「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンが動かす秒数です（初期は標準）。</p>' +
+'<div class="sp-combos">' + adjHtml + "</div></div>";
+html += '<div class="settings-box"><h3>6. 終了時間のプレビュー位置</h3>' +
+'<p class="hint" style="margin:0">ループ編集で終了時間を変えたとき、確認再生を終了の何秒前から始めるかです（初期は3秒前）。</p>' +
+chips("set-endpreview", [1, 3, 5, 10].map(function(v){ return { v: v, label: "終了の" + v + "秒前" }; }), endPreviewSec) + "</div>";
+html += '<div class="settings-box"><h3>7. サンプル曲のシャッフル</h3>' +
+'<p class="hint" style="margin:0">ページを開くたびにサンプル曲（32曲）をランダムな順番にするかです（初期はオン）。オフにすると元のバンド順のままになります。次に開いたときから反映されます（今の並びは変わりません）。</p>' +
+chips("set-shuffle", [{ v: "1", label: "オン（開くたびにシャッフル）" }, { v: "0", label: "オフ（バンド順のまま）" }], sampleShuffleOnLoad? "1": "0") + "</div>";
+html += '<div class="settings-box"><h3>8. 保存ループの並び順</h3>' +
+'<p class="hint" style="margin:0">曲ごとの保存ループ一覧の並び順です（初期は開始時間順）。タイムラインの表示にも同じ順番が使われます。</p>' +
+chips("set-loopsort", LOOP_SORTS.map(function(s){ return { v: s.key, label: s.label }; }), loopSortOrder) + "</div>";
+html += '<div class="settings-box"><h3>9. 自動保存</h3>' +
+'<p class="hint" style="margin:0">保存ループ・追加した曲・コメント・設定などを、ブラウザの保存領域（localStorage）に自動で保存するかです（初期はオン）。オフにすると、作業中の変更は自動保存されません。大事なデータは書き出しファイルでもバックアップしてください。設定自体の変更は、オフのときでも保存されます。</p>' +
+chips("set-autosave", [{ v: "1", label: "オン" }, { v: "0", label: "オフ" }], autoSave? "1": "0") + "</div>";
+return html;
+}
 function mgmtShareHtml(){
-return '<p class="hint" style="margin-top:0">書き出しファイル（looper-export.txt）には、曲リスト・全ループ・練習リスト・曲リストが入ります。友達に送ると、相手は下の「ファイルから読み込む」から読み込むだけで、同じループとリストが使えます（重複は自動で避けられます）。ローカルMP3の音源ファイル自体は含まれないので、その曲は相手側で再追加が必要です。練習リストだけを送りたいときは、「練習リスト」タブの各リストにある「書き出し」ボタンを使ってください。</p>' +
+return '<p class="hint" style="margin-top:0">書き出しファイル（looper-export.txt）には、曲・全ループ・保存ループリスト・曲リストが入ります。友達に送ると、相手は下の「ファイルから読み込む」から読み込むだけで、同じループとリストが使えます（重複は自動で避けられます）。ローカルMP3の音源ファイル自体は含まれないので、その曲は相手側で再追加が必要です。保存ループリストだけを送りたいときは、「保存ループリスト」タブの各リストにある「書き出し」ボタンを使ってください。</p>' +
 '<div class="export-row" style="border-top:none;padding-top:0;margin-top:0">' +
 '<button class="btn" type="button" data-act="share-export">📄 テキストで書き出し</button>' +
 '<button class="btn" type="button" data-act="share-copy">コピーする</button>' +
@@ -3392,18 +3540,18 @@ else if (act === "goto-practice"){ mgmtTab = "practice"; renderMgmt(); }
 else if (act === "pl-create"){
 var inp = $("newPracticeName");
 var nm = inp? inp.value.trim(): "";
-if (!nm){ toast("練習リストの名前を入れてください"); if (inp) inp.focus(); return; }
+if (!nm){ toast("保存ループリストの名前を入れてください"); if (inp) inp.focus(); return; }
 var nl = { id: nextId(), name: nm, items: [] };
 practiceLists.push(nl); expandedPracticeId = nl.id;
 saveLocal(); renderMgmt();
-toast("練習リスト「" + nm + "」を作りました");
+toast("保存ループリスト「" + nm + "」を作りました");
 }
 else if (act === "pl-toggle"){ expandedPracticeId = (expandedPracticeId === listId)? null: listId; renderMgmtRows(); }
 else if (act === "pl-del"){
 practiceLists = practiceLists.filter(function(l){ return l.id !== listId; });
 if (practiceQueue && plist && practiceQueue.name === plist.name) practiceQueue = null;
 saveLocal(); renderMgmtRows();
-toast("練習リストを削除しました");
+toast("保存ループリストを削除しました");
 }
 else if (act === "pl-play"){ if (plist) startPracticeList(plist); }
 else if (act === "pl-share"){ if (plist) downloadPracticeList(plist); }
@@ -3494,6 +3642,67 @@ if (editingSongMgmtId === songId) editingSongMgmtId = null;
 renderSongs(); renderComments(); renderSections(); renderMgmtRows();
 toast("曲を削除しました");
 }
+else if (act === "set-jump"){
+jumpSec = parseFloat(btn.getAttribute("data-v"));
+syncJumpUI(); saveSettingsNow();
+toast("ジャンプする秒数を" + secTxt(jumpSec) + "秒にしました");
+renderMgmtRows();
+}
+else if (act === "set-capture-preset"){ setCaptureSec(parseFloat(btn.getAttribute("data-v")), true); renderMgmtRows(); }
+else if (act === "set-holdmin"){
+holdMinSec = parseFloat(btn.getAttribute("data-v"));
+saveSettingsNow();
+toast("長押しループの最小時間を" + secTxt(holdMinSec) + "秒にしました");
+renderMgmtRows();
+}
+else if (act === "set-adj"){
+var acmb = ADJ_COMBOS.filter(function(c){ return c.key === btn.getAttribute("data-key"); })[0];
+if (acmb){ adjSteps = acmb.vals.slice(); saveSettingsNow(); toast("微調整ボタンの刻みを「" + acmb.label + "」にしました"); renderMgmtRows(); }
+}
+else if (act === "set-endpreview"){
+endPreviewSec = parseFloat(btn.getAttribute("data-v"));
+saveSettingsNow();
+toast("終了時間のプレビュー位置を「終了の" + secTxt(endPreviewSec) + "秒前」にしました");
+renderMgmtRows();
+}
+else if (act === "set-shuffle"){
+sampleShuffleOnLoad = btn.getAttribute("data-v") === "1";
+saveSettingsNow();
+toast("サンプル曲のシャッフルを" + (sampleShuffleOnLoad? "オン": "オフ") + "にしました（次回開いたときから）");
+renderMgmtRows();
+}
+else if (act === "set-loopsort"){
+loopSortOrder = btn.getAttribute("data-v");
+var sortLabel = btn.textContent;
+saveSettingsNow(); renderSections();
+toast("保存ループの並び順を「" + sortLabel + "」にしました");
+renderMgmtRows();
+}
+else if (act === "set-autosave"){
+autoSave = btn.getAttribute("data-v") === "1";
+saveSettingsNow();
+toast("自動保存を" + (autoSave? "オン": "オフ") + "にしました");
+renderMgmtRows();
+}
+else if (act === "sp-toggle"){
+var sv = parseFloat(btn.getAttribute("data-v"));
+var cur = SPEED_PRESETS.slice();
+var si = cur.indexOf(sv);
+if (si >= 0){
+if (cur.length <= 1){ toast("倍率ボタンは最低1つ表示してください"); return; }
+cur.splice(si, 1);
+} else cur.push(sv);
+setSpeedPresetsSel(cur, true);
+renderMgmtRows();
+}
+else if (act === "sp-combo"){
+var combo = SPEED_COMBOS.filter(function(c){ return c.key === btn.getAttribute("data-combo"); })[0];
+if (combo){ setSpeedPresetsSel(combo.vals, true); renderMgmtRows(); }
+}
+else if (act === "goto-capture"){
+var cb = document.querySelector(".capture-box");
+if (cb) cb.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 else if (act === "share-export"){ $("exportBtn").click(); }
 else if (act === "share-copy"){ $("copyBtn").click(); }
 else if (act === "share-import-file"){ $("importBtn").click(); }
@@ -3507,6 +3716,9 @@ ta.value = "";
 $("mgmtBody").addEventListener("input", function(e){
 if (e.target.id === "mgmtLoopSearch"){ mgmtLoopQuery = e.target.value; renderMgmtRows(); }
 else if (e.target.id === "mgmtSongSearch"){ mgmtSongQuery = e.target.value; renderMgmtRows(); }
+});
+$("mgmtBody").addEventListener("change", function(e){
+if (e.target.id === "setCaptureSecInput"){ setCaptureSec(parseFloat(e.target.value), true); renderMgmtRows(); }
 });
 document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
 b.addEventListener("click", function(){ mgmtTab = b.getAttribute("data-mtab"); renderMgmt(); });
@@ -3531,7 +3743,7 @@ renderMgmt();
    before the song can play again. */
 var LS_KEY = "looper-friends-state-v1";
 var lsRestored = false, lsSaveTimer = null;
-var restoredCurrentSong = null, restoredSpeed = null, restoredCaptureSec = null;
+var restoredCurrentSong = null, restoredSpeed = null, restoredCaptureSec = null, restoredSpeedPresets = null;
 function songRefOf(song, userIndex){
 if (song.sample) return { s: song.url };
 return { u: userIndex[song.id] };
@@ -3567,6 +3779,14 @@ parent: c.parentId == null? null: (commentIndex[c.parentId] != null? commentInde
 currentSong: currentSong? songRefOf(currentSong, userIndex): null,
 speed: speed,
 captureSec: captureSec,
+speedPresets: SPEED_PRESETS.slice(),
+jumpSec: jumpSec,
+holdMinSec: holdMinSec,
+adjSteps: adjSteps.slice(),
+endPreviewSec: endPreviewSec,
+sampleShuffleOnLoad: sampleShuffleOnLoad,
+loopSortOrder: loopSortOrder,
+autoSave: autoSave,
 practiceLists: practiceLists.map(function(l){
 return { name: l.name, items: l.items.map(function(it){
 var song = songs.filter(function(s){ return s.id === it.songId;})[0];
@@ -3583,14 +3803,24 @@ return song? songRefOf(song, userIndex): null;
 })
 };
 }
-function writeLocal(){
+function writeLocal(force){
 if (!lsRestored) return;
+if (!autoSave && !force) return;
 try { localStorage.setItem(LS_KEY, JSON.stringify(buildLocalData())); } catch(e){}
 }
 function saveLocal(){
 if (!lsRestored) return;
+if (!autoSave) return;
 if (lsSaveTimer) clearTimeout(lsSaveTimer);
 lsSaveTimer = setTimeout(function(){ lsSaveTimer = null; writeLocal(); }, 250);
+}
+/* Settings changes always persist right away, even when auto-save is
+   off: the auto-save switch only stops the automatic saving of
+   loops / songs / comments as they change. */
+function saveSettingsNow(){
+if (!lsRestored) return;
+if (lsSaveTimer){ clearTimeout(lsSaveTimer); lsSaveTimer = null; }
+writeLocal(true);
 }
 window.addEventListener("pagehide", function(){
 if (lsSaveTimer){ clearTimeout(lsSaveTimer); lsSaveTimer = null; writeLocal(); }
@@ -3639,7 +3869,7 @@ if (!song) return;
 var sec = (loopSections[song.id] || []).filter(function(x){ return Math.abs(x.a - it.a) < 0.005 && Math.abs(x.b - it.b) < 0.005;})[0];
 if (sec && !items.some(function(y){ return y.songId === song.id && y.loopId === sec.id;})) items.push({ songId: song.id, loopId: sec.id });
 });
-practiceLists.push({ id: nextId(), name: pl.name || "練習リスト", items: items });
+practiceLists.push({ id: nextId(), name: pl.name || "保存ループリスト", items: items });
 });
 (data.songLists || []).forEach(function(sl){
 var ids = [];
@@ -3652,21 +3882,34 @@ songLists.push({ id: nextId(), name: sl.name || "曲リスト", songIds: ids });
 restoredCurrentSong = resolveSongRef(data.currentSong, songMap);
 if (data.speed != null && !isNaN(data.speed)) restoredSpeed = clampSpeed(data.speed);
 if (data.captureSec != null && !isNaN(data.captureSec)) restoredCaptureSec = Math.round(Math.min(120, Math.max(1, parseFloat(data.captureSec))) * 10) / 10;
+if (Array.isArray(data.speedPresets)){ var spClean = sanitizeSpeedPresets(data.speedPresets); if (spClean) restoredSpeedPresets = spClean; }
+if (data.jumpSec != null && [5, 10, 15, 30].indexOf(parseFloat(data.jumpSec)) >= 0) jumpSec = parseFloat(data.jumpSec);
+if (data.holdMinSec != null && [0.2, 0.3, 0.5, 1].indexOf(parseFloat(data.holdMinSec)) >= 0) holdMinSec = parseFloat(data.holdMinSec);
+if (Array.isArray(data.adjSteps) && data.adjSteps.length === 3 && ADJ_COMBOS.some(function(c){ return c.vals.every(function(v, i){ return Math.abs(v - parseFloat(data.adjSteps[i])) < 0.0001; }); })) adjSteps = data.adjSteps.map(function(v){ return parseFloat(v); });
+if (data.endPreviewSec != null && [1, 3, 5, 10].indexOf(parseFloat(data.endPreviewSec)) >= 0) endPreviewSec = parseFloat(data.endPreviewSec);
+if (typeof data.sampleShuffleOnLoad === "boolean") sampleShuffleOnLoad = data.sampleShuffleOnLoad;
+if (["start", "created", "name", "speed"].indexOf(data.loopSortOrder) >= 0) loopSortOrder = data.loopSortOrder;
+if (typeof data.autoSave === "boolean") autoSave = data.autoSave;
 }
 lsRestored = true;
 }
 
 /* ---------- Init ---------- */
 restoreLocal();
-/* Build the sample playlist in a random order on every open */
-shuffleSampleSongs(false, true);
+/* Build the sample playlist in a random order on every open
+   (unless the user turned the shuffle off in the settings tab) */
+if (sampleShuffleOnLoad) shuffleSampleSongs(false, true);
+else updateSampleOrderUI();
 ensureYtApi(); // start the YouTube API loading in parallel right away
 renderSongs(); renderComments(); updateAB(); updateStampView(); updateSampleOrderUI();
 if (restoredSpeed != null) speed = restoredSpeed;
 if (restoredCaptureSec != null) captureSec = restoredCaptureSec;
+if (restoredSpeedPresets) SPEED_PRESETS = restoredSpeedPresets;
 if (songs.length) loadSong(restoredCurrentSong || songs[0], false);
+renderSpeedPresetButtons();
 applySpeed();
 syncCaptureSecUI();
+syncJumpUI();
 })();
 </script>
 </body>
