@@ -377,16 +377,6 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .capture-box .hint{margin:6px 0 0}
 .capture-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .capture-row .btn{flex:1;min-width:0}
-.capture-multi{margin-top:10px}
-.capture-multi h5{margin:0;font-size:.82rem;font-weight:900}
-.capture-multi .hint{margin:2px 0 0}
-.capture-speed-options{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
-.capture-speed-opt{display:inline-flex;align-items:center;gap:.35em;background:var(--panel2);border:1.5px solid var(--line2);border-radius:999px;padding:.3rem .7rem;font-weight:700;font-size:.88rem;cursor:pointer;min-height:2.25rem}
-.capture-speed-opt input[type="checkbox"]{width:1.05rem;height:1.05rem;padding:0;border:none;background:transparent;accent-color:var(--accent);flex:none}
-.capture-speed-opt.checked{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
-.capture-speed-opt .capture-own{font-size:.72rem;font-weight:700;color:var(--ink2)}
-.capture-selected{font-size:.85rem;color:var(--ink2);margin-top:7px}
-.capture-selected .mono{color:var(--ink);font-weight:700}
 .speed-box{margin:0 0 12px;border-bottom:1.5px dashed var(--line2);padding-bottom:12px}
 .speed-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
 .speed-box .speed-presets{margin-top:8px}
@@ -416,7 +406,6 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .seekrow{margin-top:10px}
 .tl-head{margin-top:8px}
 .capture-box{margin-bottom:8px;padding-bottom:10px}
-.capture-multi{margin-top:0!important}
 .loop-list{margin-top:6px}
 .ab-times{margin:2px 0 6px}
 .loops-card .transport{margin-top:6px!important}
@@ -475,7 +464,7 @@ body.docked .timeline{height:28px}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間にチェックした倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
@@ -679,12 +668,6 @@ body.docked .timeline{height:28px}
 <button class="btn small capture-btn" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
 <button class="btn small hold-btn" type="button" id="holdLoopBtn" aria-label="長押しループ：押している間をループとして保存する" aria-pressed="false">⏺ 長押しループ</button>
 </div>
-<div class="capture-multi" style="margin-top:12px" aria-label="クイックキャプチャで保存する倍率を選ぶ">
-<h5>保存する倍率（複数可）</h5>
-<p class="hint">チェックした倍率で、同時に保存します。今使っている倍率は最初からチェック済みです（再生速度を変えても、チェックは変わりません）。</p>
-<div class="capture-speed-options" id="captureSpeedChecks"></div>
-<div class="capture-selected">選択倍率：<span class="mono" id="captureSelectedList">—</span></div>
-</div>
 </div>
 <div class="loop-list" id="loopList"></div>
 <div class="speed-box" aria-label="再生速度を変更する">
@@ -880,7 +863,6 @@ var speed = 1;
    Any other rate between 0.25× and 2.00× is set with the fader. */
 var SPEED_PRESETS = [0.5, 0.75, 1];
 var suppressRowClickUntil = 0; // after a row long-press, swallow the click that follows it
-var captureSpeedChoice = [1]; // speeds checked for quick capture (current speed is checked by default)
 /* Filters / list view (in-memory UI state): sample list starts hidden */
 var songQuery = "", listHidden = true;
 /* Sample playlist order: true while the 32 sample songs are shuffled.
@@ -1091,7 +1073,6 @@ if (!box) return;
 box.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
 });
 document.querySelectorAll(".speed-fader").forEach(function(f){ f.value = speed;});
-renderCaptureSpeedChecks();
 }
 function setLoading(on){ mediaLoading = !!on; syncPlayBtn();}
 function syncPlayBtn(){
@@ -1855,62 +1836,13 @@ if (loopA == null || loopB == null) return;
 seekTo(loopA);
 if (!isPlaying()) play();
 }
-/* Quick capture speed selection: checkboxes in the capture box pick which
-   playback rates the capture saves at (several at once). The rate in use
-   when the page opens is checked by default; changing the playback speed
-   afterwards never changes the checks. The choice is kept in
-   captureSpeedChoice. */
-function captureSpeedOptions(){
-var opts = SPEED_PRESETS.slice();
-captureSpeedChoice.forEach(function(v){ if (!opts.some(function(o){ return Math.abs(o - v) < 0.001;})) opts.push(clampSpeed(v));});
-if (!opts.some(function(o){ return Math.abs(o - speed) < 0.001;})) opts.push(clampSpeed(speed));
-opts.sort(function(x, y){ return x - y;});
-return opts;
-}
-function getSelectedCaptureSpeeds(){
-var out = [];
-captureSpeedChoice.forEach(function(v){
-var nv = clampSpeed(v);
-if (!out.some(function(o){ return Math.abs(o - nv) < 0.001;})) out.push(nv);
-});
-out.sort(function(x, y){ return x - y;});
-return out;
-}
-function renderCaptureSpeedChecks(){
-var box = $("captureSpeedChecks"); if (!box) return;
-box.innerHTML = "";
-captureSpeedOptions().forEach(function(v){
-var checked = captureSpeedChoice.some(function(c){ return Math.abs(c - v) < 0.001;});
-var isCurrent = Math.abs(v - speed) < 0.001;
-var lab = document.createElement("label");
-lab.className = "capture-speed-opt" + (checked? " checked": "");
-lab.innerHTML = '<input type="checkbox" value="' + v + '"' + (checked? " checked": "") + '> <span class="mono">' + Number(v).toFixed(2) + '×</span>' + (isCurrent? '<span class="capture-own">現在</span>': "");
-lab.querySelector("input").addEventListener("change", function(){
-var val = parseFloat(this.value);
-if (this.checked){
-if (!captureSpeedChoice.some(function(c){ return Math.abs(c - val) < 0.001;})) captureSpeedChoice.push(val);
-} else {
-captureSpeedChoice = captureSpeedChoice.filter(function(c){ return Math.abs(c - val) >= 0.001;});
-}
-renderCaptureSpeedChecks();
-});
-box.appendChild(lab);
-});
-var selEl = $("captureSelectedList");
-if (selEl){
-var sel = getSelectedCaptureSpeeds();
-selEl.textContent = sel.length? sel.map(function(v){ return Number(v).toFixed(2) + "×";}).join("、"): "未選択（今の倍率で保存します）";
-}
-}
 /* Quick capture: two buttons. 「10秒間」 (data-capture="fwd") sets
    A = now, B = now + 10 seconds; 「今までの10秒間」 (data-capture="back")
    sets B = now, A = now − 10 seconds (clamped at 0). Either way the loop
-   turns on, the section is saved once per checked rate (see 保存する倍率
-   above the buttons) and plays from the start. Buttons live in three
-   places: the player transport, the top of the loop list card and the
-   mobile bottom bar; all use data-capture and share the same checked
-   rates. Playback uses the current rate when it is among the checked
-   ones, otherwise the first checked rate. */
+   turns on, the section is saved at the current playback rate only and
+   plays from the start. Buttons live in three places: the player
+   transport, the top of the loop list card and the mobile bottom bar;
+   all use data-capture. */
 function captureLoop(mode){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 var now = getTime();
@@ -1931,45 +1863,30 @@ if (b <= a){ toast("曲の終わりなので、この長さのループは作れ
 }
 saveCaptureRange(a, b, label);
 }
-/* Save the range [a, b] as loop sections — one per checked capture rate
-   (保存する倍率）, auto-named, same-range duplicates skipped — then turn
+/* Save the range [a, b] as a single loop section at the current playback
+   rate, auto-named, same-range + same-rate duplicates skipped — then turn
    the loop on and play it from the start. Shared by quick capture and
-   the 長押しループ (hold) button. Playback uses the current rate when it
-   is among the checked ones, otherwise the first checked rate. */
+   the 長押しループ (hold) button. */
 function saveCaptureRange(a, b, label){
-var speeds = getSelectedCaptureSpeeds();
-if (!speeds.length) speeds = [clampSpeed(speed)];
+var v = clampSpeed(speed);
 loopA = a; loopB = b; loopOn = true; flagSavedId = null;
 var secs = sectionsOf(currentSong.id);
-var made = [], skipped = [];
-speeds.forEach(function(v){
 var dup = null;
 secs.forEach(function(x){ if (!dup && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005 && x.speed != null && Math.abs(Number(x.speed) - v) < 0.001) dup = x;});
-if (dup){ skipped.push(v); return;}
-var base = nextAutoLoopName(secs);
-var name = speeds.length > 1? (base + "（" + Number(v).toFixed(2) + "×）"): base;
-var sec = { id: nextId(), name: name, a: a, b: b, note: "", speed: v};
-secs.push(sec); made.push(sec);
-});
-/* The section that plays right away: the current rate's one if it was
-   among the checked rates, otherwise the first checked rate's one. */
-var cur = clampSpeed(speed);
-var playSpeed = speeds.some(function(v){ return Math.abs(v - cur) < 0.001;})? cur: speeds[0];
-var playSec = null;
-secs.forEach(function(x){ if (!playSec && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005 && x.speed != null && Math.abs(Number(x.speed) - playSpeed) < 0.001) playSec = x;});
-if (playSec) flagSavedId = playSec.id;
-if (Math.abs(clampSpeed(speed) - playSpeed) > 0.001) setSpeed(playSpeed);
+var made = null;
+if (dup){ flagSavedId = dup.id; }
+else {
+var sec = { id: nextId(), name: nextAutoLoopName(secs), a: a, b: b, note: "", speed: v};
+secs.push(sec); made = sec; flagSavedId = sec.id;
+}
 updateAB();
 renderSections(); renderCompact();
 previewLoopNow();
 var rangeTxt = fmtH(a) + " – " + fmtH(b);
-var speedsTxt = speeds.map(function(v){ return Number(v).toFixed(2) + "×";}).join("、");
-if (made.length && skipped.length){
-toast(label + "で保存しました：" + rangeTxt + "（" + made.length + "件追加 ・ " + speedsTxt + "、保存済みの " + skipped.length + "件は除きました）");
-} else if (made.length){
-toast(speeds.length > 1? (label + "で " + made.length + "件保存しました：" + rangeTxt + "（" + speedsTxt + "）"): (label + "で保存しました：ループ「" + made[0].name + "」 " + rangeTxt));
+if (made){
+toast(label + "で保存しました：ループ「" + made.name + "」 " + rangeTxt + "（" + Number(v).toFixed(2) + "×）");
 } else {
-toast(label + "：選んだ倍率のループは保存済みです（" + rangeTxt + " ・ " + speedsTxt + "）");
+toast(label + "：この区間のループは保存済みです（" + rangeTxt + " ・ " + Number(v).toFixed(2) + "×）");
 }
 }
 document.querySelectorAll("[data-capture]").forEach(function(btn){
@@ -1977,7 +1894,7 @@ btn.addEventListener("click", function(){ captureLoop(btn.getAttribute("data-cap
 });
 /* 長押しループ (hold-to-loop): pressing the button marks the loop start
    at the press position; releasing marks the end at the release
-   position. The range is saved at every checked capture rate (same as
+   position. The range is saved at the current playback rate (same as
    quick capture, via saveCaptureRange) and plays immediately. Holds
    shorter than 0.3 seconds are treated as mis-taps and save nothing.
    While held, both buttons switch to a recording state; the card button
@@ -2203,8 +2120,8 @@ renderSections();
 setTimeout(function(){
 var ed = document.querySelector("#loopList .loop-edit");
 if (ed && ed.scrollIntoView) ed.scrollIntoView({ behavior:"smooth", block:"nearest"});
-var inp = document.querySelector("#loopList .edit-a");
-if (inp) inp.focus();
+/* No auto-focus here: opening the editor must not pop the keyboard up.
+   Fields only take focus when the user taps them directly. */
 }, 60);
 }
 function visibleSections(){
@@ -3170,7 +3087,7 @@ $("importText").value = "";
 /* Build the sample playlist in a random order on every open */
 shuffleSampleSongs(false, true);
 ensureYtApi(); // start the YouTube API loading in parallel right away
-renderSongs(); renderComments(); updateAB(); updateStampView(); renderCaptureSpeedChecks(); updateSampleOrderUI();
+renderSongs(); renderComments(); updateAB(); updateStampView(); updateSampleOrderUI();
 if (songs.length) loadSong(songs[0], false);
 })();
 </script>
