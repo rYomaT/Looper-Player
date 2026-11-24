@@ -263,6 +263,37 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .import-paste .btn{margin-top:8px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.9rem;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Mobile bottom control bar (phone only) */
+.mobile-bar{display:none}
+@media (max-width:920px){
+.mobile-bar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--panel);border-top:1.5px solid var(--line2);box-shadow:0 -8px 24px rgba(60,45,20,.16);padding:3px 8px calc(3px + env(safe-area-inset-bottom,0px))}
+.wrap{padding-bottom:168px}
+.toast{bottom:148px}
+input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-margin-bottom:150px;scroll-margin-top:12px}
+.mb-row{display:flex;align-items:stretch;gap:5px}
+.mb-main{gap:5px}
+.mb-btn{flex:1 1 0;min-width:0;min-height:42px;border:1.5px solid var(--line2);background:var(--panel2);color:var(--ink);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px 2px;line-height:1.15}
+.mb-btn .mb-ic{font-size:1.12rem;line-height:1.1}
+.mb-btn .mb-lb{font-size:.62rem;font-weight:700;color:var(--ink2);white-space:nowrap}
+.mb-btn:active{border-color:var(--accent)}
+.mb-btn.mb-play{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);flex:1.25 1 0}
+.mb-btn.mb-play .mb-lb{color:var(--accent-ink);opacity:.85}
+.mb-btn.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mb-btn.active .mb-lb{color:var(--accent-ink);opacity:.85}
+.mb-btn .mb-speed-txt{font-size:.82rem;font-weight:900;line-height:1.1}
+.mb-capture-row{margin-top:3px;align-items:center}
+.mb-cap-label{flex:none;font-size:.72rem;font-weight:900;color:var(--teal);white-space:nowrap;padding:0 2px}
+.mb-cap{flex:1 1 0;min-width:0;min-height:30px;border:1.5px solid var(--teal);background:var(--teal-soft);color:var(--teal);border-radius:9px;font-weight:900;font-size:.84rem;white-space:nowrap;padding:4px 2px}
+.mb-cap:active{background:var(--teal);color:#fff}
+.mb-speed-panel{border:1.5px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px;margin-bottom:8px}
+.mb-speed-panel[hidden]{display:none}
+.mb-speed-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:900;font-size:.9rem}
+.mb-speed-head .btn{min-height:2rem;padding:.15rem .6rem}
+.mb-speed-panel .speed-presets{margin-top:8px}
+.mb-speed-panel .speed-presets .btn{flex:1}
+.mb-speed-panel .fader-row{margin-top:6px}
+}
+@media (max-width:380px){.mb-btn .mb-lb{font-size:.58rem}.mb-btn .mb-ic{font-size:1rem}.mb-cap{font-size:.78rem}}
 /* Library filters / compact bar */
 .lib-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lib-head h2{margin:0}
@@ -678,6 +709,37 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <footer>楽器演奏ルーパー／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。</footer>
 </div>
 
+<nav class="mobile-bar" id="mobileBar" aria-label="プレイヤー操作バー">
+<div class="mb-speed-panel" id="mbSpeedPanel" hidden>
+<div class="mb-speed-head"><span>再生速度 <span class="speed-val mono" id="mbSpeedVal">1.00×</span></span><button class="btn small" id="mbSpeedClose" type="button" aria-label="速度パネルを閉じる">✕ 閉じる</button></div>
+<div class="speed-presets" id="mbSpeedPresets">
+<button class="btn small" type="button" data-speed="0.5">0.50×</button>
+<button class="btn small" type="button" data-speed="0.75">0.75×</button>
+<button class="btn small active" type="button" data-speed="1">1.00×</button>
+</div>
+<div class="fader-row">
+<span class="fl">25%</span>
+<input type="range" class="speed-fader" min="0.25" max="2" step="0.01" value="1" aria-label="再生速度フェーダー（25%から200%）">
+<span class="fl">200%</span>
+</div>
+</div>
+<div class="mb-row mb-main">
+<button class="mb-btn" id="mbBack10" type="button" aria-label="10秒戻す"><span class="mb-ic" aria-hidden="true">⏪</span><span class="mb-lb">−10秒</span></button>
+<button class="mb-btn mb-play" id="mbPlay" type="button" aria-label="再生／一時停止"><span class="mb-ic" id="mbPlayIc" aria-hidden="true">▶</span><span class="mb-lb" id="mbPlayLb">再生</span></button>
+<button class="mb-btn" id="mbFwd10" type="button" aria-label="10秒進める"><span class="mb-ic" aria-hidden="true">⏩</span><span class="mb-lb">＋10秒</span></button>
+<button class="mb-btn" id="mbSetA" type="button" aria-label="開始旗を立てる"><span class="mb-ic" aria-hidden="true">⚑</span><span class="mb-lb">開始旗</span></button>
+<button class="mb-btn" id="mbSetB" type="button" aria-label="終了旗を立てる"><span class="mb-ic" aria-hidden="true">⚑</span><span class="mb-lb">終了旗</span></button>
+<button class="mb-btn" id="mbLoop" type="button" aria-label="ループのONとOFFを切り替える"><span class="mb-ic" aria-hidden="true">🔁</span><span class="mb-lb" id="mbLoopLb">ループ</span></button>
+<button class="mb-btn" id="mbSpeedToggle" type="button" aria-label="再生速度のパネルを開く" aria-expanded="false" aria-controls="mbSpeedPanel"><span class="mb-speed-txt mono" id="mbSpeedTxt">1.00×</span><span class="mb-lb">速度</span></button>
+</div>
+<div class="mb-row mb-capture-row" role="group" aria-label="クイックキャプチャ">
+<span class="mb-cap-label">⚡ クイック</span>
+<button class="mb-cap" type="button" data-capture="5" aria-label="クイックキャプチャ：今の位置から5秒のループを作る">今+5秒</button>
+<button class="mb-cap" type="button" data-capture="10" aria-label="クイックキャプチャ：今の位置から10秒のループを作る">今+10秒</button>
+<button class="mb-cap" type="button" data-capture="20" aria-label="クイックキャプチャ：今の位置から20秒のループを作る">今+20秒</button>
+</div>
+</nav>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -946,7 +1008,10 @@ if (mode==="youtube" && ytPlayer && ytPlayer.setPlaybackRate) ytPlayer.setPlayba
 if (mode==="audio") audioEl.playbackRate = speed;
 $("speedVal").textContent = speed.toFixed(2) + "×";
 $("speedValLoop").textContent = speed.toFixed(2) + "×";
-[$("speedPresets"), $("speedPresetsLoop")].forEach(function(box){
+var mbSV = $("mbSpeedVal"); if (mbSV) mbSV.textContent = speed.toFixed(2) + "×";
+var mbST = $("mbSpeedTxt"); if (mbST) mbST.textContent = speed.toFixed(2) + "×";
+[$("speedPresets"), $("speedPresetsLoop"), $("mbSpeedPresets")].forEach(function(box){
+if (!box) return;
 box.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", Math.abs(parseFloat(b.dataset.speed)-speed) < 0.001);});
 });
 document.querySelectorAll(".speed-fader").forEach(function(f){ f.value = speed;});
@@ -955,8 +1020,12 @@ renderCaptureSpeedChecks();
 function setLoading(on){ mediaLoading = !!on; syncPlayBtn();}
 function syncPlayBtn(){
 var btn = $("playBtn");
-if (mediaLoading){ btn.textContent = "⏳ 読み込み中…"; return;}
-btn.textContent = isPlaying()? "⏸ 一時停止": "▶ 再生";
+var mbIc = $("mbPlayIc"), mbLb = $("mbPlayLb");
+if (mediaLoading){ btn.textContent = "⏳ 読み込み中…"; if (mbIc) mbIc.textContent = "⏳"; if (mbLb) mbLb.textContent = "読込中"; return;}
+var playing = isPlaying();
+btn.textContent = playing? "⏸ 一時停止": "▶ 再生";
+if (mbIc) mbIc.textContent = playing? "⏸": "▶";
+if (mbLb) mbLb.textContent = playing? "一時停止": "再生";
 }
 
 /* ---------- YouTube API ---------- */
@@ -1530,6 +1599,32 @@ isPlaying()? pause(): play();
 });
 $("back10").addEventListener("click", function(){ seekTo(getTime() - 10);});
 $("fwd10").addEventListener("click", function(){ seekTo(getTime() + 10);});
+/* Mobile bottom bar: every button proxies to the existing control so the
+   bar and the in-page controls always do exactly the same thing.
+   Quick-capture buttons in the bar carry data-capture and are wired by
+   the shared [data-capture] handler below; the speed fader in the bar
+   carries .speed-fader and is wired by the shared fader handler. */
+function mbProxy(id, targetId){
+var el = $(id), target = $(targetId);
+if (el && target) el.addEventListener("click", function(){ target.click();});
+}
+mbProxy("mbPlay", "playBtn");
+mbProxy("mbBack10", "back10");
+mbProxy("mbFwd10", "fwd10");
+mbProxy("mbSetA", "setA");
+mbProxy("mbSetB", "setB");
+mbProxy("mbLoop", "loopStateBtn");
+(function(){
+var toggle = $("mbSpeedToggle"), panel = $("mbSpeedPanel"), close = $("mbSpeedClose");
+if (!toggle || !panel) return;
+function setPanel(open){
+panel.hidden = !open;
+toggle.setAttribute("aria-expanded", open? "true": "false");
+toggle.classList.toggle("active", open);
+}
+toggle.addEventListener("click", function(){ setPanel(panel.hidden);});
+if (close) close.addEventListener("click", function(){ setPanel(false);});
+})();
 function stepSong(dir){
 var arr = visibleSongs();
 if (!currentSong) return;
@@ -1580,6 +1675,10 @@ b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.da
 $("speedPresetsLoop").querySelectorAll("button").forEach(function(b){
 b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
 });
+var mbPresets = $("mbSpeedPresets");
+if (mbPresets) mbPresets.querySelectorAll("button").forEach(function(b){
+b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
+});
 /* Speed fader (25%–200%): dragging adjusts the rate live, without
    restarting the loop, and never touches the capture/copy checkboxes. */
 document.querySelectorAll(".speed-fader").forEach(function(f){
@@ -1589,12 +1688,17 @@ f.addEventListener("input", function(){ setSpeed(parseFloat(this.value));});
 /* A-B loop */
 function syncLoopStateBtn(){
 var b = $("loopStateBtn"); if (!b) return;
+var mb = $("mbLoop"), mbLb = $("mbLoopLb");
 if (loopA != null && loopB != null){
 b.textContent = loopOn? "🔁 ループ ON": "🔁 ループ OFF";
 b.classList.toggle("active", loopOn);
+if (mb){ mb.classList.toggle("active", loopOn); mb.setAttribute("aria-pressed", loopOn? "true": "false");}
+if (mbLb) mbLb.textContent = loopOn? "ループON": "ループOFF";
 } else {
 b.textContent = "🔁 ループ 未設定";
 b.classList.remove("active");
+if (mb){ mb.classList.remove("active"); mb.setAttribute("aria-pressed", "false");}
+if (mbLb) mbLb.textContent = "ループ";
 }
 }
 function updateAB(){
