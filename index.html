@@ -196,7 +196,6 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-edit .edit-time-label{font-size:.98rem;font-weight:900;color:var(--ink);margin:0;flex:none}
 .loop-edit .edit-time-input{flex:1;min-width:0;font-size:1.55rem;font-weight:700;text-align:center;padding:.35rem .4rem}
 .loop-edit .edit-now-btn{flex:none;white-space:nowrap;min-height:3.2rem;min-width:3.6rem;font-size:1.15rem;font-weight:900;padding:.4rem 1rem}
-.loop-edit input[type="range"].edit-slider{width:100%;height:2.6rem;margin-top:2px;flex:none}
 .loop-edit .edit-preview-big{width:100%;min-height:3.4rem;font-size:1.12rem;font-weight:900}
 .loop-edit .edit-speed-val{color:var(--ink);font-size:1.02rem}
 .loop-edit .edit-more{border-top:1.5px dashed var(--line2);padding-top:6px}
@@ -466,7 +465,7 @@ body.docked .timeline{height:28px}
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -792,7 +791,7 @@ body.docked .timeline{height:28px}
 <button class="mb-btn" id="mbSpeedToggle" type="button" aria-label="再生速度のパネルを開く" aria-expanded="false" aria-controls="mbSpeedPanel"><span class="mb-speed-txt mono" id="mbSpeedTxt">1.00×</span><span class="mb-lb">速度</span></button>
 </div>
 <div class="mb-row mb-capture-row" role="group" aria-label="クイックキャプチャ">
-<span class="mb-cap-label">⚡ クイックキャプチャ</span>
+<span class="mb-cap-label">🎤キャプチャ</span>
 <button class="mb-cap" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="mb-cap" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
 <button class="mb-cap mb-hold" type="button" id="mbHoldLoop" aria-label="長押しループ：押している間をループとして保存する" aria-pressed="false">長押しループ</button>
@@ -2183,21 +2182,15 @@ loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.
 var draft = loopEditDraft;
 var curSpeedVal = parseFloat(draft.speedStr);
 if (isNaN(curSpeedVal)) curSpeedVal = (sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed;
-var durForSlider = getDur();
-var sliderMax = durForSlider > 0? Math.round(durForSlider*100)/100: Math.max(sec.b + 60, 180);
-var initA = parseTimeInput(draft.aStr); if (initA == null) initA = sec.a;
-var initB = parseTimeInput(draft.bStr); if (initB == null) initB = sec.b;
 var editDiv = document.createElement("div");
 editDiv.className = "loop-edit";
 editDiv.innerHTML =
 '<div class="edit-time-block">' +
 '<div class="edit-time-head"><label class="edit-time-label" for="edit-a-' + sec.id + '">開始時間</label><input id="edit-a-' + sec.id + '" class="edit-a mono edit-time-input" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="1:23.50"><button class="btn edit-now-btn" type="button" data-now-target="a" aria-label="開始時間を現在の再生位置に設定する">今</button></div>' +
-'<input type="range" class="edit-slider edit-slider-a" min="0" max="' + sliderMax + '" step="0.01" value="' + initA + '" aria-label="開始時間をスライダーで調整">' +
 '<div class="time-adj" data-target="a"><button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="開始を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="開始を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button></div>' +
 '</div>' +
 '<div class="edit-time-block">' +
 '<div class="edit-time-head"><label class="edit-time-label" for="edit-b-' + sec.id + '">終了時間</label><input id="edit-b-' + sec.id + '" class="edit-b mono edit-time-input" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="1:35.00"><button class="btn edit-now-btn" type="button" data-now-target="b" aria-label="終了時間を現在の再生位置に設定する">今</button></div>' +
-'<input type="range" class="edit-slider edit-slider-b" min="0" max="' + sliderMax + '" step="0.01" value="' + initB + '" aria-label="終了時間をスライダーで調整">' +
 '<div class="time-adj" data-target="b"><button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="終了を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="終了を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button></div>' +
 '</div>' +
 '<button class="btn primary edit-preview edit-preview-big" type="button">▶ プレビュー再生</button>' +
@@ -2250,36 +2243,10 @@ play();
 }
 return true;
 }
-/* Keep each time slider in step with its text field, whichever way the
-   value was changed (typing, 「今」, fine-adjust buttons, or the slider). */
-function syncSlider(target){
-var input = editDiv.querySelector(target === "a"? ".edit-a": ".edit-b");
-var slider = editDiv.querySelector(target === "a"? ".edit-slider-a": ".edit-slider-b");
-if (!input || !slider) return;
-var v = parseTimeInput(input.value);
-if (v != null) slider.value = v;
-}
-editDiv.querySelector(".edit-a").addEventListener("input", function(){ syncSlider("a"); applyLiveTimes(true);});
-editDiv.querySelector(".edit-b").addEventListener("input", function(){ syncSlider("b"); applyLiveTimes(true, true);});
-editDiv.querySelector(".edit-a").addEventListener("change", function(){ syncSlider("a"); applyLiveTimes(true);});
-editDiv.querySelector(".edit-b").addEventListener("change", function(){ syncSlider("b"); applyLiveTimes(true, true);});
-/* Time sliders: dragging updates the field and the player's loop region
-   live (without restarting playback on every step); releasing the
-   slider previews — from the new start, or from 3s before the new end. */
-[[".edit-slider-a", "a"], [".edit-slider-b", "b"]].forEach(function(pair){
-var slider = editDiv.querySelector(pair[0]);
-var target = pair[1];
-if (!slider) return;
-var input = editDiv.querySelector(target === "a"? ".edit-a": ".edit-b");
-slider.addEventListener("input", function(){
-var v = Math.round(parseFloat(slider.value)*100)/100;
-if (isNaN(v)) return;
-input.value = fmtH(v);
-syncDraftFromInputs();
-applyLiveTimes(false);
-});
-slider.addEventListener("change", function(){ applyLiveTimes(true, target === "b");});
-});
+editDiv.querySelector(".edit-a").addEventListener("input", function(){ applyLiveTimes(true);});
+editDiv.querySelector(".edit-b").addEventListener("input", function(){ applyLiveTimes(true, true);});
+editDiv.querySelector(".edit-a").addEventListener("change", function(){ applyLiveTimes(true);});
+editDiv.querySelector(".edit-b").addEventListener("change", function(){ applyLiveTimes(true, true);});
 // Fine-adjust buttons stay hidden until the time field is tapped / focused
 [[".edit-a", "a"], [".edit-b", "b"]].forEach(function(pair){
 var inp = editDiv.querySelector(pair[0]);
@@ -2305,7 +2272,6 @@ var nv = now;
 if (nv < 0) nv = 0;
 if (dur > 0 && nv > dur) nv = Math.round(dur*100)/100;
 input.value = fmtH(nv);
-syncSlider(target);
 syncDraftFromInputs();
 applyLiveTimes(true, target === "b");
 });
@@ -2323,7 +2289,6 @@ if (nv < 0) nv = 0;
 var dur = getDur();
 if (target === "b" && dur > 0 && nv > dur) nv = Math.round(dur*100)/100;
 input.value = fmtH(nv);
-syncSlider(target);
 syncDraftFromInputs();
 applyLiveTimes(true, target === "b");
 });
