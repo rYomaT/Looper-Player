@@ -298,6 +298,7 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .mb-cap-label{flex:none;font-size:.72rem;font-weight:900;color:var(--teal);white-space:nowrap;padding:0 2px}
 .mb-cap{flex:1 1 0;min-width:0;min-height:30px;border:1.5px solid var(--teal);background:var(--teal-soft);color:var(--teal);border-radius:9px;font-weight:900;font-size:.84rem;white-space:nowrap;padding:4px 2px}
 .mb-cap:active{background:var(--teal);color:#fff}
+.mb-capture-row .mb-cap[data-capture="back"]{flex:1.35 1 0}
 .mb-speed-panel{border:1.5px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px;margin-bottom:8px}
 .mb-speed-panel[hidden]{display:none}
 .mb-speed-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:900;font-size:.9rem}
@@ -373,6 +374,12 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .capture-btn{border-color:var(--teal);color:var(--teal);background:var(--teal-soft);font-weight:900;white-space:nowrap}
 .capture-btn:hover{border-color:var(--teal);background:var(--teal);color:#fff}
 @media (prefers-color-scheme: dark){.capture-btn:hover{color:#10201c}}
+.hold-btn{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.hold-btn:hover{border-color:var(--accent)}
+.hold-btn.holding{background:var(--danger);border-color:var(--danger);color:#fff}
+.mb-hold{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.mb-cap.holding{background:var(--danger);border-color:var(--danger);color:#fff}
+@media (prefers-color-scheme: dark){.hold-btn.holding,.mb-cap.holding{color:#2b100c}}
 .capture-box{margin:0 0 12px;border-bottom:1.5px dashed var(--line2);padding-bottom:12px}
 .capture-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
 .capture-box .hint{margin:6px 0 0}
@@ -433,7 +440,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間にチェックした倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「Loop Off」に変わります。「Loop Off」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／Loop Off・編集・コピー・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
@@ -628,10 +635,11 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <h2>A–Bループ・ループリスト</h2>
 <div class="capture-box" aria-label="クイックキャプチャ：今の位置からかんたんにループを作る">
 <h4 style="margin-top:0">クイックキャプチャ：10秒間のループを作る</h4>
-<p class="hint" style="margin:0">「10秒間」は今から10秒間、「今までの10秒間」は今までの10秒間をループにして保存し、すぐ再生します。</p>
+<p class="hint" style="margin:0">「10秒間」は今から10秒間、「今までの10秒間」は今までの10秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（0.3秒未満の短い押下は保存されません）。</p>
 <div class="capture-row">
 <button class="btn small capture-btn" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="btn small capture-btn" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
+<button class="btn small hold-btn" type="button" id="holdLoopBtn" aria-label="長押しループ：押している間をループとして保存する" aria-pressed="false">⏺ 長押しループ</button>
 </div>
 <div class="capture-multi" style="margin-top:12px" aria-label="クイックキャプチャで保存する倍率を選ぶ">
 <h5>保存する倍率（複数可）</h5>
@@ -764,6 +772,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <span class="mb-cap-label">⚡ クイックキャプチャ</span>
 <button class="mb-cap" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="mb-cap" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
+<button class="mb-cap mb-hold" type="button" id="mbHoldLoop" aria-label="長押しループ：押している間をループとして保存する" aria-pressed="false">長押しループ</button>
 </div>
 </nav>
 
@@ -1881,6 +1890,14 @@ b = Math.round((a + 10)*100)/100;
 if (dur > 0 && b > dur) b = Math.round(dur*100)/100;
 if (b <= a){ toast("曲の終わりなので、この長さのループは作れません"); return;}
 }
+saveCaptureRange(a, b, label);
+}
+/* Save the range [a, b] as loop sections — one per checked capture rate
+   (保存する倍率）, auto-named, same-range duplicates skipped — then turn
+   the loop on and play it from the start. Shared by quick capture and
+   the 長押しループ (hold) button. Playback uses the current rate when it
+   is among the checked ones, otherwise the first checked rate. */
+function saveCaptureRange(a, b, label){
 var speeds = getSelectedCaptureSpeeds();
 if (!speeds.length) speeds = [clampSpeed(speed)];
 loopA = a; loopB = b; loopOn = true; flagSavedId = null;
@@ -1918,6 +1935,63 @@ toast(label + "：選んだ倍率のループは保存済みです（" + rangeTx
 }
 document.querySelectorAll("[data-capture]").forEach(function(btn){
 btn.addEventListener("click", function(){ captureLoop(btn.getAttribute("data-capture"));});
+});
+/* 長押しループ (hold-to-loop): pressing the button marks the loop start
+   at the press position; releasing marks the end at the release
+   position. The range is saved at every checked capture rate (same as
+   quick capture, via saveCaptureRange) and plays immediately. Holds
+   shorter than 0.3 seconds are treated as mis-taps and save nothing.
+   While held, both buttons switch to a recording state; the card button
+   also shows the start time and the live end position. Buttons live in
+   the loop card's capture row and in the mobile bottom bar. */
+var holdStart = null, holdSongId = null, holdTimer = null;
+var holdBtns = [$("holdLoopBtn"), $("mbHoldLoop")].filter(function(b){ return !!b;});
+var holdLabels = holdBtns.map(function(b){ return b.textContent;});
+function updateHoldLabels(){
+holdBtns.forEach(function(b){
+if (b.id === "mbHoldLoop") b.textContent = "⏺ 記録中…";
+else b.textContent = "⏺ " + fmtH(holdStart) + " 〜 " + fmtH(getTime());
+});
+}
+function holdBegin(ev){
+if (ev) ev.preventDefault();
+if (holdStart != null) return;
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+var t = getTime();
+if (t == null || isNaN(t)){ toast("再生位置が取得できませんでした"); return;}
+holdStart = Math.round(t*100)/100;
+holdSongId = currentSong.id;
+holdBtns.forEach(function(b){ b.classList.add("holding"); b.setAttribute("aria-pressed", "true");});
+updateHoldLabels();
+holdTimer = setInterval(updateHoldLabels, 120);
+}
+function holdEnd(){
+if (holdStart == null) return;
+var a = holdStart, songId = holdSongId;
+holdStart = null; holdSongId = null;
+if (holdTimer){ clearInterval(holdTimer); holdTimer = null;}
+holdBtns.forEach(function(b, i){ b.classList.remove("holding"); b.setAttribute("aria-pressed", "false"); b.textContent = holdLabels[i];});
+if (!currentSong || currentSong.id !== songId){ toast("曲が変わったので、長押しループは保存しませんでした"); return;}
+var b = Math.round(getTime()*100)/100;
+var dur = getDur();
+if (dur > 0 && b > dur) b = Math.round(dur*100)/100;
+if (b - a < 0.3){ toast("短すぎるので保存しませんでした（0.3秒以上押してください）"); return;}
+saveCaptureRange(a, b, "長押しループ");
+}
+holdBtns.forEach(function(btn){
+btn.addEventListener("pointerdown", function(e){
+try{ btn.setPointerCapture(e.pointerId);}catch(err){}
+holdBegin(e);
+});
+btn.addEventListener("pointerup", function(e){ e.preventDefault(); holdEnd();});
+btn.addEventListener("pointercancel", function(){ holdEnd();});
+btn.addEventListener("contextmenu", function(e){ e.preventDefault();});
+btn.addEventListener("keydown", function(e){
+if ((e.key === " " || e.key === "Enter") && !e.repeat){ e.preventDefault(); holdBegin();}
+});
+btn.addEventListener("keyup", function(e){
+if (e.key === " " || e.key === "Enter"){ e.preventDefault(); holdEnd();}
+});
 });
 $("setA").addEventListener("click", function(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
