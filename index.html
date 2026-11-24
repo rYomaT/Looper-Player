@@ -347,8 +347,12 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .name-row.open{display:block}
 .name-row label{font-size:.85rem;font-weight:900;color:var(--accent);display:block;margin-bottom:5px}
 .adj-block{margin-top:10px}
-.adj-label{font-size:.8rem;font-weight:900;letter-spacing:.04em;color:var(--ink2);margin:8px 0 4px}
+.adj-label{font-size:.8rem;font-weight:900;letter-spacing:.04em;color:var(--ink2);margin:8px 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .adj-label .mono{color:var(--ink);font-size:.92rem}
+.adj-now-btn{flex:none;min-height:2rem;padding:.25rem .75rem;font-size:.84rem}
+.loop-edit .edit-now-row{display:flex;gap:8px;align-items:stretch}
+.loop-edit .edit-now-row input{flex:1;min-width:0}
+.loop-edit .edit-now-btn{flex:none;white-space:nowrap;min-height:2.25rem;padding:.35rem .85rem}
 .adj-time{cursor:pointer;background:var(--panel2);border:1.5px solid var(--line2);border-radius:7px;padding:.08rem .55rem;font-family:inherit}
 .adj-time:hover{border-color:var(--accent);color:var(--accent)}
 .adj-time::after{content:"▾";font-size:.68em;margin-left:.4em;color:var(--ink2)}
@@ -638,7 +642,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <input id="loopName" type="text" placeholder="例：サビの速弾き">
 </div>
 <div class="adj-block">
-<div class="adj-label">LOOP START <button type="button" class="mono adj-time" id="adjAVal" aria-expanded="false" title="押すと微調整ボタンが表示されます">—</button></div>
+<div class="adj-label">LOOP START <button type="button" class="mono adj-time" id="adjAVal" aria-expanded="false" title="押すと微調整ボタンが表示されます">—</button><button type="button" class="btn small adj-now-btn" id="adjANow" aria-label="開始時間を現在の再生位置に設定する">今</button></div>
 <div class="adj-row" data-target="a">
 <button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button>
 <button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button>
@@ -647,7 +651,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button>
 <button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button>
 </div>
-<div class="adj-label">LOOP END <button type="button" class="mono adj-time" id="adjBVal" aria-expanded="false" title="押すと微調整ボタンが表示されます">—</button></div>
+<div class="adj-label">LOOP END <button type="button" class="mono adj-time" id="adjBVal" aria-expanded="false" title="押すと微調整ボタンが表示されます">—</button><button type="button" class="btn small adj-now-btn" id="adjBNow" aria-label="終了時間を現在の再生位置に設定する">今</button></div>
 <div class="adj-row" data-target="b">
 <button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button>
 <button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button>
@@ -656,7 +660,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button>
 <button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button>
 </div>
-<p class="hint" style="margin:6px 0 0">上の時間を押すと微調整ボタンが表示されます（外側から±1秒／±0.1秒／±0.01秒）。開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から、即プレビューします。</p>
+<p class="hint" style="margin:6px 0 0">上の時間を押すと微調整ボタンが表示されます（外側から±1秒／±0.1秒／±0.01秒）。「今」を押すと、その時間を現在の再生位置に設定します。開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から、即プレビューします。</p>
 </div>
 <div class="transport" style="margin-top:10px">
 <button class="btn small" id="toggleLoop" type="button">ループ OFF</button>
@@ -1931,6 +1935,48 @@ if (!isPlaying()) play();
 });
 });
 });
+/* 「今」buttons beside LOOP START / LOOP END: set that time to the
+   current playback position, with the same instant reflection and
+   preview as the fine-adjust buttons (start previews from the new
+   start; end previews from 3 seconds before the new end). */
+function setABToNow(which){
+if (!currentSong){ toast("先に曲を選んでください"); return;}
+var now = Math.round(getTime()*100)/100;
+if (now == null || isNaN(now)){ toast("再生位置が取得できませんでした"); return;}
+var dur = getDur();
+if (which === "a"){
+loopA = now;
+if (loopA < 0) loopA = 0;
+if (dur > 0 && loopA > dur) loopA = Math.round(dur*100)/100;
+if (loopB != null && loopA >= loopB) loopA = Math.round((loopB - 0.01)*100)/100;
+if (loopA < 0) loopA = 0;
+} else {
+loopB = now;
+if (loopB < 0) loopB = 0;
+if (dur > 0 && loopB > dur) loopB = Math.round(dur*100)/100;
+if (loopA != null && loopB <= loopA) loopB = Math.round((loopA + 0.01)*100)/100;
+if (dur > 0 && loopB > dur){ toast("終了時間は開始時間より後にしてください"); return;}
+}
+if (loopA != null && loopB != null) loopOn = true;
+syncFlagSavedSection();
+updateAB();
+if (loopA != null && loopB != null){
+if (which === "b"){
+seekTo(Math.max(loopA, Math.round((loopB - 3)*100)/100));
+if (!isPlaying()) play();
+} else {
+previewLoopNow();
+}
+} else if (which === "a" && loopA != null){
+seekTo(loopA);
+if (!isPlaying()) play();
+} else if (which === "b" && loopB != null){
+seekTo(Math.max(0, Math.round((loopB - 3)*100)/100));
+if (!isPlaying()) play();
+}
+}
+var adjANowEl = $("adjANow"); if (adjANowEl) adjANowEl.addEventListener("click", function(){ setABToNow("a");});
+var adjBNowEl = $("adjBNow"); if (adjBNowEl) adjBNowEl.addEventListener("click", function(){ setABToNow("b");});
 /* The fine-adjust rows stay hidden until the time value itself is tapped */
 [["adjAVal", "a"], ["adjBVal", "b"]].forEach(function(pair){
 var el = $(pair[0]); if (!el) return;
@@ -2064,9 +2110,9 @@ editDiv.className = "loop-edit";
 editDiv.innerHTML =
 '<div><label for="edit-name-' + sec.id + '">名前</label><input id="edit-name-' + sec.id + '" class="edit-name" type="text" value="' + esc(draft.name) + '"></div>' +
 '<div style="display:flex;flex-direction:column;gap:10px">' +
-'<div><label for="edit-a-' + sec.id + '">開始時間（分:秒.小数 または 秒）</label><input id="edit-a-' + sec.id + '" class="edit-a mono" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="例：1:23.50">' +
+'<div><label for="edit-a-' + sec.id + '">開始時間（分:秒.小数 または 秒）</label><div class="edit-now-row"><input id="edit-a-' + sec.id + '" class="edit-a mono" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="例：1:23.50"><button class="btn small edit-now-btn" type="button" data-now-target="a" aria-label="開始時間を現在の再生位置に設定する">今</button></div>' +
 '<div class="time-adj" data-target="a"><button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="開始を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="開始を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button></div></div>' +
-'<div><label for="edit-b-' + sec.id + '">終了時間（分:秒.小数 または 秒）</label><input id="edit-b-' + sec.id + '" class="edit-b mono" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="例：1:35.00">' +
+'<div><label for="edit-b-' + sec.id + '">終了時間（分:秒.小数 または 秒）</label><div class="edit-now-row"><input id="edit-b-' + sec.id + '" class="edit-b mono" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="例：1:35.00"><button class="btn small edit-now-btn" type="button" data-now-target="b" aria-label="終了時間を現在の再生位置に設定する">今</button></div>' +
 '<div class="time-adj" data-target="b"><button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button><button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button><button type="button" data-adj="-0.01" aria-label="終了を0.01秒戻す">&lt;</button><button type="button" data-adj="0.01" aria-label="終了を0.01秒進める">&gt;</button><button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button><button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button></div></div>' +
 '</div>' +
 '<div><label for="edit-speed-' + sec.id + '">再生倍率（速度）</label><div class="speed-edit-row"><input id="edit-speed-' + sec.id + '" class="edit-speed mono" type="number" min="0.25" max="2" step="0.05" value="' + curSpeedVal.toFixed(2) + '"><span class="mono">×</span><span class="hint" style="margin:0">0.25〜2.00</span></div>' +
@@ -2074,7 +2120,7 @@ editDiv.innerHTML =
 SPEED_PRESETS.map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
 '</div></div>' +
 '<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
-'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始時間・終了時間を押すと、その下に微調整ボタンが表示されます。開始・終了時間や再生倍率を変えると、保存しなくても変更直後にプレイヤーへ反映され、その区間が新しい倍率で再生されます。開始時間を変えたときは新しい開始位置から、終了時間を変えたときは終了の3秒前から再生して確認できます。「保存」で確定します。</p>' +
+'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始時間・終了時間を押すと、その下に微調整ボタンが表示されます。「今」を押すと、その時間を現在の再生位置に設定します。開始・終了時間や再生倍率を変えると、保存しなくても変更直後にプレイヤーへ反映され、その区間が新しい倍率で再生されます。開始時間を変えたときは新しい開始位置から、終了時間を変えたときは終了の3秒前から再生して確認できます。「保存」で確定します。</p>' +
 '<div class="edit-actions"><button class="btn edit-preview" type="button">▶ プレビュー</button><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
 function syncDraftFromInputs(){
@@ -2125,6 +2171,26 @@ if (!inp || !adjRow) return;
 function showAdj(){ adjRow.classList.add("open"); }
 inp.addEventListener("focus", showAdj);
 inp.addEventListener("click", showAdj);
+});
+// 「今」buttons in the edit form: set the start / end field to the
+// current playback position, then reflect it live exactly like typing
+// or the fine-adjust buttons (start previews from the new start; end
+// previews from 3 seconds before the new end).
+editDiv.querySelectorAll(".edit-now-btn").forEach(function(btn){
+btn.addEventListener("click", function(){
+var target = btn.getAttribute("data-now-target");
+var input = editDiv.querySelector(target === "a"? ".edit-a": ".edit-b");
+if (!input) return;
+var now = Math.round(getTime()*100)/100;
+if (now == null || isNaN(now)) return;
+var dur = getDur();
+var nv = now;
+if (nv < 0) nv = 0;
+if (dur > 0 && nv > dur) nv = Math.round(dur*100)/100;
+input.value = fmtH(nv);
+syncDraftFromInputs();
+applyLiveTimes(true, target === "b");
+});
 });
 // wire time adjust buttons
 editDiv.querySelectorAll(".time-adj").forEach(function(row){
