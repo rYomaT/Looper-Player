@@ -2120,7 +2120,6 @@ editDiv.innerHTML =
 SPEED_PRESETS.map(function(v){ return '<button class="btn small edit-speed-preset" type="button" data-v="' + v + '">' + v.toFixed(2) + '×</button>';}).join("") +
 '</div></div>' +
 '<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
-'<p class="hint" style="margin:0">時間は「1:23.50」でも「83.5」（秒）でも入力できます。開始時間・終了時間を押すと、その下に微調整ボタンが表示されます。「今」を押すと、その時間を現在の再生位置に設定します。開始・終了時間や再生倍率を変えると、保存しなくても変更直後にプレイヤーへ反映され、その区間が新しい倍率で再生されます。開始時間を変えたときは新しい開始位置から、終了時間を変えたときは終了の3秒前から再生して確認できます。「保存」で確定します。</p>' +
 '<div class="edit-actions"><button class="btn edit-preview" type="button">▶ プレビュー</button><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
 function syncDraftFromInputs(){
