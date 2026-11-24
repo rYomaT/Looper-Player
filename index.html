@@ -21,6 +21,7 @@
 --danger:#b3372a; --danger-soft:#fbe7e3;
 --chip:#efe9db; --shadow:0 10px 28px rgba(60,45,20,.10);
 --radius:14px;
+--dock-h:104px;
 }
 @media (prefers-color-scheme: dark){
 :root{
@@ -342,13 +343,14 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .tl-fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent-soft);border-right:2px solid var(--accent)}
 .tl-sec{position:absolute;top:5px;bottom:5px;border-radius:5px;opacity:.9;display:flex;align-items:center;overflow:hidden;cursor:pointer}
 .tl-sec:hover{filter:brightness(1.12)}
-.tl-sec.active{outline:2px solid var(--ink);outline-offset:-1px}
+.tl-sec.active{outline:2px solid var(--ink);outline-offset:-1px;z-index:3}
+.tl-sec.raised{z-index:3;outline:2px solid var(--ink);outline-offset:-1px}
 .tl-sec-name{font-size:.68rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px;pointer-events:none}
-.tl-flag{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);transform:translateX(-1px);pointer-events:none;z-index:2}
+.tl-flag{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);transform:translateX(-1px);pointer-events:none;z-index:5}
 .tl-flag span{position:absolute;top:1px;left:3px;font-size:.6rem;font-weight:900;background:var(--ink);color:var(--bg);border-radius:3px;padding:0 .35em;line-height:1.6}
 .tl-flag.b span{left:auto;right:3px}
 .tl-mark{position:absolute;top:0;width:3px;height:9px;background:var(--ink);border-radius:2px;transform:translateX(-1px)}
-.tl-play{position:absolute;top:0;bottom:0;width:2.5px;background:var(--danger);transform:translateX(-1px)}
+.tl-play{position:absolute;top:0;bottom:0;width:2.5px;background:var(--danger);transform:translateX(-1px);z-index:6}
 .ruler{position:relative;height:22px;margin-top:2px;font-size:.68rem;color:var(--ink2)}
 .ruler .tick{position:absolute;top:0;transform:translateX(-50%);text-align:center;white-space:nowrap}
 .ruler .tick::before{content:"";display:block;width:1.5px;height:6px;background:var(--line2);margin:0 auto}
@@ -429,6 +431,49 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .ab-times{margin:2px 0 6px}
 .loops-card .transport{margin-top:6px!important}
 }
+/* Sticky mini player: when the page is scrolled past the timeline, the video
+   and a compact timeline stay pinned to the top of the screen in a slim bar,
+   so the current time and loop ranges stay visible while capturing or
+   editing loops further down the page. The stage and the timeline block are
+   NOT moved in the DOM (moving the YouTube iframe would reload it); they
+   switch to position:fixed and same-height placeholders keep their space in
+   the layout, so the page does not jump. The bar only appears once the
+   timeline itself has scrolled up out of view. */
+.tl-block{display:flow-root}
+.dock-bar{display:none}
+body.docked .dock-bar{display:block;position:fixed;top:0;left:0;right:0;height:var(--dock-h);background:var(--panel);border-bottom:1.5px solid var(--line2);box-shadow:0 10px 26px rgba(60,45,20,.20);z-index:55}
+body.docked .stage{position:fixed;top:8px;left:10px;width:156px;aspect-ratio:16/9;z-index:56;border:1.5px solid var(--line2);box-shadow:0 8px 20px rgba(0,0,0,.28)}
+body.docked .stage.audio-mode{aspect-ratio:16/9;padding:6px}
+body.docked .stage .empty-msg{padding:6px 4px;font-size:.7rem}
+body.docked .stage .audio-msg{font-size:.72rem}
+body.docked .stage .audio-msg .big{font-size:1.05rem;margin-bottom:0}
+body.docked .yt-error{padding:8px;gap:4px}
+body.docked .yt-error .yt-error-msg,body.docked .yt-error .yt-error-code{display:none}
+body.docked .yt-error .yt-error-icon{font-size:1.1rem}
+body.docked .yt-error .yt-error-title{font-size:.8rem}
+body.docked .tl-block{position:fixed;top:8px;left:176px;right:10px;z-index:56}
+body.docked .tl-head{margin-top:0;font-size:.74rem;flex-wrap:nowrap;white-space:nowrap;overflow:hidden}
+body.docked .tl-head .tl-zoom,body.docked #seamlessNote,body.docked #tlTick{display:none}
+#tlCurWrap{display:none}
+body.docked #tlCurWrap{display:inline}
+body.docked .timeline{height:32px;margin-top:4px}
+body.docked .ruler{height:18px;font-size:.6rem;margin-top:1px}
+body.docked .tl-legend{display:none}
+body.docked input,body.docked button,body.docked select,body.docked textarea,body.docked summary,body.docked .song,body.docked .loop-item{scroll-margin-top:calc(var(--dock-h) + 12px)}
+@media (min-width:921px){
+body.docked .loops-card{top:calc(var(--dock-h) + 10px);max-height:calc(100vh - var(--dock-h) - 24px)}
+}
+@media (max-width:920px){
+:root{--dock-h:88px}
+body.docked .stage{width:128px}
+body.docked .tl-block{left:146px}
+}
+@media (max-width:420px){
+:root{--dock-h:80px}
+body.docked .stage{width:112px}
+body.docked .tl-block{left:130px}
+body.docked .timeline{height:28px}
+}
 </style>
 </head>
 <body>
@@ -441,9 +486,9 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間にチェックした倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「Loop Off」に変わります。「Loop Off」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／Loop Off・編集・コピー・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。</li>
+<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・コピー・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集・コピー）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
@@ -609,8 +654,10 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 </div>
 
+<div class="tl-block" id="tlBlock">
 <div class="tl-head">
 <span>全体表示 <span class="mono" id="tlRange">—</span></span>
+<span id="tlCurWrap">現在 <span class="mono" id="tlCur">—</span></span>
 <span class="mono" id="tlTick"></span>
 <span id="seamlessNote"></span>
 <span class="tl-zoom">
@@ -628,6 +675,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 </div>
 <div class="ruler" id="ruler"></div>
 <div class="tl-legend" id="tlLegend"></div>
+</div>
 </section>
 
 <!-- RIGHT: loop list -->
@@ -744,6 +792,8 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 
 <footer>楽器演奏ルーパー／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。</footer>
 </div>
+
+<div class="dock-bar" id="dockBar" aria-hidden="true"></div>
 
 <nav class="mobile-bar" id="mobileBar" aria-label="プレイヤー操作バー">
 <div class="mb-speed-panel" id="mbSpeedPanel" hidden>
@@ -2125,7 +2175,7 @@ Math.abs(sec.a - loopA) < 0.005 && Math.abs(sec.b - loopB) < 0.005;
 }
 /* True only while this saved section is actually looping right now
    (its range is the current A–B and loopOn is on). The card button
-   shows Loop Off in exactly this state. */
+   shows ループ OFF in exactly this state. */
 function isLoopingSection(sec){
 return loopOn && isActiveSection(sec);
 }
@@ -2213,7 +2263,7 @@ var isCopying = (copyLoopId === sec.id);
 var isLooping = isLoopingSection(sec);
 var mainHtml = '<div class="loop-main">' +
 '<div class="loop-first-row"><span class="loop-rate meta" title="押すとこの区間から再生します（長押しで編集）"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge + '</span>' +
-'<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "Loop Off": "▶ 有効化") + '</button>' +
+'<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "ループ OFF": "▶ 有効化") + '</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
 '<button class="btn small act-copy" type="button">' + (isCopying? "閉じる": "コピー") + '</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>' +
@@ -2565,7 +2615,7 @@ if (!lpTargetOk(e.target)) return;
 activateSection(sec);
 });
 item.querySelector(".act-activate").addEventListener("click", function(){
-/* While this section is looping, the same button reads Loop Off:
+/* While this section is looping, the same button reads ループ OFF:
    pressing it stops only the loop — playback of the song continues. */
 if (isLoopingSection(sec)) stopLoopOnly();
 else activateSection(sec);
@@ -2643,7 +2693,8 @@ $("timeline").setAttribute("aria-valuenow", Math.round(Math.max(0, Math.min(1, t
 var secs = sectionsOf(currentSong.id);
 var domKey = Math.round(viewStart * 100) + "|" + Math.round(viewEnd * 100) + "|" +
 secs.map(function(s){ return s.id + ":" + s.a + "-" + s.b + ":" + s.name;}).join(",") + "|" +
-(loopA == null? "": loopA) + "|" + (loopB == null? "": loopB) + "|" + (loopOn? 1: 0);
+(loopA == null? "": loopA) + "|" + (loopB == null? "": loopB) + "|" + (loopOn? 1: 0) +
+"|" + (editingLoopId || "") + "|" + (copyLoopId || "");
 if (domKey !== tlDomKey){
 tlDomKey = domKey;
 var loopsHtml = "", legend = [], marksHtml = "";
@@ -2651,8 +2702,12 @@ secs.forEach(function(sec, idx){
 if (sec.b < viewStart || sec.a > viewEnd) return;
 var col = loopColor(sec);
 var active = isActiveSection(sec);
+/* The selected loop (active, being edited, or open in the copy panel) is
+   raised above the others, so it stays visible and tappable even where
+   loop ranges overlap on the timeline. */
+var raised = active || sec.id === editingLoopId || sec.id === copyLoopId;
 var wPct = (Math.min(sec.b, viewEnd) - Math.max(sec.a, viewStart)) / span * 100;
-loopsHtml += '<div class="tl-sec' + (active? " active": "") + '" data-sec-id="' + sec.id + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
+loopsHtml += '<div class="tl-sec' + (active? " active": "") + (raised? " raised": "") + '" data-sec-id="' + sec.id + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
 ';width:' + Math.max(0.8, wPct) +
 '%;background:' + col + '" title="' + esc(sec.name) + " " + fmtH(sec.a) + " – " + fmtH(sec.b) + '（押すとこの区間から再生）">' +
 (wPct >= 13? '<span class="tl-sec-name">' + esc(sec.name) + "</span>": "") + "</div>";
@@ -2748,12 +2803,53 @@ viewEnd = viewStart + d / ZOOMS[zoomIdx];
 rulerKey = ""; renderTimeline();
 });
 
+/* ---------- Sticky mini player (video + timeline pinned to the top) ----------
+   Once the timeline block has scrolled up out of view, the stage and the
+   timeline block switch to position:fixed in a slim bar at the top of the
+   screen (see the body.docked CSS), so the video, the playhead and the loop
+   ranges stay visible while the user captures or edits loops further down.
+   Same-height placeholders keep their space in the layout, so the document
+   height never changes and the on/off test below cannot oscillate. */
+var tlBlockEl = $("tlBlock"), docked = false, stagePh = null, tlPh = null;
+function makeDockPh(el){
+var ph = document.createElement("div");
+ph.style.display = "none"; ph.setAttribute("aria-hidden", "true");
+el.parentNode.insertBefore(ph, el);
+return ph;
+}
+stagePh = makeDockPh(stage); tlPh = makeDockPh(tlBlockEl);
+function setDocked(on){
+if (on === docked) return;
+if (on){
+stagePh.style.height = stage.offsetHeight + "px";
+tlPh.style.height = tlBlockEl.offsetHeight + "px";
+stagePh.style.display = "block"; tlPh.style.display = "block";
+document.body.classList.add("docked"); docked = true;
+} else {
+document.body.classList.remove("docked"); docked = false;
+stagePh.style.display = "none"; tlPh.style.display = "none";
+}
+}
+function checkDock(){
+var dh = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--dock-h"), 10) || 104;
+var r = (docked? tlPh: tlBlockEl).getBoundingClientRect();
+setDocked(r.top < dh - 4);
+}
+var dockRaf = false;
+window.addEventListener("scroll", function(){
+if (dockRaf) return; dockRaf = true;
+requestAnimationFrame(function(){ dockRaf = false; checkDock();});
+}, { passive:true});
+window.addEventListener("resize", function(){ if (docked) setDocked(false); checkDock();});
+checkDock();
+
 /* Progress + loop polling */
 setInterval(function(){
 if (!currentSong) return;
 var t = getTime(), d = getDur();
 $("curTime").textContent = fmt(t);
 $("durTime").textContent = fmt(d);
+var tlCurEl = $("tlCur"); if (tlCurEl) tlCurEl.textContent = fmt(t) + " / " + fmt(d);
 if (d > 0 && document.activeElement!== $("seekBar")) $("seekBar").value = Math.round(t/d*1000);
 if (loopOn && loopA!=null && loopB!=null && !waActive()){
 if (mode === "youtube"){
