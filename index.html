@@ -1170,9 +1170,7 @@ editingLoopId = null; loopEditDraft = null;
 waTeardown(); rulerKey = "";
 clearAB(false);
 stampTime = null; updateStampView();
-$("nowTitle").innerHTML = esc(song.title) + ' <span class="badge ' +
-(song.type==="youtube"? "yt\">YouTube": song.type==="local"? "local\">ローカルMP3": song.type==="drive"? "drive\">Drive": "audio\">MP3") + "</span>" +
-(song.sample? ' <span class="badge local">サンプル</span>': "");
+$("nowTitle").textContent = song.title;
 $("nowArtist").textContent = song.artist || "";
 $("emptyMsg").style.display = "none";
 $("driveOpenRow").style.display = song.type === "drive"? "block": "none";
@@ -1992,7 +1990,7 @@ var list = $("loopList"); if (!list) return;
 list.innerHTML = "";
 if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; refreshSongBadges(); return;}
 var all = sectionsOf(currentSong.id);
-if (!all.length){ list.innerHTML = ""; refreshSongBadges(); return;}
+if (!all.length){ list.innerHTML = '<p class="loop-empty">下部メニューより、開始旗、🎤キャプチャボタン各種を押してループ期間を指定してください。</p>'; refreshSongBadges(); return;}
 var secs = visibleSections();
 secs.forEach(function(sec){
 var item = document.createElement("div");
