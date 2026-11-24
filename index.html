@@ -205,16 +205,6 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-edit .edit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
 .loop-edit .edit-actions .btn{flex:1}
 .loop-edit .edit-actions .btn.primary{flex:1.2}
-/* Copy a loop at other speeds */
-.loop-copy{width:100%;border-top:1.5px dashed var(--line2);padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px}
-.loop-copy h5{margin:0;font-size:.85rem;font-weight:900}
-.copy-speeds{display:flex;flex-wrap:wrap;gap:6px}
-.copy-speed{display:inline-flex;align-items:center;gap:.35em;background:var(--panel2);border:1.5px solid var(--line2);border-radius:999px;padding:.3rem .7rem;font-weight:700;font-size:.88rem;cursor:pointer;min-height:2.25rem}
-.copy-speed input[type="checkbox"]{width:1.05rem;height:1.05rem;padding:0;border:none;background:transparent;accent-color:var(--accent);flex:none}
-.copy-speed.checked{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
-.copy-speed .copy-own{font-size:.72rem;font-weight:700;color:var(--ink2)}
-.copy-selected{font-size:.85rem;color:var(--ink2)}
-.copy-selected .mono{color:var(--ink);font-weight:700}
 
 /* Library */
 .library{margin-bottom:18px}
@@ -487,8 +477,8 @@ body.docked .timeline{height:28px}
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループリスト上部の「保存する倍率」で倍率にチェックを入れておくと、チェックした倍率ごとに同じ区間を同時に保存できます（今使っている倍率は最初からチェック済みです）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間にチェックした倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。「コピー」を押すと、チェックボックスで選んだ別の再生倍率（0.50×／0.75×／1.00×）で同じ区間を複製できます。選んだ倍率は「選択倍率」に表示されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・コピー・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集・コピー）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は大きな表示の下のスライダーをドラッグしても、「1:23.50」のような表記や秒数（例：83.5）で入力しても変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
@@ -886,10 +876,9 @@ var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
 var speed = 1;
-/* Speed presets offered by the speed buttons and the copy-at-other-speeds panel.
+/* Speed presets offered by the speed buttons.
    Any other rate between 0.25× and 2.00× is set with the fader. */
 var SPEED_PRESETS = [0.5, 0.75, 1];
-var copyLoopId = null; // id of the saved loop whose copy panel is open
 var suppressRowClickUntil = 0; // after a row long-press, swallow the click that follows it
 var captureSpeedChoice = [1]; // speeds checked for quick capture (current speed is checked by default)
 /* Filters / list view (in-memory UI state): sample list starts hidden */
@@ -1265,7 +1254,7 @@ function loadSong(song, autoplay){
 currentSong = song;
 hideYtError();
 clearYtLoadWatchdog(); ytStalled = false; ytLoadRetries = 0;
-editingLoopId = null; loopEditDraft = null; copyLoopId = null;
+editingLoopId = null; loopEditDraft = null;
 waTeardown(); rulerKey = "";
 clearAB(false);
 stampTime = null; updateStampView();
@@ -1767,7 +1756,7 @@ if (mbPresets) mbPresets.querySelectorAll("button").forEach(function(b){
 b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
 });
 /* Speed fader (25%–200%): dragging adjusts the rate live, without
-   restarting the loop, and never touches the capture/copy checkboxes. */
+   restarting the loop, and never touches the capture checkboxes. */
 document.querySelectorAll(".speed-fader").forEach(function(f){
 f.addEventListener("input", function(){ setSpeed(parseFloat(this.value));});
 });
@@ -2209,7 +2198,7 @@ toast("「" + sec.name + "」を再生中：" + fmtH(sec.a) + " – " + fmtH(sec
    long-pressing the loop's row. */
 function openLoopEditor(sec){
 if (!sec) return;
-editingLoopId = sec.id; loopEditDraft = null; copyLoopId = null;
+editingLoopId = sec.id; loopEditDraft = null;
 renderSections();
 setTimeout(function(){
 var ed = document.querySelector("#loopList .loop-edit");
@@ -2259,13 +2248,11 @@ item.className = "loop-item" + (isActiveSection(sec)? " active": "");
 item.style.setProperty("--loop-h", loopHue(sec));
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
-var isCopying = (copyLoopId === sec.id);
 var isLooping = isLoopingSection(sec);
 var mainHtml = '<div class="loop-main">' +
 '<div class="loop-first-row"><span class="loop-rate meta" title="押すとこの区間から再生します（長押しで編集）"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge + '</span>' +
 '<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "ループ OFF": "▶ 有効化") + '</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
-'<button class="btn small act-copy" type="button">' + (isCopying? "閉じる": "コピー") + '</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>' +
 '<div class="loop-second-row meta" title="押すとこの区間から再生します（長押しで編集）"><span class="range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
 (sec.name? '<span class="name">' + esc(sec.name) + '</span>': "") + '</div>' +
@@ -2520,69 +2507,16 @@ renderSections(); renderCompact();
 toast("ループ「" + sec.name + "」を更新しました（" + fmtH(sec.a) + " – " + fmtH(sec.b) + " ・ " + sec.speed.toFixed(2) + "×）");
 });
 }
-if (isCopying){
-var ownSpeed = (sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): null;
-var copyDiv = document.createElement("div");
-copyDiv.className = "loop-copy";
-copyDiv.innerHTML =
-'<h5>別の再生速度でコピー</h5>' +
-'<p class="hint" style="margin:0">コピーしたい倍率にチェックを入れると、同じ区間（' + fmtH(sec.a) + " – " + fmtH(sec.b) + '）をその倍率で複製します。元の倍率は ' + (ownSpeed != null? ownSpeed.toFixed(2) + "×": "未設定") + ' です。</p>' +
-'<div class="copy-speeds">' +
-SPEED_PRESETS.map(function(v){
-var isOwn = ownSpeed != null && Math.abs(v - ownSpeed) < 0.001;
-return '<label class="copy-speed"><input type="checkbox" value="' + v + '"' + (isOwn? " disabled": "") + '> <span class="mono">' + v.toFixed(2) + '×</span>' + (isOwn? '<span class="copy-own">現在</span>': "") + "</label>";
-}).join("") +
-"</div>" +
-'<div class="copy-selected">選択倍率：<span class="mono copy-selected-list">未選択</span></div>' +
-'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary copy-do" type="button" style="flex:1">選択した倍率でコピー</button><button class="btn copy-cancel" type="button">キャンセル</button></div>';
-item.appendChild(copyDiv);
-function selectedCopySpeeds(){
-var vals = [];
-copyDiv.querySelectorAll('input[type="checkbox"]:checked').forEach(function(cb){ vals.push(parseFloat(cb.value));});
-return vals;
-}
-function refreshCopySelected(){
-var vals = selectedCopySpeeds();
-copyDiv.querySelector(".copy-selected-list").textContent = vals.length? vals.map(function(v){ return v.toFixed(2) + "×";}).join("、"): "未選択";
-copyDiv.querySelectorAll(".copy-speed").forEach(function(lab){
-var cb = lab.querySelector("input");
-lab.classList.toggle("checked", !!(cb && cb.checked));
-});
-}
-copyDiv.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
-cb.addEventListener("change", refreshCopySelected);
-});
-refreshCopySelected();
-copyDiv.querySelector(".copy-cancel").addEventListener("click", function(){
-copyLoopId = null; renderSections();
-});
-copyDiv.querySelector(".copy-do").addEventListener("click", function(){
-var vals = selectedCopySpeeds();
-if (!vals.length){ toast("コピーする倍率にチェックを入れてください"); return;}
-var secs = sectionsOf(currentSong.id);
-var made = 0, skipped = 0;
-vals.forEach(function(v){
-var dup = secs.some(function(x){ return Math.abs(x.a - sec.a) < 0.005 && Math.abs(x.b - sec.b) < 0.005 && x.speed != null && Math.abs(Number(x.speed) - v) < 0.001;});
-if (dup){ skipped++; return;}
-secs.push({ id: nextId(), name: sec.name + "（" + v.toFixed(2) + "×）", a: sec.a, b: sec.b, note: sec.note || "", speed: v});
-made++;
-});
-copyLoopId = null;
-renderSections(); renderCompact();
-if (made) toast("「" + sec.name + "」を " + made + "件コピーしました" + (skipped? "（同じ倍率のコピーがあった " + skipped + "件は除きました）": ""));
-else toast("選んだ倍率のコピーは、すでにあります");
-});
-}
 /* Row gestures: a tap anywhere on the row (outside the buttons and any
    open panel) plays from this loop, exactly like ▶ 有効化; a long-press
    (0.5s without moving — so scrolling the list never triggers it) opens
    this loop's edit form in place. Gestures that start on a button, an
-   input, or the open edit / copy panels are left to those controls, and
+   input, or the open edit panel is left to those controls, and
    the click that follows a long-press is swallowed, so opening the
    editor never also starts playback. */
 var lpTimer = null, lpStart = null;
 function lpTargetOk(t){
-return !(t && t.closest && t.closest("button, input, textarea, select, label, a, .loop-edit, .loop-copy"));
+return !(t && t.closest && t.closest("button, input, textarea, select, label, a, .loop-edit"));
 }
 function lpClear(){
 if (lpTimer){ clearTimeout(lpTimer); lpTimer = null;}
@@ -2624,14 +2558,8 @@ item.querySelector(".act-edit").addEventListener("click", function(){
 if (isEditing){ editingLoopId = null; loopEditDraft = null; renderSections();}
 else openLoopEditor(sec);
 });
-item.querySelector(".act-copy").addEventListener("click", function(){
-if (isCopying){ copyLoopId = null;}
-else { copyLoopId = sec.id; editingLoopId = null; loopEditDraft = null;}
-renderSections();
-});
 item.querySelector(".del").addEventListener("click", function(){
 if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
-if (copyLoopId === sec.id) copyLoopId = null;
 if (flagSavedId === sec.id) flagSavedId = null;
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
 renderSections(); renderCompact(); toast("ループを削除しました");
@@ -2694,7 +2622,7 @@ var secs = sectionsOf(currentSong.id);
 var domKey = Math.round(viewStart * 100) + "|" + Math.round(viewEnd * 100) + "|" +
 secs.map(function(s){ return s.id + ":" + s.a + "-" + s.b + ":" + s.name;}).join(",") + "|" +
 (loopA == null? "": loopA) + "|" + (loopB == null? "": loopB) + "|" + (loopOn? 1: 0) +
-"|" + (editingLoopId || "") + "|" + (copyLoopId || "");
+"|" + (editingLoopId || "");
 if (domKey !== tlDomKey){
 tlDomKey = domKey;
 var loopsHtml = "", legend = [], marksHtml = "";
@@ -2702,10 +2630,10 @@ secs.forEach(function(sec, idx){
 if (sec.b < viewStart || sec.a > viewEnd) return;
 var col = loopColor(sec);
 var active = isActiveSection(sec);
-/* The selected loop (active, being edited, or open in the copy panel) is
-   raised above the others, so it stays visible and tappable even where
-   loop ranges overlap on the timeline. */
-var raised = active || sec.id === editingLoopId || sec.id === copyLoopId;
+/* The selected loop (active, or being edited) is raised above the
+   others, so it stays visible and tappable even where loop ranges
+   overlap on the timeline. */
+var raised = active || sec.id === editingLoopId;
 var wPct = (Math.min(sec.b, viewEnd) - Math.max(sec.a, viewStart)) / span * 100;
 loopsHtml += '<div class="tl-sec' + (active? " active": "") + (raised? " raised": "") + '" data-sec-id="' + sec.id + '" style="left:' + pct(Math.max(sec.a, viewStart)) +
 ';width:' + Math.max(0.8, wPct) +
