@@ -133,6 +133,9 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-item .del{flex:none;border:none;background:transparent;color:var(--ink2);font-size:1rem;padding:.25rem.45rem;min-height:2.25rem;cursor:pointer}
 .loop-item .del:hover{color:var(--danger)}
 .loop-empty{font-size:.85rem;color:var(--ink2);margin-top:8px}
+.loop-import-help{font-size:.85rem;color:var(--ink2);margin-top:6px}
+.loop-import-help summary{font-weight:700;cursor:pointer;padding:4px 0;min-height:2.25rem}
+.loop-import-help p{margin:4px 0}
 .loop-item{flex-wrap:wrap;align-items:flex-start}
 .loop-item{cursor:pointer;-webkit-touch-callout:none;transition:filter .15s ease}
 .loop-item.pressing{filter:brightness(1.08)}
@@ -441,11 +444,12 @@ body.docked .timeline{height:28px}
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
+<li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
-※ このページの曲・保存したループは、<strong>あなたのブラウザの中だけに残ります。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ページを閉じると消えます。</p>
+※ 保存したループ・追加した曲・コメント・再生速度は、<strong>あなたのブラウザの保存領域（localStorage）に自動保存され、次に開いたときに復元されます。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ただし保存領域はサイトごとに別々です（このページとGitHub Pages版では別々に保存されます）。サイト間の引っ越しやバックアップには、書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体を保存できないため、曲名などの情報だけが残り、音を再生するにはファイルの再追加が必要です。</p>
 </details>
 </header>
 
@@ -772,7 +776,7 @@ var SAMPLES = [
 { title:"Boulevard of Broken Dreams", artist:"Green Day", type:"youtube", url:"https://www.youtube.com/watch?v=Soa3gO7tL-c", sample:true}
 ];
 
-/* ---------- State (in-memory only; page session) ---------- */
+/* ---------- State (persisted to localStorage; see restoreLocal) ---------- */
 var uid = 1;
 function nextId(){ return uid++;}
 var songs = [];
@@ -784,7 +788,7 @@ var ytApiAttempts = 0, ytApiTimer = null, ytApiGivenUp = false;
 var ytLoadTimer = null, ytLoadRetries = 0, ytStalled = false, ytWantPlay = false;
 var mediaLoading = false;
 var loopA = null, loopB = null, loopOn = false;
-var loopSections = {}; // songId -> [{id, name, a, b, note, speed}] (in-memory only)
+var loopSections = {}; // songId -> [{id, name, a, b, note, speed}] (saved to localStorage)
 var flagSavedId = null; // id of the loop auto-saved by the latest 終了旗 press in this A session
 var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
@@ -1306,6 +1310,7 @@ if (cp && prev) cp.addEventListener("click", function(){ loadSong(prev, true);})
 if (cn && next) cn.addEventListener("click", function(){ loadSong(next, true);});
 }
 function renderSongs(){
+saveLocal();
 var arr = visibleSongs();
 var filtered = !!songQuery;
 $("songCount").textContent = filtered? (arr.length + "曲 / 全" + songs.length + "曲"): (songs.length + "曲");
@@ -1650,6 +1655,7 @@ var t = (waActive() && waPlaying)? waTime(): null;
 speed = Math.round(Math.min(2, Math.max(0.25, v)) * 100) / 100;
 applySpeed();
 if (t != null) waStart(t);
+saveLocal();
 }
 function setSpeedAndPlayIfLooping(v){
 setSpeed(v);
@@ -1987,10 +1993,15 @@ return "hsl(" + loopHue(sec) + ",65%,46%)";
 }
 function renderSections(){
 var list = $("loopList"); if (!list) return;
+saveLocal();
 list.innerHTML = "";
 if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; refreshSongBadges(); return;}
 var all = sectionsOf(currentSong.id);
-if (!all.length){ list.innerHTML = '<p class="loop-empty">下部メニューより、開始旗、🎤キャプチャボタン各種を押してループ期間を指定してください。</p>'; refreshSongBadges(); return;}
+if (!all.length){ list.innerHTML = '<p class="loop-empty">下部メニューより、開始旗、🎤キャプチャボタン各種を押してループ期間を指定してください。<br>書き出しファイルを読み込んで以前のループ、セットリストを読み込み</p>' +
+'<details class="loop-import-help"><summary>書き出しファイルとは?</summary>' +
+'<p>書き出しファイルは、保存したループやセットリスト（曲のリスト）をテキストファイル（looper-export.txt）として保存したものです。あとで読み込むと、以前のループやセットリストをそのまま復元できます。</p>' +
+'<p>読み込み方：「書き出しを読み込む」の「📂 ファイルから読み込む」ボタンから書き出しファイルを選ぶか、書き出したテキストを貼り付けて読み込んでください。</p>' +
+'<p>普段はブラウザに自動保存されるので、読み込みが必要なのは、バックアップから戻すときや、別のサイト（GitHub Pages版など）へ引っ越すときです。</p></details>'; refreshSongBadges(); return;}
 var secs = visibleSections();
 secs.forEach(function(sec){
 var item = document.createElement("div");
@@ -2540,6 +2551,7 @@ renderComments(); toast("返信しました");
 return el;
 }
 function renderComments(){
+saveLocal();
 var list = $("commentList"); list.innerHTML = "";
 var mine = currentSong? comments.filter(function(c){ return c.songId === currentSong.id;}): [];
 $("commentCount").textContent = mine.length + "件";
@@ -2861,12 +2873,119 @@ importExportText(v);
 $("importText").value = "";
 });
 
+/* ---------- Local persistence (localStorage) ----------
+   Saved loops, user-added songs, comments, the current song and the
+   playback speed are stored in this browser's localStorage as
+   versioned JSON and restored on open. The 32 sample songs are
+   always rebuilt from SAMPLES first and merged by URL, so they
+   never duplicate. localStorage is per-site: this page and the
+   GitHub Pages copy keep separate stores — the export file
+   (looper-export.txt) stays the way to back up and to move data
+   between sites. Local MP3 files themselves cannot be stored;
+   only their title info is kept, and the file must be re-added
+   before the song can play again. */
+var LS_KEY = "looper-friends-state-v1";
+var lsRestored = false, lsSaveTimer = null;
+var restoredCurrentSong = null, restoredSpeed = null;
+function songRefOf(song, userIndex){
+if (song.sample) return { s: song.url };
+return { u: userIndex[song.id] };
+}
+function buildLocalData(){
+var userSongs = songs.filter(function(s){ return !s.sample;});
+var userIndex = {};
+userSongs.forEach(function(s, i){ userIndex[s.id] = i;});
+var commentIndex = {};
+comments.forEach(function(c, i){ commentIndex[c.id] = i;});
+var loops = [];
+Object.keys(loopSections).forEach(function(sid){
+var song = songs.filter(function(s){ return s.id === Number(sid);})[0];
+if (!song) return;
+(loopSections[sid] || []).forEach(function(sec){
+loops.push({ song: songRefOf(song, userIndex), name: sec.name, a: sec.a, b: sec.b,
+note: sec.note || "", speed: sec.speed != null? sec.speed: null});
+});
+});
+return {
+v: 1,
+savedAt: new Date().toISOString(),
+songs: userSongs.map(function(s){
+return { title: s.title, artist: s.artist || "", type: s.type, url: s.type === "local"? "": (s.url || "") };
+}),
+loops: loops,
+comments: comments.map(function(c){
+var song = songs.filter(function(s){ return s.id === c.songId;})[0];
+if (!song) return null;
+return { song: songRefOf(song, userIndex), time: c.time, name: c.name, text: c.text,
+parent: c.parentId == null? null: (commentIndex[c.parentId] != null? commentIndex[c.parentId]: null) };
+}).filter(function(c){ return !!c;}),
+currentSong: currentSong? songRefOf(currentSong, userIndex): null,
+speed: speed
+};
+}
+function writeLocal(){
+if (!lsRestored) return;
+try { localStorage.setItem(LS_KEY, JSON.stringify(buildLocalData())); } catch(e){}
+}
+function saveLocal(){
+if (!lsRestored) return;
+if (lsSaveTimer) clearTimeout(lsSaveTimer);
+lsSaveTimer = setTimeout(function(){ lsSaveTimer = null; writeLocal(); }, 250);
+}
+window.addEventListener("pagehide", function(){
+if (lsSaveTimer){ clearTimeout(lsSaveTimer); lsSaveTimer = null; writeLocal(); }
+});
+function resolveSongRef(ref, songMap){
+if (!ref) return null;
+if (ref.u != null) return songMap[ref.u] || null;
+if (ref.s) return songs.filter(function(s){ return s.sample && s.url === ref.s;})[0] || null;
+return null;
+}
+function restoreLocal(){
+var data = null;
+try {
+var raw = localStorage.getItem(LS_KEY);
+if (raw) data = JSON.parse(raw);
+} catch(e){ data = null; }
+if (data && data.v === 1 && Array.isArray(data.songs)){
+var stats = newImportStats();
+var songMap = {};
+data.songs.forEach(function(imp, i){
+var s = ensureSong(imp, stats);
+if (s){
+songMap[i] = s;
+if (s.type === "local" && !s.objectUrl && String(s.artist || "").indexOf("再追加") < 0){
+s.artist = (s.artist || "ローカルファイル") + "（再追加が必要）";
+}
+}
+});
+(data.loops || []).forEach(function(l){
+var song = resolveSongRef(l.song, songMap);
+if (song) ensureLoop(song.id, l.name, l.a, l.b, stats, l.note, l.speed);
+});
+var commentMap = {};
+(data.comments || []).forEach(function(c, i){
+var song = resolveSongRef(c.song, songMap);
+if (!song) return;
+var parentId = (c.parent != null && commentMap[c.parent] != null)? commentMap[c.parent]: null;
+var created = ensureComment(song.id, c.time == null? null: c.time, c.name, c.text, parentId, stats);
+if (created) commentMap[i] = created.id;
+});
+restoredCurrentSong = resolveSongRef(data.currentSong, songMap);
+if (data.speed != null && !isNaN(data.speed)) restoredSpeed = clampSpeed(data.speed);
+}
+lsRestored = true;
+}
+
 /* ---------- Init ---------- */
+restoreLocal();
 /* Build the sample playlist in a random order on every open */
 shuffleSampleSongs(false, true);
 ensureYtApi(); // start the YouTube API loading in parallel right away
 renderSongs(); renderComments(); updateAB(); updateStampView(); updateSampleOrderUI();
-if (songs.length) loadSong(songs[0], false);
+if (restoredSpeed != null) speed = restoredSpeed;
+if (songs.length) loadSong(restoredCurrentSong || songs[0], false);
+applySpeed();
 })();
 </script>
 </body>
