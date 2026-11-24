@@ -350,6 +350,12 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .mb-hold{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 .mb-cap.holding{background:var(--danger);border-color:var(--danger);color:#fff}
 @media (prefers-color-scheme: dark){.hold-btn.holding,.mb-cap.holding{color:#2b100c}}
+.capture-sec{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.capture-sec-label{font-weight:900;font-size:.85rem;color:var(--teal);white-space:nowrap}
+.capture-sec-presets{display:flex;gap:5px;flex-wrap:wrap}
+.capture-sec-presets .btn.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.capture-sec-input{width:4.6em;flex:none;text-align:center}
+.capture-sec-unit{font-size:.85rem;font-weight:700;color:var(--ink2)}
 .capture-box{margin:0 0 12px;border-bottom:1.5px dashed var(--line2);padding-bottom:12px}
 .capture-box h4{margin:0 0 4px;font-size:.85rem;font-weight:900}
 .capture-box .hint{margin:6px 0 0}
@@ -384,6 +390,28 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .capture-box{margin-bottom:8px;padding-bottom:10px}
 .loop-list{margin-top:6px}
 }
+/* Management screen （管理画面） */
+.mgmt-card{margin-top:18px}
+.mgmt-card h2 .count{font-size:.78rem;font-weight:700;background:var(--chip);border-radius:999px;padding:.1em .7em;color:var(--ink2)}
+.mgmt-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
+.mgmt-tabs .btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mgmt-search{margin-bottom:10px}
+.mgmt-row{display:flex;gap:10px;align-items:flex-start;background:var(--panel2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;flex-wrap:wrap}
+.mgmt-row .mg-main{flex:1;min-width:200px}
+.mgmt-row .mg-title{font-weight:900}
+.mgmt-row .mg-sub{font-size:.85rem;color:var(--ink2)}
+.mgmt-row .mg-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.mgmt-row select{width:auto;flex:1;min-width:120px}
+.mgmt-list-card{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--panel2);margin-bottom:10px}
+.mgmt-list-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mgmt-list-head .mg-title{font-size:1rem;font-weight:900}
+.mgmt-list-head .count{font-size:.78rem;font-weight:700;background:var(--chip);border-radius:999px;padding:.1em .7em;color:var(--ink2)}
+.mgmt-create{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.mgmt-create input{flex:1;min-width:180px}
+.mgmt-queue{border:1.5px solid var(--teal);background:var(--teal-soft);border-radius:12px;padding:10px 12px;margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.loop-addlist{width:100%;border-top:1.5px dashed var(--line2);padding-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.loop-addlist input{flex:1;min-width:140px;width:auto}
+.mgmt-empty{color:var(--ink2);font-size:.92rem;padding:10px 0;margin:0}
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
    so the current time and loop ranges stay visible while capturing or
@@ -438,19 +466,21 @@ body.docked .timeline{height:28px}
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、ループリスト上部の「キャプチャ秒数」で5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（0.3秒未満の短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセット（0.50×／0.75×／1.00×）のボタンか、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。</li>
 <li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで±1秒／±0.1秒／±0.01秒ずつ直せて、開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（0.50×／0.75×／1.00×）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の3秒前から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ3つの倍率で、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
+<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>練習リスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの「リストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。練習リストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
 ※ 保存したループ・追加した曲・コメント・再生速度は、<strong>あなたのブラウザの保存領域（localStorage）に自動保存され、次に開いたときに復元されます。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ただし保存領域はサイトごとに別々です（このページとGitHub Pages版では別々に保存されます）。サイト間の引っ越しやバックアップには、書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体を保存できないため、曲名などの情報だけが残り、音を再生するにはファイルの再追加が必要です。</p>
 </details>
+<div style="margin-top:12px"><button class="btn" id="gotoMgmt" type="button">🗂 管理画面へ（全ループ・練習リスト・曲リスト・曲）</button></div>
 </header>
 
 <section class="card library" aria-label="ライブラリ">
@@ -636,8 +666,19 @@ body.docked .timeline{height:28px}
 <aside class="card loops-card" aria-label="ループリスト">
 <h2>A–Bループ・ループリスト</h2>
 <div class="capture-box" aria-label="クイックキャプチャ：今の位置からかんたんにループを作る">
-<h4 style="margin-top:0">クイックキャプチャ：10秒間のループを作る</h4>
-<p class="hint" style="margin:0">「10秒間」は今から10秒間、「今までの10秒間」は今までの10秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（0.3秒未満の短い押下は保存されません）。</p>
+<h4 style="margin-top:0">クイックキャプチャ：<span class="cap-sec-txt">10</span>秒間のループを作る</h4>
+<p class="hint" style="margin:0">「<span class="cap-sec-txt">10</span>秒間」は今から<span class="cap-sec-txt">10</span>秒間、「今までの<span class="cap-sec-txt">10</span>秒間」は今までの<span class="cap-sec-txt">10</span>秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（0.3秒未満の短い押下は保存されません）。キャプチャの秒数は、下のプリセットか入力欄で変更でき、設定は保存されます。</p>
+<div class="capture-sec" aria-label="クイックキャプチャの秒数を変更する">
+<span class="capture-sec-label">キャプチャ秒数</span>
+<div class="capture-sec-presets" id="captureSecPresets">
+<button class="btn small" type="button" data-capture-sec="5">5秒</button>
+<button class="btn small" type="button" data-capture-sec="10">10秒</button>
+<button class="btn small" type="button" data-capture-sec="15">15秒</button>
+<button class="btn small" type="button" data-capture-sec="20">20秒</button>
+</div>
+<input type="number" class="capture-sec-input" id="captureSecInput" min="1" max="120" step="1" value="10" aria-label="任意の秒数を入力（1〜120秒）">
+<span class="capture-sec-unit">秒（任意入力）</span>
+</div>
 <div class="capture-row">
 <button class="btn small capture-btn" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="btn small capture-btn" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
@@ -697,6 +738,19 @@ body.docked .timeline{height:28px}
 </div>
 </aside>
 </div>
+
+<section class="card mgmt-card" id="mgmtSection" aria-label="管理画面">
+<h2>🗂 管理画面 <span class="count" id="mgmtCount"></span></h2>
+<p class="hint" style="margin:0">曲をまたいで、保存ループ・練習リスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。練習リストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。</p>
+<div class="mgmt-tabs" role="tablist" aria-label="管理画面の切り替え">
+<button class="btn small" type="button" data-mtab="loops" aria-selected="true">全ループ</button>
+<button class="btn small" type="button" data-mtab="practice" aria-selected="false">練習リスト</button>
+<button class="btn small" type="button" data-mtab="setlists" aria-selected="false">曲リスト</button>
+<button class="btn small" type="button" data-mtab="songs" aria-selected="false">曲</button>
+<button class="btn small" type="button" data-mtab="share" aria-selected="false">共有・書き出し</button>
+</div>
+<div id="mgmtBody"></div>
+</section>
 
 <footer>楽器演奏ルーパー／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。</footer>
 </div>
@@ -794,6 +848,7 @@ var editingLoopId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
 var speed = 1;
+var captureSec = 10; // quick-capture length in seconds (user-changeable, persisted)
 /* Speed presets offered by the speed buttons.
    Any other rate between 0.25× and 2.00× is set with the fader. */
 var SPEED_PRESETS = [0.5, 0.75, 1];
@@ -1285,6 +1340,7 @@ var id = parseInt(row.getAttribute("data-song-id"), 10);
 if (holder && !isNaN(id)) holder.innerHTML = badgesHtml(id);
 });
 renderCompact();
+if (typeof renderMgmtRows === "function") renderMgmtRows();
 }
 function renderCompact(){
 var bar = $("compactBar");
@@ -1330,6 +1386,7 @@ row.querySelector(".del").addEventListener("click", function(){
 songs = songs.filter(function(x){ return x.id!== s.id;});
 comments = comments.filter(function(c){ return c.songId!== s.id;});
 delete loopSections[s.id];
+cleanupListRefs();
 if (s.objectUrl) URL.revokeObjectURL(s.objectUrl);
 if (currentSong && currentSong.id === s.id){ currentSong = null;}
 renderSongs(); renderComments(); toast("削除しました");
@@ -1762,9 +1819,9 @@ if (loopA == null || loopB == null) return;
 seekTo(loopA);
 if (!isPlaying()) play();
 }
-/* Quick capture: two buttons. 「10秒間」 (data-capture="fwd") sets
-   A = now, B = now + 10 seconds; 「今までの10秒間」 (data-capture="back")
-   sets B = now, A = now − 10 seconds (clamped at 0). Either way the loop
+/* Quick capture: two buttons. 「N秒間」 (data-capture="fwd") sets
+   A = now, B = now + captureSec seconds; 「今までのN秒間」 (data-capture="back")
+   sets B = now, A = now − captureSec seconds (clamped at 0). Either way the loop
    turns on, the section is saved at the current playback rate only and
    plays from the start. Buttons live in three places: the player
    transport, the top of the loop list card and the mobile bottom bar;
@@ -1775,15 +1832,15 @@ var now = getTime();
 if (now == null || isNaN(now)){ toast("再生位置が取得できませんでした"); return;}
 var label, a, b;
 if (mode === "back"){
-label = "今までの10秒間";
+label = "今までの" + capSecTxt() + "秒間";
 b = Math.round(now*100)/100;
-a = Math.max(0, Math.round((now - 10)*100)/100);
-if (b <= a){ toast("再生開始直後なので、今までの10秒間のループは作れません"); return;}
+a = Math.max(0, Math.round((now - captureSec)*100)/100);
+if (b <= a){ toast("再生開始直後なので、今までの" + capSecTxt() + "秒間のループは作れません"); return;}
 } else {
-label = "10秒間";
+label = capSecTxt() + "秒間";
 a = Math.round(now*100)/100;
 var dur = getDur();
-b = Math.round((a + 10)*100)/100;
+b = Math.round((a + captureSec)*100)/100;
 if (dur > 0 && b > dur) b = Math.round(dur*100)/100;
 if (b <= a){ toast("曲の終わりなので、この長さのループは作れません"); return;}
 }
@@ -1818,6 +1875,45 @@ toast(label + "：この区間のループは保存済みです（" + rangeTxt +
 document.querySelectorAll("[data-capture]").forEach(function(btn){
 btn.addEventListener("click", function(){ captureLoop(btn.getAttribute("data-capture"));});
 });
+/* Quick-capture length: presets (5/10/15/20s) or a free number input
+   (1–120s). The chosen length relabels every capture button in all
+   three places (transport, loop card, mobile bottom bar) and is
+   persisted with the rest of the state (see buildLocalData). */
+function capSecTxt(){
+var v = Math.round(captureSec * 10) / 10;
+return (v % 1 === 0)? String(Math.round(v)): String(v);
+}
+function syncCaptureSecUI(){
+var txt = capSecTxt();
+document.querySelectorAll("[data-capture]").forEach(function(btn){
+var mode = btn.getAttribute("data-capture");
+btn.textContent = (mode === "back"? "今までの": "") + txt + "秒間";
+btn.setAttribute("aria-label", "クイックキャプチャ：" + (mode === "back"? "今までの": "今から") + txt + "秒間のループを作る");
+});
+document.querySelectorAll(".cap-sec-txt").forEach(function(el){ el.textContent = txt; });
+var presets = $("captureSecPresets");
+if (presets) presets.querySelectorAll("button").forEach(function(b){
+b.classList.toggle("active", Math.abs(parseFloat(b.getAttribute("data-capture-sec")) - captureSec) < 0.001);
+});
+var inp = $("captureSecInput");
+if (inp && document.activeElement !== inp) inp.value = txt;
+}
+function setCaptureSec(v, announce){
+if (v == null || isNaN(v)) { syncCaptureSecUI(); return; }
+captureSec = Math.round(Math.min(120, Math.max(1, v)) * 10) / 10;
+syncCaptureSecUI();
+saveLocal();
+if (announce) toast("クイックキャプチャの秒数を" + capSecTxt() + "秒にしました");
+}
+var capPresetsEl = $("captureSecPresets");
+if (capPresetsEl) capPresetsEl.querySelectorAll("button").forEach(function(b){
+b.addEventListener("click", function(){ setCaptureSec(parseFloat(b.getAttribute("data-capture-sec")), true); });
+});
+var capInputEl = $("captureSecInput");
+if (capInputEl){
+capInputEl.addEventListener("change", function(){ setCaptureSec(parseFloat(this.value), true); });
+capInputEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); this.blur(); } });
+}
 /* 長押しループ (hold-to-loop): pressing the button marks the loop start
    at the press position; releasing marks the end at the release
    position. The range is saved at the current playback rate (same as
@@ -2014,12 +2110,38 @@ var mainHtml = '<div class="loop-main">' +
 '<div class="loop-first-row"><span class="loop-rate meta" title="押すとこの区間から再生します（長押しで編集）"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge + '</span>' +
 '<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "ループ OFF": "▶ 有効化") + '</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
+'<button class="btn small act-addlist" type="button" aria-expanded="' + (addListOpenFor === sec.id? "true": "false") + '">リストに追加</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>' +
 '<div class="loop-second-row meta" title="押すとこの区間から再生します（長押しで編集）"><span class="range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
 (sec.name? '<span class="name">' + esc(sec.name) + '</span>': "") + '</div>' +
 (sec.note? '<div class="note">' + esc(sec.note) + "</div>": "") +
 '</div>';
 item.innerHTML = mainHtml;
+if (addListOpenFor === sec.id){
+var addPanel = document.createElement("div");
+addPanel.className = "loop-addlist";
+var addHtml = "";
+if (practiceLists.length){
+addHtml += practiceLists.map(function(l){
+var has = l.items.some(function(it){ return it.songId === currentSong.id && it.loopId === sec.id;});
+return '<button class="btn small addlist-pick" type="button" data-list="' + l.id + '"' + (has? " disabled": "") + '>「' + esc(l.name) + '」に' + (has? "追加済み": "追加") + "</button>";
+}).join("");
+}
+addHtml += '<input type="text" class="addlist-new-name" placeholder="新しい練習リスト名（例：苦手なソロ集）" aria-label="新しい練習リストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
+addPanel.innerHTML = addHtml;
+item.appendChild(addPanel);
+addPanel.querySelectorAll(".addlist-pick").forEach(function(b){
+b.addEventListener("click", function(){ addLoopToPracticeList(parseInt(b.getAttribute("data-list"), 10), currentSong.id, sec.id); renderSections(); });
+});
+addPanel.querySelector(".addlist-create").addEventListener("click", function(){
+var nm = addPanel.querySelector(".addlist-new-name").value.trim();
+if (!nm){ toast("練習リストの名前を入れてください"); return;}
+var nl = { id: nextId(), name: nm, items: [] };
+practiceLists.push(nl);
+addLoopToPracticeList(nl.id, currentSong.id, sec.id);
+renderSections();
+});
+}
 if (isEditing){
 if (!loopEditDraft || loopEditDraft.id !== sec.id){
 loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.b), speedStr: ((sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed).toFixed(2), note: sec.note || ""};
@@ -2269,6 +2391,10 @@ item.querySelector(".act-activate").addEventListener("click", function(){
 if (isLoopingSection(sec)) stopLoopOnly();
 else activateSection(sec);
 });
+item.querySelector(".act-addlist").addEventListener("click", function(){
+addListOpenFor = (addListOpenFor === sec.id)? null: sec.id;
+renderSections();
+});
 item.querySelector(".act-edit").addEventListener("click", function(){
 if (isEditing){ editingLoopId = null; loopEditDraft = null; renderSections();}
 else openLoopEditor(sec);
@@ -2277,6 +2403,8 @@ item.querySelector(".del").addEventListener("click", function(){
 if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
 if (flagSavedId === sec.id) flagSavedId = null;
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
+if (addListOpenFor === sec.id) addListOpenFor = null;
+cleanupListRefs();
 renderSections(); renderCompact(); toast("ループを削除しました");
 });
 list.appendChild(item);
@@ -2492,6 +2620,38 @@ var now = Date.now();
 if (t >= loopB - 0.25 && t < loopB + 1 && now - lastYtLoopAt > 900){ lastYtLoopAt = now; seekTo(loopA);}
 } else if (t >= loopB) seekTo(loopA);
 }
+/* Management: finish a cross-song section jump once the new song can play */
+if (pendingPlaySection){
+pendingPlaySection.tries = (pendingPlaySection.tries || 0) + 1;
+if (d > 0 || pendingPlaySection.tries > 48){
+var pp = pendingPlaySection; pendingPlaySection = null;
+var psec = (loopSections[pp.songId] || []).filter(function(x){ return x.id === pp.loopId;})[0];
+if (psec && currentSong && currentSong.id === pp.songId) activateSection(psec);
+}
+}
+/* Management: practice-list sequential playing — count loop wraps and
+   move on after PRACTICE_REPEATS plays of the current section. */
+if (practiceQueue){
+var pq = practiceQueue, pqIt = pq.items[pq.idx];
+var pqSec = pqIt? (loopSections[pqIt.songId] || []).filter(function(x){ return x.id === pqIt.loopId;})[0]: null;
+if (!pendingPlaySection && pqSec && currentSong && currentSong.id === pqIt.songId){
+if (loopOn && loopA != null && loopB != null && isActiveSection(pqSec)){
+var pqSpan = loopB - loopA;
+if (pq.lastT != null && pq.lastT > loopA + pqSpan / 2 && t < pq.lastT - pqSpan / 2){
+pq.wraps++;
+if (pq.wraps >= PRACTICE_REPEATS){
+if (pq.idx + 1 < pq.items.length){ toast("次へ進みます（" + (pq.idx + 2) + " / " + pq.items.length + "）"); playPracticeItem(pq.idx + 1); }
+else endPracticeQueue(true);
+}
+}
+if (practiceQueue === pq) pq.lastT = t;
+} else if (loopA != null && loopB != null && !isActiveSection(pqSec)){
+/* A different loop was picked manually: stop following the list. */
+practiceQueue = null;
+if (typeof renderMgmtRows === "function") renderMgmtRows();
+}
+}
+}
 renderTimeline();
 syncPlayBtn();
 syncLoopStateBtn();
@@ -2632,7 +2792,18 @@ comments: comments.map(function(c){
 return { song: songIndex[c.songId], time: c.time, name: c.name, text: c.text,
 parent: c.parentId == null? null: commentIndex[c.parentId]};
 }),
-loops: loopData
+loops: loopData,
+practiceLists: practiceLists.map(function(l){
+return { name: l.name, items: l.items.map(function(it){
+var sec = (loopSections[it.songId] || []).filter(function(x){ return x.id === it.loopId;})[0];
+var si = songIndex[it.songId];
+if (!sec || si == null) return null;
+return { song: si, name: sec.name, a: sec.a, b: sec.b };
+}).filter(function(x){ return !!x;}) };
+}),
+songLists: songLists.map(function(l){
+return { name: l.name, songs: l.songIds.map(function(id){ return songIndex[id];}).filter(function(x){ return x != null;}) };
+})
 };
 }
 $("exportBtn").addEventListener("click", function(){
@@ -2701,7 +2872,8 @@ comments.push(c); stats.addedComments++;
 return c;
 }
 function finishImport(stats){
-renderSongs(); renderComments(); updateAB();
+renderSongs(); renderComments(); renderSections(); updateAB();
+if (typeof renderMgmtRows === "function") renderMgmtRows();
 if (!stats.addedSongs && !stats.addedComments && !stats.addedLoops){
 toast("新しいものはありませんでした（すべて取り込み済みです）");
 } else {
@@ -2719,6 +2891,25 @@ if (s) songMap[i] = s.id;
 });
 (data.loops || []).forEach(function(l){
 if (songMap[l.song] != null) ensureLoop(songMap[l.song], l.name, l.a, l.b, stats, l.note, l.speed);
+});
+(data.practiceLists || []).forEach(function(pl){
+var items = [];
+(pl.items || []).forEach(function(it){
+if (songMap[it.song] == null) return;
+var sid = songMap[it.song];
+var sec = (loopSections[sid] || []).filter(function(x){ return Math.abs(x.a - it.a) < 0.005 && Math.abs(x.b - it.b) < 0.005;})[0];
+if (sec && !items.some(function(y){ return y.songId === sid && y.loopId === sec.id;})) items.push({ songId: sid, loopId: sec.id });
+});
+if (!items.length) return;
+var dupPl = practiceLists.some(function(l){ return l.name === (pl.name || "練習リスト") && l.items.length === items.length && l.items.every(function(y, i){ return items[i] && y.songId === items[i].songId && y.loopId === items[i].loopId;});});
+if (!dupPl) practiceLists.push({ id: nextId(), name: pl.name || "練習リスト", items: items });
+});
+(data.songLists || []).forEach(function(sl){
+var ids = [];
+(sl.songs || []).forEach(function(si){ if (songMap[si] != null && ids.indexOf(songMap[si]) < 0) ids.push(songMap[si]); });
+if (!ids.length) return;
+var dupSl = songLists.some(function(l){ return l.name === (sl.name || "曲リスト") && l.songIds.length === ids.length && l.songIds.every(function(y, i){ return y === ids[i];});});
+if (!dupSl) songLists.push({ id: nextId(), name: sl.name || "曲リスト", songIds: ids });
 });
 var commentMap = {};
 (data.comments || []).forEach(function(c, i){
@@ -2873,6 +3064,460 @@ importExportText(v);
 $("importText").value = "";
 });
 
+/* ---------- Management screen （管理画面） ----------
+   Cross-song management: every saved loop in one list, practice lists
+   that group loops across songs (played in order, each repeated
+   PRACTICE_REPEATS times), song lists (setlists), song management,
+   and sharing through the existing export / import data. Practice
+   lists and song lists persist with the rest of the state (see
+   buildLocalData / restoreLocal) and travel inside the export DATA
+   block (see buildExportData / importFromData). */
+var practiceLists = []; // [{id, name, items:[{songId, loopId}]}]
+var songLists = [];     // [{id, name, songIds:[]}]
+var mgmtTab = "loops";
+var mgmtLoopQuery = "", mgmtSongQuery = "";
+var expandedPracticeId = null, expandedSetlistId = null;
+var editingSongMgmtId = null;
+var addListOpenFor = null; // loop id whose リストに追加 panel is open in the per-song loop list
+var practiceQueue = null;  // {name, items:[{songId, loopId}], idx, wraps, lastT}
+var pendingPlaySection = null; // {songId, loopId, tries} activated once a switched-to song can play
+var PRACTICE_REPEATS = 3;
+
+function findSongById(id){ return songs.filter(function(s){ return s.id === id;})[0] || null; }
+function findSection(songId, loopId){ return (loopSections[songId] || []).filter(function(x){ return x.id === loopId;})[0] || null; }
+function allLoopsFlat(){
+var out = [];
+songs.forEach(function(song, si){
+(loopSections[song.id] || []).forEach(function(sec){ out.push({ song: song, sec: sec, songIdx: si }); });
+});
+out.sort(function(x, y){ return x.songIdx - y.songIdx || x.sec.a - y.sec.a || x.sec.id - y.sec.id; });
+return out;
+}
+function cleanupListRefs(){
+var valid = {};
+songs.forEach(function(s){ valid[s.id] = true; });
+songLists.forEach(function(l){
+var seen = {}, out = [];
+l.songIds.forEach(function(id){ if (valid[id] && !seen[id]){ seen[id] = true; out.push(id); } });
+l.songIds = out;
+});
+practiceLists.forEach(function(l){
+l.items = l.items.filter(function(it){ return valid[it.songId] && !!findSection(it.songId, it.loopId); });
+});
+if (expandedPracticeId != null && !practiceLists.some(function(l){ return l.id === expandedPracticeId; })) expandedPracticeId = null;
+if (expandedSetlistId != null && !songLists.some(function(l){ return l.id === expandedSetlistId; })) expandedSetlistId = null;
+}
+function addLoopToPracticeList(listId, songId, loopId){
+var list = practiceLists.filter(function(l){ return l.id === listId; })[0];
+if (!list) return;
+if (list.items.some(function(it){ return it.songId === songId && it.loopId === loopId; })){
+toast("「" + list.name + "」には追加済みです");
+return;
+}
+list.items.push({ songId: songId, loopId: loopId });
+saveLocal(); renderMgmtRows();
+var sec = findSection(songId, loopId);
+toast("「" + list.name + "」にループ" + (sec? "「" + sec.name + "」": "") + "を追加しました");
+}
+/* Play a saved loop even when it belongs to another song: switch the
+   song first, then activate the section as soon as the player reports
+   a duration (the 250ms poll watches pendingPlaySection). */
+function playSectionCrossSong(songId, loopId){
+var song = findSongById(songId), sec = findSection(songId, loopId);
+if (!song || !sec){ toast("そのループは見つかりませんでした"); return; }
+if (currentSong && currentSong.id === songId){ pendingPlaySection = null; activateSection(sec); }
+else { pendingPlaySection = { songId: songId, loopId: loopId, tries: 0 }; loadSong(song, true); }
+}
+/* --- Practice-list sequential playing --- */
+function startPracticeList(list){
+cleanupListRefs();
+var items = list.items.filter(function(it){ return findSongById(it.songId) && findSection(it.songId, it.loopId); });
+if (!items.length){ toast("この練習リストにはループがありません"); return; }
+practiceQueue = { name: list.name, items: items.slice(), idx: 0, wraps: 0, lastT: null };
+toast("連続練習を開始：「" + list.name + "」（" + items.length + "件、各" + PRACTICE_REPEATS + "回ずつ）");
+playPracticeItem(0);
+}
+function playPracticeItem(idx){
+var q = practiceQueue; if (!q) return;
+if (idx < 0) idx = 0;
+if (idx >= q.items.length){ endPracticeQueue(true); return; }
+q.idx = idx; q.wraps = 0; q.lastT = null;
+playSectionCrossSong(q.items[idx].songId, q.items[idx].loopId);
+renderMgmtRows();
+}
+function endPracticeQueue(finished){
+var name = practiceQueue? practiceQueue.name: "";
+practiceQueue = null;
+if (finished) toast("練習リスト「" + name + "」を最後まで練習しました");
+renderMgmtRows();
+}
+/* --- Per-practice-list share export (same DATA format as the full export) --- */
+function buildPracticeListData(list){
+var songOrder = [], songIndex = {};
+list.items.forEach(function(it){
+var song = findSongById(it.songId);
+if (song && songIndex[it.songId] == null){ songIndex[it.songId] = songOrder.length; songOrder.push(song); }
+});
+var loops = [], plItems = [];
+list.items.forEach(function(it){
+var sec = findSection(it.songId, it.loopId);
+if (!sec || songIndex[it.songId] == null) return;
+loops.push({ song: songIndex[it.songId], name: sec.name, a: sec.a, b: sec.b, note: sec.note || "", speed: sec.speed != null? sec.speed: null });
+plItems.push({ song: songIndex[it.songId], name: sec.name, a: sec.a, b: sec.b });
+});
+return { v: 1,
+songs: songOrder.map(function(s){ return { title: s.title, artist: s.artist || "", type: s.type, url: s.type === "local"? "": (s.url || "") }; }),
+comments: [], loops: loops,
+practiceLists: [{ name: list.name, items: plItems }], songLists: [] };
+}
+function downloadPracticeList(list){
+cleanupListRefs();
+var lines = [];
+lines.push("楽器演奏ルーパー — 練習リスト書き出し");
+lines.push("書き出し日: " + new Date().toLocaleString("ja-JP"));
+lines.push("");
+lines.push("練習リスト「" + list.name + "」（" + list.items.length + "件）");
+list.items.forEach(function(it, i){
+var song = findSongById(it.songId), sec = findSection(it.songId, it.loopId);
+if (song && sec) lines.push((i + 1) + ". " + song.title + " ／ ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + (sec.speed != null? " 速度 " + Number(sec.speed).toFixed(2) + "×": ""));
+});
+lines.push("");
+lines.push("このファイルを友達に送ると、相手は管理画面の「共有・書き出し」タブ（または書き出し読み込み）から読み込むだけで、同じ練習リストが使えます。ローカルMP3の音源ファイル自体は含まれません。");
+lines.push("---");
+lines.push("【読み込み用データ】この下は「書き出しを読み込む」で使うデータです。消さずにそのまま送ってください。");
+lines.push("<<<DATA");
+lines.push(JSON.stringify(buildPracticeListData(list)));
+lines.push("DATA>>>");
+var blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+var a = document.createElement("a");
+a.href = URL.createObjectURL(blob);
+a.download = "looper-practice-list.txt";
+document.body.appendChild(a); a.click(); a.remove();
+setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+toast("練習リスト「" + list.name + "」を書き出しました");
+}
+/* --- Rendering --- */
+function mgmtCountText(){
+return "全ループ " + allLoopsFlat().length + "件 ・ 練習リスト " + practiceLists.length + "件 ・ 曲リスト " + songLists.length + "件 ・ 曲 " + songs.length + "曲";
+}
+function renderMgmt(){
+var body = $("mgmtBody"); if (!body) return;
+document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
+b.setAttribute("aria-selected", b.getAttribute("data-mtab") === mgmtTab? "true": "false");
+});
+var cnt = $("mgmtCount"); if (cnt) cnt.textContent = mgmtCountText();
+if (mgmtTab === "loops"){
+body.innerHTML = '<input class="mgmt-search" id="mgmtLoopSearch" type="search" placeholder="曲名・ループ名・ノートで検索" aria-label="全ループを検索" value="' + esc(mgmtLoopQuery) + '"><div id="mgmtRows"></div>';
+} else if (mgmtTab === "practice"){
+body.innerHTML = '<div class="mgmt-create"><input id="newPracticeName" type="text" placeholder="新しい練習リストの名前（例：苦手なソロ集）" aria-label="新しい練習リストの名前"><button class="btn primary" type="button" data-act="pl-create">練習リストを作る</button></div><div id="mgmtRows"></div>';
+} else if (mgmtTab === "setlists"){
+body.innerHTML = '<div class="mgmt-create"><input id="newSetlistName" type="text" placeholder="新しい曲リストの名前（例：ライブ用セット）" aria-label="新しい曲リストの名前"><button class="btn primary" type="button" data-act="sl-create">曲リストを作る</button></div><div id="mgmtRows"></div>';
+} else if (mgmtTab === "songs"){
+body.innerHTML = '<input class="mgmt-search" id="mgmtSongSearch" type="search" placeholder="曲名・バンド名で検索" aria-label="曲を検索" value="' + esc(mgmtSongQuery) + '"><div id="mgmtRows"></div>';
+} else {
+body.innerHTML = '<div id="mgmtRows"></div>';
+}
+renderMgmtRows();
+}
+function renderMgmtRows(){
+var rows = $("mgmtRows"); if (!rows) return;
+var cnt = $("mgmtCount"); if (cnt) cnt.textContent = mgmtCountText();
+if (mgmtTab === "loops") rows.innerHTML = mgmtLoopRowsHtml();
+else if (mgmtTab === "practice") rows.innerHTML = mgmtPracticeHtml();
+else if (mgmtTab === "setlists") rows.innerHTML = mgmtSetlistHtml();
+else if (mgmtTab === "songs") rows.innerHTML = mgmtSongsHtml();
+else rows.innerHTML = mgmtShareHtml();
+}
+function mgmtLoopRowsHtml(){
+var flat = allLoopsFlat();
+if (!flat.length) return '<p class="mgmt-empty">保存したループはまだありません。曲を再生して、開始旗・終了旗やクイックキャプチャでループを作ると、ここに曲をまたいで一覧表示されます。</p>';
+var q = mgmtLoopQuery.toLowerCase();
+var rows = flat.filter(function(x){
+if (!q) return true;
+return (x.song.title + " " + (x.song.artist || "") + " " + x.sec.name + " " + (x.sec.note || "")).toLowerCase().indexOf(q) >= 0;
+});
+if (!rows.length) return '<p class="mgmt-empty">検索に合うループがありません。</p>';
+return rows.map(function(x){
+var sec = x.sec, song = x.song;
+var badge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + "×</span>": "";
+var listCtl = practiceLists.length?
+'<select class="mgmt-pl-select" aria-label="追加先の練習リスト">' + practiceLists.map(function(l){ return '<option value="' + l.id + '">' + esc(l.name) + "（" + l.items.length + "件）</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="loop-addlist" data-song="' + song.id + '" data-loop="' + sec.id + '">リストに追加</button>'
+: '<button class="btn small" type="button" data-act="goto-practice">リストに追加（先に練習リスト作成）</button>';
+return '<div class="mgmt-row"><span class="loop-color-dot" style="background:hsl(' + loopHue(sec) + ',75%,48%);margin-top:7px" aria-hidden="true"></span>' +
+'<div class="mg-main"><div class="mg-title">' + esc(sec.name) + " " + badge + "</div>" +
+'<div class="mg-sub">' + esc(song.title) + (song.artist? " — " + esc(song.artist): "") + "</div>" +
+'<div class="mg-sub mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + "</div>" +
+(sec.note? '<div class="mg-sub">' + esc(sec.note) + "</div>": "") + "</div>" +
+'<div class="mg-actions"><button class="btn small primary" type="button" data-act="loop-play" data-song="' + song.id + '" data-loop="' + sec.id + '">▶ 再生</button>' + listCtl +
+'<button class="btn small" type="button" data-act="loop-edit" data-song="' + song.id + '" data-loop="' + sec.id + '">編集</button>' +
+'<button class="btn small danger" type="button" data-act="loop-del" data-song="' + song.id + '" data-loop="' + sec.id + '">削除</button></div></div>';
+}).join("");
+}
+function mgmtPracticeHtml(){
+var html = "";
+if (practiceQueue){
+var q = practiceQueue, it = q.items[q.idx];
+var song = it? findSongById(it.songId): null, sec = it? findSection(it.songId, it.loopId): null;
+html += '<div class="mgmt-queue"><strong>▶ 連続練習中：「' + esc(q.name) + "」 " + (q.idx + 1) + " / " + q.items.length + "</strong>" +
+(sec? "<span>" + esc(song? song.title: "") + " ／ " + esc(sec.name) + " " + fmtH(sec.a) + "〜" + fmtH(sec.b) + "</span>": "") +
+'<button class="btn small" type="button" data-act="q-prev">⏮ 前へ</button><button class="btn small" type="button" data-act="q-next">次へ ⏭</button><button class="btn small danger" type="button" data-act="q-stop">終了</button></div>' +
+'<p class="hint" style="margin:0 0 10px">各ループを' + PRACTICE_REPEATS + '回繰り返すと、自動で次へ進みます。別のループを手動で選ぶと連続練習は止まります。</p>';
+}
+if (!practiceLists.length){
+html += '<p class="mgmt-empty">練習リストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの「リストに追加」から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
+return html;
+}
+html += practiceLists.map(function(l){
+var head = '<div class="mgmt-list-card"><div class="mgmt-list-head"><span class="mg-title">' + esc(l.name) + '</span><span class="count">' + l.items.length + "件</span>" +
+'<span style="flex:1"></span>' +
+'<button class="btn small primary" type="button" data-act="pl-play" data-list="' + l.id + '">▶ 連続練習</button>' +
+'<button class="btn small" type="button" data-act="pl-share" data-list="' + l.id + '">書き出し</button>' +
+'<button class="btn small" type="button" data-act="pl-toggle" data-list="' + l.id + '">' + (expandedPracticeId === l.id? "閉じる": "中身を編集") + "</button>" +
+'<button class="btn small danger" type="button" data-act="pl-del" data-list="' + l.id + '">削除</button></div>';
+if (expandedPracticeId !== l.id) return head + "</div>";
+var body = '<div style="margin-top:10px"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input type="text" class="pl-rename" value="' + esc(l.name) + '" aria-label="リスト名" style="flex:1;min-width:160px;width:auto"><button class="btn small" type="button" data-act="pl-rename" data-list="' + l.id + '">名前を保存</button></div>';
+if (!l.items.length) body += '<p class="mgmt-empty">まだループが入っていません。下の選択から追加してください。</p>';
+l.items.forEach(function(it, i){
+var song = findSongById(it.songId), sec = findSection(it.songId, it.loopId);
+if (!song || !sec) return;
+body += '<div class="mgmt-row" style="margin-top:8px"><div class="mg-main"><div class="mg-title">' + (i + 1) + ". " + esc(sec.name) + '</div><div class="mg-sub">' + esc(song.title) + (song.artist? " — " + esc(song.artist): "") + '</div><div class="mg-sub mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + (sec.speed != null? " ・ " + Number(sec.speed).toFixed(2) + "×": "") + "</div></div>" +
+'<div class="mg-actions"><button class="btn small primary" type="button" data-act="loop-play" data-song="' + song.id + '" data-loop="' + sec.id + '">▶ 再生</button>' +
+'<button class="btn small" type="button" data-act="pl-item-up" data-list="' + l.id + '" data-idx="' + i + '" aria-label="上へ">↑</button>' +
+'<button class="btn small" type="button" data-act="pl-item-down" data-list="' + l.id + '" data-idx="' + i + '" aria-label="下へ">↓</button>' +
+'<button class="btn small danger" type="button" data-act="pl-item-del" data-list="' + l.id + '" data-idx="' + i + '">外す</button></div></div>';
+});
+var flat = allLoopsFlat();
+if (flat.length){
+body += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><select class="pl-add-select" aria-label="追加するループ" style="flex:1;min-width:200px;width:auto">' + flat.map(function(x){ return '<option value="' + x.song.id + ":" + x.sec.id + '">' + esc(x.song.title) + " ／ " + esc(x.sec.name) + " " + fmtH(x.sec.a) + "〜" + fmtH(x.sec.b) + "</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="pl-add" data-list="' + l.id + '">追加</button></div>';
+} else {
+body += '<p class="mgmt-empty">追加できるループがまだありません。先にループを作ってください。</p>';
+}
+return head + body + "</div></div>";
+}).join("");
+return html;
+}
+function mgmtSetlistHtml(){
+if (!songLists.length) return '<p class="mgmt-empty">曲リストはまだありません。上の入力で名前を付けて作ると、曲を集めて順番を決められます（例：ライブ用セット、練習用）。曲の追加・並べ替えは「中身を編集」からできます。</p>';
+return songLists.map(function(l){
+var head = '<div class="mgmt-list-card"><div class="mgmt-list-head"><span class="mg-title">' + esc(l.name) + '</span><span class="count">' + l.songIds.length + "曲</span>" +
+'<span style="flex:1"></span>' +
+'<button class="btn small primary" type="button" data-act="sl-play-first" data-list="' + l.id + '">▶ 最初から再生</button>' +
+'<button class="btn small" type="button" data-act="sl-toggle" data-list="' + l.id + '">' + (expandedSetlistId === l.id? "閉じる": "中身を編集") + "</button>" +
+'<button class="btn small danger" type="button" data-act="sl-del" data-list="' + l.id + '">削除</button></div>';
+if (expandedSetlistId !== l.id) return head + "</div>";
+var body = '<div style="margin-top:10px"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input type="text" class="sl-rename" value="' + esc(l.name) + '" aria-label="リスト名" style="flex:1;min-width:160px;width:auto"><button class="btn small" type="button" data-act="sl-rename" data-list="' + l.id + '">名前を保存</button></div>';
+if (!l.songIds.length) body += '<p class="mgmt-empty">まだ曲が入っていません。下の選択から追加してください。</p>';
+l.songIds.forEach(function(sid, i){
+var song = findSongById(sid);
+if (!song) return;
+body += '<div class="mgmt-row" style="margin-top:8px"><div class="mg-main"><div class="mg-title">' + (i + 1) + ". " + esc(song.title) + '</div><div class="mg-sub">' + esc(song.artist || "") + " ・ 保存ループ " + (loopSections[sid] || []).length + "件</div></div>" +
+'<div class="mg-actions"><button class="btn small primary" type="button" data-act="song-play" data-song="' + song.id + '">▶ 再生</button>' +
+'<button class="btn small" type="button" data-act="sl-item-up" data-list="' + l.id + '" data-idx="' + i + '" aria-label="上へ">↑</button>' +
+'<button class="btn small" type="button" data-act="sl-item-down" data-list="' + l.id + '" data-idx="' + i + '" aria-label="下へ">↓</button>' +
+'<button class="btn small danger" type="button" data-act="sl-item-del" data-list="' + l.id + '" data-idx="' + i + '">外す</button></div></div>';
+});
+if (songs.length){
+body += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><select class="sl-add-select" aria-label="追加する曲" style="flex:1;min-width:200px;width:auto">' + songs.map(function(s){ return '<option value="' + s.id + '">' + esc(s.title) + (s.artist? " — " + esc(s.artist): "") + "</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="sl-add" data-list="' + l.id + '">追加</button></div>';
+}
+return head + body + "</div></div>";
+}).join("");
+}
+function mgmtSongsHtml(){
+if (!songs.length) return '<p class="mgmt-empty">曲はまだありません。上のライブラリから追加してください。</p>';
+var q = mgmtSongQuery.toLowerCase();
+var rows = songs.filter(function(s){
+if (!q) return true;
+return (s.title + " " + (s.artist || "")).toLowerCase().indexOf(q) >= 0;
+});
+if (!rows.length) return '<p class="mgmt-empty">検索に合う曲がありません。</p>';
+return rows.map(function(s){
+var lc = (loopSections[s.id] || []).length;
+if (editingSongMgmtId === s.id){
+return '<div class="mgmt-row"><div class="mg-main"><input type="text" class="mg-song-title" value="' + esc(s.title) + '" aria-label="曲名"><input type="text" class="mg-song-artist" value="' + esc(s.artist || "") + '" placeholder="アーティスト名" aria-label="アーティスト名" style="margin-top:6px"></div><div class="mg-actions"><button class="btn small primary" type="button" data-act="song-save" data-song="' + s.id + '">保存</button><button class="btn small" type="button" data-act="song-edit-cancel">キャンセル</button></div></div>';
+}
+return '<div class="mgmt-row"><div class="mg-main"><div class="mg-title">' + esc(s.title) + '</div><div class="mg-sub">' + esc(s.artist || "") + " ・ 保存ループ " + lc + '件</div></div>' + typeTag(s) +
+'<div class="mg-actions"><button class="btn small primary" type="button" data-act="song-play" data-song="' + s.id + '">▶ 再生</button><button class="btn small" type="button" data-act="song-edit" data-song="' + s.id + '">名前を編集</button><button class="btn small danger" type="button" data-act="song-del" data-song="' + s.id + '">削除</button></div></div>';
+}).join("");
+}
+function mgmtShareHtml(){
+return '<p class="hint" style="margin-top:0">書き出しファイル（looper-export.txt）には、曲リスト・全ループ・練習リスト・曲リストが入ります。友達に送ると、相手は下の「ファイルから読み込む」から読み込むだけで、同じループとリストが使えます（重複は自動で避けられます）。ローカルMP3の音源ファイル自体は含まれないので、その曲は相手側で再追加が必要です。練習リストだけを送りたいときは、「練習リスト」タブの各リストにある「書き出し」ボタンを使ってください。</p>' +
+'<div class="export-row" style="border-top:none;padding-top:0;margin-top:0">' +
+'<button class="btn" type="button" data-act="share-export">📄 テキストで書き出し</button>' +
+'<button class="btn" type="button" data-act="share-copy">コピーする</button>' +
+'<button class="btn" type="button" data-act="share-import-file">📂 ファイルから読み込む</button></div>' +
+'<details class="import-paste" open><summary>テキストを貼り付けて読み込む</summary>' +
+'<textarea id="mgmtImportText" placeholder="書き出したテキストをここに貼り付け" aria-label="書き出したテキストを貼り付け"></textarea>' +
+'<button class="btn primary" type="button" data-act="share-import-paste" style="margin-top:8px">貼り付けた内容を読み込む</button></details>';
+}
+/* --- Actions (event delegation on the management body) --- */
+function swapItems(arr, i, j){
+if (i < 0 || j < 0 || i >= arr.length || j >= arr.length) return;
+var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+}
+$("mgmtBody").addEventListener("click", function(e){
+var btn = e.target && e.target.closest? e.target.closest("[data-act]"): null;
+if (!btn) return;
+var act = btn.getAttribute("data-act");
+var songId = parseInt(btn.getAttribute("data-song"), 10);
+var loopId = parseInt(btn.getAttribute("data-loop"), 10);
+var listId = parseInt(btn.getAttribute("data-list"), 10);
+var idx = parseInt(btn.getAttribute("data-idx"), 10);
+var card = btn.closest? btn.closest(".mgmt-list-card"): null;
+var row = btn.closest? btn.closest(".mgmt-row"): null;
+var plist = practiceLists.filter(function(l){ return l.id === listId; })[0] || null;
+var slist = songLists.filter(function(l){ return l.id === listId; })[0] || null;
+if (act === "loop-play"){ playSectionCrossSong(songId, loopId); }
+else if (act === "loop-edit"){
+var song = findSongById(songId), sec = findSection(songId, loopId);
+if (!song || !sec) return;
+if (!currentSong || currentSong.id !== songId){ pendingPlaySection = null; loadSong(song, false); }
+openLoopEditor(sec);
+var lc = document.querySelector(".loops-card");
+if (lc) lc.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+else if (act === "loop-del"){
+if (loopSections[songId]) loopSections[songId] = loopSections[songId].filter(function(x){ return x.id !== loopId; });
+if (editingLoopId === loopId){ editingLoopId = null; loopEditDraft = null; }
+if (flagSavedId === loopId) flagSavedId = null;
+if (addListOpenFor === loopId) addListOpenFor = null;
+cleanupListRefs(); renderSections(); renderMgmtRows();
+toast("ループを削除しました");
+}
+else if (act === "loop-addlist"){
+var sel = row? row.querySelector(".mgmt-pl-select"): null;
+var target = sel? parseInt(sel.value, 10): (practiceLists[0] && practiceLists[0].id);
+if (target) addLoopToPracticeList(target, songId, loopId);
+}
+else if (act === "goto-practice"){ mgmtTab = "practice"; renderMgmt(); }
+else if (act === "pl-create"){
+var inp = $("newPracticeName");
+var nm = inp? inp.value.trim(): "";
+if (!nm){ toast("練習リストの名前を入れてください"); if (inp) inp.focus(); return; }
+var nl = { id: nextId(), name: nm, items: [] };
+practiceLists.push(nl); expandedPracticeId = nl.id;
+saveLocal(); renderMgmt();
+toast("練習リスト「" + nm + "」を作りました");
+}
+else if (act === "pl-toggle"){ expandedPracticeId = (expandedPracticeId === listId)? null: listId; renderMgmtRows(); }
+else if (act === "pl-del"){
+practiceLists = practiceLists.filter(function(l){ return l.id !== listId; });
+if (practiceQueue && plist && practiceQueue.name === plist.name) practiceQueue = null;
+saveLocal(); renderMgmtRows();
+toast("練習リストを削除しました");
+}
+else if (act === "pl-play"){ if (plist) startPracticeList(plist); }
+else if (act === "pl-share"){ if (plist) downloadPracticeList(plist); }
+else if (act === "pl-rename"){
+var rin = card? card.querySelector(".pl-rename"): null;
+var rnm = rin? rin.value.trim(): "";
+if (!plist || !rnm){ toast("名前を入れてください"); return; }
+plist.name = rnm; saveLocal(); renderMgmtRows();
+toast("名前を「" + rnm + "」に変更しました");
+}
+else if (act === "pl-add"){
+var asel = card? card.querySelector(".pl-add-select"): null;
+if (!plist || !asel) return;
+var parts = String(asel.value).split(":");
+addLoopToPracticeList(plist.id, parseInt(parts[0], 10), parseInt(parts[1], 10));
+}
+else if (act === "pl-item-up"){ if (plist){ swapItems(plist.items, idx, idx - 1); saveLocal(); renderMgmtRows(); } }
+else if (act === "pl-item-down"){ if (plist){ swapItems(plist.items, idx, idx + 1); saveLocal(); renderMgmtRows(); } }
+else if (act === "pl-item-del"){ if (plist){ plist.items.splice(idx, 1); saveLocal(); renderMgmtRows(); toast("リストから外しました"); } }
+else if (act === "q-prev"){ playPracticeItem(practiceQueue? practiceQueue.idx - 1: 0); }
+else if (act === "q-next"){ if (practiceQueue) playPracticeItem(practiceQueue.idx + 1); }
+else if (act === "q-stop"){ endPracticeQueue(false); toast("連続練習を終了しました"); }
+else if (act === "sl-create"){
+var sinp = $("newSetlistName");
+var snm = sinp? sinp.value.trim(): "";
+if (!snm){ toast("曲リストの名前を入れてください"); if (sinp) sinp.focus(); return; }
+var nsl = { id: nextId(), name: snm, songIds: [] };
+songLists.push(nsl); expandedSetlistId = nsl.id;
+saveLocal(); renderMgmt();
+toast("曲リスト「" + snm + "」を作りました");
+}
+else if (act === "sl-toggle"){ expandedSetlistId = (expandedSetlistId === listId)? null: listId; renderMgmtRows(); }
+else if (act === "sl-del"){
+songLists = songLists.filter(function(l){ return l.id !== listId; });
+saveLocal(); renderMgmtRows();
+toast("曲リストを削除しました");
+}
+else if (act === "sl-play-first"){
+if (!slist || !slist.songIds.length){ toast("この曲リストには曲がありません"); return; }
+var first = findSongById(slist.songIds[0]);
+if (first){ loadSong(first, true); window.scrollTo({ top: 0, behavior: "smooth" }); }
+}
+else if (act === "sl-rename"){
+var srin = card? card.querySelector(".sl-rename"): null;
+var srnm = srin? srin.value.trim(): "";
+if (!slist || !srnm){ toast("名前を入れてください"); return; }
+slist.name = srnm; saveLocal(); renderMgmtRows();
+toast("名前を「" + srnm + "」に変更しました");
+}
+else if (act === "sl-add"){
+var ssel = card? card.querySelector(".sl-add-select"): null;
+if (!slist || !ssel) return;
+var sid2 = parseInt(ssel.value, 10);
+if (slist.songIds.indexOf(sid2) >= 0){ toast("この曲は追加済みです"); return; }
+slist.songIds.push(sid2); saveLocal(); renderMgmtRows();
+toast("曲を追加しました");
+}
+else if (act === "sl-item-up"){ if (slist){ swapItems(slist.songIds, idx, idx - 1); saveLocal(); renderMgmtRows(); } }
+else if (act === "sl-item-down"){ if (slist){ swapItems(slist.songIds, idx, idx + 1); saveLocal(); renderMgmtRows(); } }
+else if (act === "sl-item-del"){ if (slist){ slist.songIds.splice(idx, 1); saveLocal(); renderMgmtRows(); toast("リストから外しました"); } }
+else if (act === "song-play"){
+var ps = findSongById(songId);
+if (ps){ loadSong(ps, true); window.scrollTo({ top: 0, behavior: "smooth" }); }
+}
+else if (act === "song-edit"){ editingSongMgmtId = songId; renderMgmtRows(); }
+else if (act === "song-edit-cancel"){ editingSongMgmtId = null; renderMgmtRows(); }
+else if (act === "song-save"){
+var es = findSongById(songId);
+if (!es || !row) return;
+var ti = row.querySelector(".mg-song-title"), ar = row.querySelector(".mg-song-artist");
+var nt = ti? ti.value.trim(): "";
+if (!nt){ toast("曲名を入れてください"); return; }
+es.title = nt; es.artist = ar? ar.value.trim(): es.artist;
+editingSongMgmtId = null;
+if (currentSong && currentSong.id === es.id){ $("nowTitle").textContent = es.title; $("nowArtist").textContent = es.artist || ""; }
+renderSongs(); renderMgmtRows();
+toast("曲名を更新しました");
+}
+else if (act === "song-del"){
+var ds = findSongById(songId);
+songs = songs.filter(function(x){ return x.id !== songId; });
+comments = comments.filter(function(c){ return c.songId !== songId; });
+delete loopSections[songId];
+cleanupListRefs();
+if (ds && ds.objectUrl) URL.revokeObjectURL(ds.objectUrl);
+if (currentSong && currentSong.id === songId) currentSong = null;
+if (editingSongMgmtId === songId) editingSongMgmtId = null;
+renderSongs(); renderComments(); renderSections(); renderMgmtRows();
+toast("曲を削除しました");
+}
+else if (act === "share-export"){ $("exportBtn").click(); }
+else if (act === "share-copy"){ $("copyBtn").click(); }
+else if (act === "share-import-file"){ $("importBtn").click(); }
+else if (act === "share-import-paste"){
+var ta = $("mgmtImportText");
+if (!ta || !ta.value.trim()){ toast("書き出したテキストを貼り付けてください"); return; }
+importExportText(ta.value);
+ta.value = "";
+}
+});
+$("mgmtBody").addEventListener("input", function(e){
+if (e.target.id === "mgmtLoopSearch"){ mgmtLoopQuery = e.target.value; renderMgmtRows(); }
+else if (e.target.id === "mgmtSongSearch"){ mgmtSongQuery = e.target.value; renderMgmtRows(); }
+});
+document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
+b.addEventListener("click", function(){ mgmtTab = b.getAttribute("data-mtab"); renderMgmt(); });
+});
+var gotoMgmtBtn = $("gotoMgmt");
+if (gotoMgmtBtn) gotoMgmtBtn.addEventListener("click", function(){
+var sec = $("mgmtSection");
+if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+renderMgmt();
+
 /* ---------- Local persistence (localStorage) ----------
    Saved loops, user-added songs, comments, the current song and the
    playback speed are stored in this browser's localStorage as
@@ -2886,7 +3531,7 @@ $("importText").value = "";
    before the song can play again. */
 var LS_KEY = "looper-friends-state-v1";
 var lsRestored = false, lsSaveTimer = null;
-var restoredCurrentSong = null, restoredSpeed = null;
+var restoredCurrentSong = null, restoredSpeed = null, restoredCaptureSec = null;
 function songRefOf(song, userIndex){
 if (song.sample) return { s: song.url };
 return { u: userIndex[song.id] };
@@ -2920,7 +3565,22 @@ return { song: songRefOf(song, userIndex), time: c.time, name: c.name, text: c.t
 parent: c.parentId == null? null: (commentIndex[c.parentId] != null? commentIndex[c.parentId]: null) };
 }).filter(function(c){ return !!c;}),
 currentSong: currentSong? songRefOf(currentSong, userIndex): null,
-speed: speed
+speed: speed,
+captureSec: captureSec,
+practiceLists: practiceLists.map(function(l){
+return { name: l.name, items: l.items.map(function(it){
+var song = songs.filter(function(s){ return s.id === it.songId;})[0];
+var sec = (loopSections[it.songId] || []).filter(function(x){ return x.id === it.loopId;})[0];
+if (!song || !sec) return null;
+return { song: songRefOf(song, userIndex), name: sec.name, a: sec.a, b: sec.b };
+}).filter(function(x){ return !!x;}) };
+}),
+songLists: songLists.map(function(l){
+return { name: l.name, songs: l.songIds.map(function(id){
+var song = songs.filter(function(s){ return s.id === id;})[0];
+return song? songRefOf(song, userIndex): null;
+}).filter(function(x){ return !!x;}) };
+})
 };
 }
 function writeLocal(){
@@ -2971,8 +3631,27 @@ var parentId = (c.parent != null && commentMap[c.parent] != null)? commentMap[c.
 var created = ensureComment(song.id, c.time == null? null: c.time, c.name, c.text, parentId, stats);
 if (created) commentMap[i] = created.id;
 });
+(data.practiceLists || []).forEach(function(pl){
+var items = [];
+(pl.items || []).forEach(function(it){
+var song = resolveSongRef(it.song, songMap);
+if (!song) return;
+var sec = (loopSections[song.id] || []).filter(function(x){ return Math.abs(x.a - it.a) < 0.005 && Math.abs(x.b - it.b) < 0.005;})[0];
+if (sec && !items.some(function(y){ return y.songId === song.id && y.loopId === sec.id;})) items.push({ songId: song.id, loopId: sec.id });
+});
+practiceLists.push({ id: nextId(), name: pl.name || "練習リスト", items: items });
+});
+(data.songLists || []).forEach(function(sl){
+var ids = [];
+(sl.songs || []).forEach(function(ref){
+var song = resolveSongRef(ref, songMap);
+if (song && ids.indexOf(song.id) < 0) ids.push(song.id);
+});
+songLists.push({ id: nextId(), name: sl.name || "曲リスト", songIds: ids });
+});
 restoredCurrentSong = resolveSongRef(data.currentSong, songMap);
 if (data.speed != null && !isNaN(data.speed)) restoredSpeed = clampSpeed(data.speed);
+if (data.captureSec != null && !isNaN(data.captureSec)) restoredCaptureSec = Math.round(Math.min(120, Math.max(1, parseFloat(data.captureSec))) * 10) / 10;
 }
 lsRestored = true;
 }
@@ -2984,8 +3663,10 @@ shuffleSampleSongs(false, true);
 ensureYtApi(); // start the YouTube API loading in parallel right away
 renderSongs(); renderComments(); updateAB(); updateStampView(); updateSampleOrderUI();
 if (restoredSpeed != null) speed = restoredSpeed;
+if (restoredCaptureSec != null) captureSec = restoredCaptureSec;
 if (songs.length) loadSong(restoredCurrentSong || songs[0], false);
 applySpeed();
+syncCaptureSecUI();
 })();
 </script>
 </body>
