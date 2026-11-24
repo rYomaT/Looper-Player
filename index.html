@@ -116,15 +116,6 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .ctl-box h3{margin:0 0 8px;font-size:.9rem;font-weight:900}
 .speed-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .speed-val{font-weight:700}
-.ab-times{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0 10px}
-.ab-chip{background:var(--chip);border-radius:8px;padding:.25em.7em;font-size:.88rem;font-weight:700}
-.ab-chip.set{background:var(--accent-soft);color:var(--accent)}
-.loop-state{font-size:.85rem;color:var(--ink2)}
-.loop-save{margin-top:12px;border-top:1.5px dashed var(--line2);padding-top:10px}
-.loop-save h4{margin:0 0 6px;font-size:.85rem;font-weight:900}
-.loop-save .row{display:flex;gap:8px}
-.loop-save .row input{flex:1}
-.loop-save .row .btn{flex:none}
 .loop-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
 .loop-item{display:flex;align-items:center;gap:8px;background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 9%,var(--panel));border:1.5px solid color-mix(in srgb,hsl(var(--loop-h,28) 70% 48%) 34%,var(--line));border-radius:10px;padding:7px 10px}
 .loop-item.active{border-color:hsl(var(--loop-h,28) 70% 45%);background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 20%,var(--panel))}
@@ -346,21 +337,6 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .ruler .minor{position:absolute;top:0;width:1px;height:3.5px;background:var(--line)}
 .tl-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.75rem;color:var(--ink2);margin-top:2px}
 .tl-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
-/* Loop fine adjust */
-.flag-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px}
-
-.adj-block{margin-top:10px}
-.adj-label{font-size:.8rem;font-weight:900;letter-spacing:.04em;color:var(--ink2);margin:8px 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.adj-label .mono{color:var(--ink);font-size:.92rem}
-.adj-now-btn{flex:none;min-height:2rem;padding:.25rem .75rem;font-size:.84rem}
-.adj-time{cursor:pointer;background:var(--panel2);border:1.5px solid var(--line2);border-radius:7px;padding:.08rem .55rem;font-family:inherit}
-.adj-time:hover{border-color:var(--accent);color:var(--accent)}
-.adj-time::after{content:"▾";font-size:.68em;margin-left:.4em;color:var(--ink2)}
-.adj-time.open::after{content:"▴"}
-.adj-row{display:none;gap:5px}
-.adj-row.open{display:flex}
-.adj-row button{flex:1;border:1.5px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:8px;font-weight:700;font-size:.85rem;padding:.35rem 0;min-height:2.25rem}
-.adj-row button:hover{border-color:var(--accent);color:var(--accent)}
 .speed-step{display:flex;align-items:center;gap:8px;margin-top:8px}
 .capture-btn{border-color:var(--teal);color:var(--teal);background:var(--teal-soft);font-weight:900;white-space:nowrap}
 .capture-btn:hover{border-color:var(--teal);background:var(--teal);color:#fff}
@@ -389,25 +365,21 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 @media (max-width:560px){.speed-compact{gap:6px;padding:8px}.speed-compact .speed-presets{flex-wrap:wrap;flex-basis:100%;order:3}.speed-compact .speed-presets .btn{flex:1 1 18%}.speed-compact .sc-step{margin-left:auto}}
 .loop-item .note{font-size:.83rem;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
 footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
-/* Phone (<=920px): the fixed bottom bar carries transport, quick capture,
-   loop on/off and speed, so the duplicate in-page controls are hidden and
-   the gaps they left are tightened. The hidden elements stay in the DOM:
-   the bottom bar proxies its taps to them, and the state-sync code keeps
-   updating them. Start/end flags, the A-B time chips and the fine-adjust
-   times stay visible for making loops. Desktop (>920px) is untouched. */
+/* Phone (<=920px): the fixed bottom bar carries transport, flags, quick
+   capture, loop on/off and speed, so the duplicate in-page controls are
+   hidden and the gaps they left are tightened. The hidden elements stay
+   in the DOM: the bottom bar proxies its taps to them, and the
+   state-sync code keeps updating them. Desktop (>920px) is untouched. */
 @media (max-width:920px){
 .player-card .transport{display:none}
 .player-card .speed-compact{display:none}
 .loops-card .speed-box{display:none}
 .loops-card .capture-box>h4,.loops-card .capture-box>.hint,.loops-card .capture-row{display:none}
-.loops-card #toggleLoop{display:none}
 .layout{gap:12px}
 .seekrow{margin-top:10px}
 .tl-head{margin-top:8px}
 .capture-box{margin-bottom:8px;padding-bottom:10px}
 .loop-list{margin-top:6px}
-.ab-times{margin:2px 0 6px}
-.loops-card .transport{margin-top:6px!important}
 }
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
@@ -681,46 +653,6 @@ body.docked .timeline{height:28px}
 <input type="range" class="speed-fader" min="0.25" max="2" step="0.01" value="1" aria-label="再生速度フェーダー（25%から200%）">
 <span class="fl">200%</span>
 </div>
-</div>
-<div class="ab-times">
-<span class="ab-chip mono" id="aChip">A —</span>
-<span class="ab-chip mono" id="bChip">B —</span>
-<span class="loop-state" id="loopState">未設定</span>
-</div>
-<div class="flag-row">
-<button class="btn small" id="setA" type="button">⚑ 開始旗</button>
-<button class="btn small" id="setB" type="button">⚑ 終了旗</button>
-<button class="btn small danger" id="clearAB" type="button">ループ解除</button>
-</div>
-
-<div class="adj-block">
-<div class="adj-label">LOOP START <button type="button" class="mono adj-time" id="adjAVal" aria-expanded="false" title="押すと微調整ボタンが表示されます">—</button><button type="button" class="btn small adj-now-btn" id="adjANow" aria-label="開始時間を現在の再生位置に設定する">今</button></div>
-<div class="adj-row" data-target="a">
-<button type="button" data-adj="-1" aria-label="開始を1秒戻す">&lt;&lt;&lt;</button>
-<button type="button" data-adj="-0.1" aria-label="開始を0.1秒戻す">&lt;&lt;</button>
-<button type="button" data-adj="-0.01" aria-label="開始を0.01秒戻す">&lt;</button>
-<button type="button" data-adj="0.01" aria-label="開始を0.01秒進める">&gt;</button>
-<button type="button" data-adj="0.1" aria-label="開始を0.1秒進める">&gt;&gt;</button>
-<button type="button" data-adj="1" aria-label="開始を1秒進める">&gt;&gt;&gt;</button>
-</div>
-<div class="adj-label">LOOP END <button type="button" class="mono adj-time" id="adjBVal" aria-expanded="false" title="押すと微調整ボタンが表示されます">—</button><button type="button" class="btn small adj-now-btn" id="adjBNow" aria-label="終了時間を現在の再生位置に設定する">今</button></div>
-<div class="adj-row" data-target="b">
-<button type="button" data-adj="-1" aria-label="終了を1秒戻す">&lt;&lt;&lt;</button>
-<button type="button" data-adj="-0.1" aria-label="終了を0.1秒戻す">&lt;&lt;</button>
-<button type="button" data-adj="-0.01" aria-label="終了を0.01秒戻す">&lt;</button>
-<button type="button" data-adj="0.01" aria-label="終了を0.01秒進める">&gt;</button>
-<button type="button" data-adj="0.1" aria-label="終了を0.1秒進める">&gt;&gt;</button>
-<button type="button" data-adj="1" aria-label="終了を1秒進める">&gt;&gt;&gt;</button>
-</div>
-<p class="hint" style="display:none" hidden aria-hidden="true">上の時間を押すと微調整ボタンが表示されます（外側から±1秒／±0.1秒／±0.01秒）。「今」を押すと、その時間を現在の再生位置に設定します。開始位置を変えると新しい開始位置から、終了位置を変えると終了の3秒前から、即プレビューします。</p>
-</div>
-<div class="transport" style="margin-top:10px">
-<button class="btn small" id="toggleLoop" type="button">ループ OFF</button>
-<button class="btn small" id="previewLoop" type="button">▶ プレビュー</button>
-</div>
-<div class="loop-save">
-<h4>ループを保存する</h4>
-<button class="btn small primary" id="saveLoop" type="button" style="width:100%">保存</button>
 </div>
 </aside>
 
@@ -1667,8 +1599,8 @@ if (el && target) el.addEventListener("click", function(){ target.click();});
 mbProxy("mbPlay", "playBtn");
 mbProxy("mbBack10", "back10");
 mbProxy("mbFwd10", "fwd10");
-mbProxy("mbSetA", "setA");
-mbProxy("mbSetB", "setB");
+/* mbSetA / mbSetB are wired straight to pressSetA / pressSetB below:
+   the in-card flag buttons they used to proxy to have been removed. */
 mbProxy("mbLoop", "loopStateBtn");
 (function(){
 var toggle = $("mbSpeedToggle"), panel = $("mbSpeedPanel"), close = $("mbSpeedClose");
@@ -1723,7 +1655,7 @@ if (t != null) waStart(t);
 }
 function setSpeedAndPlayIfLooping(v){
 setSpeed(v);
-if (loopA!=null && loopB!=null){ loopOn = true; $("loopState").textContent = "ループ中"; $("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active"); syncLoopStateBtn(); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
+if (loopA!=null && loopB!=null){ loopOn = true; syncLoopStateBtn(); if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;} seekTo(loopA); play();}
 }
 $("speedPresets").querySelectorAll("button").forEach(function(b){
 b.addEventListener("click", function(){ setSpeedAndPlayIfLooping(parseFloat(b.dataset.speed));});
@@ -1758,15 +1690,6 @@ if (mbLb) mbLb.textContent = "ループ";
 }
 }
 function updateAB(){
-$("aChip").textContent = "A " + (loopA==null? "—": fmtTenths(loopA));
-$("bChip").textContent = "B " + (loopB==null? "—": fmtTenths(loopB));
-$("aChip").classList.toggle("set", loopA!=null);
-$("bChip").classList.toggle("set", loopB!=null);
-$("adjAVal").textContent = fmtH(loopA);
-$("adjBVal").textContent = fmtH(loopB);
-$("loopState").textContent = (loopA!=null && loopB!=null)? (loopOn? "ループ中": "設定済み（OFF）"): "未設定";
-$("toggleLoop").textContent = loopOn? "ループ ON": "ループ OFF";
-$("toggleLoop").classList.toggle("active", loopOn);
 syncLoopStateBtn();
 if (waActive() && waSrc){
 if (loopOn && loopA != null && loopB != null){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
@@ -1948,7 +1871,11 @@ btn.addEventListener("keyup", function(e){
 if (e.key === " " || e.key === "Enter"){ e.preventDefault(); holdEnd();}
 });
 });
-$("setA").addEventListener("click", function(){
+/* 開始旗／終了旗: the flag buttons inside the loop card were removed, so
+   the handlers live here as plain functions. The mobile bottom bar's
+   flag buttons call them directly (wired just after pressSetB), and
+   終了旗 still auto-saves the loop via saveCurrentLoopFromFlags. */
+function pressSetA(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 var hadLoop = (loopA!=null && loopB!=null) || loopOn;
 loopA = Math.round(getTime()*100)/100;
@@ -1956,8 +1883,8 @@ loopB = null; loopOn = false; flagSavedId = null;
 updateAB();
 if (!isPlaying()) play();
 toast(hadLoop? ("現在のループを解除しました。開始旗 = " + fmtH(loopA)): ("開始旗 = " + fmtH(loopA)));
-});
-$("setB").addEventListener("click", function(){
+}
+function pressSetB(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 if (loopA == null){ toast("先に開始旗を押してください"); return;}
 loopB = Math.round(getTime()*100)/100;
@@ -1969,105 +1896,14 @@ if (result && result.updated) toast("終了旗 = " + fmtH(loopB) + "｜ループ
 else if (result && result.duplicate) toast("終了旗 = " + fmtH(loopB) + "｜ループ「" + result.sec.name + "」は保存済みです");
 else if (result) toast("終了旗で保存しました：ループ「" + result.sec.name + "」 " + fmtH(result.sec.a) + " – " + fmtH(result.sec.b) + "（" + clampSpeed(speed).toFixed(2) + "×）");
 else toast("終了旗 = " + fmtH(loopB));
-});
-/* Fine adjust: <<< << < > >> >>> = ±1 / ±0.1 / ±0.01 sec, with instant preview */
-document.querySelectorAll(".adj-row").forEach(function(row){
-row.querySelectorAll("button").forEach(function(btn){
-btn.addEventListener("click", function(){
-if (!currentSong){ toast("先に曲を選んでください"); return;}
-var which = row.dataset.target, d = parseFloat(btn.dataset.adj);
-var dur = getDur();
-if (which === "a"){
-if (loopA == null){ toast("先に開始旗を押してください"); return;}
-loopA = Math.round((loopA + d)*100)/100;
-if (loopA < 0) loopA = 0;
-if (loopB != null && loopA >= loopB) loopA = Math.round((loopB - 0.01)*100)/100;
-} else {
-if (loopB == null){ toast("先に終了旗を押してください"); return;}
-loopB = Math.round((loopB + d)*100)/100;
-if (loopA != null && loopB <= loopA) loopB = Math.round((loopA + 0.01)*100)/100;
-if (dur > 0 && loopB > dur) loopB = Math.round(dur*100)/100;
 }
-if (loopA != null && loopB != null) loopOn = true;
-syncFlagSavedSection();
-updateAB();
-if (isPlaying() || loopOn){
-/* While editing the end, preview from 3 seconds before the end (not from the start) */
-if (which === "b" && loopB != null){
-seekTo(Math.max(loopA, Math.round((loopB - 3)*100)/100));
-if (!isPlaying()) play();
-} else previewLoopNow();
-}
-});
-});
-});
-/* 「今」buttons beside LOOP START / LOOP END: set that time to the
-   current playback position, with the same instant reflection and
-   preview as the fine-adjust buttons (start previews from the new
-   start; end previews from 3 seconds before the new end). */
-function setABToNow(which){
-if (!currentSong){ toast("先に曲を選んでください"); return;}
-var now = Math.round(getTime()*100)/100;
-if (now == null || isNaN(now)){ toast("再生位置が取得できませんでした"); return;}
-var dur = getDur();
-if (which === "a"){
-loopA = now;
-if (loopA < 0) loopA = 0;
-if (dur > 0 && loopA > dur) loopA = Math.round(dur*100)/100;
-if (loopB != null && loopA >= loopB) loopA = Math.round((loopB - 0.01)*100)/100;
-if (loopA < 0) loopA = 0;
-} else {
-loopB = now;
-if (loopB < 0) loopB = 0;
-if (dur > 0 && loopB > dur) loopB = Math.round(dur*100)/100;
-if (loopA != null && loopB <= loopA) loopB = Math.round((loopA + 0.01)*100)/100;
-if (dur > 0 && loopB > dur){ toast("終了時間は開始時間より後にしてください"); return;}
-}
-if (loopA != null && loopB != null) loopOn = true;
-syncFlagSavedSection();
-updateAB();
-if (loopA != null && loopB != null){
-if (which === "b"){
-seekTo(Math.max(loopA, Math.round((loopB - 3)*100)/100));
-if (!isPlaying()) play();
-} else {
-previewLoopNow();
-}
-} else if (which === "a" && loopA != null){
-seekTo(loopA);
-if (!isPlaying()) play();
-} else if (which === "b" && loopB != null){
-seekTo(Math.max(0, Math.round((loopB - 3)*100)/100));
-if (!isPlaying()) play();
-}
-}
-var adjANowEl = $("adjANow"); if (adjANowEl) adjANowEl.addEventListener("click", function(){ setABToNow("a");});
-var adjBNowEl = $("adjBNow"); if (adjBNowEl) adjBNowEl.addEventListener("click", function(){ setABToNow("b");});
-/* The fine-adjust rows stay hidden until the time value itself is tapped */
-[["adjAVal", "a"], ["adjBVal", "b"]].forEach(function(pair){
-var el = $(pair[0]); if (!el) return;
-el.addEventListener("click", function(){
-var row = document.querySelector('.adj-row[data-target="' + pair[1] + '"]');
-if (!row) return;
-var open = row.classList.toggle("open");
-el.classList.toggle("open", open);
-el.setAttribute("aria-expanded", open? "true": "false");
-});
-});
-$("previewLoop").addEventListener("click", function(){
-if (loopA==null || loopB==null){ toast("先に開始旗と終了旗を設定してください"); return;}
-loopOn = true; updateAB(); previewLoopNow();
-});
-$("toggleLoop").addEventListener("click", function(){
-if (loopA==null || loopB==null){ toast("先にAとBを設定してください"); return;}
-loopOn =!loopOn; updateAB();
-});
+var mbSetAEl = $("mbSetA"); if (mbSetAEl) mbSetAEl.addEventListener("click", pressSetA);
+var mbSetBEl = $("mbSetB"); if (mbSetBEl) mbSetBEl.addEventListener("click", pressSetB);
 $("loopStateBtn").addEventListener("click", function(){
 if (loopA==null || loopB==null){ toast("ループは未設定です。開始旗・終了旗、またはクイックキャプチャでループを作ってください"); return;}
 loopOn =!loopOn; updateAB();
 toast(loopOn? "ループ ON：" + fmtH(loopA) + " – " + fmtH(loopB): "ループ OFF");
 });
-$("clearAB").addEventListener("click", function(){ clearAB(true);});
 
 /* Saved loop sections (per song) */
 function sectionsOf(songId){
@@ -2227,12 +2063,6 @@ var na = parseTimeInput(editDiv.querySelector(".edit-a").value);
 var nb = parseTimeInput(editDiv.querySelector(".edit-b").value);
 if (na == null || nb == null || nb <= na) return false;
 loopA = na; loopB = nb; loopOn = true;
-$("aChip").textContent = "A " + fmtTenths(loopA);
-$("bChip").textContent = "B " + fmtTenths(loopB);
-$("aChip").classList.add("set"); $("bChip").classList.add("set");
-$("adjAVal").textContent = fmtH(loopA); $("adjBVal").textContent = fmtH(loopB);
-$("loopState").textContent = "ループ中";
-$("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
 syncLoopStateBtn();
 if (waActive() && waSrc){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
 rulerKey = "";
@@ -2350,13 +2180,7 @@ if (vals.a == null || vals.b == null){ toast("開始・終了時間を正しく�
 if (vals.b <= vals.a){ toast("終了時間は開始時間より後にしてください"); return;}
 loopA = vals.a; loopB = vals.b; loopOn = true;
 setSpeed(vals.speed);
-// update chips without re-creating the edit form (preserve draft inputs)
-$("aChip").textContent = "A " + fmtTenths(loopA);
-$("bChip").textContent = "B " + fmtTenths(loopB);
-$("aChip").classList.add("set"); $("bChip").classList.add("set");
-$("adjAVal").textContent = fmtH(loopA); $("adjBVal").textContent = fmtH(loopB);
-$("loopState").textContent = "ループ中";
-$("toggleLoop").textContent = "ループ ON"; $("toggleLoop").classList.add("active");
+// reflect the preview without re-creating the edit form (preserve draft inputs)
 syncLoopStateBtn();
 rulerKey = "";
 seekTo(vals.a);
@@ -2450,15 +2274,6 @@ list.appendChild(item);
 });
 refreshSongBadges();
 }
-$("saveLoop").addEventListener("click", function(){
-if (!currentSong){ toast("先に曲を選んでください"); return;}
-if (loopA == null || loopB == null){ toast("先に開始旗と終了旗を設定してください"); return;}
-var result = saveCurrentLoopFromFlags();
-if (!result) return;
-if (result.duplicate) toast("ループ「" + result.sec.name + "」は保存済みです（同じ区間は重複しません）");
-else if (result.updated) toast("ループ「" + result.sec.name + "」を更新して保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
-else toast("ループ「" + result.sec.name + "」を保存しました（" + clampSpeed(speed).toFixed(2) + "×）");
-});
 
 /* ---------- Color-coded timeline with zoom + ruler ---------- */
 var SEC_COLORS = ["#c2570b", "#14655a", "#7a4fa3", "#1f6fb2", "#b3372a", "#8a6d1a", "#0e7c86", "#a03d63"];
