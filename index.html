@@ -641,8 +641,8 @@ body.docked #tlCurWrap{font-size:1.05rem}
 .edge-song{font-size:.78rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .edge-sheet-head .btn{flex:none}
 .edge-list{max-height:min(56vh,430px);overflow:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
-.edge-row{display:flex;gap:6px;align-items:stretch;background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 9%,var(--panel));border:1.5px solid color-mix(in srgb,hsl(var(--loop-h,28) 70% 48%) 34%,var(--line));border-radius:10px;padding:6px}
-.edge-row.active{border-color:hsl(var(--loop-h,28) 70% 45%);background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 20%,var(--panel))}
+.edge-row{display:flex;gap:6px;align-items:center;background:var(--panel2);border:1.5px solid var(--line);border-radius:10px;padding:6px 8px}
+.edge-row.active{border-color:var(--accent);background:var(--accent-soft)}
 .edge-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
 .edge-play{background:transparent;border:none;text-align:left;display:flex;flex-direction:column;gap:1px;padding:2px 4px;cursor:pointer;color:var(--ink);font-family:inherit;width:100%}
 .edge-play:hover .ep-range{color:var(--accent)}
@@ -653,8 +653,7 @@ body.docked #tlCurWrap{font-size:1.05rem}
 .ep-rename .btn{flex:none;padding:.25rem .55rem}
 .ep-top{display:flex;align-items:center;gap:6px;min-width:0}
 .ep-range{font-size:.8rem;color:var(--ink2)}
-.ep-note{font-size:.75rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edge-edit{flex:none;align-self:center;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:.88rem;padding:.35rem .6rem;min-height:2.5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3em;font-family:inherit}
+.edge-edit{flex:none;align-self:center;width:2.6rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;min-height:2.5rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
 .edge-toggle{flex:none;align-self:center;width:2.6rem;min-height:2.5rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
 .edge-toggle:hover{background:var(--accent);color:var(--accent-ink)}
@@ -4120,7 +4119,7 @@ var secs = currentSong? visibleSections(): [];
    renderSections() also runs on every loop wrap (updateAB), and
    rebuilding the rows then would flicker the open panel and could
    swallow a tap that is already in progress. */
-var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || "", s.note || "", s.speed == null? "": s.speed].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100)) + "|" + (loopOn? "1": "0");
+var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || ""].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100)) + "|" + (loopOn? "1": "0");
 if (sig === edgeSig && list.childNodes.length) return;
 edgeSig = sig;
 if (cnt) cnt.textContent = secs.length;
@@ -4152,8 +4151,6 @@ return;
 secs.forEach(function(sec){
 var row = document.createElement("div");
 row.className = "edge-row" + (isActiveSection(sec)? " active": "");
-row.style.setProperty("--loop-h", loopHue(sec));
-var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 /* Play / stop toggle: the icon follows the looper's state, exactly
    like the loop list's ▶ 有効化 / ループ OFF button — ▶ starts this
    section looping, and while THIS section is the one looping the
@@ -4162,15 +4159,14 @@ var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-sp
 var isLooping = isLoopingSection(sec);
 row.innerHTML =
 '<div class="edge-main">' +
-'<span class="ep-top"><span class="loop-color-dot" aria-hidden="true"></span>' +
-'<button class="ep-name" type="button" title="タップで名前を変更" aria-label="「' + esc(sec.name || "") + '」の名前を変更">' + esc(sec.name || "") + '</button>' + speedBadge + '</span>' +
+'<span class="ep-top">' +
+'<button class="ep-name" type="button" title="タップで名前を変更" aria-label="「' + esc(sec.name || "") + '」の名前を変更">' + esc(sec.name || "") + '</button></span>' +
 '<button class="edge-play" type="button" aria-label="' + esc(sec.name || "") + 'を再生">' +
 '<span class="ep-range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
-(sec.note? '<span class="ep-note">' + esc(sec.note) + '</span>': "") +
 '</button>' +
 '</div>' +
 '<button class="edge-toggle' + (isLooping? " stop": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" aria-label="' + (isLooping? "「" + esc(sec.name || "") + "」のループを止める": "「" + esc(sec.name || "") + "」を再生") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "■": "▶") + '</button>' +
-'<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️ 編集</button>';
+'<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️</button>';
 row.querySelector(".edge-play").addEventListener("click", function(){ activateSection(sec); });
 row.querySelector(".edge-toggle").addEventListener("click", function(){
 if (isLoopingSection(sec)) stopLoopOnly();
