@@ -518,7 +518,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .install-steps{margin:12px 0 0;padding-left:1.25em;font-size:.9rem;line-height:1.65}
 .install-steps li{margin:5px 0}
 .install-steps strong{font-weight:900}
-/* Mode switch （練習／ループ管理／ループリスト管理／曲管理／設定）: a
+/* Mode switch （練習／ループ／曲／設定）: always sticky at the top so it stays visible while scrolling; a
    segmented control pinned near the top of the screen. The current
    mode only changes WHICH blocks are shown — player / library /
    loop card / management — never the data. There is no separate
@@ -527,36 +527,34 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
    Practice: the player screen — player, library, saved loop list,
              playback speed, and loop creation (quick capture,
              hold-to-loop, ⚑ ループ作成）.
-   Loops / Lists / Songs / Settings: the management screen only,
-             opened on the matching tab （全ループ／保存ループリスト／
-             曲／設定）; the player, library, mobile bottom bar and
-             the sticky mini-player dock are hidden in these modes.
-             The 曲リスト tab has no mode of its own — it belongs to
-             the Songs mode family. */
-.mode-switch{display:flex;gap:6px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);position:sticky;top:8px;z-index:44;margin:0 0 8px}
+   Loops / Songs / Settings: the management screen only,
+             opened on the matching group of tabs （ループ：ループ／ループセット,
+             曲：曲／ライブラリ, 設定：設定）; the player, library, mobile bottom bar and
+             the sticky mini-player dock are hidden in these modes. */
+.mode-switch{display:flex;gap:6px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);position:sticky;top:0;z-index:72;margin:0 0 8px}
+body.docked .mode-switch{top:calc(var(--dock-h) + 6px)}
 .mode-btn{flex:1 1 0;min-width:0;min-height:3rem;border:1.5px solid var(--line2);background:var(--panel2);color:var(--ink);border-radius:10px;font-weight:900;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.45rem .3rem}
 .mode-btn:hover{border-color:var(--accent)}
 .mode-btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .mode-desc{margin:0 0 14px;font-size:.85rem;color:var(--ink2);padding:0 4px}
-#mgmtSection{scroll-margin-top:84px}
+#mgmtSection{scroll-margin-top:76px}
+body.docked #mgmtSection{scroll-margin-top:calc(var(--dock-h) + 76px)}
 /* Practice mode: the full player screen. Loop creation is always
    available here (there is no separate create mode); only the
    management screen is hidden. */
 body.mode-practice #mgmtSection{display:none}
 .flag-row{align-items:center}
 .flag-state{font-size:.85rem;font-weight:700;color:var(--ink2)}
-/* Management modes （ループ管理／ループリスト管理／曲管理／設定）: the
+/* Management modes （ループ／曲／設定）: the
    management screen only, opened on the tab matching the mode.
    The mode buttons and the management tabs stay in sync. */
-body.mode-loops .library,body.mode-lists .library,body.mode-songs .library,body.mode-settings .library{display:none}
-body.mode-loops .layout,body.mode-lists .layout,body.mode-songs .layout,body.mode-settings .layout{display:none}
-body.mode-loops .mgmt-card,body.mode-lists .mgmt-card,body.mode-songs .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
+body.mode-loops .library,body.mode-songs .library,body.mode-settings .library{display:none}
+body.mode-loops .layout,body.mode-songs .layout,body.mode-settings .layout{display:none}
+body.mode-loops .mgmt-card,body.mode-songs .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
 @media (max-width:920px){
-body.mode-loops .mobile-bar,body.mode-lists .mobile-bar,body.mode-songs .mobile-bar,body.mode-settings .mobile-bar{display:none}
-body.mode-loops .wrap,body.mode-lists .wrap,body.mode-songs .wrap,body.mode-settings .wrap{padding-bottom:64px}
-.mode-btn{font-size:.68rem;min-height:2.8rem;padding:.4rem .05rem;white-space:normal;line-height:1.2;text-align:center;overflow-wrap:anywhere}
-.mode-btn[data-mode="loops"]{flex-grow:1.25}
-.mode-btn[data-mode="lists"]{flex-grow:1.5}
+body.mode-loops .mobile-bar,body.mode-songs .mobile-bar,body.mode-settings .mobile-bar{display:none}
+body.mode-loops .wrap,body.mode-songs .wrap,body.mode-settings .wrap{padding-bottom:64px}
+.mode-btn{font-size:.86rem;min-height:2.8rem;padding:.4rem .05rem;white-space:normal;line-height:1.2;text-align:center;overflow-wrap:anywhere}
 }
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
@@ -601,7 +599,7 @@ body.docked .stage{width:112px}
 body.docked .tl-block{left:130px}
 body.docked .timeline{height:28px}
 }
-/* Edge panel (Samsung Galaxy Edge Panel style): the current song's
+/* Side panel (Samsung Galaxy Edge Panel style): the current song's
    saved loops peek a little from the right edge of the screen — one
    small coloured tab per loop, in that loop's own colour, next to a
    slim 🔁 handle. Tapping the handle (or swiping it left) slides the
@@ -643,7 +641,7 @@ body.docked .timeline{height:28px}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
 .edge-empty{margin:0;padding:12px 10px;font-size:.86rem;color:var(--ink2);line-height:1.6}
 .edge-foot{padding:8px 12px 12px;font-size:.76rem;color:var(--ink2);border-top:1.5px dashed var(--line)}
-/* Left-edge placement (設定17「エッジパネルの表示位置」, the default):
+/* Left-edge placement (設定17「サイドパネルの表示位置」, the default):
    everything mirrors — the panel anchors to the left edge, the handle
    and peeking tabs hug that edge, the sheet opens to the right of the
    handle, and the chevron / slide-in direction flip. The base rules
@@ -658,7 +656,7 @@ body.edge-left .edge-panel.open .edge-sheet{animation-name:edgeSlideInL}
 @keyframes edgeSlideInL{from{transform:translateX(-26px);opacity:.35}to{transform:none;opacity:1}}
 body.edge-left .edge-handle .eh-chev{transform:scaleX(-1)}
 body.edge-left .edge-panel.open .edge-handle .eh-chev{transform:rotate(180deg) scaleX(-1)}
-body.mode-loops .edge-panel,body.mode-loops .edge-scrim,body.mode-lists .edge-panel,body.mode-lists .edge-scrim,body.mode-songs .edge-panel,body.mode-songs .edge-scrim,body.mode-settings .edge-panel,body.mode-settings .edge-scrim{display:none}
+body.mode-loops .edge-panel,body.mode-loops .edge-scrim,body.mode-songs .edge-panel,body.mode-songs .edge-scrim,body.mode-settings .edge-panel,body.mode-settings .edge-scrim{display:none}
 @media (max-width:920px){
 .edge-panel{top:auto;bottom:calc(122px + env(safe-area-inset-bottom,0px));transform:none}
 .edge-list{max-height:42vh}
@@ -711,16 +709,16 @@ header.intro{margin-bottom:6px}
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>エッジパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（Galaxyのエッジパネル風）。初期は左端で、管理画面の「設定」タブの「17. エッジパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは練習モード以外では表示されません。</li>
+<li><strong>サイドパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（サイドパネル風）。初期は左端で、管理画面の「設定」タブの「17. サイドパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは「練習」以外では表示されません。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
 <li><strong>サンプルデータ：</strong>サンプル曲には「サンプル」の表記が付きます（曲リスト・管理画面の曲／全ループ／曲リスト／保存ループリスト内）。管理画面の「設定」タブ（10. サンプルデータ）で、「読み込み時にサンプルデータのロードを次からやめる」にチェックすると、次に開いたときからサンプル曲は自動で読み込まれません。「サンプルデータを追加」ボタンを押すと、あらゆるサンプル（全32曲）をその場で読み込めます（すでにあるサンプルは重複しません）。サンプル曲に付けたループなどは、サンプルを再び追加すると戻ります。</li>
 <li><strong>YouTubeコメントの時間つき感想（試作）：</strong>右側の「A–Bループ・ループリスト」カード下部の「💬 YouTubeコメントの時間つき感想（試作）」で「コメントを取り込む」を押すと、今開いているYouTube動画のコメントを公開API（Piped）経由で取得し、「1:23」のような時間が書かれた感想だけを、時間と内容のセットで表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントの内容がそのループのノートに入ります（出典として、コメントの投稿者名もノートに残ります）。一覧の下には出典（YouTubeのコメント／Piped経由）と元の動画へのリンクが表示されます。コメントが取得できない場合や、時間の書かれたコメントが無い場合は、その旨が表示されるだけで、ループや再生など、ほかの機能は今まで通り使えます。取り込んだコメントは保存されず、その場だけの表示です。</li>
-<li><strong>コメント：</strong>練習モードでは、プレイヤーの下に「コメント」欄があります。今の曲への気づきを、再生位置のスタンプ付きで残せます（スタンプを押すと、その位置から再生します）。返信もできます。コメントは自動保存され、書き出し・読み込みもこの欄からできます。</li>
+<li><strong>コメント：</strong>「練習」では、プレイヤーの下に「コメント」欄があります。今の曲への気づきを、再生位置のスタンプ付きで残せます（スタンプを押すと、その位置から再生します）。返信もできます。コメントは自動保存され、書き出し・読み込みもこの欄からできます。</li>
 <li><strong>ホーム画面に追加：</strong>管理画面の「設定」タブ（11. ホーム画面に追加）から、このページをホーム画面に追加してアプリのように使えます。ブラウザ側の案内（「Keep your practice library one tap away / Install / Not now」）で「Not now」を選んだあとでも、ここからいつでも追加できます。ブラウザが自動のインストール画面を出せる場合はInstallボタンでそのまま追加でき、出せない場合（iPhoneのSafariなど）は、共有ボタン→「ホーム画面に追加」などの手順が表示されます。</li>
-<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「設定」タブ（書き出し・読み込み）から読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、削除の確認、サンプルデータの読み込み設定、書き出し・読み込みを変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。この使い方・解説自体も、「設定」タブの中にあります。</li>
+<li><strong>管理画面：</strong>上部メニューは常時表示です。「ループ」ではループとループセット（タブで切り替え）、「曲」では曲とライブラリ（タブで切り替え）を編集できます。ループ管理では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>ループセット</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「ループセットに追加」からも入れられます）。曲を集めた<strong>ライブラリ</strong>や、曲の名前の編集も曲管理でできます。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「設定」タブ（書き出し・読み込み）から読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、削除の確認、サンプルデータの読み込み設定、書き出し・読み込みを変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。この使い方・解説自体も、「設定」タブの中にあります。</li>
 <li><strong>言語：</strong>管理画面の「設定」タブ（12. 言語）で「🇯🇵 日本語／🇺🇸 English」を選ぶと、画面表示の言語が切り替わります。初めて開くときは、ブラウザの言語設定に合わせて表示します。機能や保存データは変わりません。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
@@ -731,10 +729,9 @@ header.intro{margin-bottom:6px}
 </header>
 
 <nav class="mode-switch" role="tablist" aria-label="モード切り替え">
-<button class="mode-btn" type="button" role="tab" data-mode="practice" aria-selected="true">🎸 練習モード</button>
-<button class="mode-btn" type="button" role="tab" data-mode="loops" aria-selected="false">🔁 ループ管理</button>
-<button class="mode-btn" type="button" role="tab" data-mode="lists" aria-selected="false">⚑ ループリスト管理</button>
-<button class="mode-btn" type="button" role="tab" data-mode="songs" aria-selected="false">♫ 曲管理</button>
+<button class="mode-btn" type="button" role="tab" data-mode="practice" aria-selected="true">🎸 練習</button>
+<button class="mode-btn" type="button" role="tab" data-mode="loops" aria-selected="false">🔁 ループ</button>
+<button class="mode-btn" type="button" role="tab" data-mode="songs" aria-selected="false">♫ 曲</button>
 <button class="mode-btn" type="button" role="tab" data-mode="settings" aria-selected="false">⚙ 設定</button>
 </nav>
 <p class="mode-desc" id="modeDesc">プレイヤーと保存ループで練習します。ループ作成はいつでもできます</p>
@@ -1011,14 +1008,14 @@ header.intro{margin-bottom:6px}
 </div>
 
 <section class="card mgmt-card" id="mgmtSection" aria-label="管理画面">
-<h2>🗂 管理画面 <span class="count" id="mgmtCount"></span></h2>
-<p class="hint" style="margin:0">曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲を管理できます。</p>
-<div class="mgmt-tabs" role="tablist" aria-label="管理画面の切り替え">
-<button class="btn small" type="button" data-mtab="loops" aria-selected="true">全ループ</button>
-<button class="btn small" type="button" data-mtab="practice" aria-selected="false">保存ループリスト</button>
-<button class="btn small" type="button" data-mtab="setlists" aria-selected="false">曲リスト</button>
-<button class="btn small" type="button" data-mtab="songs" aria-selected="false">曲</button>
-<button class="btn small" type="button" data-mtab="settings" aria-selected="false">設定</button>
+<h2 id="mgmtTitle">🔁 ループ <span class="count" id="mgmtCount"></span></h2>
+<p class="hint" id="mgmtDesc" style="margin:0">ループ管理：ループとループセットを編集できます。</p>
+<div class="mgmt-tabs" id="mgmtTabs" role="tablist" aria-label="管理画面の切り替え">
+<button class="btn small" type="button" data-mtab="loops" data-group="loops" aria-selected="true">ループ</button>
+<button class="btn small" type="button" data-mtab="practice" data-group="loops" aria-selected="false">ループセット</button>
+<button class="btn small" type="button" data-mtab="songs" data-group="songs" aria-selected="false">曲</button>
+<button class="btn small" type="button" data-mtab="setlists" data-group="songs" aria-selected="false">ライブラリ</button>
+<button class="btn small" type="button" data-mtab="settings" data-group="settings" aria-selected="false">設定</button>
 </div>
 <div id="mgmtBody"></div>
 </section>
@@ -1030,20 +1027,20 @@ header.intro{margin-bottom:6px}
 
 <div class="edge-scrim" id="edgeScrim"></div>
 <div class="edge-panel" id="edgePanel">
-<div class="edge-sheet" id="edgeSheet" role="complementary" aria-label="保存ループのエッジパネル">
+<div class="edge-sheet" id="edgeSheet" role="complementary" aria-label="保存ループのサイドパネル">
 <div class="edge-sheet-head">
 <div style="flex:1;min-width:0">
 <div class="edge-sheet-title">🔁 ループ</div>
 <div class="edge-song" id="edgeSong"></div>
 </div>
-<button class="btn small" id="edgeClose" type="button" aria-label="エッジパネルを閉じる">✕ 閉じる</button>
+<button class="btn small" id="edgeClose" type="button" aria-label="サイドパネルを閉じる">✕ 閉じる</button>
 </div>
 <div class="edge-list" id="edgeList"></div>
 <div class="edge-foot">▶＝再生 ／ ✏️ 編集＝そのループの編集をその場で開く</div>
 </div>
 <div class="edge-col">
 <div class="edge-peek" id="edgePeek" aria-hidden="true"></div>
-<button class="edge-handle" id="edgeHandle" type="button" aria-expanded="false" aria-controls="edgeSheet" aria-label="保存ループのエッジパネルを開く">
+<button class="edge-handle" id="edgeHandle" type="button" aria-expanded="false" aria-controls="edgeSheet" aria-label="保存ループのサイドパネルを開く">
 <span class="eh-ic" aria-hidden="true">🔁</span>
 <span class="eh-lb" aria-hidden="true">ループ</span>
 <span class="eh-count mono" id="edgeCount">0</span>
@@ -1230,11 +1227,32 @@ var PAIRS = [
 ["まだ曲がありません。下のフォームから追加するか、管理画面の「設定」タブ（10. サンプルデータ）の「サンプルデータを追加」からサンプル曲（全32曲）を読み込んでください。", "No songs yet. Add one with the form below, or load the sample songs (all 32) from 'Add sample data' in the Settings tab (10. Sample data) of the management screen."],
 ["条件に合う曲がありません。絞り込みを変えてみてください。", "No songs match. Try changing the search."],
 ["曲を選ぶと、その曲に保存したループが表示されます。", "Pick a song to see the loops saved for it."],
-["エッジパネル：", "Edge panel: "],
-["保存ループのエッジパネルを開く", "Open the saved-loops edge panel"],
-["保存ループのエッジパネルを閉じる", "Close the saved-loops edge panel"],
-["保存ループのエッジパネル", "Saved-loops edge panel"],
-["エッジパネルを閉じる", "Close the edge panel"],
+["サイドパネル：", "Side panel: "],
+["保存ループのサイドパネルを開く", "Open the saved-loops side panel"],
+["保存ループのサイドパネルを閉じる", "Close the saved-loops side panel"],
+["保存ループのサイドパネル", "Saved-loops side panel"],
+["サイドパネルを閉じる", "Close the side panel"],
+["🎸 練習", "🎸 Practice"],
+["🔁 ループ", "🔁 Loops"],
+["♫ 曲", "♫ Songs"],
+["⚙ 設定", "⚙ Settings"],
+["ループセット", "Loop sets"],
+["ライブラリを作る", "Create library"],
+["ループセットを作る", "Create loop set"],
+["新しいループセットの名前（例：苦手なソロ集）", "Name of the new loop set (e.g. Tricky solos)"],
+["新しいライブラリの名前（例：ライブ用セット）", "Name of the new library (e.g. Live set)"],
+["ループセットはまだありません。上の入力で名前を付けて作ると、ループの一覧や、各ループの編集画面から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。", "No loop sets yet. Name one above to create it, then gather loops across songs from the loop list or each loop's edit form (e.g. Tricky solos, Riff practice)."],
+["ライブラリはまだありません。上の入力で名前を付けて作ると、曲を集めて順番を決められます（例：ライブ用セット、練習用）。曲の追加・並べ替えは「中身を編集」からできます。", "No libraries yet. Name one above to create it, then gather songs and set their order (e.g. Live set, Practice). Add and reorder songs from 'Edit contents'."],
+["ループとループセットを編集します", "Edit loops and loop sets"],
+["曲とライブラリを編集します", "Edit songs and libraries"],
+["ループ管理：ループとループセットを編集できます。", "Loop management: edit loops and loop sets."],
+["曲管理：曲とライブラリを編集できます。", "Song management: edit songs and libraries."],
+["ループセットの名前を入れてください", "Please enter a name for the loop set"],
+["ライブラリの名前を入れてください", "Please enter a name for the library"],
+["このループセットを削除しますか？", "Delete this loop set?"],
+["このライブラリを削除しますか？", "Delete this library?"],
+["ループセットに追加", "Add to a loop set"],
+["追加先のループセット", "Loop set to add to"],
 ["曲を選ぶと、その曲のループがここに並びます。", "Pick a song and its loops will line up here."],
 ["この曲のループはまだありません。「⚑ ループ作成」や🎤キャプチャで作ると、ここからすぐ編集できます。", "No loops for this song yet. Make one with '⚑ Loop create' or 🎤 capture, and you can edit it right from here."],
 ["▶＝再生 ／ ✏️ 編集＝そのループの編集をその場で開く", "▶ = play / ✏️ Edit = opens that loop's editor in place"],
@@ -1246,7 +1264,7 @@ var PAIRS = [
 ["押すとこの区間から再生します（長押しで編集）", "Tap to play from this range (long-press to edit)"],
 ["押すとループだけを止めます（曲は止まりません）", "Stops only the loop (the song keeps playing)"],
 ["押すとこの区間のループが始まります", "Starts looping this range"],
-["新しい保存ループリスト名（例：苦手なソロ集）", "New saved loop list name (e.g. Tricky solos)"],
+["新しいループセット名（例：苦手なソロ集）", "New loop set name (e.g. Tricky solos)"],
 ["例：指が引っかかる", "e.g. My fingers get stuck here"],
 ["開始時間を現在の再生位置に設定する", "Set the start to the current position"],
 ["終了時間を現在の再生位置に設定する", "Set the end to the current position"],
@@ -1354,7 +1372,7 @@ var PAIRS = [
 ["追加する曲", "Song to add"],
 ["リスト名", "List name"],
 ["アーティスト名", "Artist name"],
-["新しい保存ループリストの名前", "Name of the new saved loop list"],
+["新しい保存ループリストの名前", "Name of the new loop set"],
 ["新しい曲リストの名前", "Name of the new song list"],
 ["保存ループリストを作る", "Create saved loop list"],
 ["曲リストを作る", "Create song list"],
@@ -1635,10 +1653,10 @@ var PAIRS = [
 ["時間指定入力をオンにしました", "Direct time entry turned on"],
 ["時間指定入力をオフにしました（時間は矢印ボタンと「今」で合わせます）", "Direct time entry turned off (set times with the arrow buttons and 'Now')"],
 ["⌨ 時間の直接入力はオフです。時間は下の矢印ボタンと「今」で合わせられます（設定の「16. 時間指定入力」でオンにできます）", "⌨ Direct time entry is off. Set times with the arrow buttons and 'Now' below (turn it on in Settings, '16. Direct time entry')"],
-["17. エッジパネルの表示位置", "17. Edge panel position"],
-["保存ループのエッジパネル（画面の端から少し顔を出すループ一覧）を、画面の左端と右端のどちらに出すかです（初期は左）。利き手や持ち方に合わせて変えられます。", "Which edge of the screen the saved-loops edge panel (the loop list peeking from the screen edge) sits on (default left). Change it to suit your hand or how you hold the device."],
-["エッジパネルの表示位置を左にしました", "Edge panel position set to the left"],
-["エッジパネルの表示位置を右にしました", "Edge panel position set to the right"],
+["17. サイドパネルの表示位置", "17. Side panel position"],
+["保存ループのサイドパネル（画面の端から少し顔を出すループ一覧）を、画面の左端と右端のどちらに出すかです（初期は左）。利き手や持ち方に合わせて変えられます。", "Which edge of the screen the saved-loops side panel (the loop list peeking from the screen edge) sits on (default left). Change it to suit your hand or how you hold the device."],
+["サイドパネルの表示位置を左にしました", "Side panel position set to the left"],
+["サイドパネルの表示位置を右にしました", "Side panel position set to the right"],
 ["このループを削除しますか？", "Delete this loop?"],
 ["この曲を削除しますか？保存したループも消えます。", "Delete this song? Its saved loops will be deleted too."],
 ["この保存ループリストを削除しますか？", "Delete this saved loop list?"],
@@ -1929,7 +1947,7 @@ var loopSortOrder = "start";    // saved-loop order: start | created | name | sp
 var autoSave = true;            // localStorage auto-save (default on)
 var confirmDelete = true;       // ask before deleting (default on; 管理画面「設定」13)
 var timeInputEnabled = false;   // direct time entry in the loop editor (default OFF; 管理画面「設定」16) — when off, the start/end fields are read-only so tapping them never opens the keyboard; times change only with the <<< >>> fine-adjust buttons and the 「今」 button
-var edgeSide = "left";          // エッジパネルの表示位置: "left" | "right" (default LEFT; 管理画面「設定」17) — body.edge-left mirrors the panel CSS to the left edge
+var edgeSide = "left";          // サイドパネルの表示位置: "left" | "right" (default LEFT; 管理画面「設定」17) — body.edge-left mirrors the panel CSS to the left edge
 var LOOP_SORTS = [
 { key: "start", label: "開始時間順" },
 { key: "created", label: "作った順" },
@@ -3702,7 +3720,7 @@ var has = l.items.some(function(it){ return it.songId === currentSong.id && it.l
 return '<button class="btn small addlist-pick" type="button" data-list="' + l.id + '"' + (has? " disabled": "") + '>「' + esc(l.name) + '」に' + (has? "追加済み": "追加") + "</button>";
 }).join("");
 }
-addListBtnsHtml += '<input type="text" class="addlist-new-name" placeholder="新しい保存ループリスト名（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
+addListBtnsHtml += '<input type="text" class="addlist-new-name" placeholder="新しいループセット名（例：苦手なソロ集）" aria-label="新しいループセットの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
 if (isEditing){
 if (!loopEditDraft || loopEditDraft.id !== sec.id){
 loopEditDraft = { id: sec.id, name: sec.name, aStr: fmtH(sec.a), bStr: fmtH(sec.b), speedStr: ((sec.speed != null && !isNaN(sec.speed))? Number(sec.speed): speed).toFixed(2), note: sec.note || ""};
@@ -3739,7 +3757,7 @@ SPEED_PRESETS.map(function(v){ return '<button class="btn edit-speed-preset" typ
 '<div><label for="edit-name-' + sec.id + '">名前</label><input id="edit-name-' + sec.id + '" class="edit-name" type="text" value="' + esc(draft.name) + '"></div>' +
 '<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
 '</div></details>' +
-'<div class="edit-addlist"><label>保存ループリストに追加</label><div class="loop-addlist">' + addListBtnsHtml + '</div></div>' +
+'<div class="edit-addlist"><label>ループセットに追加</label><div class="loop-addlist">' + addListBtnsHtml + '</div></div>' +
 '<div class="edit-actions"><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
 item.appendChild(editDiv);
 wireAddList(editDiv, sec);
@@ -3990,7 +4008,7 @@ list.appendChild(item);
 refreshSongBadges();
 }
 
-/* ---------- Edge panel (Galaxy-style loop shortcut) ----------
+/* ---------- Side panel (Side-panel loop shortcut) ----------
    The current song's saved loops peek a little from the right edge:
    one small coloured tab per loop (in the loop's own colour) beside
    a slim handle. Tapping the handle — or swiping it left — slides
@@ -4013,7 +4031,7 @@ if (panel) panel.classList.toggle("open", edgeOpen);
 if (scrim) scrim.classList.toggle("show", edgeOpen);
 if (handle){
 handle.setAttribute("aria-expanded", edgeOpen? "true": "false");
-handle.setAttribute("aria-label", edgeOpen? "保存ループのエッジパネルを閉じる": "保存ループのエッジパネルを開く");
+handle.setAttribute("aria-label", edgeOpen? "保存ループのサイドパネルを閉じる": "保存ループのサイドパネルを開く");
 }
 if (edgeOpen) renderEdgePanel();
 }
@@ -4832,7 +4850,7 @@ else { pendingPlaySection = { songId: songId, loopId: loopId, tries: 0 }; loadSo
 function startPracticeList(list){
 cleanupListRefs();
 var items = list.items.filter(function(it){ return findSongById(it.songId) && findSection(it.songId, it.loopId); });
-if (!items.length){ toast("この保存ループリストにはループがありません"); return; }
+if (!items.length){ toast("このループセットにはループがありません"); return; }
 practiceQueue = { name: list.name, items: items.slice(), idx: 0, wraps: 0, lastT: null };
 toast("連続練習を開始：「" + list.name + "」（" + items.length + "件、各" + PRACTICE_REPEATS + "回ずつ）");
 playPracticeItem(0);
@@ -4848,7 +4866,7 @@ renderMgmtRows();
 function endPracticeQueue(finished){
 var name = practiceQueue? practiceQueue.name: "";
 practiceQueue = null;
-if (finished) toast("保存ループリスト「" + name + "」を最後まで練習しました");
+if (finished) toast("ループセット「" + name + "」を最後まで練習しました");
 renderMgmtRows();
 }
 /* --- Per-practice-list share export (same DATA format as the full export) --- */
@@ -4898,20 +4916,30 @@ toast("保存ループリスト「" + list.name + "」を書き出しました")
 }
 /* --- Rendering --- */
 function mgmtCountText(){
-return "全ループ " + allLoopsFlat().length + "件 ・ 保存ループリスト " + practiceLists.length + "件 ・ 曲リスト " + songLists.length + "件 ・ 曲 " + songs.length + "曲";
+return "ループ " + allLoopsFlat().length + "件 ・ ループセット " + practiceLists.length + "件 ・ ライブラリ " + songLists.length + "件 ・ 曲 " + songs.length + "曲";
 }
 function renderMgmt(){
 var body = $("mgmtBody"); if (!body) return;
+/* Sub-tabs are grouped by top mode: ループ mode shows ループ／ループセット only,
+   曲 mode shows 曲／ライブラリ only, 設定 shows 設定 only. */
+var grp = (typeof uiMode !== "undefined" && uiMode)? uiMode: (typeof MTAB_MODE !== "undefined"? MTAB_MODE[mgmtTab]: "loops");
+if (grp === "practice") grp = "loops";
+var titles = { loops: "🔁 ループ", songs: "♫ 曲", settings: "⚙ 設定" };
+var descs = { loops: "ループ管理：ループとループセットを編集できます。", songs: "曲管理：曲とライブラリを編集できます。", settings: "設定：各種設定と使い方・解説です。" };
+var ttl = $("mgmtTitle"); if (ttl){ var cntSpan = ttl.querySelector(".count"); ttl.textContent = (titles[grp] || titles.loops) + " "; var cs = document.createElement("span"); cs.className="count"; cs.id="mgmtCount"; ttl.appendChild(cs); }
+var dsc = $("mgmtDesc"); if (dsc) dsc.textContent = descs[grp] || descs.loops;
 document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
 b.setAttribute("aria-selected", b.getAttribute("data-mtab") === mgmtTab? "true": "false");
+var g = b.getAttribute("data-group");
+b.style.display = (!g || g === grp)? "": "none";
 });
 var cnt = $("mgmtCount"); if (cnt) cnt.textContent = mgmtCountText();
 if (mgmtTab === "loops"){
 body.innerHTML = '<input class="mgmt-search" id="mgmtLoopSearch" type="search" placeholder="曲名・ループ名・ノートで検索" aria-label="全ループを検索" value="' + esc(mgmtLoopQuery) + '"><div id="mgmtRows"></div>';
 } else if (mgmtTab === "practice"){
-body.innerHTML = '<div class="mgmt-create"><input id="newPracticeName" type="text" placeholder="新しい保存ループリストの名前（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn primary" type="button" data-act="pl-create">保存ループリストを作る</button></div><div id="mgmtRows"></div>';
+body.innerHTML = '<div class="mgmt-create"><input id="newPracticeName" type="text" placeholder="新しいループセットの名前（例：苦手なソロ集）" aria-label="新しいループセットの名前"><button class="btn primary" type="button" data-act="pl-create">ループセットを作る</button></div><div id="mgmtRows"></div>';
 } else if (mgmtTab === "setlists"){
-body.innerHTML = '<div class="mgmt-create"><input id="newSetlistName" type="text" placeholder="新しい曲リストの名前（例：ライブ用セット）" aria-label="新しい曲リストの名前"><button class="btn primary" type="button" data-act="sl-create">曲リストを作る</button></div><div id="mgmtRows"></div>';
+body.innerHTML = '<div class="mgmt-create"><input id="newSetlistName" type="text" placeholder="新しいライブラリの名前（例：ライブ用セット）" aria-label="新しいライブラリの名前"><button class="btn primary" type="button" data-act="sl-create">ライブラリを作る</button></div><div id="mgmtRows"></div>';
 } else if (mgmtTab === "songs"){
 body.innerHTML = '<input class="mgmt-search" id="mgmtSongSearch" type="search" placeholder="曲名・バンド名で検索" aria-label="曲を検索" value="' + esc(mgmtSongQuery) + '"><div id="mgmtRows"></div>';
 } else {
@@ -4942,8 +4970,8 @@ return rows.map(function(x){
 var sec = x.sec, song = x.song;
 var badge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + "×</span>": "";
 var listCtl = practiceLists.length?
-'<select class="mgmt-pl-select" aria-label="追加先の保存ループリスト">' + practiceLists.map(function(l){ return '<option value="' + l.id + '">' + esc(l.name) + "（" + l.items.length + "件）</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="loop-addlist" data-song="' + song.id + '" data-loop="' + sec.id + '">リストに追加</button>'
-: '<button class="btn small" type="button" data-act="goto-practice">リストに追加（先に保存ループリスト作成）</button>';
+'<select class="mgmt-pl-select" aria-label="追加先のループセット">' + practiceLists.map(function(l){ return '<option value="' + l.id + '">' + esc(l.name) + "（" + l.items.length + "件）</option>"; }).join("") + '</select><button class="btn small" type="button" data-act="loop-addlist" data-song="' + song.id + '" data-loop="' + sec.id + '">リストに追加</button>'
+: '<button class="btn small" type="button" data-act="goto-practice">リストに追加（先にループセット作成）</button>';
 return '<div class="mgmt-row"><span class="loop-color-dot" style="background:hsl(' + loopHue(sec) + ',75%,48%);margin-top:7px" aria-hidden="true"></span>' +
 '<div class="mg-main"><div class="mg-title">' + esc(sec.name) + " " + badge + "</div>" +
 '<div class="mg-sub">' + esc(song.title) + (song.artist? " — " + esc(song.artist): "") + sampleBadgeHtml(song) + "</div>" +
@@ -4965,7 +4993,7 @@ html += '<div class="mgmt-queue"><strong>▶ 連続練習中：「' + esc(q.name
 '<p class="hint" style="margin:0 0 10px">各ループを' + PRACTICE_REPEATS + '回繰り返すと、自動で次へ進みます。別のループを手動で選ぶと連続練習は止まります。</p>';
 }
 if (!practiceLists.length){
-html += '<p class="mgmt-empty">保存ループリストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの編集画面から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
+html += '<p class="mgmt-empty">ループセットはまだありません。上の入力で名前を付けて作ると、ループの一覧や、各ループの編集画面から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。</p>';
 return html;
 }
 html += practiceLists.map(function(l){
@@ -4998,7 +5026,7 @@ return head + body + "</div></div>";
 return html;
 }
 function mgmtSetlistHtml(){
-if (!songLists.length) return '<p class="mgmt-empty">曲リストはまだありません。上の入力で名前を付けて作ると、曲を集めて順番を決められます（例：ライブ用セット、練習用）。曲の追加・並べ替えは「中身を編集」からできます。</p>';
+if (!songLists.length) return '<p class="mgmt-empty">ライブラリはまだありません。上の入力で名前を付けて作ると、曲を集めて順番を決められます（例：ライブ用セット、練習用）。曲の追加・並べ替えは「中身を編集」からできます。</p>';
 return songLists.map(function(l){
 var head = '<div class="mgmt-list-card"><div class="mgmt-list-head"><span class="mg-title">' + esc(l.name) + '</span><span class="count">' + l.songIds.length + "曲</span>" +
 '<span style="flex:1"></span>' +
@@ -5168,8 +5196,8 @@ html += '<div class="settings-box"><h3>15. 使い方・解説</h3><div id="setti
 html += '<div class="settings-box"><h3>16. 時間指定入力</h3>' +
 '<p class="hint" style="margin:0">ループ編集で、開始時間・終了時間をキーボードで直接入力（例：1:23.50）できるようにするかです（初期はオフ）。オフのときは時間の欄を押してもキーボードは開かず、時間は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンだけで合わせます。オンにすると、今まで通り欄を押して直接入力できます。</p>' +
 chips("set-time-input", [{ v: "0", label: "オフ（直接入力できない）" }, { v: "1", label: "オン（直接入力できる）" }], timeInputEnabled? "1": "0") + "</div>";
-html += '<div class="settings-box"><h3>17. エッジパネルの表示位置</h3>' +
-'<p class="hint" style="margin:0">保存ループのエッジパネル（画面の端から少し顔を出すループ一覧）を、画面の左端と右端のどちらに出すかです（初期は左）。利き手や持ち方に合わせて変えられます。</p>' +
+html += '<div class="settings-box"><h3>17. サイドパネルの表示位置</h3>' +
+'<p class="hint" style="margin:0">保存ループのサイドパネル（画面の端から少し顔を出すループ一覧）を、画面の左端と右端のどちらに出すかです（初期は左）。利き手や持ち方に合わせて変えられます。</p>' +
 chips("set-edge-side", [{ v: "left", label: "左" }, { v: "right", label: "右" }], edgeSide) + "</div>";
 return html;
 }
@@ -5223,23 +5251,23 @@ var sel = row? row.querySelector(".mgmt-pl-select"): null;
 var target = sel? parseInt(sel.value, 10): (practiceLists[0] && practiceLists[0].id);
 if (target) addLoopToPracticeList(target, songId, loopId);
 }
-else if (act === "goto-practice"){ mgmtTab = "practice"; renderMgmt(); if (typeof setMode === "function" && uiMode !== "lists") setMode("lists", { noScroll: true }); }
+else if (act === "goto-practice"){ mgmtTab = "practice"; if (typeof setMode === "function" && uiMode !== "loops") setMode("loops", { noScroll: true }); renderMgmt(); }
 else if (act === "pl-create"){
 var inp = $("newPracticeName");
 var nm = inp? inp.value.trim(): "";
-if (!nm){ toast("保存ループリストの名前を入れてください"); if (inp) inp.focus(); return; }
+if (!nm){ toast("ループセットの名前を入れてください"); if (inp) inp.focus(); return; }
 var nl = { id: nextId(), name: nm, items: [] };
 practiceLists.push(nl); expandedPracticeId = nl.id;
 saveLocal(); renderMgmt();
-toast("保存ループリスト「" + nm + "」を作りました");
+toast("ループセット「" + nm + "」を作りました");
 }
 else if (act === "pl-toggle"){ expandedPracticeId = (expandedPracticeId === listId)? null: listId; renderMgmtRows(); }
 else if (act === "pl-del"){
-askConfirm("この保存ループリストを削除しますか？", function(){
+askConfirm("このループセットを削除しますか？", function(){
 practiceLists = practiceLists.filter(function(l){ return l.id !== listId; });
 if (practiceQueue && plist && practiceQueue.name === plist.name) practiceQueue = null;
 saveLocal(); renderMgmtRows();
-toast("保存ループリストを削除しました");
+toast("ループセットを削除しました");
 });
 }
 else if (act === "pl-play"){ if (plist) startPracticeList(plist); }
@@ -5266,22 +5294,22 @@ else if (act === "q-stop"){ endPracticeQueue(false); toast("連続練習を終�
 else if (act === "sl-create"){
 var sinp = $("newSetlistName");
 var snm = sinp? sinp.value.trim(): "";
-if (!snm){ toast("曲リストの名前を入れてください"); if (sinp) sinp.focus(); return; }
+if (!snm){ toast("ライブラリの名前を入れてください"); if (sinp) sinp.focus(); return; }
 var nsl = { id: nextId(), name: snm, songIds: [] };
 songLists.push(nsl); expandedSetlistId = nsl.id;
 saveLocal(); renderMgmt();
-toast("曲リスト「" + snm + "」を作りました");
+toast("ライブラリ「" + snm + "」を作りました");
 }
 else if (act === "sl-toggle"){ expandedSetlistId = (expandedSetlistId === listId)? null: listId; renderMgmtRows(); }
 else if (act === "sl-del"){
-askConfirm("この曲リストを削除しますか？", function(){
+askConfirm("このライブラリを削除しますか？", function(){
 songLists = songLists.filter(function(l){ return l.id !== listId; });
 saveLocal(); renderMgmtRows();
-toast("曲リストを削除しました");
+toast("ライブラリを削除しました");
 });
 }
 else if (act === "sl-play-first"){
-if (!slist || !slist.songIds.length){ toast("この曲リストには曲がありません"); return; }
+if (!slist || !slist.songIds.length){ toast("このライブラリには曲がありません"); return; }
 var first = findSongById(slist.songIds[0]);
 if (first){ loadSong(first, true); window.scrollTo({ top: 0, behavior: "smooth" }); }
 }
@@ -5394,7 +5422,7 @@ else if (act === "set-edge-side"){
 edgeSide = btn.getAttribute("data-v") === "right"? "right": "left";
 applyEdgeSide();
 saveSettingsNow();
-toast(edgeSide === "left"? "エッジパネルの表示位置を左にしました": "エッジパネルの表示位置を右にしました");
+toast(edgeSide === "left"? "サイドパネルの表示位置を左にしました": "サイドパネルの表示位置を右にしました");
 renderMgmtRows();
 }
 else if (act === "sp-toggle"){
@@ -5469,16 +5497,15 @@ document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
 b.addEventListener("click", function(){
 mgmtTab = b.getAttribute("data-mtab"); renderMgmt();
 /* Keep the top mode bar in sync with the management tabs: each tab
-   belongs to a mode （全ループ→ループ管理, 保存ループリスト→
-   ループリスト管理, 曲リスト・曲→曲管理, 設定→設定）. */
+   belongs to a mode （ループ／ループセット→ループ, 曲／ライブラリ→曲, 設定→設定）. */
 var mFor = MTAB_MODE[mgmtTab];
 if (mFor && mFor !== uiMode) setMode(mFor, { noScroll: true });
 });
 });
 renderMgmt();
 
-/* ---------- Mode switch （練習／ループ管理／ループリスト管理／曲管理／設定） ----------
-   Five modes, switched from the tab bar near the top of the screen.
+/* ---------- Mode switch （練習／ループ／曲／設定） ----------
+   Four modes, switched from the always-visible sticky tab bar at the top.
    The mode is in-memory session state only (never written to the
    localStorage save data): it changes which blocks are visible via
    the body.mode-* CSS, and nothing about songs, loops or settings.
@@ -5487,28 +5514,26 @@ renderMgmt();
    own: creating loops (quick capture, hold-to-loop, the unified
    ⚑ ループ作成 button) is an everyday action, always available
    on the practice screen.
-   Loops / Lists / Songs / Settings: the management screen only,
-   opened on the tab matching the mode （全ループ／保存ループリスト／
-   曲／設定）; entering one also undocks the sticky mini player and
+   Loops / Songs / Settings: the management screen only,
+   opened on the tab group matching the mode （ループ→ループ／ループセット,
+   曲→曲／ライブラリ, 設定→設定）; entering one also undocks the sticky mini player and
    hides the mobile bottom bar (both are player controls). The
-   management screen keeps its own tab bar, and the two stay in
-   sync: picking a management tab selects its mode, and the
-   曲リスト tab belongs to the Songs mode (it never overrides the
-   tab the user just picked). */
+   management screen keeps its own grouped tab bar, and the two stay in
+   sync: picking a management tab selects its mode. */
 var uiMode = "practice";
-var MODE_MTAB = { loops: "loops", lists: "practice", songs: "songs", settings: "settings" };
-var MTAB_MODE = { loops: "loops", practice: "lists", setlists: "songs", songs: "songs", settings: "settings" };
+var MODE_MTAB = { loops: "loops", songs: "songs", settings: "settings" };
+var MTAB_MODE = { loops: "loops", practice: "loops", setlists: "songs", songs: "songs", settings: "settings" };
 var MODE_DESCS = {
 practice: "プレイヤーと保存ループで練習します。ループ作成はいつでもできます",
-loops: "全曲の保存ループをまとめて管理します",
-lists: "保存ループリストを作って、ループをまとめて練習できます",
-songs: "曲の名前の編集など、曲を管理します",
+loops: "ループとループセットを編集します",
+songs: "曲とライブラリを編集します",
 settings: "設定だけを表示します。使い方・解説もここにあります"
 };
 function setMode(m, opts){
-if (["practice", "loops", "lists", "songs", "settings"].indexOf(m) < 0) m = "practice";
+if (["practice", "loops", "songs", "settings"].indexOf(m) < 0) m = "practice";
 uiMode = m;
 document.body.classList.remove("mode-practice", "mode-loops", "mode-lists", "mode-songs", "mode-settings");
+/* mode-lists is a legacy class from the old 5-mode layout; removing it above keeps old state clean. */
 document.body.classList.add("mode-" + m);
 document.body.setAttribute("data-mode", m);
 document.querySelectorAll(".mode-btn").forEach(function(b){
@@ -5517,7 +5542,7 @@ b.setAttribute("aria-selected", b.getAttribute("data-mode") === m? "true": "fals
 var desc = $("modeDesc"); if (desc) desc.textContent = MODE_DESCS[m];
 if (m !== "practice"){
 /* Open the management screen on this mode's tab — unless the tab
-   already showing belongs to this mode （曲リスト under Songs). */
+   already showing belongs to this mode （ライブラリ under 曲, ループセット under ループ). */
 if (MTAB_MODE[mgmtTab] !== m) mgmtTab = MODE_MTAB[m];
 if (typeof setDocked === "function") setDocked(false);
 if (typeof setEdgeOpen === "function") setEdgeOpen(false);
