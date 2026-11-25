@@ -737,7 +737,6 @@ header.intro{margin-bottom:6px}
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
 <li><strong>サンプルデータ：</strong>サンプル曲には「サンプル」の表記が付きます（曲リスト・管理画面の曲／全ループ／曲リスト／保存ループリスト内）。管理画面の「設定」タブ（10. サンプルデータ）で、「読み込み時にサンプルデータのロードを次からやめる」にチェックすると、次に開いたときからサンプル曲は自動で読み込まれません。「サンプルデータを追加」ボタンを押すと、あらゆるサンプル（全32曲）をその場で読み込めます（すでにあるサンプルは重複しません）。サンプル曲に付けたループなどは、サンプルを再び追加すると戻ります。</li>
 <li><strong>YouTubeコメントの時間つき感想（試作）：</strong>右側の「A–Bループ・ループリスト」カード下部の「💬 YouTubeコメントの時間つき感想（試作）」で「コメントを取り込む」を押すと、今開いているYouTube動画のコメントを公開API（Piped）経由で取得し、「1:23」のような時間が書かれた感想だけを、時間と内容のセットで表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントの内容がそのループのノートに入ります（出典として、コメントの投稿者名もノートに残ります）。一覧の下には出典（YouTubeのコメント／Piped経由）と元の動画へのリンクが表示されます。コメントが取得できない場合や、時間の書かれたコメントが無い場合は、その旨が表示されるだけで、ループや再生など、ほかの機能は今まで通り使えます。取り込んだコメントは保存されず、その場だけの表示です。</li>
-<li><strong>コメント：</strong>「練習」では、プレイヤーの下に「コメント」欄があります。今の曲への気づきを、再生位置のスタンプ付きで残せます（スタンプを押すと、その位置から再生します）。返信もできます。コメントは自動保存され、書き出し・読み込みもこの欄からできます。</li>
 <li><strong>ホーム画面に追加：</strong>管理画面の「設定」タブ（11. ホーム画面に追加）から、このページをホーム画面に追加してアプリのように使えます。ブラウザ側の案内（「Keep your practice library one tap away / Install / Not now」）で「Not now」を選んだあとでも、ここからいつでも追加できます。ブラウザが自動のインストール画面を出せる場合はInstallボタンでそのまま追加でき、出せない場合（iPhoneのSafariなど）は、共有ボタン→「ホーム画面に追加」などの手順が表示されます。</li>
 <li><strong>管理画面：</strong>上部メニューは常時表示です。「ループ」ではループとループセット（タブで切り替え）、「曲」では曲とライブラリ（タブで切り替え）を編集できます。ループ管理では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>ループセット</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「ループセットに追加」からも入れられます）。曲を集めた<strong>ライブラリ</strong>や、曲の名前の編集も曲管理でできます。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「設定」タブ（書き出し・読み込み）から読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、削除の確認、サンプルデータの読み込み設定、書き出し・読み込みを変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。この使い方・解説自体も、「設定」タブの中にあります。</li>
 <li><strong>言語：</strong>管理画面の「設定」タブ（12. 言語）で「🇯🇵 日本語／🇺🇸 English」を選ぶと、画面表示の言語が切り替わります。初めて開くときは、ブラウザの言語設定に合わせて表示します。機能や保存データは変わりません。</li>
@@ -991,8 +990,12 @@ header.intro{margin-bottom:6px}
 </div>
 </aside>
 
-<!-- LEFT BOTTOM: comments (practice mode) -->
-<aside class="card comments-card" aria-label="コメント">
+<!-- LEFT BOTTOM: comments (practice mode) — hidden: the practice page
+     no longer shows comments. The card stays in the DOM (display:none)
+     because the export / import controls inside it are still driven
+     from the Settings tab (14. 書き出し・読み込み), and the comment
+     data mechanism (storage, export, import) is kept intact. -->
+<aside class="card comments-card" aria-label="コメント" style="display:none">
 <h2>コメント <span class="count" id="commentCount">0件</span></h2>
 <form class="c-form" id="commentForm">
 <input id="cName" type="text" placeholder="名前（例：たろう）" autocomplete="name">
@@ -1903,7 +1906,6 @@ var loopA = null, loopB = null, loopOn = false;
 var loopSections = {}; // songId -> [{id, name, a, b, note, speed}] (saved to localStorage)
 var flagSavedId = null; // id of the loop auto-saved by the latest 終了旗 press in this A session
 var editingLoopId = null;
-var addListOpenId = null;
 var loopEditDraft = null; // {id, name, aStr, bStr, speedStr, note} while editing
 var stampTime = null;
 var speed = 1;
@@ -3703,8 +3705,8 @@ if (!all.length){ list.innerHTML = '<p class="loop-empty">下部メニューの�
 '<p>普段はブラウザに自動保存されるので、読み込みが必要なのは、バックアップから戻すときや、別のサイト（GitHub Pages版など）へ引っ越すときです。</p></details>'; refreshSongBadges(); return;}
 var secs = visibleSections();
 /* Wire an add-to-saved-loop-list control block (pick buttons + create
-   a new list and add). Shared by the loop row's リストに追加 panel and
-   the edit form's add-to-list section. */
+   a new list and add). Used by the edit form's add-to-list section:
+   adding a loop to a list happens at edit time, not from the loop row. */
 function wireAddList(root, sec){
 root.querySelectorAll(".addlist-pick").forEach(function(b){
 b.addEventListener("click", function(){ addLoopToPracticeList(parseInt(b.getAttribute("data-list"), 10), currentSong.id, sec.id); renderSections(); });
@@ -3725,12 +3727,10 @@ item.className = "loop-item" + (isActiveSection(sec)? " active": "");
 item.style.setProperty("--loop-h", loopHue(sec));
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 var isEditing = (editingLoopId === sec.id);
-var isAddListOpen = (addListOpenId === sec.id);
 var isLooping = isLoopingSection(sec);
 var mainHtml = '<div class="loop-main">' +
 '<div class="loop-first-row"><span class="loop-rate meta" title="押すとこの区間から再生します（長押しで編集）"><span class="loop-color-dot" aria-hidden="true"></span>' + speedBadge + '</span>' +
 '<div class="loop-actions"><button class="btn small act-activate' + (isLooping? " loop-off": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "ループ OFF": "▶ 有効化") + '</button>' +
-'<button class="btn small act-addlist" type="button" aria-expanded="' + (isAddListOpen? "true": "false") + '">' + (isAddListOpen? "閉じる": "リストに追加") + '</button>' +
 '<button class="btn small act-edit" type="button">' + (isEditing? "閉じる": "編集") + '</button>' +
 '<button class="del" type="button" title="削除" aria-label="削除">✕</button></div></div>' +
 '<div class="loop-second-row meta" title="押すとこの区間から再生します（長押しで編集）"><span class="range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
@@ -3739,8 +3739,8 @@ var mainHtml = '<div class="loop-main">' +
 '</div>';
 item.innerHTML = mainHtml;
 /* Add-to-list buttons: one pick button per saved-loop list, plus
-   create-a-new-list-and-add. Used by the loop row's リストに追加
-   panel and by the edit form's add-to-list section. */
+   create-a-new-list-and-add. Used by the edit form's add-to-list
+   section (loops are added to lists from the edit form only). */
 var addListBtnsHtml = "";
 if (practiceLists.length){
 addListBtnsHtml += practiceLists.map(function(l){
@@ -3960,13 +3960,6 @@ renderSections(); renderCompact();
 toast("ループ「" + sec.name + "」を更新しました（" + fmtH(sec.a) + " – " + fmtH(sec.b) + " ・ " + sec.speed.toFixed(2) + "×）");
 });
 }
-if (isAddListOpen && !isEditing){
-var addPanel = document.createElement("div");
-addPanel.className = "loop-addlist";
-addPanel.innerHTML = addListBtnsHtml;
-item.appendChild(addPanel);
-wireAddList(addPanel, sec);
-}
 /* Row gestures: a tap anywhere on the row (outside the buttons and any
    open panel) plays from this loop, exactly like ▶ 有効化; a long-press
    (0.5s without moving — so scrolling the list never triggers it) opens
@@ -4007,10 +4000,6 @@ item.addEventListener("click", function(e){
 if (Date.now() < suppressRowClickUntil) return;
 if (!lpTargetOk(e.target)) return;
 activateSection(sec);
-});
-item.querySelector(".act-addlist").addEventListener("click", function(){
-addListOpenId = (addListOpenId === sec.id)? null: sec.id;
-renderSections();
 });
 item.querySelector(".act-activate").addEventListener("click", function(){
 /* While this section is looping, the same button reads ループ OFF:
