@@ -221,6 +221,8 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .loop-edit .edit-time-head{display:flex;align-items:center;gap:10px}
 .loop-edit .edit-time-label{font-size:.98rem;font-weight:900;color:var(--ink);margin:0;flex:none}
 .loop-edit .edit-time-input{flex:1;min-width:0;font-size:1.55rem;font-weight:700;text-align:center;padding:.35rem .4rem}
+.loop-edit .edit-time-input[readonly]{background:var(--chip);border-style:dashed;cursor:pointer;-webkit-user-select:none;user-select:none}
+.loop-edit .time-input-note{margin:0;font-size:.8rem;color:var(--ink2)}
 .loop-edit .edit-now-btn{flex:none;white-space:nowrap;min-height:3.2rem;min-width:3.6rem;font-size:1.15rem;font-weight:900;padding:.4rem 1rem}
 .loop-edit .edit-preview-big{width:100%;min-height:3.4rem;font-size:1.12rem;font-weight:900}
 .loop-edit .edit-speed-val{color:var(--ink);font-size:1.02rem}
@@ -595,7 +597,7 @@ body.docked .timeline{height:28px}
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
-<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -1470,6 +1472,13 @@ var PAIRS = [
 ["オフ（すぐ削除する）", "Off (delete right away)"],
 ["14. 書き出し・読み込み", "14. Export / Import"],
 ["15. 使い方・解説", "15. How to use / Guide"],
+["16. 時間指定入力", "16. Direct time entry"],
+["ループ編集で、開始時間・終了時間をキーボードで直接入力（例：1:23.50）できるようにするかです（初期はオフ）。オフのときは時間の欄を押してもキーボードは開かず、時間は「<<< << < > >> >>>」の矢印ボタンと「今」ボタンだけで合わせます。オンにすると、今まで通り欄を押して直接入力できます。", "Whether the loop editor's start and end times can be typed directly with the keyboard (e.g. 1:23.50) (default off). When off, tapping a time field does not open the keyboard; set times only with the <<< << < > >> >>> arrow buttons and the 'Now' button. When on, tap a field and type as before."],
+["オフ（直接入力できない）", "Off (no direct entry)"],
+["オン（直接入力できる）", "On (direct entry allowed)"],
+["時間指定入力をオンにしました", "Direct time entry turned on"],
+["時間指定入力をオフにしました（時間は矢印ボタンと「今」で合わせます）", "Direct time entry turned off (set times with the arrow buttons and 'Now')"],
+["⌨ 時間の直接入力はオフです。時間は下の矢印ボタンと「今」で合わせられます（設定の「16. 時間指定入力」でオンにできます）", "⌨ Direct time entry is off. Set times with the arrow buttons and 'Now' below (turn it on in Settings, '16. Direct time entry')"],
 ["このループを削除しますか？", "Delete this loop?"],
 ["この曲を削除しますか？保存したループも消えます。", "Delete this song? Its saved loops will be deleted too."],
 ["この保存ループリストを削除しますか？", "Delete this saved loop list?"],
@@ -1755,6 +1764,7 @@ var sampleShuffleOnLoad = true; // shuffle the sample songs on open (default on)
 var loopSortOrder = "start";    // saved-loop order: start | created | name | speed (default start)
 var autoSave = true;            // localStorage auto-save (default on)
 var confirmDelete = true;       // ask before deleting (default on; 管理画面「設定」13)
+var timeInputEnabled = false;   // direct time entry in the loop editor (default OFF; 管理画面「設定」16) — when off, the start/end fields are read-only so tapping them never opens the keyboard; times change only with the <<< >>> fine-adjust buttons and the 「今」 button
 var LOOP_SORTS = [
 { key: "start", label: "開始時間順" },
 { key: "created", label: "作った順" },
@@ -3493,13 +3503,19 @@ return '<button class="btn small addlist-pick" type="button" data-list="' + l.id
 addListBtnsHtml += '<input type="text" class="addlist-new-name" placeholder="新しい保存ループリスト名（例：苦手なソロ集）" aria-label="新しい保存ループリストの名前"><button class="btn small primary addlist-create" type="button">作って追加</button>';
 var editDiv = document.createElement("div");
 editDiv.className = "loop-edit";
+/* Direct time entry is OFF by default (管理画面「設定」16): the time
+   fields render read-only with inputmode="none", so tapping them
+   shows the fine-adjust buttons but never pops the keyboard up.
+   Turning the setting on restores the editable decimal fields. */
+var timeFieldAttrs = timeInputEnabled? 'inputmode="decimal"': 'readonly inputmode="none" aria-readonly="true"';
 editDiv.innerHTML =
+(timeInputEnabled? "": '<p class="time-input-note">⌨ 時間の直接入力はオフです。時間は下の矢印ボタンと「今」で合わせられます（設定の「16. 時間指定入力」でオンにできます）</p>') +
 '<div class="edit-time-block">' +
-'<div class="edit-time-head"><label class="edit-time-label" for="edit-a-' + sec.id + '">開始時間</label><input id="edit-a-' + sec.id + '" class="edit-a mono edit-time-input" type="text" inputmode="decimal" value="' + esc(draft.aStr) + '" placeholder="1:23.50"><button class="btn edit-now-btn" type="button" data-now-target="a" aria-label="開始時間を現在の再生位置に設定する">今</button></div>' +
+'<div class="edit-time-head"><label class="edit-time-label" for="edit-a-' + sec.id + '">開始時間</label><input id="edit-a-' + sec.id + '" class="edit-a mono edit-time-input" type="text" ' + timeFieldAttrs + ' value="' + esc(draft.aStr) + '" placeholder="1:23.50"><button class="btn edit-now-btn" type="button" data-now-target="a" aria-label="開始時間を現在の再生位置に設定する">今</button></div>' +
 adjButtonsHtml("a") +
 '</div>' +
 '<div class="edit-time-block">' +
-'<div class="edit-time-head"><label class="edit-time-label" for="edit-b-' + sec.id + '">終了時間</label><input id="edit-b-' + sec.id + '" class="edit-b mono edit-time-input" type="text" inputmode="decimal" value="' + esc(draft.bStr) + '" placeholder="1:35.00"><button class="btn edit-now-btn" type="button" data-now-target="b" aria-label="終了時間を現在の再生位置に設定する">今</button></div>' +
+'<div class="edit-time-head"><label class="edit-time-label" for="edit-b-' + sec.id + '">終了時間</label><input id="edit-b-' + sec.id + '" class="edit-b mono edit-time-input" type="text" ' + timeFieldAttrs + ' value="' + esc(draft.bStr) + '" placeholder="1:35.00"><button class="btn edit-now-btn" type="button" data-now-target="b" aria-label="終了時間を現在の再生位置に設定する">今</button></div>' +
 adjButtonsHtml("b") +
 '</div>' +
 '<button class="btn primary edit-preview edit-preview-big" type="button">▶ プレビュー再生</button>' +
@@ -4817,6 +4833,9 @@ html += '<div class="settings-box"><h3>13. 削除の確認</h3>' +
 chips("set-confirm-del", [{ v: "1", label: "オン（削除前に確認する）" }, { v: "0", label: "オフ（すぐ削除する）" }], confirmDelete? "1": "0") + "</div>";
 html += '<div class="settings-box quiet"><h3>14. 書き出し・読み込み</h3>' + mgmtShareHtml() + "</div>";
 html += '<div class="settings-box"><h3>15. 使い方・解説</h3><div id="settingsHowtoSlot"></div></div>';
+html += '<div class="settings-box"><h3>16. 時間指定入力</h3>' +
+'<p class="hint" style="margin:0">ループ編集で、開始時間・終了時間をキーボードで直接入力（例：1:23.50）できるようにするかです（初期はオフ）。オフのときは時間の欄を押してもキーボードは開かず、時間は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンだけで合わせます。オンにすると、今まで通り欄を押して直接入力できます。</p>' +
+chips("set-time-input", [{ v: "0", label: "オフ（直接入力できない）" }, { v: "1", label: "オン（直接入力できる）" }], timeInputEnabled? "1": "0") + "</div>";
 return html;
 }
 function mgmtShareHtml(){
@@ -5027,6 +5046,13 @@ else if (act === "set-confirm-del"){
 confirmDelete = btn.getAttribute("data-v") === "1";
 saveSettingsNow();
 toast(confirmDelete? "削除の確認をオンにしました": "削除の確認をオフにしました");
+renderMgmtRows();
+}
+else if (act === "set-time-input"){
+timeInputEnabled = btn.getAttribute("data-v") === "1";
+saveSettingsNow();
+renderSections();
+toast(timeInputEnabled? "時間指定入力をオンにしました": "時間指定入力をオフにしました（時間は矢印ボタンと「今」で合わせます）");
 renderMgmtRows();
 }
 else if (act === "sp-toggle"){
@@ -5245,6 +5271,7 @@ sampleShuffleOnLoad: sampleShuffleOnLoad,
 loopSortOrder: loopSortOrder,
 autoSave: autoSave,
 confirmDelete: confirmDelete,
+timeInputEnabled: timeInputEnabled,
 practiceLists: builtPractice,
 songLists: builtSongLists
 };
@@ -5342,6 +5369,7 @@ if (typeof data.sampleShuffleOnLoad === "boolean") sampleShuffleOnLoad = data.sa
 if (["start", "created", "name", "speed"].indexOf(data.loopSortOrder) >= 0) loopSortOrder = data.loopSortOrder;
 if (typeof data.autoSave === "boolean") autoSave = data.autoSave;
 if (typeof data.confirmDelete === "boolean") confirmDelete = data.confirmDelete;
+if (typeof data.timeInputEnabled === "boolean") timeInputEnabled = data.timeInputEnabled;
 if (typeof data.sampleAutoLoad === "boolean") sampleAutoLoad = data.sampleAutoLoad;
 if (data.lang === "en" || data.lang === "ja") LANG = data.lang;
 }
