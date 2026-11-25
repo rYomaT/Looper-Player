@@ -177,6 +177,24 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .yt-result .yt-add{flex:none;pointer-events:none}
 .yt-search-fallback{margin-top:10px}
 .yt-search-fallback .hint{margin-top:6px}
+/* YouTube comment samples via Piped (prototype) */
+.ytc-box{margin-top:14px;border-top:1.5px dashed var(--line2);padding-top:12px}
+.ytc-box h4{margin:0 0 4px;font-size:.9rem;font-weight:900}
+.ytc-status{font-size:.85rem;color:var(--ink2);margin-top:8px}
+.ytc-status:empty{display:none}
+.ytc-status.err{color:var(--danger);font-weight:700}
+.ytc-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.ytc-list:empty{display:none}
+.ytc-item{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:8px 10px}
+.ytc-head{display:flex;align-items:center;gap:8px}
+.ytc-time{flex:none;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:.2em .75em;font-weight:900;font-size:.88rem;cursor:pointer;min-height:2.25rem;font-family:inherit}
+.ytc-time:hover{filter:brightness(1.06)}
+.ytc-author{font-size:.8rem;color:var(--ink2);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:3em}
+.ytc-likes{font-size:.78rem;color:var(--ink2);flex:none}
+.ytc-text{font-size:.9rem;line-height:1.55;margin-top:5px;white-space:pre-wrap;word-break:break-word}
+.ytc-actions{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.ytc-src{font-size:.78rem;color:var(--ink2);margin-top:10px;line-height:1.6}
+.ytc-src a{color:var(--accent);font-weight:700}
 @media (max-width:560px){.yt-thumb{width:84px}.yt-result{gap:8px;padding:7px}.yt-result .yt-add{padding:.3rem .5rem;font-size:.8rem}}
 .fader-row{display:flex;align-items:center;gap:8px;margin-top:8px}
 .fader-row .fl{font-size:.75rem;font-weight:700;color:var(--ink2);white-space:nowrap}
@@ -504,8 +522,10 @@ body.docked .timeline{height:28px}
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
 <li><strong>サンプルデータ：</strong>サンプル曲には「サンプル」の表記が付きます（曲リスト・管理画面の曲／全ループ／曲リスト／保存ループリスト内）。管理画面の「設定」タブ（10. サンプルデータ）で、「読み込み時にサンプルデータのロードを次からやめる」にチェックすると、次に開いたときからサンプル曲は自動で読み込まれません。「サンプルデータを追加」ボタンを押すと、あらゆるサンプル（全32曲）をその場で読み込めます（すでにあるサンプルは重複しません）。サンプル曲に付けたループなどは、サンプルを再び追加すると戻ります。</li>
+<li><strong>YouTubeコメントの時間つき感想（試作）：</strong>右側の「A–Bループ・ループリスト」カード下部の「💬 YouTubeコメントの時間つき感想（試作）」で「コメントを取り込む」を押すと、今開いているYouTube動画のコメントを公開API（Piped）経由で取得し、「1:23」のような時間が書かれた感想だけを、時間と内容のセットで表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントの内容がそのループのノートに入ります（出典として、コメントの投稿者名もノートに残ります）。一覧の下には出典（YouTubeのコメント／Piped経由）と元の動画へのリンクが表示されます。コメントが取得できない場合や、時間の書かれたコメントが無い場合は、その旨が表示されるだけで、ループや再生など、ほかの機能は今まで通り使えます。取り込んだコメントは保存されず、その場だけの表示です。</li>
 <li><strong>ホーム画面に追加：</strong>管理画面の「設定」タブ（11. ホーム画面に追加）から、このページをホーム画面に追加してアプリのように使えます。ブラウザ側の案内（「Keep your practice library one tap away / Install / Not now」）で「Not now」を選んだあとでも、ここからいつでも追加できます。ブラウザが自動のインストール画面を出せる場合はInstallボタンでそのまま追加でき、出せない場合（iPhoneのSafariなど）は、共有ボタン→「ホーム画面に追加」などの手順が表示されます。</li>
 <li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、サンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。</li>
+<li><strong>言語：</strong>管理画面の「設定」タブ（12. 言語）で「日本語／English」を選ぶと、画面表示だけが英語に切り替わります。機能や保存データは変わりません。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
@@ -721,6 +741,14 @@ body.docked .timeline{height:28px}
 <span class="fl">200%</span>
 </div>
 </div>
+<div class="ytc-box" aria-label="YouTubeコメントから時間つきの感想を取り込む（試作）">
+<h4>💬 YouTubeコメントの時間つき感想（試作）</h4>
+<p class="hint" style="margin:0">今開いているYouTube動画のコメントから、「1:23」のような時間が書かれた感想を拾って表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントがそのループのノートに入ります。</p>
+<button class="btn small" id="ytcFetchBtn" type="button" style="margin-top:8px">コメントを取り込む</button>
+<div class="ytc-status" id="ytcStatus" role="status"></div>
+<div class="ytc-list" id="ytcList"></div>
+<p class="ytc-src" id="ytcSrc" style="display:none">出典：YouTubeのコメント（公開API「Piped」経由で取得）／ 元の動画：<a id="ytcSrcLink" href="#" target="_blank" rel="noopener">YouTubeで開く</a></p>
+</div>
 </aside>
 
 <!-- LEFT BOTTOM: comments (hidden for now) -->
@@ -816,6 +844,634 @@ body.docked .timeline{height:28px}
 <script>
 (function(){
 "use strict";
+
+/* =====================================================================
+   UI wording / i18n — ALL display wording lives in this ONE section.
+   Development language is Japanese: STRINGS.ja is the source text and
+   STRINGS.en is the English counterpart. PAIRS lists the Japanese
+   phrases used by the static HTML and the render functions below,
+   each with its English translation, so every word stays in one
+   place and a new language only needs a new column here.
+   Switching the language changes ONLY what is displayed — features
+   and saved data are untouched. The choice persists as `lang` in
+   the localStorage state (see buildLocalData / restoreLocal).
+   ===================================================================== */
+var LANG = "ja";
+try {
+var _langRaw = localStorage.getItem("looper-friends-state-v1");
+if (_langRaw){ var _langData = JSON.parse(_langRaw); if (_langData && (_langData.lang === "en" || _langData.lang === "ja")) LANG = _langData.lang; }
+} catch(e){}
+var STRINGS = {
+ja: {
+appTitle: "楽器演奏ルーパー",
+setLangTitle: "12. 言語（Language）",
+setLangHint: "画面表示の言語を切り替えます。機能や、保存したループ・曲・設定は変わりません。",
+langSet: "表示言語を日本語にしました",
+loopPrefix: "ループ"
+},
+en: {
+appTitle: "Instrument Looper",
+setLangTitle: "12. Language",
+setLangHint: "Switch the display language. Features and your saved loops, songs and settings do not change.",
+langSet: "Display language set to English",
+loopPrefix: "Loop "
+}
+};
+function S(key){ var d = STRINGS[LANG] || STRINGS.ja; return (key in d)? d[key]: (STRINGS.ja[key] || key); }
+/* Japanese phrase -> English phrase, for every literal the page
+   renders (static HTML text, placeholders, aria-labels, toasts…). */
+var PAIRS = [
+["使い方と、Driveリンクの注意点", "How to use, and notes on Drive links"],
+["曲を足す：", "Adding songs: "],
+["クイックキャプチャ（かんたんループ作成）：", "Quick capture (easy loop creation): "],
+["ループ練習：", "Loop practice: "],
+["保存したループの編集：", "Editing a saved loop: "],
+["タイムライン：", "Timeline: "],
+["曲リスト：", "Song list: "],
+["サンプル曲のシャッフル：", "Shuffling sample songs: "],
+["自動保存：", "Auto-save: "],
+["サンプルデータ：", "Sample data: "],
+["YouTubeコメントの時間つき感想（試作）：", "Timed YouTube comments (prototype): "],
+["ホーム画面に追加：", "Add to home screen: "],
+["管理画面：", "Management: "],
+["言語：", "Language: "],
+["つなぎ目：", "Loop seams: "],
+["🗂 管理画面へ（全ループ・保存ループリスト・曲リスト・曲）", "🗂 Go to management (all loops · saved loop lists · song lists · songs)"],
+["曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。保存ループリストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。「設定」タブでは、再生速度の倍率ボタンやジャンプする秒数など9項目とサンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もできます。", "Manage saved loops, saved loop lists, song lists and songs across all songs. Changes are saved automatically. A saved loop list gathers loops from several songs — like a 'tricky solos' or 'riff practice' list — so you can practice them in order. In the Settings tab you can change the nine playback settings and the sample-data loading options, and add the app to your home screen."],
+["楽器演奏ルーパー／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。", "Instrument Looper — Sample songs are official YouTube links. Add your own songs from the library at the top of the page."],
+["サンプル曲プレイリスト（16バンド・32曲）", "Sample playlist (16 bands · 32 songs)"],
+["シャッフル中 — この順番で「前の曲／次の曲」へ進みます", "Shuffled — Prev / Next follows this order"],
+["サンプルデータは読み込まれていません（次から読み込まない設定です）", "Sample data is not loaded (set to stop loading)"],
+["曲名で検索（アーティスト名でもOK）", "Search by song title (artist name works too)"],
+["すべての検索サービスに接続できませんでした。YouTubeで開いて動画のURLをコピーし、下のURL欄に貼っても追加できます。", "Could not reach any search service. You can also open YouTube, copy the video URL, and paste it in the URL field below."],
+["URLを貼ると自動で入ります（手入力もOK）", "Filled in automatically when you paste a URL (typing works too)"],
+["YouTubeのURLを貼り付けると、動画のタイトルが曲名に自動で入ります。", "When you paste a YouTube URL, the video title is filled in as the song title."],
+["Drive共有リンク、またはMP3のURL", "Drive share link, or an MP3 URL"],
+["Driveは「リンクを知っている全員が閲覧可」に共有したリンクを貼ってください。", "Paste a Drive link shared as 'Anyone with the link can view'."],
+["▶ Driveの曲は、この流れがおすすめです", "▶ For Drive songs, this flow works best"],
+["Driveリンクのままでは再生できないことがあります。MP3をダウンロードしてローカルで追加すると、確実に再生・ループできます。", "A Drive link may not play as-is. Download the MP3 and add it as a local file, and it will play and loop reliably."],
+["Driveで開いて、MP3をダウンロード", "Open in Drive and download the MP3"],
+["共有リンクをDriveで開き、ダウンロードボタンからMP3ファイルを端末に保存してください。", "Open the share link in Drive and save the MP3 file to your device with the download button."],
+["「ローカルMP3」タブで追加", "Add it in the 'Local MP3' tab"],
+["下のボタンを押すと「ローカルMP3」タブに切り替わります。そこで、ダウンロードしたMP3を選んでください。", "The button below switches to the 'Local MP3' tab. There, choose the MP3 you downloaded."],
+["そのまま再生・ループ練習", "Play and loop right away"],
+["追加された曲はライブラリから選ぶだけで再生できます。速度変更もA–Bループもそのまま使えます。", "Just pick the added song in the library to play it. Speed changes and A–B loops work as usual."],
+["② ローカルMP3で追加する →", "② Add as a local MP3 →"],
+["MP3ファイル（複数OK）", "MP3 files (multiple OK)"],
+["Driveの曲はここがゴールです：", "For Drive songs, this is the goal: "],
+["DriveからダウンロードしたMP3をここで選ぶと、確実に再生・ループできます。ファイルはこのページの中だけで再生されます（どこにもアップロードされません）。", "Choose the MP3 you downloaded from Drive here, and it will play and loop reliably. The file is played only inside this page (it is never uploaded anywhere)."],
+["上のライブラリから再生したい曲をタップ", "Tap the song you want to play in the library above"],
+["🎸 ライブラリから曲を選ぶと、ここで再生できます", "🎸 Pick a song from the library and it plays here"],
+["この動画は、ここでは再生できません", "This video can't be played here"],
+["ループ一覧など、ほかの機能はそのまま使えます。別の曲を選ぶと、この案内は消えます。", "Other features, like the loop list, still work as usual. Pick another song and this notice disappears."],
+["この動画は、YouTube側で埋め込み再生が許可されていないため、このページの中では再生できません。YouTubeで開くと、そのまま再生できます。", "This video doesn't allow embedded playback on YouTube's side, so it can't play inside this page. Open it on YouTube to play it."],
+["動画が見つかりませんでした。削除されたか、非公開になっている可能性があります。YouTubeで開いて確認できます。", "The video could not be found. It may have been deleted or made private. You can check by opening it on YouTube."],
+["動画の読み込みに時間がかかりすぎています。通信が不安定なときに起こります。「もう一度読み込む」を押すか、YouTubeで開いて再生できます。", "The video is taking too long to load, which can happen on an unstable connection. Press 'Reload', or open it on YouTube."],
+["YouTubeのプレイヤーを読み込めませんでした。通信が不安定なときに起こります。「もう一度読み込む」を押すか、YouTubeで開いて再生できます。", "The YouTube player could not be loaded, which can happen on an unstable connection. Press 'Reload', or open it on YouTube."],
+["YouTubeの再生でエラーが発生しました。「もう一度読み込む」を押すか、YouTubeで開くと、そのまま再生できます。", "A YouTube playback error occurred. Press 'Reload', or open it on YouTube to play it."],
+["Driveの曲が再生できないときは、この流れで", "If a Drive song won't play, use this flow"],
+["① Driveで開いてMP3をダウンロード → ② ライブラリの「ローカルMP3」で追加 → ③ そのまま再生できます。", "① Open it in Drive and download the MP3 → ② Add it via 'Local MP3' in the library → ③ Play it right away."],
+["シームレス再生モード（つなぎ目なし）", "Seamless playback (no gap at the seam)"],
+["YouTubeは早めの巻き戻しでつなぎ目を小さくします", "On YouTube, the loop rewinds a little early to shrink the seam"],
+["今開いているYouTube動画のコメントから、「1:23」のような時間が書かれた感想を拾って表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントがそのループのノートに入ります。", "Fetches comments on the YouTube video you have open and shows the ones that mention a time like '1:23'. Tap a time to play from there, or press 'Make a loop at this time' to save a loop of the capture length starting there, with the comment saved as the loop's note."],
+["出典：YouTubeのコメント（公開API「Piped」経由で取得）／ 元の動画：", "Source: YouTube comments (fetched via the public 'Piped' API) / Original video: "],
+["💬 YouTubeコメントの時間つき感想（試作）", "💬 Timed YouTube comments (prototype)"],
+["YouTubeの曲を選ぶと、その動画のコメントを取り込めます。", "Pick a YouTube song to fetch that video's comments."],
+["コメントを取得できませんでした（通信環境や公開APIの状態によるものです）。ループや再生など、ほかの機能は今まで通り使えます。", "Comments could not be fetched (this depends on your connection and the public API). Loops, playback and everything else still work as usual."],
+["時間の書かれたコメントは見つかりませんでした。", "No comments mentioning a time were found."],
+[" 件見つかりました。時間をタップすると、その位置から再生します。", " found. Tap a time to play from there."],
+["時間つきのコメントが ", "Timed comments: "],
+["🔁 この時間でループを作る", "🔁 Make a loop at this time"],
+["▶ 再生中（保存済みのループ）", "▶ Playing (saved loop)"],
+["✓ ループを保存しました", "✓ Loop saved"],
+["曲が選ばれていません。下の「全表示」から曲を選んでください。", "No song is selected. Pick one from 'Show all' below."],
+["まだ曲がありません。下のフォームから追加するか、管理画面の「設定」タブ（10. サンプルデータ）の「サンプルデータを追加」からサンプル曲（全32曲）を読み込んでください。", "No songs yet. Add one with the form below, or load the sample songs (all 32) from 'Add sample data' in the Settings tab (10. Sample data) of the management screen."],
+["条件に合う曲がありません。絞り込みを変えてみてください。", "No songs match. Try changing the search."],
+["曲を選ぶと、その曲に保存したループが表示されます。", "Pick a song to see the loops saved for it."],
+["下部メニューより、開始旗、🎤キャプチャボタン各種を押してループ期間を指定してください。", "Use the start flag or the 🎤 capture buttons in the bottom menu to set a loop range."],
+["書き出しファイルを読み込んで以前のループ、セットリストを読み込み", "Or import an export file to bring back earlier loops and setlists"],
+["書き出しファイルは、保存したループやセットリスト（曲のリスト）をテキストファイル（looper-export.txt）として保存したものです。あとで読み込むと、以前のループやセットリストをそのまま復元できます。", "An export file is a text file (looper-export.txt) holding your saved loops and setlists (song lists). Import it later to restore those loops and setlists exactly as they were."],
+["読み込み方：「書き出しを読み込む」の「📂 ファイルから読み込む」ボタンから書き出しファイルを選ぶか、書き出したテキストを貼り付けて読み込んでください。", "To import: choose the export file with the '📂 Import from file' button under 'Import an export', or paste the exported text."],
+["普段はブラウザに自動保存されるので、読み込みが必要なのは、バックアップから戻すときや、別のサイト（GitHub Pages版など）へ引っ越すときです。", "Everything is normally auto-saved in your browser, so importing is only needed when restoring from a backup or moving to another site (such as the GitHub Pages version)."],
+["押すとこの区間から再生します（長押しで編集）", "Tap to play from this range (long-press to edit)"],
+["押すとループだけを止めます（曲は止まりません）", "Stops only the loop (the song keeps playing)"],
+["押すとこの区間のループが始まります", "Starts looping this range"],
+["新しい保存ループリスト名（例：苦手なソロ集）", "New saved loop list name (e.g. Tricky solos)"],
+["例：指が引っかかる", "e.g. My fingers get stuck here"],
+["開始時間を現在の再生位置に設定する", "Set the start to the current position"],
+["終了時間を現在の再生位置に設定する", "Set the end to the current position"],
+["保存したループはまだありません。曲を再生して、開始旗・終了旗やクイックキャプチャでループを作ると、ここに曲をまたいで一覧表示されます。", "No saved loops yet. Play a song and make loops with the start/end flags or quick capture, and they will be listed here across all songs."],
+["保存ループリストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの編集画面から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。", "No saved loop lists yet. Name one above to create it, then gather loops across songs from the All loops list or from each loop's edit form (e.g. Tricky solos, Riff practice)."],
+["曲リストはまだありません。上の入力で名前を付けて作ると、曲を集めて順番を決められます（例：ライブ用セット、練習用）。曲の追加・並べ替えは「中身を編集」からできます。", "No song lists yet. Name one above to create it, then gather songs and set their order (e.g. Live set, Practice). Add and reorder songs from 'Edit contents'."],
+["新しい保存ループリストの名前（例：苦手なソロ集）", "Name of the new saved loop list (e.g. Tricky solos)"],
+["新しい曲リストの名前（例：ライブ用セット）", "Name of the new song list (e.g. Live set)"],
+["まだループが入っていません。下の選択から追加してください。", "No loops in here yet. Add one from the picker below."],
+["まだ曲が入っていません。下の選択から追加してください。", "No songs in here yet. Add one from the picker below."],
+["追加できるループがまだありません。先にループを作ってください。", "No loops to add yet. Create a loop first."],
+["各ループを", "Each loop repeats "],
+["回繰り返すと、自動で次へ進みます。別のループを手動で選ぶと連続練習は止まります。", " times, then moves on automatically. Picking another loop by hand stops the sequence."],
+["曲はまだありません。上のライブラリから追加してください。", "No songs yet. Add one from the library above."],
+["検索に合うループがありません。", "No loops match your search."],
+["検索に合う曲がありません。", "No songs match your search."],
+["追加先の保存ループリスト", "Saved loop list to add to"],
+["リストに追加（先に保存ループリスト作成）", "Add to list (create a saved loop list first)"],
+["どの設定も、初期値（デフォルト）は今まで通りです。変更は保存され、次に開いたときも使えます。設定自体の変更は、自動保存がオフのときでも保存されます。", "Every setting keeps its usual default. Changes are saved and used the next time you open the page. Settings changes themselves are saved even when auto-save is off."],
+["プレイヤーに表示する倍率ボタンを選べます。今は", "Choose which rate buttons the player shows. Currently showing "],
+["）を表示中です（初期は0.50×／0.75×／1.00×の3つ）。選んだ倍率は、プレイヤーの速度ボタン（プレイヤー下・右側カード・携帯の下部パネル）と、ループ編集の倍率ボタンにすぐ反映されます。ここにない倍率は、今まで通りフェーダーで0.25〜2.00×の範囲で自由に変えられます。", ") (the default is 0.50× / 0.75× / 1.00×). The chosen rates apply right away to the player's speed buttons (below the player, in the right-hand card, and in the mobile bottom panel) and to the loop editor's rate buttons. Any other rate can still be set freely with the fader, from 0.25× to 2.00×."],
+["倍率ボタンは最低1つ表示します。歌のフレーズのように細かく刻みたいときは「細かく」や「ゆっくり練習」がおすすめです。", "At least one rate button always stays visible. For slicing a phrase into small pieces, 'Fine' or 'Slow practice' works well."],
+["プレイヤーの「⏪ −○秒／+○秒 ⏩」ボタンと、携帯の下部バーで前後にジャンプする秒数です（初期は10秒）。", "How far the player's ⏪ / ⏩ buttons and the mobile bottom bar jump back or forward (default 10 seconds)."],
+["「○秒間」「今までの○秒間」で作るループの長さです（初期は10秒）。", "The length of the loops made by the capture buttons (default 10 seconds)."],
+["「長押しループ」で、これより短い押下は誤タップとして保存しません（初期は0.3秒）。歌のフレーズなど、短い区間を確実に取りたいときは短めに、誤タップを減らしたいときは長めにします。", "In hold-to-loop, a press shorter than this is treated as a mis-tap and is not saved (default 0.3 seconds). Set it shorter to catch short phrases reliably, or longer to avoid mis-taps."],
+["ループ編集の「<<< << < > >> >>>」ボタンが動かす秒数です（初期は標準）。", "How many seconds the loop editor's <<< << < > >> >>> buttons move by (default: Standard)."],
+["ループ編集で終了時間を変えたとき、確認再生を終了の何秒前から始めるかです（初期は3秒前）。", "When you change the end time in the loop editor, the check playback starts this many seconds before the end (default 3 seconds)."],
+["ページを開くたびにサンプル曲（32曲）をランダムな順番にするかです（初期はオン）。オフにすると元のバンド順のままになります。次に開いたときから反映されます（今の並びは変わりません）。", "Whether the sample songs (32) are put in a random order every time the page opens (default on). Off keeps the original band order. It takes effect from the next open (the current order does not change)."],
+["曲ごとの保存ループ一覧の並び順です（初期は開始時間順）。タイムラインの表示にも同じ順番が使われます。", "The order of each song's saved loop list (default: by start time). The timeline uses the same order."],
+["保存ループ・追加した曲・コメント・設定などを、ブラウザの保存領域（localStorage）に自動で保存するかです（初期はオン）。オフにすると、作業中の変更は自動保存されません。大事なデータは書き出しファイルでもバックアップしてください。設定自体の変更は、オフのときでも保存されます。", "Whether saved loops, added songs, comments and settings are automatically stored in your browser's storage (localStorage) (default on). When off, changes you make are not auto-saved. Back up important data with an export file as well. Settings changes themselves are saved even when this is off."],
+["サンプル曲（16バンド・全", "Sample songs (16 bands · all "],
+["曲）には、曲リストや管理画面で「", " songs) are marked with a '"],
+["」の表記が付きます。現在、サンプル曲は ", "' badge in the song list and the management screen. Currently, "],
+["読み込み時にサンプルデータのロードを次からやめる", " Stop loading sample data on open, from next time"],
+["チェックを付けると、次にページを開いたときからサンプル曲は自動で読み込まれなくなります（今表示中のサンプル曲は、そのまま使えます）。自分で追加した曲・保存ループ・保存ループリスト・曲リストは消えません。サンプル曲に付けたループやリストの内容は保存されたままになり、サンプルを再び追加すると戻ります。", "When checked, sample songs stop loading automatically from the next time you open the page (the sample songs currently shown stay usable). Songs you added, saved loops, saved loop lists and song lists are not deleted. Loops and list entries attached to sample songs stay saved, and come back when you add the samples again."],
+["このボタンを押すと、あらゆるサンプル（全", "Press this button to load every sample (all "],
+["曲）を今すぐ読み込めます。すでにあるサンプルは重複して追加されません。「次からやめる」にチェックが付いたままだと、次に開いたときはまた読み込まれません。", " songs) right now. Samples already loaded are not duplicated. If 'stop from next time' stays checked, they will not load on the next open either."],
+["ホーム画面に追加すると、ブラウザを開かなくてもアイコンを1回押すだけで練習ライブラリが開きます。共有されたセットもそのまま開けて、練習中もアプリのように使えます。あとで追加したくなったときは、いつでもここからできます（最初に出る案内で「Not now」を選んでも、ここでやり直せます）。", "Add it to your home screen and your practice library opens with one tap on the icon, without opening the browser. Shared sets open as they are, and it feels like an app while you practice. You can always add it from here later (even if you chose 'Not now' on the first prompt, you can redo it here)."],
+["共有ボタン（□に↑）を押して「ホーム画面に追加」を選ぶ", "Tap the Share button (a square with an ↑) and choose 'Add to Home Screen'"],
+["メニュー（︙）から「ホーム画面に追加」または「アプリをインストール」を選ぶ（上のInstallボタンで直接出る場合もあります）", "From the menu (︙), choose 'Add to Home Screen' or 'Install app' (the Install button above may open it directly)"],
+["アドレスバー右端のインストールアイコン、またはメニューから「インストール」を選ぶ", "Use the install icon at the right end of the address bar, or choose 'Install' from the menu"],
+["アプリ内ブラウザ（SNSやチャットアプリの中）では追加できないことがあります。そのときは、このページをSafariやChromeで開き直してから試してください。追加しても、保存ループや設定は今のまま引き継がれます。", "In-app browsers (inside social or chat apps) may not be able to add it. In that case, reopen this page in Safari or Chrome and try again. Adding it keeps your saved loops and settings as they are."],
+["この端末では、すでにアプリとして使っています（ホーム画面のアイコンから開いています）。", "On this device you are already using it as an app (opened from the home screen icon)."],
+["この端末では、そのままインストールできます。下のInstallボタンを押してください。", "On this device you can install it right away. Press the Install button below."],
+["このブラウザでは自動のインストール画面は出ません。下の手順でホーム画面に追加できます。", "This browser does not offer an automatic install screen. You can add it to your home screen with the steps below."],
+["下の手順でホーム画面に追加できます（iPhoneは共有ボタン→「ホーム画面に追加」）", "You can add it with the steps below (on iPhone: Share button → 'Add to Home Screen')"],
+["書き出しファイル（looper-export.txt）には、曲・全ループ・保存ループリスト・曲リストが入ります。友達に送ると、相手は下の「ファイルから読み込む」から読み込むだけで、同じループとリストが使えます（重複は自動で避けられます）。ローカルMP3の音源ファイル自体は含まれないので、その曲は相手側で再追加が必要です。保存ループリストだけを送りたいときは、「保存ループリスト」タブの各リストにある「書き出し」ボタンを使ってください。", "An export file (looper-export.txt) contains your songs, all loops, saved loop lists and song lists. Send it to a friend and they can use the same loops and lists just by importing it with 'Import from file' below (duplicates are avoided automatically). The local MP3 audio files themselves are not included, so those songs need to be re-added on their side. To send just one saved loop list, use the 'Export' button on that list in the Saved loop lists tab."],
+["管理画面の「設定」タブ（12. 言語）で「日本語／English」を選ぶと、画面表示だけが英語に切り替わります。機能や保存データは変わりません。", "In the Settings tab (12. Language) of the management screen, choose Japanese / English to switch the display only. Features and saved data do not change."],
+["1. 再生速度の倍率ボタン", "1. Playback speed rate buttons"],
+["2. ジャンプする秒数", "2. Jump seconds"],
+["3. クイックキャプチャの秒数", "3. Quick capture seconds"],
+["4. 長押しループの最小時間", "4. Hold-to-loop minimum time"],
+["5. 微調整ボタンの刻み", "5. Fine-adjust steps"],
+["6. 終了時間のプレビュー位置", "6. End-time preview position"],
+["7. サンプル曲のシャッフル", "7. Shuffle sample songs"],
+["8. 保存ループの並び順", "8. Saved loop order"],
+["9. 自動保存", "9. Auto-save"],
+["10. サンプルデータ", "10. Sample data"],
+["11. ホーム画面に追加（アプリとして使う）", "11. Add to home screen (use as an app)"],
+["よく使う組み合わせから選ぶ：", "Pick a common combination:"],
+["または、倍率を1つずつ押して表示／非表示を切り替える：", "Or tap rates one by one to show / hide them:"],
+["任意の秒数を入力（1〜120秒）", "Enter any number of seconds (1–120)"],
+["標準（0.50／0.75／1.00）", "Standard (0.50 / 0.75 / 1.00)"],
+["ゆっくり練習（0.25／0.50／0.75／1.00）", "Slow practice (0.25 / 0.50 / 0.75 / 1.00)"],
+["細かく（0.50〜1.25を少しずつ）", "Fine (0.50–1.25 in small steps)"],
+["速く（1.00／1.25／1.50／1.75／2.00）", "Fast (1.00 / 1.25 / 1.50 / 1.75 / 2.00)"],
+["標準（1秒／0.1秒／0.01秒）", "Standard (1s / 0.1s / 0.01s)"],
+["大きく（5秒／1秒／0.1秒）", "Coarse (5s / 1s / 0.1s)"],
+["細かく（0.5秒／0.05秒／0.01秒）", "Fine (0.5s / 0.05s / 0.01s)"],
+["オン（開くたびにシャッフル）", "On (shuffle on every open)"],
+["オフ（バンド順のまま）", "Off (keep band order)"],
+["サンプルデータを追加（全", "Add sample data (load all "],
+["曲を読み込む）", " songs)"],
+["パソコン（Chrome / Edge）：", "PC (Chrome / Edge): "],
+["状態を確認しています…", "Checking status…"],
+["追加の手順を見る", "See how to add it"],
+["ホーム画面に追加しました。アイコンからすぐ開けます", "Added to your home screen. Open it from the icon."],
+["今は追加しませんでした。あとで設定の「11. ホーム画面に追加」からいつでもできます", "Not added this time. You can add it anytime from Settings, '11. Add to home screen'."],
+["すでにアプリとして使っています", "You are already using it as an app"],
+["A–Bループ・ループリスト", "A–B Loops · Loop List"],
+["クイックキャプチャ：今の位置からかんたんにループを作る", "Quick capture: make a loop easily from the current position"],
+["「長押しループ」は、押している間だけをループにして保存します（押している時間が最小時間＝初期0.3秒、管理画面の「設定」で変更できます＝より短いと保存されません）。キャプチャの秒数は、管理画面の「設定」タブで変更でき、設定は保存されます。", "'Hold-to-loop' saves just the time you hold the button as a loop (a hold shorter than the minimum — 0.3s by default, changeable in Settings in the management screen — is not saved). The capture length can be changed in the Settings tab of the management screen, and the setting is saved."],
+["秒間をループにして保存し、すぐ再生します。", " seconds, saved as a loop and played right away."],
+["秒間」は今までの", " seconds' covers the last "],
+["秒間」は今から", " seconds' starts now and lasts "],
+["クイックキャプチャ：", "Quick capture: "],
+["秒間のループを作る", "-second loop"],
+["今から", "from now, "],
+["YouTubeコメントから時間つきの感想を取り込む（試作）", "Fetch timed comments from YouTube comments (prototype)"],
+["書き出しファイルとは?", "What is an export file?"],
+["書き出したテキストをここに貼り付け", "Paste the exported text here"],
+["書き出したテキストを貼り付けてください", "Please paste the exported text"],
+["テキストを貼り付けて読み込む", "Paste text to import"],
+["貼り付けた内容を読み込む", "Import the pasted text"],
+["📄 テキストで書き出し", "📄 Export as text"],
+["📂 ファイルから読み込む", "📂 Import from file"],
+["ファイルから読み込む", "Import from file"],
+["書き出しを読み込む", "Import an export"],
+["書き出しの読み込み", "Import an export"],
+["曲名・ループ名・ノートで検索", "Search by song title, loop name or note"],
+["曲名・バンド名で検索", "Search by title or band name"],
+["全ループを検索", "Search all loops"],
+["曲を検索", "Search songs"],
+["追加するループ", "Loop to add"],
+["追加する曲", "Song to add"],
+["リスト名", "List name"],
+["アーティスト名", "Artist name"],
+["新しい保存ループリストの名前", "Name of the new saved loop list"],
+["新しい曲リストの名前", "Name of the new song list"],
+["保存ループリストを作る", "Create saved loop list"],
+["曲リストを作る", "Create song list"],
+["▶ 連続練習中：「", "▶ Practicing in sequence: '"],
+["各ループを", "Each loop repeats "],
+["▶ 連続練習", "▶ Practice in sequence"],
+["▶ 最初から再生", "▶ Play from the start"],
+["⏮ 前へ", "⏮ Prev"],
+["次へ ⏭", "Next ⏭"],
+["中身を編集", "Edit contents"],
+["名前を保存", "Save name"],
+["名前を編集", "Edit name"],
+["リストに追加", "Add to list"],
+["保存ループリストに追加", "Add to a saved loop list"],
+["作って追加", "Create & add"],
+["」に追加済み", "' (already added)"],
+["」に追加", "' — Add"],
+["▶ プレビュー再生", "▶ Preview playback"],
+["再生倍率（速度） ", "Playback rate (speed) "],
+["再生倍率フェーダー（25%から200%）", "Playback rate fader (25% to 200%)"],
+["再生速度フェーダー（25%から200%）", "Playback speed fader (25% to 200%)"],
+["名前・ノートを開く", "Open name & note"],
+["ノート（任意）", "Note (optional)"],
+["開始時間を", "the start"],
+["終了時間を", "the end"],
+["開始時間", "Start time"],
+["終了時間", "End time"],
+["保存する", "Save"],
+["▶ 有効化", "▶ Enable"],
+["ループ OFF", "Loop OFF"],
+["サンプル曲がありません", "No sample songs"],
+["元のバンド順です", "In the original band order"],
+[" ・ サンプル ", " · Samples: "],
+["サンプル読み込み済み", "Samples loaded"],
+["サンプルデータを追加", "Add sample data"],
+["サンプル曲を元のバンド順に戻しました", "Sample songs restored to the original band order"],
+["サンプル曲をシャッフルしました（", "Shuffled the sample songs ("],
+["サンプルデータは読み込まれていません", "Sample data is not loaded"],
+["サンプル曲はすべて読み込み済みです（", "All sample songs are already loaded ("],
+["サンプルデータを追加しました（", "Added sample data ("],
+["・保存済みのループ等 ", " · saved loops etc.: "],
+["件も戻りました", " also restored"],
+["次に開いたときから、サンプルデータを読み込まないようにしました", "Sample data will not be loaded from the next open"],
+["次に開いたときから、サンプルデータを読み込むようにしました", "Sample data will be loaded from the next open"],
+["サンプル曲のシャッフルを", "Sample song shuffle "],
+["にしました（次回開いたときから）", " (from the next open)"],
+["保存ループの並び順を「", "Saved loop order set to '"],
+["自動保存を", "Auto-save "],
+["ジャンプする秒数を", "Jump length set to "],
+["クイックキャプチャの秒数を", "Quick capture length set to "],
+["長押しループの最小時間を", "Hold-to-loop minimum set to "],
+["微調整ボタンの刻みを「", "Fine-adjust steps set to '"],
+["終了時間のプレビュー位置を「終了の", "End-time preview set to '"],
+["秒前」にしました", " seconds before the end'"],
+["倍率ボタンの表示を更新しました（", "Rate buttons updated ("],
+["倍率ボタンは最低1つ表示してください", "Keep at least one rate button visible"],
+["連続練習を開始：「", "Sequence practice started: '"],
+["」（", "' ("],
+["件、各", " loops, "],
+["回ずつ）", " times each)"],
+["保存ループリスト「", "Saved loop list '"],
+["曲リスト「", "Song list '"],
+["」を作りました", "' created"],
+["」を削除しました", "' deleted"],
+["保存ループリストを削除しました", "Saved loop list deleted"],
+["曲リストを削除しました", "Song list deleted"],
+["ループを削除しました", "Loop deleted"],
+["曲を削除しました", "Song deleted"],
+["」を最後まで練習しました", "' practiced to the end"],
+["連続練習を終了しました", "Sequence practice ended"],
+["この保存ループリストにはループがありません", "This saved loop list has no loops"],
+["この曲リストには曲がありません", "This song list has no songs"],
+["そのループは見つかりませんでした", "That loop could not be found"],
+["リストから外しました", "Removed from the list"],
+["この曲は追加済みです", "This song is already added"],
+["曲を追加しました", "Song added"],
+["曲名を更新しました", "Song title updated"],
+["名前を「", "Name changed to '"],
+["」に変更しました", "'"],
+["」には追加済みです", "' already has it"],
+["にループ", " the loop "],
+["を追加しました", ""],
+["保存ループリストの名前を入れてください", "Please enter a name for the saved loop list"],
+["曲リストの名前を入れてください", "Please enter a name for the song list"],
+["名前を入れてください", "Please enter a name"],
+["曲名を入れてください", "Please enter a song title"],
+["先に曲を選んでください", "Please select a song first"],
+["先に開始旗を押してください", "Press the start flag first"],
+["先にループを設定してください", "Set a loop first"],
+["ループは未設定です。開始旗・終了旗、またはクイックキャプチャでループを作ってください", "No loop is set. Make one with the start/end flags or quick capture"],
+["再生位置が取得できませんでした", "Couldn't get the playback position"],
+["曲が変わったので、長押しループは保存しませんでした", "The song changed, so the hold-to-loop was not saved"],
+["短すぎるので保存しませんでした（", "Too short, so it was not saved ("],
+["秒以上押してください）", " seconds or longer)"],
+["終了旗は開始旗より後ろにしてください", "The end flag must be after the start flag"],
+["現在のループを解除しました。開始旗 = ", "Current loop cleared. Start flag = "],
+["開始旗 = ", "Start flag = "],
+["終了旗 = ", "End flag = "],
+["｜ループ「", " | Loop '"],
+["」を更新して保存しました", "' updated and saved"],
+["」は保存済みです", "' is already saved"],
+["終了旗で保存しました：ループ「", "Saved with the end flag: Loop '"],
+["ループ OFF（曲はそのまま再生します）", "Loop OFF (the song keeps playing)"],
+["ループ ON：", "Loop ON: "],
+["」を再生中：", "' playing: "],
+["で保存しました：ループ「", " saved: Loop '"],
+["：この区間のループは保存済みです（", ": a loop for this range is already saved ("],
+["再生開始直後なので、今までの", "Right after the start, so a 'last "],
+["秒間のループは作れません", " seconds' loop can't be made"],
+["曲の終わりなので、この長さのループは作れません", "At the end of the song, so a loop of this length can't be made"],
+["曲の終わり付近なので、ループは作れませんでした", "Near the end of the song, so no loop could be made"],
+["開始・終了時間を正しく入れてください（例：1:23.50）", "Enter the start and end times correctly (e.g. 1:23.50)"],
+["終了時間は開始時間より後にしてください", "The end time must be after the start time"],
+["開始時間は0以上にしてください", "The start time must be 0 or later"],
+["終了時間が曲の長さを超えています", "The end time is beyond the song's length"],
+["プレビュー中：", "Previewing: "],
+["を更新しました（", " updated ("],
+["ダウンロードしたMP3をここで選んでください", "Choose the MP3 you downloaded here"],
+["読み込んだローカルMP3は、ファイルの再追加が必要です", "Local MP3s that were restored need their file re-added"],
+["YouTubeのURLを正しく入れてください", "Please enter a valid YouTube URL"],
+["Driveのリンクは「Drive / MP3 URL」タブで追加します", "Add Drive links in the 'Drive / MP3 URL' tab"],
+["YouTubeのリンクは「YouTubeを追加」タブで追加します", "Add YouTube links in the 'Add YouTube' tab"],
+["曲名を取得しています…", "Fetching the title…"],
+["曲名やアーティスト名を入れてください", "Enter a song title or artist name"],
+["検索結果を取得できませんでした。", "Search results could not be fetched."],
+["件見つかりました。タップすると追加して再生します。", " found. Tap one to add it and play."],
+["コメントを取得中…", "Fetching comments…"],
+["検索中…", "Searching…"],
+["読み込み中…", "Loading…"],
+["⏳ 読み込み中…", "⏳ Loading…"],
+["⏸ 一時停止", "⏸ Pause"],
+["▶ 再生", "▶ Play"],
+["一時停止", "Pause"],
+["読込中", "Loading"],
+["追加して再生", "Add & play"],
+["追加済みです", "Already added"],
+["追加済み", "Added"],
+["追加しました", "Added"],
+["削除しました", "Deleted"],
+["コピーしました", "Copied"],
+["コピーできませんでした", "Couldn't copy"],
+["このブラウザではコピーできません。書き出しを使ってください", "This browser can't copy. Please use Export instead"],
+["テキストを書き出しました", "Exported as text"],
+["テキストが空です", "The text is empty"],
+["ファイルを読み込めませんでした", "The file could not be read"],
+["書き出しテキストではないようです", "That doesn't look like export text"],
+["読み込みました：曲", "Imported: songs "],
+["件・ループ", " · loops "],
+["件・コメント", " · comments "],
+["新しいものはありませんでした（すべて取り込み済みです）", "Nothing new (everything is already imported)"],
+["コメントしました", "Comment posted"],
+["返信しました", "Reply posted"],
+["コメントを書いてください", "Please write a comment"],
+["リンクを入れてください", "Please enter a link"],
+["A–Bをクリアしました", "A–B cleared"],
+["ダウンロード", "Download"],
+["エラーコード: ", "Error code: "],
+["🔁 ループ 未設定", "🔁 No loop set"],
+["🔁 ループ ON", "🔁 Loop ON"],
+["🔁 ループ OFF", "🔁 Loop OFF"],
+["⏺ 記録中…", "⏺ Recording…"],
+["速度パネルを閉じる", "Close the speed panel"],
+["再生速度のパネルを開く", "Open the playback speed panel"],
+["ループのONとOFFを切り替える", "Toggle the loop on/off"],
+["ループの状態を切り替える", "Toggle the loop state"],
+["再生／一時停止", "Play / Pause"],
+["全体タイムライン", "Full timeline"],
+["再生位置", "Playback position"],
+["再生速度を変更する", "Change the playback speed"],
+["クイックキャプチャ：今から10秒間のループを作る", "Quick capture: make a 10-second loop from now"],
+["クイックキャプチャ：今までの10秒間のループを作る", "Quick capture: make a loop of the last 10 seconds"],
+["長押しループ：押している間をループとして保存する", "Hold-to-loop: save the time you hold as a loop"],
+["10秒戻す", "Back 10 seconds"],
+["10秒進める", "Forward 10 seconds"],
+["開始旗を立てる", "Set the start flag"],
+["終了旗を立てる", "Set the end flag"],
+["前の曲へ", "Previous song"],
+["次の曲へ", "Next song"],
+["曲の追加方法", "How to add songs"],
+["管理画面の切り替え", "Management tabs"],
+["プレイヤー操作バー", "Player control bar"],
+["書き出したテキストファイル", "Exported text file"],
+["保存ループ ", "Saved loops "],
+[" ・ 保存ループ ", " · Saved loops "],
+["前後の曲はありません", "No previous or next song"],
+["曲がありません", "No songs"],
+["サンプル曲がありません", "No sample songs"],
+["全ループ ", "All loops "],
+["保存ループリスト", "Saved loop lists"],
+["保存ループ", "Saved loops"],
+["曲リスト", "Song lists"],
+["全表示", "Show all"],
+["全部表示", "Show all"],
+["隠す", "Hide"],
+["🔀 シャッフル", "🔀 Shuffle"],
+["バンド順に戻す", "Restore band order"],
+["元のバンド順です", "In the original band order"],
+["YouTubeを追加", "Add YouTube"],
+["ローカルMP3", "Local MP3"],
+["ライブラリに追加", "Add to library"],
+["ライブラリ", "Library"],
+["曲名", "Title"],
+["曲を選んでください", "Select a song"],
+["前の曲", "Prev"],
+["次の曲", "Next"],
+["前：", "Prev: "],
+["次：", "Next: "],
+["音声ファイル再生中", "Playing an audio file"],
+["▶ YouTubeで開く", "▶ Open on YouTube"],
+["YouTubeで開く", "Open on YouTube"],
+["↻ もう一度読み込む", "↻ Reload"],
+["① Driveで開く", "① Open in Drive"],
+["クイックキャプチャ", "Quick capture"],
+["長押しループ", "Hold-to-loop"],
+["⏺ 長押しループ", "⏺ Hold-to-loop"],
+["再生速度", "Playback speed"],
+["全体表示", "Timeline"],
+["現在", "Now"],
+["− ズーム", "− Zoom"],
+["＋ ズーム", "＋ Zoom"],
+["ループに合わせる", "Fit to loop"],
+["全体", "All"],
+["コメントを取り込む", "Fetch comments"],
+["開始旗", "Start flag"],
+["終了旗", "End flag"],
+["開始", "Start"],
+["終了", "End"],
+["速度", "Speed"],
+["🎤キャプチャ", "🎤 Capture"],
+["✕ 閉じる", "✕ Close"],
+["閉じる", "Close"],
+["編集", "Edit"],
+["削除", "Delete"],
+["保存", "Save"],
+["追加", "Add"],
+["外す", "Remove"],
+["書き出し", "Export"],
+["コピーする", "Copy"],
+["検索", "Search"],
+["今", "Now"],
+["オン", "On"],
+["オフ", "Off"],
+["秒（任意入力）", "sec (custom)"],
+["開始時間順", "By start time"],
+["作った順", "By creation order"],
+["名前順", "By name"],
+["倍率順", "By rate"],
+["終了の", ""],
+["秒前", "s before the end"],
+["秒戻す", "s back"],
+["秒進める", "s forward"],
+["秒間", " sec"],
+["今までの", "Last "],
+["（サンプル）", " (Sample)"],
+["サンプル", "Sample"],
+["ループON", "Loop ON"],
+["ループOFF", "Loop OFF"],
+["ループ", "Loop"],
+["管理画面", "Management"],
+["設定", "Settings"],
+["共有・書き出し", "Share / Export"],
+["読み込まれています。", " are loaded."],
+["読み込まれていません。", " are not loaded."],
+["個（", " ("],
+["個：", " items: "],
+["秒にしました", " seconds"],
+["開始を", "Start: "],
+["終了を", "End: "],
+[" ・ 曲 ", " · Songs "],
+[" ・ ", " · "],
+["「", "\""],
+["」", "\""],
+["（", "("],
+["）", ")"],
+["、", ", "],
+["件）", " items)"],
+["曲）", " songs)"],
+["曲 / 全", " songs / all "],
+["件", ""],
+["曲", " songs"],
+["秒", "s"]
+];
+var PHRASES = (function(){
+var seen = {}, out = [];
+PAIRS.forEach(function(p){ if (!(p[0] in seen)){ seen[p[0]] = 1; out.push(p); } });
+Object.keys(STRINGS.ja).forEach(function(k){
+var j = STRINGS.ja[k], e = STRINGS.en[k];
+if (j && e && j !== e && !(j in seen)){ seen[j] = 1; out.push([j, e]); }
+});
+out.sort(function(a, b){ return b[0].length - a[0].length; });
+return out;
+})();
+var JP_RE = /[぀-ヿ一-鿿]/;
+function trText(s){
+if (LANG !== "en" || !s || !JP_RE.test(s)) return s;
+var out = s;
+for (var i = 0; i < PHRASES.length; i++){
+if (out.indexOf(PHRASES[i][0]) >= 0) out = out.split(PHRASES[i][0]).join(PHRASES[i][1]);
+}
+return out;
+}
+/* User-entered content (song titles, loop names, notes, comment
+   bodies, fetched comment text…) is data, not UI wording: it is
+   never translated. The long how-to paragraphs likewise keep their
+   Japanese detail text; their headings and lead-ins translate. */
+var I18N_SKIP_SEL = ".note, .loop-item .name, .mg-title, .song .st, #nowTitle, #nowArtist, .compact-title, .compact-band, .yt-result-title, .yt-result-sub, .ytc-text, .ytc-author, .tl-sec-name, #audioFileName, .comment .body, .comment .who";
+function i18nSkipEl(el){
+if (!el || el.nodeType !== 1) return false;
+if (el.closest && el.closest("script, style")) return true;
+return !!(el.closest && el.closest(I18N_SKIP_SEL));
+}
+function translateTextNode(node){
+var p = node.parentElement; if (!p) return;
+if (i18nSkipEl(p)) return;
+if (p.closest && p.closest(".howto") && !p.closest("strong, summary")) return;
+var v = node.nodeValue;
+if (!v || !JP_RE.test(v)) return;
+if (node.__ja === undefined) node.__ja = v;
+var t = trText(v);
+if (t !== v) node.nodeValue = t;
+}
+function translateAttrs(el){
+if (!el || el.nodeType !== 1 || i18nSkipEl(el) || !el.getAttribute) return;
+["placeholder", "title", "aria-label"].forEach(function(a){
+var v = el.getAttribute(a);
+if (!v || !JP_RE.test(v)) return;
+if (!el.__jaAttrs) el.__jaAttrs = {};
+if (!(a in el.__jaAttrs)) el.__jaAttrs[a] = v;
+var t = trText(v);
+if (t !== v) el.setAttribute(a, t);
+});
+}
+var i18nBusy = false;
+function doTranslateSubtree(root){
+if (!root) return;
+if (root.nodeType === 3){ translateTextNode(root); return; }
+var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+var nodes = [];
+while (w.nextNode()) nodes.push(w.currentNode);
+nodes.forEach(translateTextNode);
+if (root.querySelectorAll){
+var els = root.querySelectorAll("[placeholder], [title], [aria-label]");
+for (var i = 0; i < els.length; i++) translateAttrs(els[i]);
+}
+if (root.nodeType === 1) translateAttrs(root);
+}
+function translateSubtree(root){ i18nBusy = true; try { doTranslateSubtree(root); } finally { i18nBusy = false; } }
+function restoreSubtree(root){
+if (!root) return;
+i18nBusy = true;
+try {
+var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+var nodes = [];
+while (w.nextNode()) nodes.push(w.currentNode);
+nodes.forEach(function(n){ if (n.__ja !== undefined){ n.nodeValue = n.__ja; delete n.__ja; } });
+if (root.querySelectorAll){
+var els = root.querySelectorAll("[placeholder], [title], [aria-label]");
+for (var i = 0; i < els.length; i++){
+var el = els[i];
+if (el.__jaAttrs){ Object.keys(el.__jaAttrs).forEach(function(a){ el.setAttribute(a, el.__jaAttrs[a]); }); delete el.__jaAttrs; }
+}
+}
+} finally { i18nBusy = false; }
+}
+function applyLanguage(){
+document.documentElement.lang = (LANG === "en")? "en": "ja";
+document.title = S("appTitle");
+if (LANG === "en") translateSubtree(document.body);
+else restoreSubtree(document.body);
+}
+/* Switch the display language. Re-renders the dynamic lists (they
+   rebuild from the Japanese source strings), then translates the
+   whole page when English is chosen; Japanese restores originals. */
+function setLanguage(lang){
+if (lang !== "en" && lang !== "ja") return;
+LANG = lang;
+saveSettingsNow();
+renderSongs(); renderSections(); renderMgmt(); renderComments();
+syncPlayBtn(); syncLoopStateBtn(); syncJumpUI(); syncCaptureSecUI(); updateSampleOrderUI(); updateSeamlessNote();
+applyLanguage();
+toast(S("langSet"));
+}
+/* Live translation: anything the app renders later (loop lists,
+   management rows, toasts, status lines…) is translated as it
+   appears, while English is selected. */
+var i18nObserver = null;
+function startI18nObserver(){
+if (i18nObserver || !window.MutationObserver || !document.body) return;
+i18nObserver = new MutationObserver(function(muts){
+if (LANG !== "en" || i18nBusy) return;
+i18nBusy = true;
+try {
+muts.forEach(function(m){
+if (m.type === "characterData") translateTextNode(m.target);
+else if (m.type === "attributes") translateAttrs(m.target);
+else if (m.type === "childList"){
+m.addedNodes.forEach(function(n){
+if (n.nodeType === 3) translateTextNode(n);
+else if (n.nodeType === 1) doTranslateSubtree(n);
+});
+}
+});
+} finally { i18nBusy = false; }
+});
+i18nObserver.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["placeholder", "title", "aria-label"] });
+}
+startI18nObserver();
 
 /* ---------- Sample data: linked official YouTube videos only ---------- */
 var SAMPLES = [
@@ -1824,6 +2480,178 @@ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); doAdd(); }
 });
 return row;
 }
+/* ---------- YouTube comment samples via Piped (prototype) ----------
+   Fetches the current video's comments from Piped's public
+   /comments/{videoId} endpoint (same public instances as the title
+   search, no API key) and keeps only comments that mention a timestamp
+   like 「1:23」. Each hit is shown as a sample with its time and text:
+   tapping the time plays from there, and 「この時間でループを作る」
+   saves a loop starting at that time (length = the quick-capture
+   seconds) with the comment text as the loop's note. The source
+   (YouTube comments, fetched via Piped) is shown under the list with a
+   link to the original video. Everything is best-effort: if the fetch
+   fails or no timestamped comment exists, a message says so and the
+   rest of the app works exactly as before. Fetched comments live in
+   memory only — they are never written to localStorage. */
+var YT_COMMENT_PROVIDERS = [
+"https://api.piped.private.coffee",
+"https://pipedapi.kavin.rocks",
+"https://pipedapi.reallyaweso.me"
+];
+var ytcSeq = 0;
+var ytcVideoId = null;
+function ytcCurrentVideoId(){
+if (!currentSong || currentSong.type !== "youtube") return null;
+return currentSong.videoId || ytId(currentSong.url || "");
+}
+function ytcStripHtml(html){
+var s = String(html || "");
+s = s.replace(/<br\s*\/?>/gi, "\n");
+s = s.replace(/<[^>]*>/g, "");
+return decodeEntities(s).replace(/[ \t]+\n/g, "\n").trim();
+}
+function ytcFindTimes(text){
+var times = [];
+var re = /(?:^|[^\d:])(\d{1,2}):(\d{2})(?::(\d{2}))?(?![\d:])/g;
+var m;
+while ((m = re.exec(text)) !== null){
+var sec = (m[3] != null)
+? parseInt(m[1], 10) * 3600 + parseInt(m[2], 10) * 60 + parseInt(m[3], 10)
+: parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+if (sec > 0) times.push(sec);
+}
+return times;
+}
+function parsePipedComments(d){
+var out = [];
+((d && d.comments) || []).forEach(function(c){
+if (!c || !c.commentText) return;
+var text = ytcStripHtml(c.commentText);
+var times = ytcFindTimes(text);
+if (!times.length) return;
+out.push({ time: times[0], text: text, author: decodeEntities(c.author || ""),
+likes: (typeof c.likeCount === "number")? c.likeCount: null });
+});
+return out;
+}
+function fetchYtComments(vid){
+var chain = Promise.reject(new Error("no provider tried yet"));
+YT_COMMENT_PROVIDERS.forEach(function(base){
+chain = chain.catch(function(){
+return fetchJsonTimeout(base + "/comments/" + encodeURIComponent(vid), 10000).then(function(d){
+if (d && d.disabled) throw new Error("comments disabled");
+var items = parsePipedComments(d);
+if (!items.length && d && d.nextpage){
+/* Timestamped comments are often past the first screen: try one more page. */
+return fetchJsonTimeout(base + "/comments/" + encodeURIComponent(vid) + "?nextpage=" + encodeURIComponent(d.nextpage), 10000)
+.then(function(d2){ return items.concat(parsePipedComments(d2)); });
+}
+return items;
+});
+});
+});
+return chain;
+}
+function runYtComments(){
+var btn = $("ytcFetchBtn"), st = $("ytcStatus");
+if (!currentSong){ toast("先に曲を選んでください"); return; }
+var vid = ytcCurrentVideoId();
+if (!vid){
+st.classList.add("err");
+st.textContent = "YouTubeの曲を選ぶと、その動画のコメントを取り込めます。";
+return;
+}
+var seq = ++ytcSeq;
+btn.disabled = true;
+st.classList.remove("err");
+st.textContent = "コメントを取得中…";
+$("ytcList").innerHTML = "";
+$("ytcSrc").style.display = "none";
+fetchYtComments(vid).then(function(items){
+if (seq !== ytcSeq) return;
+btn.disabled = false;
+if (ytcCurrentVideoId() !== vid){ st.textContent = ""; return; }
+ytcVideoId = vid;
+if (!items.length){
+st.textContent = "時間の書かれたコメントは見つかりませんでした。";
+return;
+}
+items.sort(function(x, y){ return x.time - y.time; });
+if (items.length > 30) items = items.slice(0, 30);
+st.textContent = "時間つきのコメントが " + items.length + " 件見つかりました。時間をタップすると、その位置から再生します。";
+var list = $("ytcList");
+items.forEach(function(it){ list.appendChild(buildYtcRow(it)); });
+$("ytcSrcLink").href = "https://www.youtube.com/watch?v=" + vid;
+$("ytcSrc").style.display = "block";
+}).catch(function(){
+if (seq !== ytcSeq) return;
+btn.disabled = false;
+st.classList.add("err");
+st.textContent = "コメントを取得できませんでした（通信環境や公開APIの状態によるものです）。ループや再生など、ほかの機能は今まで通り使えます。";
+});
+}
+function buildYtcRow(it){
+var row = document.createElement("div");
+row.className = "ytc-item";
+var head = document.createElement("div");
+head.className = "ytc-head";
+var tBtn = document.createElement("button");
+tBtn.type = "button";
+tBtn.className = "ytc-time mono";
+tBtn.textContent = fmt(it.time);
+tBtn.setAttribute("aria-label", fmt(it.time) + " から再生する");
+tBtn.addEventListener("click", function(){
+if (ytcCurrentVideoId() !== ytcVideoId){ toast("曲が変わったので、もう一度取り込んでください"); return; }
+clearAB(false);
+seekTo(it.time);
+play();
+});
+var author = document.createElement("span");
+author.className = "ytc-author";
+author.textContent = it.author || "YouTubeのコメント";
+head.appendChild(tBtn); head.appendChild(author);
+if (it.likes != null){
+var lk = document.createElement("span");
+lk.className = "ytc-likes";
+lk.textContent = "👍 " + it.likes;
+head.appendChild(lk);
+}
+var body = document.createElement("div");
+body.className = "ytc-text";
+body.textContent = it.text;
+var acts = document.createElement("div");
+acts.className = "ytc-actions";
+var loopBtn = document.createElement("button");
+loopBtn.type = "button";
+loopBtn.className = "btn small";
+loopBtn.textContent = "🔁 この時間でループを作る";
+loopBtn.addEventListener("click", function(){ ytcMakeLoop(it, loopBtn); });
+acts.appendChild(loopBtn);
+row.appendChild(head); row.appendChild(body); row.appendChild(acts);
+return row;
+}
+function ytcMakeLoop(it, btn){
+if (!currentSong || ytcCurrentVideoId() !== ytcVideoId){ toast("曲が変わったので、もう一度取り込んでください"); return; }
+var a = Math.round(it.time * 100) / 100;
+var b = Math.round((a + captureSec) * 100) / 100;
+var dur = getDur();
+if (dur > 0 && b > dur) b = Math.round(dur * 100) / 100;
+if (b <= a){ toast("曲の終わり付近なので、ループは作れませんでした"); return; }
+var secs = sectionsOf(currentSong.id);
+var note = it.text.length > 300? it.text.slice(0, 300) + "…": it.text;
+if (it.author) note += "\n（YouTubeコメント：" + it.author + "）";
+var dup = null;
+secs.forEach(function(x){ if (!dup && Math.abs(x.a - a) < 0.005 && Math.abs(x.b - b) < 0.005) dup = x; });
+var sec = dup;
+if (!sec){
+sec = { id: nextId(), name: nextAutoLoopName(secs), a: a, b: b, note: note, speed: clampSpeed(speed) };
+secs.push(sec);
+}
+activateSection(sec);
+if (btn) btn.textContent = dup? "▶ 再生中（保存済みのループ）": "✓ ループを保存しました";
+toast("コメントからループ「" + sec.name + "」を作りました：" + fmtH(a) + " – " + fmtH(b) + "（ノートにコメントを入れました）");
+}
+$("ytcFetchBtn").addEventListener("click", runYtComments);
 $("ytSearchBtn").addEventListener("click", runYtSearch);
 $("ytSearchQuery").addEventListener("keydown", function(e){
 if (e.key === "Enter"){ e.preventDefault(); runYtSearch(); }
@@ -1988,12 +2816,12 @@ renderSections();
 function nextAutoLoopName(secs){
 var max = 0;
 secs.forEach(function(x){
-var m = /^ループ\s*(\d+)/.exec(x.name || "");
+var m = /^(?:ループ|Loop)\s*(\d+)/.exec(x.name || "");
 if (m){ var n = parseInt(m[1], 10); if (n > max) max = n;}
 });
 var cand = Math.max(max, secs.length) + 1;
-while (secs.some(function(x){ return x.name === ("ループ" + cand);})) cand++;
-return "ループ" + cand;
+while (secs.some(function(x){ return x.name === (S("loopPrefix") + cand) || x.name === ("ループ" + cand);})) cand++;
+return S("loopPrefix") + cand;
 }
 function clearAB(announce){
 loopA = loopB = null; loopOn = false; flagSavedId = null; updateAB();
@@ -3655,6 +4483,12 @@ html += '<div class="settings-box"><h3>11. ホーム画面に追加（アプリ�
 '<li><strong>パソコン（Chrome / Edge）：</strong>アドレスバー右端のインストールアイコン、またはメニューから「インストール」を選ぶ</li>' +
 '</ol>' +
 '<p class="hint" style="margin:8px 0 0">アプリ内ブラウザ（SNSやチャットアプリの中）では追加できないことがあります。そのときは、このページをSafariやChromeで開き直してから試してください。追加しても、保存ループや設定は今のまま引き継がれます。</p></div>';
+html += '<div class="settings-box"><h3>' + esc(S("setLangTitle")) + '</h3>' +
+'<p class="hint" style="margin:0">' + esc(S("setLangHint")) + '</p>' +
+'<div class="sp-chips">' +
+'<button class="btn small' + (LANG === "ja"? " active": "") + '" type="button" data-act="set-lang" data-v="ja" aria-pressed="' + (LANG === "ja"? "true": "false") + '">日本語</button>' +
+'<button class="btn small' + (LANG === "en"? " active": "") + '" type="button" data-act="set-lang" data-v="en" aria-pressed="' + (LANG === "en"? "true": "false") + '">English</button>' +
+"</div></div>";
 return html;
 }
 function mgmtShareHtml(){
@@ -3868,6 +4702,7 @@ else if (act === "sp-combo"){
 var combo = SPEED_COMBOS.filter(function(c){ return c.key === btn.getAttribute("data-combo"); })[0];
 if (combo){ setSpeedPresetsSel(combo.vals, true); renderMgmtRows(); }
 }
+else if (act === "set-lang"){ setLanguage(btn.getAttribute("data-v")); }
 else if (act === "sample-add-all"){ addAllSamples(true); renderMgmtRows(); }
 else if (act === "install-app"){
 if (isStandaloneApp()){ toast("すでにアプリとして使っています"); return; }
@@ -4006,6 +4841,7 @@ dormantComments.forEach(function(d){ builtComments.push(d.raw); });
 return {
 v: 1,
 savedAt: new Date().toISOString(),
+lang: LANG,
 sampleAutoLoad: sampleAutoLoad,
 songs: userSongs.map(function(s){
 return { title: s.title, artist: s.artist || "", type: s.type, url: s.type === "local"? "": (s.url || "") };
@@ -4120,6 +4956,7 @@ if (typeof data.sampleShuffleOnLoad === "boolean") sampleShuffleOnLoad = data.sa
 if (["start", "created", "name", "speed"].indexOf(data.loopSortOrder) >= 0) loopSortOrder = data.loopSortOrder;
 if (typeof data.autoSave === "boolean") autoSave = data.autoSave;
 if (typeof data.sampleAutoLoad === "boolean") sampleAutoLoad = data.sampleAutoLoad;
+if (data.lang === "en" || data.lang === "ja") LANG = data.lang;
 }
 lsRestored = true;
 }
@@ -4140,6 +4977,7 @@ renderSpeedPresetButtons();
 applySpeed();
 syncCaptureSecUI();
 syncJumpUI();
+applyLanguage();
 })();
 </script>
 </body>
