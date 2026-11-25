@@ -161,6 +161,13 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .yt-search-row input{flex:1;min-width:0}
 .yt-search-row .btn{flex:none}
 .yt-or{display:flex;align-items:center;gap:10px;margin:14px 0 10px;font-size:.82rem;font-weight:700;color:var(--ink2)}
+@media (max-width:920px){
+/* On phones the fixed bottom control bar overlays the lower strip of
+   the first screen. Give the URL-add row extra headroom so the title
+   and URL fields rest below that strip (reached by scrolling, as
+   before) instead of sitting hidden underneath the bar. */
+#panel-yt .yt-or{margin-top:84px}
+}
 .yt-or::before,.yt-or::after{content:"";flex:1;border-top:1.5px dashed var(--line2)}
 .yt-search-status{font-size:.85rem;color:var(--ink2);margin-top:8px}
 .yt-search-status:empty{display:none}
@@ -285,6 +292,18 @@ input[type="range"]{flex:1;padding:0;border:none;background:transparent;accent-c
 .import-paste .btn{margin-top:8px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.9rem;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Delete confirmation dialog (in-page: window.confirm is unavailable
+   in the sandboxed frame). Shown only when the 削除の確認 setting is on. */
+.confirm-overlay{position:fixed;inset:0;z-index:80;background:rgba(20,15,8,.48);display:flex;align-items:center;justify-content:center;padding:18px}
+.confirm-overlay[hidden]{display:none}
+.confirm-card{background:var(--panel);border:1.5px solid var(--line2);border-radius:14px;box-shadow:var(--shadow);padding:18px;max-width:26em;width:100%}
+.confirm-msg{margin:0 0 14px;font-weight:700;font-size:1rem;line-height:1.55}
+.confirm-actions{display:flex;gap:8px}
+.confirm-actions .btn{flex:1}
+.confirm-actions .btn.confirm-ok{background:var(--danger);border-color:var(--danger);color:#fff;font-weight:900}
+.confirm-actions .btn.confirm-ok:hover{filter:brightness(1.08)}
+@media (prefers-color-scheme: dark){.confirm-actions .btn.confirm-ok{color:#2b100c}}
+.settings-box.quiet{background:var(--panel)}
 /* Mobile bottom control bar (phone only) */
 .mobile-bar{display:none}
 @media (max-width:920px){
@@ -375,6 +394,24 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .mb-hold{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 .mb-cap.holding{background:var(--danger);border-color:var(--danger);color:#fff}
 @media (prefers-color-scheme: dark){.hold-btn.holding,.mb-cap.holding{color:#2b100c}}
+/* Unified loop-create button: ONE button replaces the start flag,
+   end flag and hold-to-loop buttons. A short tap toggles
+   start -> end/save; a long press holds (the held span becomes the
+   loop). The .waiting state means the start is set and the next tap
+   ends + saves; .holding is the red recording state while held. */
+.unified-loop-btn{flex:1 1 auto;min-width:0;min-height:3rem;font-size:1rem;font-weight:900;border:2px solid var(--accent);color:var(--accent);background:var(--accent-soft);border-radius:11px;touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.unified-loop-btn:hover{border-color:var(--accent)}
+.unified-loop-btn.pressing{filter:brightness(1.07)}
+.unified-loop-btn.waiting{background:var(--teal);border-color:var(--teal);color:#fff}
+.unified-loop-btn.holding{background:var(--danger);border-color:var(--danger);color:#fff}
+.unified-hint{margin:6px 0 0}
+.mb-btn.mb-unified{flex:2.1 1 0;border-color:var(--accent);color:var(--accent);background:var(--accent-soft);touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.mb-btn.mb-unified .mb-lb{color:var(--accent);font-weight:900}
+.mb-btn.mb-unified.waiting{background:var(--teal);border-color:var(--teal);color:#fff}
+.mb-btn.mb-unified.waiting .mb-lb{color:#fff}
+.mb-btn.mb-unified.holding{background:var(--danger);border-color:var(--danger);color:#fff}
+.mb-btn.mb-unified.holding .mb-lb{color:#fff}
+@media (prefers-color-scheme: dark){.unified-loop-btn.waiting,.mb-btn.mb-unified.waiting{color:#0e201b}.unified-loop-btn.holding,.mb-btn.mb-unified.holding{color:#2b100c}.mb-btn.mb-unified.waiting .mb-lb,.mb-btn.mb-unified.holding .mb-lb{color:inherit}}
 .capture-sec{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px}
 .capture-sec-label{font-weight:900;font-size:.85rem;color:var(--teal);white-space:nowrap}
 .capture-sec-presets{display:flex;gap:5px;flex-wrap:wrap}
@@ -460,6 +497,48 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .install-steps{margin:12px 0 0;padding-left:1.25em;font-size:.9rem;line-height:1.65}
 .install-steps li{margin:5px 0}
 .install-steps strong{font-weight:900}
+/* Mode switch （練習／作成／管理）: a segmented control pinned near the
+   top of the screen. The current mode only changes WHICH blocks are
+   shown — player / library / loop card / management — never the data.
+   Practice: player + saved loop list + playback speed only.
+   Create:   loop creation (quick capture, hold-to-loop, start/end
+             flags) front and centre, library add forms available.
+   Manage:   the management screen with its tabs (設定 included) only;
+             the player, library, mobile bottom bar and the sticky
+             mini-player dock are hidden in this mode. */
+.mode-switch{display:flex;gap:6px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);position:sticky;top:8px;z-index:44;margin:0 0 8px}
+.mode-btn{flex:1 1 0;min-width:0;min-height:3rem;border:1.5px solid var(--line2);background:var(--panel2);color:var(--ink);border-radius:10px;font-weight:900;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.45rem .3rem}
+.mode-btn:hover{border-color:var(--accent)}
+.mode-btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mode-desc{margin:0 0 14px;font-size:.85rem;color:var(--ink2);padding:0 4px}
+#mgmtSection{scroll-margin-top:84px}
+/* Practice mode: focus on playing — creation tools, song-add forms
+   and the management screen are hidden. */
+body.mode-practice .library .add-tabs,
+body.mode-practice .library .add-panel,
+body.mode-practice .sample-order-bar{display:none}
+body.mode-practice .transport .capture-group{display:none}
+body.mode-practice .loops-card .capture-box{display:none}
+body.mode-practice .loops-card .ytc-box{display:none}
+body.mode-practice #mgmtSection{display:none}
+/* Create mode: loop creation front and centre. */
+body.mode-create #mgmtSection{display:none}
+body.mode-create .loops-card .capture-box{border:2px solid var(--teal);background:var(--teal-soft);border-radius:12px;padding:12px;margin-bottom:14px}
+body.mode-create .loops-card .capture-box h4{font-size:.95rem}
+.flag-row{align-items:center}
+.flag-state{font-size:.85rem;font-weight:700;color:var(--ink2)}
+/* Manage mode: management screen (and its 設定 tab) only. */
+body.mode-manage .library{display:none}
+body.mode-manage .layout{display:none}
+body.mode-manage #gotoMgmt{display:none}
+body.mode-manage .mgmt-card{margin-top:0}
+@media (max-width:920px){
+body.mode-practice #mbLoopToggle{display:none}
+body.mode-practice .mb-capture-row{display:none}
+body.mode-manage .mobile-bar{display:none}
+body.mode-manage .wrap{padding-bottom:64px}
+.mode-btn{font-size:.92rem;min-height:2.8rem}
+}
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
    so the current time and loop ranges stay visible while capturing or
@@ -510,12 +589,12 @@ body.docked .timeline{height:28px}
 
 <header class="intro">
 <h1>楽器演奏ルーパー</h1>
-<details class="howto">
+<details class="howto" id="howtoDetails">
 <summary>使い方と、Driveリンクの注意点</summary>
 <ul>
 <li><strong>曲を足す：</strong>すぐ下の「ライブラリ」で、YouTubeのURL貼り付け／MP3ファイルを選ぶ／Driveの共有リンク貼り付け、の3通りから追加できます。YouTubeは、曲名やアーティスト名で検索して、結果の一覧から選んでそのまま追加・再生することもできます。</li>
-<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。「長押しループ」ボタン（ループカード内と、携帯では下部バー内）は、押している間だけをループ区間にして、離した瞬間に今の再生倍率で保存し、すぐ再生します（最小時間＝初期0.3秒＝より短い押下は誤タップとして保存されません）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
-<li><strong>ループ練習：</strong>「⚑ 開始旗」を押すと、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了旗は外れ、新しい開始位置だけが残ります）。続けて「⚑ 終了旗」を押すと、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了旗を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
+<li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
+<li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は「1:23.50」のような表記や秒数（例：83.5）で入力して変えられ、時間の横の±ボタンで0.01秒単位の微調整もできます。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
@@ -524,8 +603,8 @@ body.docked .timeline{height:28px}
 <li><strong>サンプルデータ：</strong>サンプル曲には「サンプル」の表記が付きます（曲リスト・管理画面の曲／全ループ／曲リスト／保存ループリスト内）。管理画面の「設定」タブ（10. サンプルデータ）で、「読み込み時にサンプルデータのロードを次からやめる」にチェックすると、次に開いたときからサンプル曲は自動で読み込まれません。「サンプルデータを追加」ボタンを押すと、あらゆるサンプル（全32曲）をその場で読み込めます（すでにあるサンプルは重複しません）。サンプル曲に付けたループなどは、サンプルを再び追加すると戻ります。</li>
 <li><strong>YouTubeコメントの時間つき感想（試作）：</strong>右側の「A–Bループ・ループリスト」カード下部の「💬 YouTubeコメントの時間つき感想（試作）」で「コメントを取り込む」を押すと、今開いているYouTube動画のコメントを公開API（Piped）経由で取得し、「1:23」のような時間が書かれた感想だけを、時間と内容のセットで表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントの内容がそのループのノートに入ります（出典として、コメントの投稿者名もノートに残ります）。一覧の下には出典（YouTubeのコメント／Piped経由）と元の動画へのリンクが表示されます。コメントが取得できない場合や、時間の書かれたコメントが無い場合は、その旨が表示されるだけで、ループや再生など、ほかの機能は今まで通り使えます。取り込んだコメントは保存されず、その場だけの表示です。</li>
 <li><strong>ホーム画面に追加：</strong>管理画面の「設定」タブ（11. ホーム画面に追加）から、このページをホーム画面に追加してアプリのように使えます。ブラウザ側の案内（「Keep your practice library one tap away / Install / Not now」）で「Not now」を選んだあとでも、ここからいつでも追加できます。ブラウザが自動のインストール画面を出せる場合はInstallボタンでそのまま追加でき、出せない場合（iPhoneのSafariなど）は、共有ボタン→「ホーム画面に追加」などの手順が表示されます。</li>
-<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、サンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。</li>
-<li><strong>言語：</strong>管理画面の「設定」タブ（12. 言語）で「日本語／English」を選ぶと、画面表示だけが英語に切り替わります。機能や保存データは変わりません。</li>
+<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「設定」タブ（書き出し・読み込み）から読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、削除の確認、サンプルデータの読み込み設定、書き出し・読み込みを変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。この使い方・解説自体も、「設定」タブの中にあります。</li>
+<li><strong>言語：</strong>管理画面の「設定」タブ（12. 言語）で「🇯🇵 日本語／🇺🇸 English」を選ぶと、画面表示の言語が切り替わります。初めて開くときは、ブラウザの言語設定に合わせて表示します。機能や保存データは変わりません。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
@@ -534,6 +613,13 @@ body.docked .timeline{height:28px}
 </details>
 <div style="margin-top:12px"><button class="btn" id="gotoMgmt" type="button">🗂 管理画面へ（全ループ・保存ループリスト・曲リスト・曲）</button></div>
 </header>
+
+<nav class="mode-switch" role="tablist" aria-label="モード切り替え">
+<button class="mode-btn" type="button" role="tab" data-mode="practice" aria-selected="true">🎸 練習モード</button>
+<button class="mode-btn" type="button" role="tab" data-mode="create" aria-selected="false">⚑ 作成モード</button>
+<button class="mode-btn" type="button" role="tab" data-mode="manage" aria-selected="false">🗂 管理モード</button>
+</nav>
+<p class="mode-desc" id="modeDesc">プレイヤーと保存ループ、再生速度だけを表示します</p>
 
 <section class="card library" aria-label="ライブラリ">
 <div class="lib-head">
@@ -646,6 +732,17 @@ body.docked .timeline{height:28px}
 <p class="yt-error-msg">ループ一覧など、ほかの機能はそのまま使えます。別の曲を選ぶと、この案内は消えます。</p>
 <div class="yt-error-code mono" id="ytErrorCode"></div>
 </div>
+<div class="yt-error" id="audioError" style="display:none" role="alert">
+<div class="yt-error-icon" aria-hidden="true">⚠️</div>
+<div class="yt-error-title">音声を読み込めませんでした</div>
+<p class="yt-error-msg" id="audioErrorMsg">音声ファイルの読み込みに失敗しました。</p>
+<p class="yt-error-msg" id="audioErrorHint" style="display:none"></p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+<button class="btn primary" id="audioErrorRetry" type="button">↻ もう一度読み込む</button>
+<a class="btn" id="audioErrorOpen" href="#" target="_blank" rel="noopener" style="display:none">① Driveで開く</a>
+</div>
+<div class="yt-error-code mono" id="audioErrorCode"></div>
+</div>
 </div>
 <audio id="audioEl" controls style="display:none"></audio>
 <div style="margin-top:10px;display:none" id="driveOpenRow">
@@ -720,12 +817,15 @@ body.docked .timeline{height:28px}
 <h2>A–Bループ・ループリスト</h2>
 <div class="capture-box" aria-label="クイックキャプチャ：今の位置からかんたんにループを作る">
 <h4 style="margin-top:0">クイックキャプチャ：<span class="cap-sec-txt">10</span>秒間のループを作る</h4>
-<p class="hint" style="margin:0">「<span class="cap-sec-txt">10</span>秒間」は今から<span class="cap-sec-txt">10</span>秒間、「今までの<span class="cap-sec-txt">10</span>秒間」は今までの<span class="cap-sec-txt">10</span>秒間をループにして保存し、すぐ再生します。「長押しループ」は、押している間だけをループにして保存します（押している時間が最小時間＝初期0.3秒、管理画面の「設定」で変更できます＝より短いと保存されません）。キャプチャの秒数は、管理画面の「設定」タブで変更でき、設定は保存されます。</p>
 <div class="capture-row">
 <button class="btn small capture-btn" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="btn small capture-btn" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
-<button class="btn small hold-btn" type="button" id="holdLoopBtn" aria-label="長押しループ：押している間をループとして保存する" aria-pressed="false">⏺ 長押しループ</button>
 </div>
+<div class="capture-row flag-row">
+<button class="btn unified-loop-btn" type="button" id="loopToggleBtn" aria-label="ループ作成：タップで開始／終了・保存、長押しで押している間をループにする" aria-pressed="false">⚑ ループ作成</button>
+<span class="flag-state mono" id="flagState">A — ／ B —</span>
+</div>
+<p class="hint unified-hint">タップ：開始 → 終了・保存 ／ 長押し：押している間がループ</p>
 </div>
 <div class="loop-list" id="loopList"></div>
 <div class="speed-box" aria-label="再生速度を変更する">
@@ -743,7 +843,6 @@ body.docked .timeline{height:28px}
 </div>
 <div class="ytc-box" aria-label="YouTubeコメントから時間つきの感想を取り込む（試作）">
 <h4>💬 YouTubeコメントの時間つき感想（試作）</h4>
-<p class="hint" style="margin:0">今開いているYouTube動画のコメントから、「1:23」のような時間が書かれた感想を拾って表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントがそのループのノートに入ります。</p>
 <button class="btn small" id="ytcFetchBtn" type="button" style="margin-top:8px">コメントを取り込む</button>
 <div class="ytc-status" id="ytcStatus" role="status"></div>
 <div class="ytc-list" id="ytcList"></div>
@@ -791,14 +890,13 @@ body.docked .timeline{height:28px}
 
 <section class="card mgmt-card" id="mgmtSection" aria-label="管理画面">
 <h2>🗂 管理画面 <span class="count" id="mgmtCount"></span></h2>
-<p class="hint" style="margin:0">曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。保存ループリストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。「設定」タブでは、再生速度の倍率ボタンやジャンプする秒数など9項目とサンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もできます。</p>
+<p class="hint" style="margin:0">曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲を管理できます。</p>
 <div class="mgmt-tabs" role="tablist" aria-label="管理画面の切り替え">
 <button class="btn small" type="button" data-mtab="loops" aria-selected="true">全ループ</button>
 <button class="btn small" type="button" data-mtab="practice" aria-selected="false">保存ループリスト</button>
 <button class="btn small" type="button" data-mtab="setlists" aria-selected="false">曲リスト</button>
 <button class="btn small" type="button" data-mtab="songs" aria-selected="false">曲</button>
 <button class="btn small" type="button" data-mtab="settings" aria-selected="false">設定</button>
-<button class="btn small" type="button" data-mtab="share" aria-selected="false">共有・書き出し</button>
 </div>
 <div id="mgmtBody"></div>
 </section>
@@ -826,8 +924,7 @@ body.docked .timeline{height:28px}
 <button class="mb-btn" id="mbBack10" type="button" aria-label="10秒戻す"><span class="mb-ic" aria-hidden="true">⏪</span><span class="mb-lb">−10秒</span></button>
 <button class="mb-btn mb-play" id="mbPlay" type="button" aria-label="再生／一時停止"><span class="mb-ic" id="mbPlayIc" aria-hidden="true">▶</span><span class="mb-lb" id="mbPlayLb">再生</span></button>
 <button class="mb-btn" id="mbFwd10" type="button" aria-label="10秒進める"><span class="mb-ic" aria-hidden="true">⏩</span><span class="mb-lb">＋10秒</span></button>
-<button class="mb-btn" id="mbSetA" type="button" aria-label="開始旗を立てる"><span class="mb-ic" aria-hidden="true">⚑</span><span class="mb-lb">開始旗</span></button>
-<button class="mb-btn" id="mbSetB" type="button" aria-label="終了旗を立てる"><span class="mb-ic" aria-hidden="true">⚑</span><span class="mb-lb">終了旗</span></button>
+<button class="mb-btn mb-unified" id="mbLoopToggle" type="button" aria-label="ループ作成：タップで開始／終了・保存、長押しで押している間をループにする" aria-pressed="false"><span class="mb-ic" id="mbLoopToggleIc" aria-hidden="true">⚑</span><span class="mb-lb" id="mbLoopToggleLb">ループ作成</span></button>
 <button class="mb-btn" id="mbLoop" type="button" aria-label="ループのONとOFFを切り替える"><span class="mb-ic" aria-hidden="true">🔁</span><span class="mb-lb" id="mbLoopLb">ループ</span></button>
 <button class="mb-btn" id="mbSpeedToggle" type="button" aria-label="再生速度のパネルを開く" aria-expanded="false" aria-controls="mbSpeedPanel"><span class="mb-speed-txt mono" id="mbSpeedTxt">1.00×</span><span class="mb-lb">速度</span></button>
 </div>
@@ -835,9 +932,18 @@ body.docked .timeline{height:28px}
 <span class="mb-cap-label">🎤キャプチャ</span>
 <button class="mb-cap" type="button" data-capture="fwd" aria-label="クイックキャプチャ：今から10秒間のループを作る">10秒間</button>
 <button class="mb-cap" type="button" data-capture="back" aria-label="クイックキャプチャ：今までの10秒間のループを作る">今までの10秒間</button>
-<button class="mb-cap mb-hold" type="button" id="mbHoldLoop" aria-label="長押しループ：押している間をループとして保存する" aria-pressed="false">長押しループ</button>
 </div>
 </nav>
+
+<div class="confirm-overlay" id="confirmOverlay" hidden>
+<div class="confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="confirmMsg">
+<p class="confirm-msg" id="confirmMsg"></p>
+<div class="confirm-actions">
+<button class="btn" id="confirmCancel" type="button">キャンセル</button>
+<button class="btn confirm-ok" id="confirmOk" type="button">削除する</button>
+</div>
+</div>
+</div>
 
 <div class="toast" id="toast" role="status"></div>
 
@@ -855,24 +961,39 @@ body.docked .timeline{height:28px}
    Switching the language changes ONLY what is displayed — features
    and saved data are untouched. The choice persists as `lang` in
    the localStorage state (see buildLocalData / restoreLocal).
+   On the very first visit, when no choice has been saved yet, the
+   default follows the browser's language preference
+   (navigator.languages): Japanese browsers start in Japanese and
+   English browsers start in English.
    ===================================================================== */
 var LANG = "ja";
+var _langSaved = false;
 try {
 var _langRaw = localStorage.getItem("looper-friends-state-v1");
-if (_langRaw){ var _langData = JSON.parse(_langRaw); if (_langData && (_langData.lang === "en" || _langData.lang === "ja")) LANG = _langData.lang; }
+if (_langRaw){ var _langData = JSON.parse(_langRaw); if (_langData && (_langData.lang === "en" || _langData.lang === "ja")){ LANG = _langData.lang; _langSaved = true; } }
 } catch(e){}
+if (!_langSaved){
+try {
+var _navLangs = (navigator.languages && navigator.languages.length)? navigator.languages: [navigator.language || navigator.userLanguage || ""];
+for (var _li = 0; _li < _navLangs.length; _li++){
+var _nl = String(_navLangs[_li] || "").toLowerCase();
+if (_nl.indexOf("ja") === 0){ LANG = "ja"; break; }
+if (_nl.indexOf("en") === 0){ LANG = "en"; break; }
+}
+} catch(e){}
+}
 var STRINGS = {
 ja: {
 appTitle: "楽器演奏ルーパー",
 setLangTitle: "12. 言語（Language）",
-setLangHint: "画面表示の言語を切り替えます。機能や、保存したループ・曲・設定は変わりません。",
+setLangHint: "画面表示の言語を切り替えます。機能や、保存したループ・曲・設定は変わりません。初めて開くときは、ブラウザの言語設定に合わせて表示します。",
 langSet: "表示言語を日本語にしました",
 loopPrefix: "ループ"
 },
 en: {
 appTitle: "Instrument Looper",
 setLangTitle: "12. Language",
-setLangHint: "Switch the display language. Features and your saved loops, songs and settings do not change.",
+setLangHint: "Switch the display language. Features and your saved loops, songs and settings do not change. On your first visit, the display follows your browser's language setting.",
 langSet: "Display language set to English",
 loopPrefix: "Loop "
 }
@@ -897,7 +1018,7 @@ var PAIRS = [
 ["言語：", "Language: "],
 ["つなぎ目：", "Loop seams: "],
 ["🗂 管理画面へ（全ループ・保存ループリスト・曲リスト・曲）", "🗂 Go to management (all loops · saved loop lists · song lists · songs)"],
-["曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。保存ループリストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。「設定」タブでは、再生速度の倍率ボタンやジャンプする秒数など9項目とサンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もできます。", "Manage saved loops, saved loop lists, song lists and songs across all songs. Changes are saved automatically. A saved loop list gathers loops from several songs — like a 'tricky solos' or 'riff practice' list — so you can practice them in order. In the Settings tab you can change the nine playback settings and the sample-data loading options, and add the app to your home screen."],
+["曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲を管理できます。", "Manage saved loops, saved loop lists, song lists and songs across all songs."],
 ["楽器演奏ルーパー／ サンプルの曲は公式YouTubeリンクです。自分の曲はページ上部の「ライブラリ」から追加してください。", "Instrument Looper — Sample songs are official YouTube links. Add your own songs from the library at the top of the page."],
 ["サンプル曲プレイリスト（16バンド・32曲）", "Sample playlist (16 bands · 32 songs)"],
 ["シャッフル中 — この順番で「前の曲／次の曲」へ進みます", "Shuffled — Prev / Next follows this order"],
@@ -930,6 +1051,19 @@ var PAIRS = [
 ["YouTubeのプレイヤーを読み込めませんでした。通信が不安定なときに起こります。「もう一度読み込む」を押すか、YouTubeで開いて再生できます。", "The YouTube player could not be loaded, which can happen on an unstable connection. Press 'Reload', or open it on YouTube."],
 ["YouTubeの再生でエラーが発生しました。「もう一度読み込む」を押すか、YouTubeで開くと、そのまま再生できます。", "A YouTube playback error occurred. Press 'Reload', or open it on YouTube to play it."],
 ["Driveの曲が再生できないときは、この流れで", "If a Drive song won't play, use this flow"],
+["音声を読み込めませんでした", "Could not load the audio"],
+["音声ファイルの読み込みに失敗しました。", "The audio file failed to load."],
+["Driveから音声を読み込めませんでした。Google側で音声データではなく、ログイン・共有・ウイルススキャンの確認画面が返っている可能性があります。", "Could not load audio from Drive. Google may be returning a sign-in, sharing, or virus-scan confirmation page instead of the audio data."],
+["Driveから音声を読み込めませんでした。共有設定が「リンクを知っている全員が閲覧可」になっていないか、大きなファイルでGoogleのウイルススキャン確認画面が返ると、音声として読み込めません。", "Could not load audio from Drive. If the file is not shared as 'Anyone with the link can view', or if Google returns its virus-scan confirmation page for a large file, it cannot be loaded as audio."],
+["対処法：① 共有設定が「リンクを知っている全員が閲覧可」になっているか確認する。② 下の「Driveで開く」からMP3をダウンロードし、ライブラリの「ローカルMP3」で追加すると確実に再生できます。", "What to do: 1) Check that sharing is set to 'Anyone with the link can view'. 2) Download the MP3 from 'Open in Drive' below and add it via 'Local MP3' in the library — that always plays."],
+["対処法：① 共有設定を確認する。② 下の「Driveで開く」からMP3をダウンロードし、ライブラリの「ローカルMP3」で追加すると確実に再生できます。", "What to do: 1) Check the sharing settings. 2) Download the MP3 from 'Open in Drive' below and add it via 'Local MP3' in the library — that always plays."],
+["音声の読み込みに時間がかかりすぎています。通信が不安定なときに起こります。「もう一度読み込む」を押してください。", "The audio is taking too long to load, which can happen on an unstable connection. Press 'Reload'."],
+["音声ファイルを取得できませんでした（ネットワークエラー）。通信環境を確認して、「もう一度読み込む」を押してください。", "Could not fetch the audio file (network error). Check your connection and press 'Reload'."],
+["音声データを再生できる形式に変換できませんでした。ファイルの形式が、このブラウザで対応していない可能性があります。", "The audio data could not be decoded into a playable format. The file format may not be supported by this browser."],
+["この音声ファイルを再生できませんでした。ファイルが壊れているか、形式が対応していない可能性があります。", "This audio file could not be played. It may be damaged, or its format may not be supported."],
+["音声ファイルを読み込めませんでした。ファイルが見つからないか、対応していない形式の可能性があります。URLを確認してください。", "Could not load the audio file. It may not exist, or its format may not be supported. Please check the URL."],
+["この曲の音声ファイルは、ページを開き直したため読み込めなくなっています。ライブラリの「ローカルMP3」から、同じファイルをもう一度追加してください。", "This song's audio file can no longer be read because the page was reopened. Add the same file again via 'Local MP3' in the library."],
+["エラーコード: MEDIA_ERR ", "Error code: MEDIA_ERR "],
 ["① Driveで開いてMP3をダウンロード → ② ライブラリの「ローカルMP3」で追加 → ③ そのまま再生できます。", "① Open it in Drive and download the MP3 → ② Add it via 'Local MP3' in the library → ③ Play it right away."],
 ["シームレス再生モード（つなぎ目なし）", "Seamless playback (no gap at the seam)"],
 ["YouTubeは早めの巻き戻しでつなぎ目を小さくします", "On YouTube, the loop rewinds a little early to shrink the seam"],
@@ -948,10 +1082,10 @@ var PAIRS = [
 ["まだ曲がありません。下のフォームから追加するか、管理画面の「設定」タブ（10. サンプルデータ）の「サンプルデータを追加」からサンプル曲（全32曲）を読み込んでください。", "No songs yet. Add one with the form below, or load the sample songs (all 32) from 'Add sample data' in the Settings tab (10. Sample data) of the management screen."],
 ["条件に合う曲がありません。絞り込みを変えてみてください。", "No songs match. Try changing the search."],
 ["曲を選ぶと、その曲に保存したループが表示されます。", "Pick a song to see the loops saved for it."],
-["下部メニューより、開始旗、🎤キャプチャボタン各種を押してループ期間を指定してください。", "Use the start flag or the 🎤 capture buttons in the bottom menu to set a loop range."],
+["下部メニューの「⚑ ループ作成」ボタンや、🎤キャプチャボタン各種を押してループ期間を指定してください。", "Use the '⚑ Loop create' button or the 🎤 capture buttons in the bottom menu to set a loop range."],
 ["書き出しファイルを読み込んで以前のループ、セットリストを読み込み", "Or import an export file to bring back earlier loops and setlists"],
 ["書き出しファイルは、保存したループやセットリスト（曲のリスト）をテキストファイル（looper-export.txt）として保存したものです。あとで読み込むと、以前のループやセットリストをそのまま復元できます。", "An export file is a text file (looper-export.txt) holding your saved loops and setlists (song lists). Import it later to restore those loops and setlists exactly as they were."],
-["読み込み方：「書き出しを読み込む」の「📂 ファイルから読み込む」ボタンから書き出しファイルを選ぶか、書き出したテキストを貼り付けて読み込んでください。", "To import: choose the export file with the '📂 Import from file' button under 'Import an export', or paste the exported text."],
+["読み込み方：管理画面の「設定」タブ（14. 書き出し・読み込み）の「📂 ファイルから読み込む」ボタンから書き出しファイルを選ぶか、書き出したテキストを貼り付けて読み込んでください。", "To import: in the Settings tab (14. Export / Import) of the management screen, choose the export file with the '📂 Import from file' button, or paste the exported text."],
 ["普段はブラウザに自動保存されるので、読み込みが必要なのは、バックアップから戻すときや、別のサイト（GitHub Pages版など）へ引っ越すときです。", "Everything is normally auto-saved in your browser, so importing is only needed when restoring from a backup or moving to another site (such as the GitHub Pages version)."],
 ["押すとこの区間から再生します（長押しで編集）", "Tap to play from this range (long-press to edit)"],
 ["押すとループだけを止めます（曲は止まりません）", "Stops only the loop (the song keeps playing)"],
@@ -960,7 +1094,7 @@ var PAIRS = [
 ["例：指が引っかかる", "e.g. My fingers get stuck here"],
 ["開始時間を現在の再生位置に設定する", "Set the start to the current position"],
 ["終了時間を現在の再生位置に設定する", "Set the end to the current position"],
-["保存したループはまだありません。曲を再生して、開始旗・終了旗やクイックキャプチャでループを作ると、ここに曲をまたいで一覧表示されます。", "No saved loops yet. Play a song and make loops with the start/end flags or quick capture, and they will be listed here across all songs."],
+["保存したループはまだありません。曲を再生して、「⚑ ループ作成」ボタンやクイックキャプチャでループを作ると、ここに曲をまたいで一覧表示されます。", "No saved loops yet. Play a song and make loops with the '⚑ Loop create' button or quick capture, and they will be listed here across all songs."],
 ["保存ループリストはまだありません。上の入力で名前を付けて作ると、全ループの一覧や、各ループの編集画面から、曲をまたいでループを集められます（例：苦手なソロ集、リフ練習）。", "No saved loop lists yet. Name one above to create it, then gather loops across songs from the All loops list or from each loop's edit form (e.g. Tricky solos, Riff practice)."],
 ["曲リストはまだありません。上の入力で名前を付けて作ると、曲を集めて順番を決められます（例：ライブ用セット、練習用）。曲の追加・並べ替えは「中身を編集」からできます。", "No song lists yet. Name one above to create it, then gather songs and set their order (e.g. Live set, Practice). Add and reorder songs from 'Edit contents'."],
 ["新しい保存ループリストの名前（例：苦手なソロ集）", "Name of the new saved loop list (e.g. Tricky solos)"],
@@ -981,7 +1115,7 @@ var PAIRS = [
 ["倍率ボタンは最低1つ表示します。歌のフレーズのように細かく刻みたいときは「細かく」や「ゆっくり練習」がおすすめです。", "At least one rate button always stays visible. For slicing a phrase into small pieces, 'Fine' or 'Slow practice' works well."],
 ["プレイヤーの「⏪ −○秒／+○秒 ⏩」ボタンと、携帯の下部バーで前後にジャンプする秒数です（初期は10秒）。", "How far the player's ⏪ / ⏩ buttons and the mobile bottom bar jump back or forward (default 10 seconds)."],
 ["「○秒間」「今までの○秒間」で作るループの長さです（初期は10秒）。", "The length of the loops made by the capture buttons (default 10 seconds)."],
-["「長押しループ」で、これより短い押下は誤タップとして保存しません（初期は0.3秒）。歌のフレーズなど、短い区間を確実に取りたいときは短めに、誤タップを減らしたいときは長めにします。", "In hold-to-loop, a press shorter than this is treated as a mis-tap and is not saved (default 0.3 seconds). Set it shorter to catch short phrases reliably, or longer to avoid mis-taps."],
+["「⚑ ループ作成」ボタンの長押し（ホールド）の判定時間です。これより短い押下はホールドではなくタップ（開始／終了・保存）として扱います（初期は0.3秒）。短いフレーズをホールドで確実に取りたいときは短めに、タップとしっかり区別したいときは長めにします。", "This is the press length that turns a press on the '⚑ Loop create' button into a hold. A shorter press counts as a tap (start / end & save) instead (default 0.3 seconds). Set it shorter to catch short phrases with a hold, or longer to separate holds from taps more clearly."],
 ["ループ編集の「<<< << < > >> >>>」ボタンが動かす秒数です（初期は標準）。", "How many seconds the loop editor's <<< << < > >> >>> buttons move by (default: Standard)."],
 ["ループ編集で終了時間を変えたとき、確認再生を終了の何秒前から始めるかです（初期は3秒前）。", "When you change the end time in the loop editor, the check playback starts this many seconds before the end (default 3 seconds)."],
 ["ページを開くたびにサンプル曲（32曲）をランダムな順番にするかです（初期はオン）。オフにすると元のバンド順のままになります。次に開いたときから反映されます（今の並びは変わりません）。", "Whether the sample songs (32) are put in a random order every time the page opens (default on). Off keeps the original band order. It takes effect from the next open (the current order does not change)."],
@@ -1004,7 +1138,7 @@ var PAIRS = [
 ["このブラウザでは自動のインストール画面は出ません。下の手順でホーム画面に追加できます。", "This browser does not offer an automatic install screen. You can add it to your home screen with the steps below."],
 ["下の手順でホーム画面に追加できます（iPhoneは共有ボタン→「ホーム画面に追加」）", "You can add it with the steps below (on iPhone: Share button → 'Add to Home Screen')"],
 ["書き出しファイル（looper-export.txt）には、曲・全ループ・保存ループリスト・曲リストが入ります。友達に送ると、相手は下の「ファイルから読み込む」から読み込むだけで、同じループとリストが使えます（重複は自動で避けられます）。ローカルMP3の音源ファイル自体は含まれないので、その曲は相手側で再追加が必要です。保存ループリストだけを送りたいときは、「保存ループリスト」タブの各リストにある「書き出し」ボタンを使ってください。", "An export file (looper-export.txt) contains your songs, all loops, saved loop lists and song lists. Send it to a friend and they can use the same loops and lists just by importing it with 'Import from file' below (duplicates are avoided automatically). The local MP3 audio files themselves are not included, so those songs need to be re-added on their side. To send just one saved loop list, use the 'Export' button on that list in the Saved loop lists tab."],
-["管理画面の「設定」タブ（12. 言語）で「日本語／English」を選ぶと、画面表示だけが英語に切り替わります。機能や保存データは変わりません。", "In the Settings tab (12. Language) of the management screen, choose Japanese / English to switch the display only. Features and saved data do not change."],
+["管理画面の「設定」タブ（12. 言語）で「🇯🇵 日本語／🇺🇸 English」を選ぶと、画面表示の言語が切り替わります。初めて開くときは、ブラウザの言語設定に合わせて表示します。機能や保存データは変わりません。", "In the Settings tab (12. Language) of the management screen, choose 🇯🇵 Japanese / 🇺🇸 English to switch the display language. On your first visit, the display follows your browser's language setting. Features and saved data do not change."],
 ["1. 再生速度の倍率ボタン", "1. Playback speed rate buttons"],
 ["2. ジャンプする秒数", "2. Jump seconds"],
 ["3. クイックキャプチャの秒数", "3. Quick capture seconds"],
@@ -1154,7 +1288,7 @@ var PAIRS = [
 ["先に曲を選んでください", "Please select a song first"],
 ["先に開始旗を押してください", "Press the start flag first"],
 ["先にループを設定してください", "Set a loop first"],
-["ループは未設定です。開始旗・終了旗、またはクイックキャプチャでループを作ってください", "No loop is set. Make one with the start/end flags or quick capture"],
+["ループは未設定です。ループ作成ボタン、またはクイックキャプチャでループを作ってください", "No loop is set. Make one with the loop-create button or quick capture"],
 ["再生位置が取得できませんでした", "Couldn't get the playback position"],
 ["曲が変わったので、長押しループは保存しませんでした", "The song changed, so the hold-to-loop was not saved"],
 ["短すぎるので保存しませんでした（", "Too short, so it was not saved ("],
@@ -1237,6 +1371,16 @@ var PAIRS = [
 ["クイックキャプチャ：今から10秒間のループを作る", "Quick capture: make a 10-second loop from now"],
 ["クイックキャプチャ：今までの10秒間のループを作る", "Quick capture: make a loop of the last 10 seconds"],
 ["長押しループ：押している間をループとして保存する", "Hold-to-loop: save the time you hold as a loop"],
+["タップ：開始 → 終了・保存 ／ 長押し：押している間がループ", "Tap: start → end & save / Hold: the time you hold becomes the loop"],
+["ループ作成：タップで開始／終了・保存、長押しで押している間をループにする", "Loop create: tap for start / end & save, hold to loop the time you hold"],
+["ループ作成：タップで終了・保存、長押しで押している間をループにする", "Loop create: tap to end & save, hold to loop the time you hold"],
+["ループ作成：タップで開始、長押しで押している間をループにする", "Loop create: tap to start, hold to loop the time you hold"],
+["記録中：離すとループを保存します", "Recording: release to save the loop"],
+["⚑ ループ作成", "⚑ Loop create"],
+["⚑ 終了・保存", "⚑ End & save"],
+["記録中…", "Recording…"],
+["終了・保存", "End & save"],
+["ループ作成", "Loop create"],
 ["10秒戻す", "Back 10 seconds"],
 ["10秒進める", "Forward 10 seconds"],
 ["開始旗を立てる", "Set the start flag"],
@@ -1318,12 +1462,36 @@ var PAIRS = [
 ["秒進める", "s forward"],
 ["秒間", " sec"],
 ["今までの", "Last "],
+["13. 削除の確認", "13. Delete confirmation"],
+["ループ・曲・保存ループリスト・曲リスト・コメントの削除ボタンを押したときに、削除してよいか確認する画面を出すかどうかです（初期はオン）。オフにすると、押した瞬間にそのまま削除されます。", "Whether a confirmation dialog appears when you press a delete button for a loop, song, saved loop list, song list or comment (default on). When off, pressing delete removes it right away."],
+["削除の確認をオンにしました", "Delete confirmation turned on"],
+["削除の確認をオフにしました", "Delete confirmation turned off"],
+["オン（削除前に確認する）", "On (ask before deleting)"],
+["オフ（すぐ削除する）", "Off (delete right away)"],
+["14. 書き出し・読み込み", "14. Export / Import"],
+["15. 使い方・解説", "15. How to use / Guide"],
+["このループを削除しますか？", "Delete this loop?"],
+["この曲を削除しますか？保存したループも消えます。", "Delete this song? Its saved loops will be deleted too."],
+["この保存ループリストを削除しますか？", "Delete this saved loop list?"],
+["この曲リストを削除しますか？", "Delete this song list?"],
+["このコメントを削除しますか？", "Delete this comment?"],
+["削除する", "Delete"],
+["キャンセル", "Cancel"],
 ["（サンプル）", " (Sample)"],
 ["サンプル", "Sample"],
 ["ループON", "Loop ON"],
 ["ループOFF", "Loop OFF"],
 ["ループ", "Loop"],
 ["管理画面", "Management"],
+["モード切り替え", "Switch mode"],
+["練習モード", "Practice mode"],
+["作成モード", "Create mode"],
+["管理モード", "Manage mode"],
+["プレイヤーと保存ループ、再生速度だけを表示します", "Shows just the player, your saved loops and the playback speed"],
+["クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります", "Make loops with quick capture and the '⚑ Loop create' button (tap / hold)"],
+["全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります", "All loops, saved loop lists, song lists and songs, plus the Settings tab"],
+["開始旗", "Start flag"],
+["終了旗", "End flag"],
 ["設定", "Settings"],
 ["共有・書き出し", "Share / Export"],
 ["読み込まれています。", " are loaded."],
@@ -1586,6 +1754,7 @@ var endPreviewSec = 3;          // end-time edits preview from this many seconds
 var sampleShuffleOnLoad = true; // shuffle the sample songs on open (default on)
 var loopSortOrder = "start";    // saved-loop order: start | created | name | speed (default start)
 var autoSave = true;            // localStorage auto-save (default on)
+var confirmDelete = true;       // ask before deleting (default on; 管理画面「設定」13)
 var LOOP_SORTS = [
 { key: "start", label: "開始時間順" },
 { key: "created", label: "作った順" },
@@ -1744,11 +1913,50 @@ comments.push({ id: nextId(), songId: songs[0].id, time: 62, name:"サンプル"
 /* ---------- DOM ---------- */
 function $(id){ return document.getElementById(id);}
 var audioEl = $("audioEl"), stage = $("stage");
+/* The 使い方・解説 (how-to) block lives in the 管理画面「設定」tab
+   (15. 使い方・解説), not on the operation screens: it is detached
+   from the header here and re-attached into the settings tab each
+   time that tab is rendered (see mountHowto). The node itself is
+   never rebuilt, so its wording and i18n state stay intact. */
+var howtoEl = document.getElementById("howtoDetails");
+if (howtoEl && howtoEl.parentNode) howtoEl.parentNode.removeChild(howtoEl);
+function mountHowto(){
+var slot = document.getElementById("settingsHowtoSlot");
+if (slot && howtoEl && howtoEl.parentNode !== slot){
+slot.appendChild(howtoEl);
+applyLanguage();
+}
+}
 
 function toast(msg){
 var t = $("toast"); t.textContent = msg; t.classList.add("show");
 clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove("show");}, 2600);
 }
+/* ---------- Delete confirmation (管理画面「設定」13) ----------
+   When confirmDelete is on, every delete button first shows the
+   in-page dialog; when off, the delete runs immediately. The
+   dialog is plain DOM (window.confirm does not work in the
+   sandboxed frame). */
+var confirmCb = null;
+function closeConfirm(){
+var ov = $("confirmOverlay"); if (ov) ov.hidden = true;
+confirmCb = null;
+}
+function askConfirm(msg, cb){
+if (!confirmDelete){ cb(); return; }
+var ov = $("confirmOverlay"); if (!ov){ cb(); return; }
+$("confirmMsg").textContent = msg;
+confirmCb = cb;
+ov.hidden = false;
+var cancel = $("confirmCancel"); if (cancel) cancel.focus();
+}
+(function(){
+var ok = $("confirmOk"), cancel = $("confirmCancel"), ov = $("confirmOverlay");
+if (ok) ok.addEventListener("click", function(){ var cb = confirmCb; closeConfirm(); if (cb) cb(); });
+if (cancel) cancel.addEventListener("click", closeConfirm);
+if (ov) ov.addEventListener("click", function(e){ if (e.target === ov) closeConfirm(); });
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && ov && !ov.hidden) closeConfirm(); });
+})();
 function fmt(sec){
 if (sec == null || isNaN(sec)) return "0:00";
 sec = Math.max(0, Math.floor(sec));
@@ -1868,7 +2076,7 @@ var wasPlaying = !audioEl.paused;
 waBuffer = decoded; waSongId = mySong.id; waDur = decoded.duration; seamless = true;
 audioEl.pause(); audioEl.removeAttribute("src"); audioEl.style.display = "none";
 waStartOff = pos;
-setLoading(false);
+setLoading(false); clearAudioWatchdog(); hideAudioError();
 if (wasPlaying) waStart(pos);
 updateSeamlessNote(); syncPlayBtn();
 }).catch(function(){ /* CORS等で読めない場合は通常のaudio再生のまま */ });
@@ -1900,7 +2108,7 @@ return false;
 function play(){
 if (waActive()){ waStart(waPlaying? waTime(): waStartOff);}
 else if (mode==="youtube"){ if (ytStalled && ytReady && ytPlayer && currentSong){ loadYtVideo(currentSong.videoId || ytId(currentSong.url), true);} else if (ytPlayer && ytReady) ytPlayer.playVideo(); else { setLoading(true); if (!ytReady) ensureYtApi();}}
-else if (mode==="audio") audioEl.play();
+else if (mode==="audio"){ var pr = audioEl.play(); if (pr && pr.catch) pr.catch(function(e){ if (e && e.name === "NotSupportedError") showAudioError("media"); }); }
 syncPlayBtn();
 }
 function pause(){
@@ -1986,6 +2194,69 @@ if (!currentSong || currentSong.type !== "youtube") return;
 if (!ytReady){ ytApiGivenUp = false; ytApiAttempts = 0; ensureYtApi(); loadSong(currentSong, true); return;}
 ytLoadRetries = 0;
 loadYtVideo(currentSong.videoId || ytId(currentSong.url), true);
+});
+
+/* --- Audio (Drive / MP3 URL / local) load failures ---
+   Drive songs used to fail silently: Google often answers the
+   uc?export=download URL with a sign-in / sharing / virus-scan HTML
+   page instead of audio data, the <audio> element errors out, and
+   the old handler only stopped the spinner — no sound, no message.
+   Every audio failure now surfaces in the player area with the
+   reason and the recovery steps, mirroring the YouTube error panel.
+   A stall watchdog also catches loads that never settle at all. */
+var audioWatchTimer = null;
+function clearAudioWatchdog(){ if (audioWatchTimer){ clearTimeout(audioWatchTimer); audioWatchTimer = null; } }
+function armAudioWatchdog(song){
+clearAudioWatchdog();
+audioWatchTimer = setTimeout(function(){
+audioWatchTimer = null;
+if (mode !== "audio" || currentSong !== song) return;
+if (waActive() || audioEl.error) return;
+if (audioEl.readyState >= 3 || !audioEl.paused) return;
+showAudioError("stall");
+}, 15000);
+}
+function hideAudioError(){
+var el = $("audioError"); if (el) el.style.display = "none";
+}
+function showAudioError(reason){
+if (mode !== "audio" || !currentSong) return;
+setLoading(false); clearAudioWatchdog();
+var s = currentSong;
+var err = audioEl.error, code = err? err.code: null;
+var msg, hint = "";
+if (reason === "readd"){
+msg = "この曲の音声ファイルは、ページを開き直したため読み込めなくなっています。ライブラリの「ローカルMP3」から、同じファイルをもう一度追加してください。";
+} else if (reason === "stall" && s.type === "drive"){
+msg = "Driveから音声を読み込めませんでした。Google側で音声データではなく、ログイン・共有・ウイルススキャンの確認画面が返っている可能性があります。";
+hint = "対処法：① 共有設定が「リンクを知っている全員が閲覧可」になっているか確認する。② 下の「Driveで開く」からMP3をダウンロードし、ライブラリの「ローカルMP3」で追加すると確実に再生できます。";
+} else if (reason === "stall"){
+msg = "音声の読み込みに時間がかかりすぎています。通信が不安定なときに起こります。「もう一度読み込む」を押してください。";
+} else if (s.type === "drive"){
+msg = "Driveから音声を読み込めませんでした。共有設定が「リンクを知っている全員が閲覧可」になっていないか、大きなファイルでGoogleのウイルススキャン確認画面が返ると、音声として読み込めません。";
+hint = "対処法：① 共有設定を確認する。② 下の「Driveで開く」からMP3をダウンロードし、ライブラリの「ローカルMP3」で追加すると確実に再生できます。";
+} else if (code === 2){
+msg = "音声ファイルを取得できませんでした（ネットワークエラー）。通信環境を確認して、「もう一度読み込む」を押してください。";
+} else if (code === 3){
+msg = "音声データを再生できる形式に変換できませんでした。ファイルの形式が、このブラウザで対応していない可能性があります。";
+} else if (s.type === "local"){
+msg = "この音声ファイルを再生できませんでした。ファイルが壊れているか、形式が対応していない可能性があります。";
+} else {
+msg = "音声ファイルを読み込めませんでした。ファイルが見つからないか、対応していない形式の可能性があります。URLを確認してください。";
+}
+$("audioErrorMsg").textContent = msg;
+var hintEl = $("audioErrorHint");
+hintEl.textContent = hint; hintEl.style.display = hint? "": "none";
+$("audioErrorCode").textContent = (reason !== "stall" && reason !== "readd" && code != null)? ("エラーコード: MEDIA_ERR " + code): "";
+$("audioErrorRetry").style.display = (reason === "readd")? "none": "";
+var open = $("audioErrorOpen");
+if (s.type === "drive" && s.url){ open.href = s.url; open.style.display = ""; } else { open.style.display = "none"; }
+$("audioError").style.display = "flex";
+syncPlayBtn();
+}
+$("audioErrorRetry").addEventListener("click", function(){
+hideAudioError();
+if (currentSong && mode === "audio") loadSong(currentSong, true);
 });
 
 /* --- IFrame API loading with retry --- */
@@ -2088,7 +2359,7 @@ armYtLoadWatchdog(vid, autoplay);
 /* ---------- Load a song ---------- */
 function loadSong(song, autoplay){
 currentSong = song;
-hideYtError();
+hideYtError(); hideAudioError(); clearAudioWatchdog();
 clearYtLoadWatchdog(); ytStalled = false; ytLoadRetries = 0;
 editingLoopId = null; loopEditDraft = null;
 waTeardown(); rulerKey = "";
@@ -2120,12 +2391,14 @@ audioEl.style.display = "block";
 if (song.type === "local" && !song.objectUrl && !song.playUrl){
 audioEl.removeAttribute("src");
 toast("読み込んだローカルMP3は、ファイルの再追加が必要です");
+showAudioError("readd");
 } else {
 setLoading(true);
 audioEl.src = song.playUrl || song.url;
 audioEl.playbackRate = speed;
-if (autoplay) audioEl.play().catch(function(){});
+if (autoplay) audioEl.play().catch(function(e){ if (e && e.name === "NotSupportedError") showAudioError("media"); });
 waLoad(song);
+armAudioWatchdog(song);
 }
 }
 renderSongs(); renderComments(); syncPlayBtn(); updateSeamlessNote(); renderCompact();
@@ -2259,6 +2532,7 @@ row.innerHTML = '<div class="meta"><div class="st-row"><span class="st">' + esc(
 row.addEventListener("click", function(e){ if (e.target.classList.contains("del")) return; loadSong(s, true);});
 row.addEventListener("keydown", function(e){ if (e.key==="Enter"||e.key===" "){ e.preventDefault(); loadSong(s, true);}});
 row.querySelector(".del").addEventListener("click", function(){
+askConfirm("この曲を削除しますか？保存したループも消えます。", function(){
 songs = songs.filter(function(x){ return x.id!== s.id;});
 comments = comments.filter(function(c){ return c.songId!== s.id;});
 delete loopSections[s.id];
@@ -2266,6 +2540,7 @@ cleanupListRefs();
 if (s.objectUrl) URL.revokeObjectURL(s.objectUrl);
 if (currentSong && currentSong.id === s.id){ currentSong = null;}
 renderSongs(); renderComments(); toast("削除しました");
+});
 });
 list.appendChild(row);
 });
@@ -2707,8 +2982,9 @@ if (el && target) el.addEventListener("click", function(){ target.click();});
 mbProxy("mbPlay", "playBtn");
 mbProxy("mbBack10", "back10");
 mbProxy("mbFwd10", "fwd10");
-/* mbSetA / mbSetB are wired straight to pressSetA / pressSetB below:
-   the in-card flag buttons they used to proxy to have been removed. */
+/* The mobile bar's ループ作成 button (mbLoopToggle) is not a proxy:
+   it is the unified tap/hold button wired further below — one button
+   does tap = start -> end/save and long-press = hold-to-loop. */
 mbProxy("mbLoop", "loopStateBtn");
 (function(){
 var toggle = $("mbSpeedToggle"), panel = $("mbSpeedPanel"), close = $("mbSpeedClose");
@@ -2751,9 +3027,16 @@ audioEl.addEventListener("pause", function(){ if (mode==="audio") mediaLoading =
 audioEl.addEventListener("loadedmetadata", function(){ applySpeed();});
 audioEl.addEventListener("waiting", function(){ if (mode==="audio") setLoading(true);});
 audioEl.addEventListener("seeking", function(){ if (mode==="audio") setLoading(true);});
-audioEl.addEventListener("canplay", function(){ if (mode==="audio") setLoading(false);});
-audioEl.addEventListener("playing", function(){ if (mode==="audio") setLoading(false); syncPlayBtn();});
-audioEl.addEventListener("error", function(){ if (mode==="audio") setLoading(false);});
+audioEl.addEventListener("canplay", function(){ if (mode==="audio"){ setLoading(false); clearAudioWatchdog(); hideAudioError(); }});
+audioEl.addEventListener("playing", function(){ if (mode==="audio"){ setLoading(false); clearAudioWatchdog(); hideAudioError(); syncPlayBtn(); }});
+audioEl.addEventListener("error", function(){
+if (mode!=="audio") return;
+setLoading(false);
+if (waActive() || !currentSong) return;
+var c = audioEl.error? audioEl.error.code: null;
+if (c === 1) return; /* MEDIA_ERR_ABORTED: a load interrupted by switching songs is not a failure */
+showAudioError("media");
+});
 audioEl.addEventListener("emptied", function(){ if (mode==="audio") setLoading(false);});
 
 /* Speed */
@@ -2802,6 +3085,9 @@ if (mbLb) mbLb.textContent = "ループ";
 }
 function updateAB(){
 syncLoopStateBtn();
+syncUnifiedBtns();
+var fs = $("flagState");
+if (fs) fs.textContent = "A " + (loopA != null? fmtH(loopA): "—") + " ／ B " + (loopB != null? fmtH(loopB): "—");
 if (waActive() && waSrc){
 if (loopOn && loopA != null && loopB != null){ waSrc.loop = true; waSrc.loopStart = loopA; waSrc.loopEnd = loopB;}
 else waSrc.loop = false;
@@ -2950,68 +3236,102 @@ syncCaptureSecUI();
 saveSettingsNow();
 if (announce) toast("クイックキャプチャの秒数を" + capSecTxt() + "秒にしました");
 }
-/* 長押しループ (hold-to-loop): pressing the button marks the loop start
-   at the press position; releasing marks the end at the release
-   position. The range is saved at the current playback rate (same as
-   quick capture, via saveCaptureRange) and plays immediately. Holds
-   shorter than holdMinSec (default 0.3s, changeable in the settings
-   tab) are treated as mis-taps and save nothing.
-   While held, both buttons switch to a recording state; the card button
-   also shows the start time and the live end position. Buttons live in
-   the loop card's capture row and in the mobile bottom bar. */
-var holdStart = null, holdSongId = null, holdTimer = null;
-var holdBtns = [$("holdLoopBtn"), $("mbHoldLoop")].filter(function(b){ return !!b;});
-var holdLabels = holdBtns.map(function(b){ return b.textContent;});
-function updateHoldLabels(){
-holdBtns.forEach(function(b){
-if (b.id === "mbHoldLoop") b.textContent = "⏺ 記録中…";
-else b.textContent = "⏺ " + fmtH(holdStart) + " 〜 " + fmtH(getTime());
+/* ループ作成ボタン (ONE unified button): the start flag, the end flag
+   and hold-to-loop are a single button now — in the loop card's
+   capture box and in the mobile bottom bar.
+   - TAP (short press): toggles. With no start pending it sets the
+     start (pressSetA); with a start pending it sets the end and
+     saves (pressSetB). So taps walk start -> end -> saved, and the
+     next tap starts a new loop.
+   - HOLD (long press): once the press has lasted holdMinSec
+     (default 0.3s, changeable in the settings tab) it becomes a
+     hold: the loop start stays at the PRESS position, and releasing
+     marks the end at the release position. The range is saved at the
+     current playback rate (via saveCaptureRange, same as quick
+     capture) and plays immediately. A press released before
+     holdMinSec is a tap, never a discarded mis-tap.
+   While held, both buttons switch to a red recording state; the card
+   button also shows the start time and the live end position. */
+var uPress = null; // {mediaStart, songId, holdActive, invalid, timer, tick} while pressed
+function unifiedBtns(){
+return [$("loopToggleBtn"), $("mbLoopToggle")].filter(function(b){ return !!b; });
+}
+function syncUnifiedBtns(){
+var holding = !!(uPress && uPress.holdActive && !uPress.invalid);
+var waiting = !holding && loopA != null && loopB == null;
+unifiedBtns().forEach(function(b){
+b.classList.toggle("holding", holding);
+b.classList.toggle("waiting", waiting);
+b.setAttribute("aria-pressed", holding? "true": "false");
+if (b.id === "mbLoopToggle"){
+var ic = $("mbLoopToggleIc"), lb = $("mbLoopToggleLb");
+if (ic) ic.textContent = holding? "⏺": "⚑";
+if (lb) lb.textContent = holding? "記録中…": (waiting? "終了・保存": "ループ作成");
+b.setAttribute("aria-label", holding? "記録中：離すとループを保存します": (waiting? "ループ作成：タップで終了・保存、長押しで押している間をループにする": "ループ作成：タップで開始、長押しで押している間をループにする"));
+} else {
+b.textContent = holding? ("⏺ " + fmtH(uPress.mediaStart) + " 〜 " + fmtH(getTime())): (waiting? "⚑ 終了・保存": "⚑ ループ作成");
+b.setAttribute("aria-label", holding? "記録中：離すとループを保存します": (waiting? "ループ作成：タップで終了・保存、長押しで押している間をループにする": "ループ作成：タップで開始、長押しで押している間をループにする"));
+}
 });
 }
-function holdBegin(ev){
+function unifiedPressBegin(ev){
 if (ev) ev.preventDefault();
-if (holdStart != null) return;
-if (!currentSong){ toast("先に曲を選んでください"); return;}
+if (uPress) return;
+if (!currentSong){ toast("先に曲を選んでください"); uPress = { invalid: true }; return; }
 var t = getTime();
-if (t == null || isNaN(t)){ toast("再生位置が取得できませんでした"); return;}
-holdStart = Math.round(t*100)/100;
-holdSongId = currentSong.id;
-holdBtns.forEach(function(b){ b.classList.add("holding"); b.setAttribute("aria-pressed", "true");});
-updateHoldLabels();
-holdTimer = setInterval(updateHoldLabels, 120);
+if (t == null || isNaN(t)){ toast("再生位置が取得できませんでした"); uPress = { invalid: true }; return; }
+uPress = { mediaStart: Math.round(t*100)/100, songId: currentSong.id, holdActive: false, invalid: false, timer: null, tick: null };
+unifiedBtns().forEach(function(b){ b.classList.add("pressing"); });
+uPress.timer = setTimeout(function(){
+if (!uPress || uPress.invalid || uPress.holdActive) return;
+uPress.holdActive = true;
+syncUnifiedBtns();
+uPress.tick = setInterval(syncUnifiedBtns, 120);
+}, Math.max(0, Math.round(holdMinSec * 1000)));
 }
-function holdEnd(){
-if (holdStart == null) return;
-var a = holdStart, songId = holdSongId;
-holdStart = null; holdSongId = null;
-if (holdTimer){ clearInterval(holdTimer); holdTimer = null;}
-holdBtns.forEach(function(b, i){ b.classList.remove("holding"); b.setAttribute("aria-pressed", "false"); b.textContent = holdLabels[i];});
-if (!currentSong || currentSong.id !== songId){ toast("曲が変わったので、長押しループは保存しませんでした"); return;}
+function unifiedPressEnd(cancelled){
+if (!uPress) return;
+var p = uPress; uPress = null;
+if (p.timer){ clearTimeout(p.timer); p.timer = null; }
+if (p.tick){ clearInterval(p.tick); p.tick = null; }
+unifiedBtns().forEach(function(b){ b.classList.remove("pressing"); });
+if (p.invalid){ syncUnifiedBtns(); return; }
+if (cancelled && !p.holdActive){ syncUnifiedBtns(); return; }
+if (p.holdActive){
+if (!currentSong || currentSong.id !== p.songId){ toast("曲が変わったので、長押しループは保存しませんでした"); syncUnifiedBtns(); return; }
+var a = p.mediaStart;
 var b = Math.round(getTime()*100)/100;
 var dur = getDur();
 if (dur > 0 && b > dur) b = Math.round(dur*100)/100;
-if (b - a < holdMinSec){ toast("短すぎるので保存しませんでした（" + secTxt(holdMinSec) + "秒以上押してください）"); return;}
+if (b - a < holdMinSec){ toast("短すぎるので保存しませんでした（" + secTxt(holdMinSec) + "秒以上押してください）"); syncUnifiedBtns(); return; }
 saveCaptureRange(a, b, "長押しループ");
+syncUnifiedBtns();
+return;
 }
-holdBtns.forEach(function(btn){
+/* Tap: toggle — end + save when a start is pending, start otherwise. */
+if (loopA != null && loopB == null) pressSetB();
+else pressSetA();
+syncUnifiedBtns();
+}
+unifiedBtns().forEach(function(btn){
 btn.addEventListener("pointerdown", function(e){
 try{ btn.setPointerCapture(e.pointerId);}catch(err){}
-holdBegin(e);
+unifiedPressBegin(e);
 });
-btn.addEventListener("pointerup", function(e){ e.preventDefault(); holdEnd();});
-btn.addEventListener("pointercancel", function(){ holdEnd();});
+btn.addEventListener("pointerup", function(e){ e.preventDefault(); unifiedPressEnd(false);});
+btn.addEventListener("pointercancel", function(){ unifiedPressEnd(true);});
 btn.addEventListener("contextmenu", function(e){ e.preventDefault();});
 btn.addEventListener("keydown", function(e){
-if ((e.key === " " || e.key === "Enter") && !e.repeat){ e.preventDefault(); holdBegin();}
+if ((e.key === " " || e.key === "Enter") && !e.repeat){ e.preventDefault(); unifiedPressBegin();}
 });
 btn.addEventListener("keyup", function(e){
-if (e.key === " " || e.key === "Enter"){ e.preventDefault(); holdEnd();}
+if (e.key === " " || e.key === "Enter"){ e.preventDefault(); unifiedPressEnd(false);}
 });
 });
-/* 開始旗／終了旗: the flag buttons inside the loop card were removed, so
-   the handlers live here as plain functions. The mobile bottom bar's
-   flag buttons call them directly (wired just after pressSetB), and
-   終了旗 still auto-saves the loop via saveCurrentLoopFromFlags. */
+/* 開始／終了 (the toggle steps): the unified ループ作成 button's tap
+   calls pressSetA when no start is pending and pressSetB when one
+   is. pressSetB still auto-saves the loop via
+   saveCurrentLoopFromFlags, so a tap pair saves with no extra step. */
 function pressSetA(){
 if (!currentSong){ toast("先に曲を選んでください"); return;}
 var hadLoop = (loopA!=null && loopB!=null) || loopOn;
@@ -3034,10 +3354,8 @@ else if (result && result.duplicate) toast("終了旗 = " + fmtH(loopB) + "｜�
 else if (result) toast("終了旗で保存しました：ループ「" + result.sec.name + "」 " + fmtH(result.sec.a) + " – " + fmtH(result.sec.b) + "（" + clampSpeed(speed).toFixed(2) + "×）");
 else toast("終了旗 = " + fmtH(loopB));
 }
-var mbSetAEl = $("mbSetA"); if (mbSetAEl) mbSetAEl.addEventListener("click", pressSetA);
-var mbSetBEl = $("mbSetB"); if (mbSetBEl) mbSetBEl.addEventListener("click", pressSetB);
 $("loopStateBtn").addEventListener("click", function(){
-if (loopA==null || loopB==null){ toast("ループは未設定です。開始旗・終了旗、またはクイックキャプチャでループを作ってください"); return;}
+if (loopA==null || loopB==null){ toast("ループは未設定です。ループ作成ボタン、またはクイックキャプチャでループを作ってください"); return;}
 loopOn =!loopOn; updateAB();
 toast(loopOn? "ループ ON：" + fmtH(loopA) + " – " + fmtH(loopB): "ループ OFF");
 });
@@ -3133,10 +3451,10 @@ saveLocal();
 list.innerHTML = "";
 if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; refreshSongBadges(); return;}
 var all = sectionsOf(currentSong.id);
-if (!all.length){ list.innerHTML = '<p class="loop-empty">下部メニューより、開始旗、🎤キャプチャボタン各種を押してループ期間を指定してください。<br>書き出しファイルを読み込んで以前のループ、セットリストを読み込み</p>' +
+if (!all.length){ list.innerHTML = '<p class="loop-empty">下部メニューの「⚑ ループ作成」ボタンや、🎤キャプチャボタン各種を押してループ期間を指定してください。<br>書き出しファイルを読み込んで以前のループ、セットリストを読み込み</p>' +
 '<details class="loop-import-help"><summary>書き出しファイルとは?</summary>' +
 '<p>書き出しファイルは、保存したループやセットリスト（曲のリスト）をテキストファイル（looper-export.txt）として保存したものです。あとで読み込むと、以前のループやセットリストをそのまま復元できます。</p>' +
-'<p>読み込み方：「書き出しを読み込む」の「📂 ファイルから読み込む」ボタンから書き出しファイルを選ぶか、書き出したテキストを貼り付けて読み込んでください。</p>' +
+'<p>読み込み方：管理画面の「設定」タブ（14. 書き出し・読み込み）の「📂 ファイルから読み込む」ボタンから書き出しファイルを選ぶか、書き出したテキストを貼り付けて読み込んでください。</p>' +
 '<p>普段はブラウザに自動保存されるので、読み込みが必要なのは、バックアップから戻すときや、別のサイト（GitHub Pages版など）へ引っ越すときです。</p></details>'; refreshSongBadges(); return;}
 var secs = visibleSections();
 secs.forEach(function(sec){
@@ -3433,11 +3751,13 @@ if (isEditing){ editingLoopId = null; loopEditDraft = null; renderSections();}
 else openLoopEditor(sec);
 });
 item.querySelector(".del").addEventListener("click", function(){
+askConfirm("このループを削除しますか？", function(){
 if (editingLoopId === sec.id){ editingLoopId = null; loopEditDraft = null;}
 if (flagSavedId === sec.id) flagSavedId = null;
 loopSections[currentSong.id] = sectionsOf(currentSong.id).filter(function(x){ return x.id!== sec.id;});
 cleanupListRefs();
 renderSections(); renderCompact(); toast("ループを削除しました");
+});
 });
 list.appendChild(item);
 });
@@ -3625,6 +3945,7 @@ stagePh.style.display = "none"; tlPh.style.display = "none";
 }
 }
 function checkDock(){
+if (typeof uiMode !== "undefined" && uiMode === "manage"){ setDocked(false); return; }
 var dh = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--dock-h"), 10) || 104;
 var r = (docked? tlPh: tlBlockEl).getBoundingClientRect();
 setDocked(r.top < dh - 4);
@@ -3724,8 +4045,10 @@ el.innerHTML = head + '<div class="body">' + esc(c.text) + "</div>" +
 var stamp = el.querySelector(".stamp");
 if (stamp) stamp.addEventListener("click", function(){ seekTo(parseFloat(stamp.dataset.t)); play();});
 el.querySelector(".del-btn").addEventListener("click", function(){
+askConfirm("このコメントを削除しますか？", function(){
 comments = comments.filter(function(x){ return x.id!== c.id && x.parentId!== c.id;});
 renderComments(); toast("削除しました");
+});
 });
 if (!isReply){
 var form = el.querySelector(".reply-form");
@@ -4213,7 +4536,7 @@ var song = findSongById(it.songId), sec = findSection(it.songId, it.loopId);
 if (song && sec) lines.push((i + 1) + ". " + song.title + " ／ ループ「" + sec.name + "」 " + fmtTenths(sec.a) + " – " + fmtTenths(sec.b) + (sec.speed != null? " 速度 " + Number(sec.speed).toFixed(2) + "×": ""));
 });
 lines.push("");
-lines.push("このファイルを友達に送ると、相手は管理画面の「共有・書き出し」タブ（または書き出し読み込み）から読み込むだけで、同じ保存ループリストが使えます。ローカルMP3の音源ファイル自体は含まれません。");
+lines.push("このファイルを友達に送ると、相手は管理画面の「設定」タブ（14. 書き出し・読み込み）から読み込むだけで、同じ保存ループリストが使えます。ローカルMP3の音源ファイル自体は含まれません。");
 lines.push("---");
 lines.push("【読み込み用データ】この下は「書き出しを読み込む」で使うデータです。消さずにそのまま送ってください。");
 lines.push("<<<DATA");
@@ -4257,12 +4580,12 @@ if (mgmtTab === "loops") rows.innerHTML = mgmtLoopRowsHtml();
 else if (mgmtTab === "practice") rows.innerHTML = mgmtPracticeHtml();
 else if (mgmtTab === "setlists") rows.innerHTML = mgmtSetlistHtml();
 else if (mgmtTab === "songs") rows.innerHTML = mgmtSongsHtml();
-else if (mgmtTab === "settings"){ rows.innerHTML = mgmtSettingsHtml(); refreshInstallUI(); }
-else rows.innerHTML = mgmtShareHtml();
+else if (mgmtTab === "settings"){ rows.innerHTML = mgmtSettingsHtml(); refreshInstallUI(); mountHowto(); }
+else { rows.innerHTML = mgmtSettingsHtml(); refreshInstallUI(); mountHowto(); }
 }
 function mgmtLoopRowsHtml(){
 var flat = allLoopsFlat();
-if (!flat.length) return '<p class="mgmt-empty">保存したループはまだありません。曲を再生して、開始旗・終了旗やクイックキャプチャでループを作ると、ここに曲をまたいで一覧表示されます。</p>';
+if (!flat.length) return '<p class="mgmt-empty">保存したループはまだありません。曲を再生して、「⚑ ループ作成」ボタンやクイックキャプチャでループを作ると、ここに曲をまたいで一覧表示されます。</p>';
 var q = mgmtLoopQuery.toLowerCase();
 var rows = flat.filter(function(x){
 if (!q) return true;
@@ -4447,7 +4770,7 @@ html += '<div class="settings-box"><h3>3. クイックキャプチャの秒数</
 chips("set-capture-preset", numOpts([5, 10, 15, 20], "秒"), captureSec) +
 '<div class="capture-sec" style="margin-top:8px"><input type="number" id="setCaptureSecInput" min="1" max="120" step="1" value="' + capSecTxt() + '" aria-label="任意の秒数を入力（1〜120秒）"><span class="capture-sec-unit">秒（任意入力）</span></div></div>';
 html += '<div class="settings-box"><h3>4. 長押しループの最小時間</h3>' +
-'<p class="hint" style="margin:0">「長押しループ」で、これより短い押下は誤タップとして保存しません（初期は0.3秒）。歌のフレーズなど、短い区間を確実に取りたいときは短めに、誤タップを減らしたいときは長めにします。</p>' +
+'<p class="hint" style="margin:0">「⚑ ループ作成」ボタンの長押し（ホールド）の判定時間です。これより短い押下はホールドではなくタップ（開始／終了・保存）として扱います（初期は0.3秒）。短いフレーズをホールドで確実に取りたいときは短めに、タップとしっかり区別したいときは長めにします。</p>' +
 chips("set-holdmin", numOpts([0.2, 0.3, 0.5, 1], "秒"), holdMinSec) + "</div>";
 html += '<div class="settings-box"><h3>5. 微調整ボタンの刻み</h3>' +
 '<p class="hint" style="margin:0">ループ編集の「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンが動かす秒数です（初期は標準）。</p>' +
@@ -4486,9 +4809,14 @@ html += '<div class="settings-box"><h3>11. ホーム画面に追加（アプリ�
 html += '<div class="settings-box"><h3>' + esc(S("setLangTitle")) + '</h3>' +
 '<p class="hint" style="margin:0">' + esc(S("setLangHint")) + '</p>' +
 '<div class="sp-chips">' +
-'<button class="btn small' + (LANG === "ja"? " active": "") + '" type="button" data-act="set-lang" data-v="ja" aria-pressed="' + (LANG === "ja"? "true": "false") + '">日本語</button>' +
-'<button class="btn small' + (LANG === "en"? " active": "") + '" type="button" data-act="set-lang" data-v="en" aria-pressed="' + (LANG === "en"? "true": "false") + '">English</button>' +
+'<button class="btn small' + (LANG === "ja"? " active": "") + '" type="button" data-act="set-lang" data-v="ja" aria-pressed="' + (LANG === "ja"? "true": "false") + '"><span aria-hidden="true">🇯🇵</span> 日本語</button>' +
+'<button class="btn small' + (LANG === "en"? " active": "") + '" type="button" data-act="set-lang" data-v="en" aria-pressed="' + (LANG === "en"? "true": "false") + '"><span aria-hidden="true">🇺🇸</span> English</button>' +
 "</div></div>";
+html += '<div class="settings-box"><h3>13. 削除の確認</h3>' +
+'<p class="hint" style="margin:0">ループ・曲・保存ループリスト・曲リスト・コメントの削除ボタンを押したときに、削除してよいか確認する画面を出すかどうかです（初期はオン）。オフにすると、押した瞬間にそのまま削除されます。</p>' +
+chips("set-confirm-del", [{ v: "1", label: "オン（削除前に確認する）" }, { v: "0", label: "オフ（すぐ削除する）" }], confirmDelete? "1": "0") + "</div>";
+html += '<div class="settings-box quiet"><h3>14. 書き出し・読み込み</h3>' + mgmtShareHtml() + "</div>";
+html += '<div class="settings-box"><h3>15. 使い方・解説</h3><div id="settingsHowtoSlot"></div></div>';
 return html;
 }
 function mgmtShareHtml(){
@@ -4497,7 +4825,7 @@ return '<p class="hint" style="margin-top:0">書き出しファイル（looper-e
 '<button class="btn" type="button" data-act="share-export">📄 テキストで書き出し</button>' +
 '<button class="btn" type="button" data-act="share-copy">コピーする</button>' +
 '<button class="btn" type="button" data-act="share-import-file">📂 ファイルから読み込む</button></div>' +
-'<details class="import-paste" open><summary>テキストを貼り付けて読み込む</summary>' +
+'<details class="import-paste"><summary>テキストを貼り付けて読み込む</summary>' +
 '<textarea id="mgmtImportText" placeholder="書き出したテキストをここに貼り付け" aria-label="書き出したテキストを貼り付け"></textarea>' +
 '<button class="btn primary" type="button" data-act="share-import-paste" style="margin-top:8px">貼り付けた内容を読み込む</button></details>';
 }
@@ -4528,11 +4856,13 @@ var lc = document.querySelector(".loops-card");
 if (lc) lc.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 else if (act === "loop-del"){
+askConfirm("このループを削除しますか？", function(){
 if (loopSections[songId]) loopSections[songId] = loopSections[songId].filter(function(x){ return x.id !== loopId; });
 if (editingLoopId === loopId){ editingLoopId = null; loopEditDraft = null; }
 if (flagSavedId === loopId) flagSavedId = null;
 cleanupListRefs(); renderSections(); renderMgmtRows();
 toast("ループを削除しました");
+});
 }
 else if (act === "loop-addlist"){
 var sel = row? row.querySelector(".mgmt-pl-select"): null;
@@ -4551,10 +4881,12 @@ toast("保存ループリスト「" + nm + "」を作りました");
 }
 else if (act === "pl-toggle"){ expandedPracticeId = (expandedPracticeId === listId)? null: listId; renderMgmtRows(); }
 else if (act === "pl-del"){
+askConfirm("この保存ループリストを削除しますか？", function(){
 practiceLists = practiceLists.filter(function(l){ return l.id !== listId; });
 if (practiceQueue && plist && practiceQueue.name === plist.name) practiceQueue = null;
 saveLocal(); renderMgmtRows();
 toast("保存ループリストを削除しました");
+});
 }
 else if (act === "pl-play"){ if (plist) startPracticeList(plist); }
 else if (act === "pl-share"){ if (plist) downloadPracticeList(plist); }
@@ -4588,9 +4920,11 @@ toast("曲リスト「" + snm + "」を作りました");
 }
 else if (act === "sl-toggle"){ expandedSetlistId = (expandedSetlistId === listId)? null: listId; renderMgmtRows(); }
 else if (act === "sl-del"){
+askConfirm("この曲リストを削除しますか？", function(){
 songLists = songLists.filter(function(l){ return l.id !== listId; });
 saveLocal(); renderMgmtRows();
 toast("曲リストを削除しました");
+});
 }
 else if (act === "sl-play-first"){
 if (!slist || !slist.songIds.length){ toast("この曲リストには曲がありません"); return; }
@@ -4634,6 +4968,7 @@ renderSongs(); renderMgmtRows();
 toast("曲名を更新しました");
 }
 else if (act === "song-del"){
+askConfirm("この曲を削除しますか？保存したループも消えます。", function(){
 var ds = findSongById(songId);
 songs = songs.filter(function(x){ return x.id !== songId; });
 comments = comments.filter(function(c){ return c.songId !== songId; });
@@ -4644,6 +4979,7 @@ if (currentSong && currentSong.id === songId) currentSong = null;
 if (editingSongMgmtId === songId) editingSongMgmtId = null;
 renderSongs(); renderComments(); renderSections(); renderMgmtRows();
 toast("曲を削除しました");
+});
 }
 else if (act === "set-jump"){
 jumpSec = parseFloat(btn.getAttribute("data-v"));
@@ -4685,6 +5021,12 @@ else if (act === "set-autosave"){
 autoSave = btn.getAttribute("data-v") === "1";
 saveSettingsNow();
 toast("自動保存を" + (autoSave? "オン": "オフ") + "にしました");
+renderMgmtRows();
+}
+else if (act === "set-confirm-del"){
+confirmDelete = btn.getAttribute("data-v") === "1";
+saveSettingsNow();
+toast(confirmDelete? "削除の確認をオンにしました": "削除の確認をオフにしました");
 renderMgmtRows();
 }
 else if (act === "sp-toggle"){
@@ -4759,11 +5101,54 @@ document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
 b.addEventListener("click", function(){ mgmtTab = b.getAttribute("data-mtab"); renderMgmt(); });
 });
 var gotoMgmtBtn = $("gotoMgmt");
-if (gotoMgmtBtn) gotoMgmtBtn.addEventListener("click", function(){
+if (gotoMgmtBtn) gotoMgmtBtn.addEventListener("click", function(){ setMode("manage"); });
+renderMgmt();
+
+/* ---------- Mode switch （練習／作成／管理） ----------
+   Three modes, switched from the tab bar near the top of the screen.
+   The mode is in-memory session state only (never written to the
+   localStorage save data): it changes which blocks are visible via
+   the body.mode-* CSS, and nothing about songs, loops or settings.
+   Practice (default): player + saved loop list + playback speed.
+   Create: loop creation (quick capture, hold-to-loop, start/end
+   flags) front and centre, plus the library's song-add forms.
+   Manage: the management screen only — its tabs, 設定 included, are
+   right there; entering it also undocks the sticky mini player and
+   hides the mobile bottom bar (both are player controls). */
+var uiMode = "practice";
+var MODE_DESCS = {
+practice: "プレイヤーと保存ループ、再生速度だけを表示します",
+create: "クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります",
+manage: "全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります"
+};
+function setMode(m, opts){
+if (["practice", "create", "manage"].indexOf(m) < 0) m = "practice";
+uiMode = m;
+document.body.classList.remove("mode-practice", "mode-create", "mode-manage");
+document.body.classList.add("mode-" + m);
+document.body.setAttribute("data-mode", m);
+document.querySelectorAll(".mode-btn").forEach(function(b){
+b.setAttribute("aria-selected", b.getAttribute("data-mode") === m? "true": "false");
+});
+var desc = $("modeDesc"); if (desc) desc.textContent = MODE_DESCS[m];
+if (m === "manage"){
+if (typeof setDocked === "function") setDocked(false);
+renderMgmt();
+}
+if (!opts || !opts.noScroll){
+if (m === "manage"){
 var sec = $("mgmtSection");
 if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+} else {
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+}
+if (typeof checkDock === "function") checkDock();
+applyLanguage();
+}
+document.querySelectorAll(".mode-btn").forEach(function(b){
+b.addEventListener("click", function(){ setMode(b.getAttribute("data-mode")); });
 });
-renderMgmt();
 
 /* ---------- Local persistence (localStorage) ----------
    Saved loops, user-added songs, comments, the current song and the
@@ -4859,6 +5244,7 @@ endPreviewSec: endPreviewSec,
 sampleShuffleOnLoad: sampleShuffleOnLoad,
 loopSortOrder: loopSortOrder,
 autoSave: autoSave,
+confirmDelete: confirmDelete,
 practiceLists: builtPractice,
 songLists: builtSongLists
 };
@@ -4955,6 +5341,7 @@ if (data.endPreviewSec != null && [1, 3, 5, 10].indexOf(parseFloat(data.endPrevi
 if (typeof data.sampleShuffleOnLoad === "boolean") sampleShuffleOnLoad = data.sampleShuffleOnLoad;
 if (["start", "created", "name", "speed"].indexOf(data.loopSortOrder) >= 0) loopSortOrder = data.loopSortOrder;
 if (typeof data.autoSave === "boolean") autoSave = data.autoSave;
+if (typeof data.confirmDelete === "boolean") confirmDelete = data.confirmDelete;
 if (typeof data.sampleAutoLoad === "boolean") sampleAutoLoad = data.sampleAutoLoad;
 if (data.lang === "en" || data.lang === "ja") LANG = data.lang;
 }
@@ -4978,6 +5365,7 @@ applySpeed();
 syncCaptureSecUI();
 syncJumpUI();
 applyLanguage();
+setMode("practice", { noScroll: true });
 })();
 </script>
 </body>
