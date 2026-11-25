@@ -80,7 +80,7 @@ header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
 .howto.note{font-size:.88rem;color:var(--ink2)}
 
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start;grid-template-areas:"player loops" "comments loops"}
-.player-card{grid-area:player;min-width:0}
+.player-card{grid-area:player;min-width:0;scroll-margin-top:calc(var(--mode-h) + 10px)}
 .loops-card{grid-area:loops;min-width:0;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto}
 @media (max-width:920px){.layout{grid-template-columns:1fr;grid-template-areas:"player" "loops" "comments"}.loops-card{position:static;max-height:none;overflow:visible}}
 
@@ -540,6 +540,18 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .mode-btn:hover{border-color:var(--accent)}
 .mode-btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .mode-desc{margin:0 0 14px;font-size:.85rem;color:var(--ink2);padding:0 4px}
+/* Logo section — the Time L∞per logo image, the "Time L∞per" title and
+   the "Time Looper (TL) — 指定した時間を繰り返す、楽器演奏ルーパー" subtitle
+   inside header.intro — lives only at the very top of the practice
+   screen, above the song list: it is there on first load and when the
+   user scrolls all the way up, and nowhere else. It stays hidden in
+   the Loops / Songs / Settings modes, and tapping 練習 never lands on
+   it: setMode jumps straight to the player, instantly, so the header
+   does not scroll past during the jump (see setMode). The header's
+   使い方 block is detached into the Settings tab (see mountHowto),
+   so the header itself shows only the logo, title and subtitle; the
+   logo is also used in the Settings install section. */
+body.mode-loops header.intro,body.mode-songs header.intro,body.mode-settings header.intro{display:none}
 #mgmtSection{scroll-margin-top:76px}
 body.docked #mgmtSection{scroll-margin-top:calc(var(--mode-h) + var(--dock-h) + 76px)}
 /* Practice mode: the full player screen. Loop creation is always
@@ -551,9 +563,19 @@ body.mode-practice #mgmtSection{display:none}
 /* Management modes （ループ／曲／設定）: the
    management screen only, opened on the tab matching the mode.
    The mode buttons and the management tabs stay in sync. */
-body.mode-loops .library,body.mode-songs .library,body.mode-settings .library{display:none}
+body.mode-loops .library,body.mode-settings .library{display:none}
 body.mode-loops .layout,body.mode-songs .layout,body.mode-settings .layout{display:none}
 body.mode-loops .mgmt-card,body.mode-songs .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
+/* Songs mode （曲）: the library card stays visible above the management
+   card, trimmed to just its add-song forms — YouTube search / URL paste,
+   Drive / MP3 URL, local MP3 — the same forms as on the practice screen,
+   so songs can be added from the 曲 screen too. Its list parts (head,
+   sample order bar, compact bar, song list) stay hidden in this mode:
+   songs themselves are managed in the 曲／ライブラリ tabs below. */
+body.mode-songs .library .lib-head,
+body.mode-songs .library .sample-order-bar,
+body.mode-songs .library #compactBar,
+body.mode-songs .library #listBody{display:none !important}
 @media (max-width:920px){
 body.mode-loops .mobile-bar,body.mode-songs .mobile-bar,body.mode-settings .mobile-bar{display:none}
 body.mode-loops .wrap,body.mode-songs .wrap,body.mode-settings .wrap{padding-bottom:64px}
@@ -641,8 +663,11 @@ body.docked #tlCurWrap{font-size:1.05rem}
 .edge-song{font-size:.78rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .edge-sheet-head .btn{flex:none}
 .edge-list{max-height:min(56vh,430px);overflow:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
-.edge-row{display:flex;gap:6px;align-items:center;background:var(--panel2);border:1.5px solid var(--line);border-radius:10px;padding:6px 8px}
-.edge-row.active{border-color:var(--accent);background:var(--accent-soft)}
+.edge-row{display:flex;gap:6px;align-items:stretch;background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 9%,var(--panel));border:1.5px solid color-mix(in srgb,hsl(var(--loop-h,28) 70% 48%) 34%,var(--line));border-radius:10px;padding:6px 8px}
+.edge-row.active{border-color:var(--accent);background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 18%,var(--panel))}
+.edge-btns{flex:none;display:flex;flex-direction:column;gap:5px;justify-content:center}
+.ep-range-line{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ep-note{font-size:.78rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;display:block;max-width:100%}
 .edge-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
 .edge-play{background:transparent;border:none;text-align:left;display:flex;flex-direction:column;gap:1px;padding:2px 4px;cursor:pointer;color:var(--ink);font-family:inherit;width:100%}
 .edge-play:hover .ep-range{color:var(--accent)}
@@ -653,9 +678,9 @@ body.docked #tlCurWrap{font-size:1.05rem}
 .ep-rename .btn{flex:none;padding:.25rem .55rem}
 .ep-top{display:flex;align-items:center;gap:6px;min-width:0}
 .ep-range{font-size:.8rem;color:var(--ink2)}
-.edge-edit{flex:none;align-self:center;width:2.6rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;min-height:2.5rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
+.edge-edit{flex:none;width:2.5rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;min-height:2.1rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
-.edge-toggle{flex:none;align-self:center;width:2.6rem;min-height:2.5rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
+.edge-toggle{flex:none;width:2.5rem;min-height:2.1rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
 .edge-toggle:hover{background:var(--accent);color:var(--accent-ink)}
 .edge-toggle.stop{background:var(--danger);border-color:var(--danger);color:#fff;font-size:.82rem}
 .edge-toggle.stop:hover{filter:brightness(1.08)}
@@ -2809,6 +2834,19 @@ ytFetchTimer = setTimeout(function(){
 fetchYtMeta(url).then(function(d){ applyYtMeta(vid, d);});
 }, 500);
 });
+/* After a song is added from any of the add forms (YouTube URL /
+   search, Drive / MP3 URL, local MP3): on the practice screen the
+   new song loads and plays right away, as before. In 曲 (songs)
+   mode the player is hidden, so the song is only added and the
+   management song list refreshes to show it — nothing starts
+   playing behind the management screen. */
+function afterSongAdded(s){
+if (typeof uiMode !== "undefined" && uiMode === "songs"){
+if (typeof renderMgmtRows === "function") renderMgmtRows();
+return;
+}
+loadSong(s, true);
+}
 $("addYt").addEventListener("click", function(){
 var url = $("ytUrl").value.trim(), vid = ytId(url);
 if (!vid){
@@ -2823,7 +2861,7 @@ var artist = ytAutoArtist;
 function finish(title, art){
 var s = { id: nextId(), title: title || "YouTube動画", artist: art, type:"youtube", url:url, videoId:vid};
 songs.push(s); $("ytTitle").value = $("ytUrl").value = ""; ytAutoTitle = ""; ytAutoArtist = "";
-renderSongs(); loadSong(s, true); toast("追加しました");
+renderSongs(); afterSongAdded(s); toast("追加しました");
 }
 var typed = $("ytTitle").value.trim();
 if (typed){ finish(typed, artist); return;}
@@ -2958,7 +2996,9 @@ sub.textContent = (it.channel || "") + (dur? " ・ " + dur: "");
 meta.appendChild(ttl); meta.appendChild(sub);
 var add = document.createElement("span");
 add.className = "btn small primary yt-add";
-add.textContent = "追加して再生";
+/* In 曲 (songs) mode the song is only added (no playback — see
+   afterSongAdded), so the label drops the 「して再生」 there. */
+add.textContent = (typeof uiMode !== "undefined" && uiMode === "songs")? "追加": "追加して再生";
 row.appendChild(img); row.appendChild(meta); row.appendChild(add);
 function doAdd(){
 if (row.classList.contains("added")) return;
@@ -2967,7 +3007,7 @@ add.textContent = "追加済み";
 var s = { id: nextId(), title: it.title || "YouTube動画", artist: it.channel || "", type: "youtube",
 url: "https://www.youtube.com/watch?v=" + it.videoId, videoId: it.videoId };
 songs.push(s);
-renderSongs(); loadSong(s, true);
+renderSongs(); afterSongAdded(s);
 toast("追加しました：" + s.title);
 }
 row.addEventListener("click", doAdd);
@@ -3169,7 +3209,7 @@ playUrl:"https://drive.google.com/uc?export=download&id=" + did};
 s = { id: nextId(), title: $("drTitle").value.trim() || "MP3 URL", artist:"", type:"audio", url:url, playUrl:url};
 }
 songs.push(s); $("drTitle").value = $("drUrl").value = "";
-renderSongs(); loadSong(s, true); toast("追加しました");
+renderSongs(); afterSongAdded(s); toast("追加しました");
 });
 $("addLocal").addEventListener("click", function(){
 var files = $("localFiles").files;
@@ -3181,7 +3221,7 @@ var s = { id: nextId(), title: f.name.replace(/\.[^.]+$/,""), artist:"ローカ�
 songs.push(s); if (!first) first = s;
 });
 $("localFiles").value = "";
-renderSongs(); if (first) loadSong(first, true); toast(files.length + "曲追加しました");
+renderSongs(); if (first) afterSongAdded(first); toast(files.length + "曲追加しました");
 });
 
 /* ---------- Transport ---------- */
@@ -4028,9 +4068,14 @@ refreshSongBadges();
    The current song's saved loops peek a little from the right edge:
    one small coloured tab per loop (in the loop's own colour) beside
    a slim handle. Tapping the handle — or swiping it left — slides
-   the panel out. Each row plays its loop from the time-range area;
-   tapping the loop's name swaps it for an inline input so the name
-   can be changed right there (✓ / Enter saves, ✕ / Esc cancels);
+   the panel out. Each row carries the loop's own colour (dot +
+   tinted background, matching the loop list and timeline), its
+   rate tag in front of the time range, and its note; the ▶ / ■
+   toggle and the ✏️ edit button sit stacked vertically on the
+   row's right edge. Each row plays its loop from the time-range
+   area; tapping the loop's name swaps it for an inline input so
+   the name can be changed right there (✓ / Enter saves,
+   ✕ / Esc cancels);
    the row's ✏️ 編集 button is the edit shortcut: it closes the
    panel and opens that loop's edit form in place in the loop list
    (openLoopEditor). Each row also carries a ▶ / ■ toggle whose
@@ -4119,7 +4164,7 @@ var secs = currentSong? visibleSections(): [];
    renderSections() also runs on every loop wrap (updateAB), and
    rebuilding the rows then would flicker the open panel and could
    swallow a tap that is already in progress. */
-var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || ""].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100)) + "|" + (loopOn? "1": "0");
+var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || "", (s.speed != null && !isNaN(s.speed))? Number(s.speed).toFixed(2): "", s.note || ""].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100)) + "|" + (loopOn? "1": "0");
 if (sig === edgeSig && list.childNodes.length) return;
 edgeSig = sig;
 if (cnt) cnt.textContent = secs.length;
@@ -4151,22 +4196,27 @@ return;
 secs.forEach(function(sec){
 var row = document.createElement("div");
 row.className = "edge-row" + (isActiveSection(sec)? " active": "");
+row.style.setProperty("--loop-h", loopHue(sec));
 /* Play / stop toggle: the icon follows the looper's state, exactly
    like the loop list's ▶ 有効化 / ループ OFF button — ▶ starts this
    section looping, and while THIS section is the one looping the
    button turns into a red ■ that stops only the loop (the song
    keeps playing). */
 var isLooping = isLoopingSection(sec);
+var epSpeedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 row.innerHTML =
 '<div class="edge-main">' +
-'<span class="ep-top">' +
+'<span class="ep-top"><span class="loop-color-dot" aria-hidden="true"></span>' +
 '<button class="ep-name" type="button" title="タップで名前を変更" aria-label="「' + esc(sec.name || "") + '」の名前を変更">' + esc(sec.name || "") + '</button></span>' +
 '<button class="edge-play" type="button" aria-label="' + esc(sec.name || "") + 'を再生">' +
-'<span class="ep-range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
+'<span class="ep-range-line">' + epSpeedBadge + '<span class="ep-range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span></span>' +
+(sec.note? '<span class="ep-note" title="' + esc(sec.note) + '">' + esc(sec.note) + '</span>': "") +
 '</button>' +
 '</div>' +
+'<div class="edge-btns">' +
 '<button class="edge-toggle' + (isLooping? " stop": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" aria-label="' + (isLooping? "「" + esc(sec.name || "") + "」のループを止める": "「" + esc(sec.name || "") + "」を再生") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "■": "▶") + '</button>' +
-'<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️</button>';
+'<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️</button>' +
+'</div>';
 row.querySelector(".edge-play").addEventListener("click", function(){ activateSection(sec); });
 row.querySelector(".edge-toggle").addEventListener("click", function(){
 if (isLoopingSection(sec)) stopLoopOnly();
@@ -5667,7 +5717,23 @@ if (m !== "practice"){
 var sec = $("mgmtSection");
 if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
 } else {
-window.scrollTo({ top: 0, behavior: "smooth" });
+/* Land on the player (the same position as the initial view), not
+   on the page top: the logo header sits at the very top of the
+   practice screen, above the song list, and appears only on first
+   load or when the user scrolls all the way up — tapping 練習 must
+   not bring it into view. The jump is instant, not smooth: a smooth
+   scroll from the management screen would slide the header (and the
+   song list) past on the way to the player. The player's position
+   is measured after the mode class change above, so it already
+   accounts for the header becoming visible in practice mode. */
+var pc = document.querySelector(".player-card");
+if (pc){
+var mh = (typeof modeSwitchEl !== "undefined" && modeSwitchEl)? modeSwitchEl.offsetHeight: 0;
+var py = pc.getBoundingClientRect().top + window.pageYOffset - mh - 10;
+window.scrollTo({ top: Math.max(0, py), behavior: "auto" });
+} else {
+window.scrollTo({ top: 0, behavior: "auto" });
+}
 }
 }
 if (typeof checkDock === "function") checkDock();
@@ -5898,6 +5964,36 @@ syncJumpUI();
 applyEdgeSide();
 applyLanguage();
 setMode("practice", { noScroll: true });
+
+/* ---------- Initial view: open on the player ----------
+   The practice screen opens with the player at the top of the
+   viewport, just under the always-visible mode bar: the song
+   list （曲） sits above it (scroll up to reach it), the logo
+   header sits at the very top above the song list (scroll all
+   the way up to reach it), and the loop
+   list below it (scroll down). The browser's own scroll
+   restoration is turned off, so a reload lands on the player
+   too instead of wherever the page happened to be left. The
+   position is applied again once the window has fully loaded
+   (the logo image and web fonts can still shift the layout and
+   move the player), unless the user has already scrolled by
+   hand — their position is never overridden. */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+var playerCardEl = document.querySelector(".player-card");
+var userScrolledEarly = false;
+["wheel", "touchmove"].forEach(function(ev){
+window.addEventListener(ev, function(){ userScrolledEarly = true; }, { passive: true });
+});
+function scrollToPlayerInitial(){
+if (!playerCardEl || userScrolledEarly) return;
+var mh = modeSwitchEl? modeSwitchEl.offsetHeight: 0;
+var y = playerCardEl.getBoundingClientRect().top + window.pageYOffset - mh - 10;
+window.scrollTo(0, Math.max(0, y));
+checkDock();
+}
+scrollToPlayerInitial();
+window.addEventListener("load", scrollToPlayerInitial);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(scrollToPlayerInitial);
 })();
 </script>
 </body>
