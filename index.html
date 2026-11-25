@@ -93,10 +93,12 @@ header.intro p{margin:0;color:var(--ink2);font-size:.97rem;max-width:44em}
 .now.title{font-weight:900;font-size:1.15rem;line-height:1.35}
 .now.artist{color:var(--ink2);font-size:.92rem}
 .now-nav{display:block}
-.now-center{text-align:center;min-width:0}
-.now-center .title{font-weight:900;font-size:1.15rem;line-height:1.35;word-break:break-word}
-.now-center .artist{color:var(--ink2);font-size:.92rem;text-align:center}
-@media (max-width:560px){.now-center .title{font-size:1.02rem}}
+.now-center{display:flex;align-items:baseline;justify-content:center;flex-wrap:nowrap;text-align:center;min-width:0;max-width:100%;overflow:hidden;white-space:nowrap}
+.now-center .title{font-weight:900;font-size:1.15rem;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}
+.now-center .artist{color:var(--ink2);font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0;text-align:left}
+.now-center .artist:empty{display:none}
+.now-center .artist:not(:empty)::before{content:" / ";color:var(--ink2);font-weight:400}
+@media (max-width:560px){.now-center .title{font-size:1.02rem}.now-center .artist{font-size:.88rem}}
 .capture-group{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
 .capture-label{font-weight:900;font-size:.88rem;color:var(--teal);white-space:nowrap}
 .loop-state-btn{white-space:nowrap}
@@ -386,26 +388,26 @@ input,button,select,textarea,summary,.song,.loop-item,[role="button"]{scroll-mar
 .initial-setlist-bar select{flex:1;min-width:180px;width:auto;background:var(--panel)}
 .initial-setlist-bar .isb-hint{flex:1 1 100%;font-size:.82rem;color:var(--ink2)}
 .initial-badge{flex:none;font-size:.7rem;font-weight:900;border-radius:999px;padding:.15em .65em;background:var(--accent);color:var(--accent-ink);letter-spacing:.04em;vertical-align:middle}
-.setlist-info-bar{display:flex;align-items:center;gap:10px;border:1.5px solid var(--teal);background:var(--teal-soft);border-radius:12px;padding:10px 12px;margin:0 0 12px}
-.setlist-info-bar .sl-ic{flex:none;font-size:1.05rem;line-height:1;color:var(--teal)}
+.setlist-info-bar{display:flex;align-items:center;gap:8px;border:1.5px solid var(--teal);background:var(--teal-soft);border-radius:10px;padding:2px 10px;margin:0 0 6px}
+.setlist-info-bar .sl-ic{flex:none;font-size:1rem;line-height:1;color:var(--teal)}
 .setlist-info-bar .sl-main{flex:1;min-width:0}
 .setlist-info-bar .sl-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
 .setlist-info-bar .sl-label{flex:none;font-size:.78rem;font-weight:900;color:var(--teal);letter-spacing:.04em}
-.setlist-info-bar .sl-name{font-weight:900;font-size:.98rem;line-height:1.35;word-break:break-word;min-width:0}
-.setlist-info-bar .sl-name-btn{font:inherit;color:inherit;background:none;border:none;padding:2px 4px;margin:-2px -4px;cursor:pointer;text-align:left;border-radius:6px;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:var(--line2)}
+.setlist-info-bar .sl-name{font-weight:900;font-size:.95rem;line-height:1.12;word-break:break-word;min-width:0}
+.setlist-info-bar .sl-name-btn{font:inherit;color:inherit;background:none;border:none;padding:4px 4px;margin:-4px -4px;cursor:pointer;text-align:left;border-radius:6px;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:var(--line2)}
 .setlist-info-bar .sl-name-btn:hover,.setlist-info-bar .sl-name-btn:focus-visible{color:var(--accent);text-decoration-color:var(--accent);outline:none}
 .setlist-info-bar .sl-pos{flex:none;font-size:.88rem;font-weight:700;color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums}
-.setlist-info-bar .sl-meta{font-size:.84rem;color:var(--ink2);line-height:1.45;margin-top:1px;word-break:break-word}
-.setlist-info-bar .sl-adj{display:flex;gap:2px 14px;flex-wrap:wrap;justify-content:space-between;margin-top:3px;font-size:.84rem;color:var(--ink2);line-height:1.45}
+.setlist-info-bar .sl-meta{font-size:.84rem;color:var(--ink2);line-height:1.2;margin-top:0;word-break:break-word}
+.setlist-info-bar .sl-adj{display:flex;gap:0 14px;flex-wrap:wrap;justify-content:space-between;margin-top:0;font-size:.84rem;color:var(--ink2);line-height:1.2}
 .setlist-info-bar .sl-adj-prev,.setlist-info-bar .sl-adj-next{min-width:0;word-break:break-word}
 .setlist-info-bar .sl-adj-next{margin-left:auto;text-align:right}
 .setlist-info-bar .sl-adj-title{color:var(--ink);font-weight:700}
-.setlist-info-bar .sl-adj-btn{font:inherit;color:inherit;background:none;border:none;padding:2px;margin:-2px;cursor:pointer;text-align:inherit;border-radius:6px}
+.setlist-info-bar .sl-adj-btn{font:inherit;color:inherit;background:none;border:none;padding:4px 2px;margin:-4px -2px;cursor:pointer;text-align:inherit;border-radius:6px}
 .setlist-info-bar .sl-adj-btn:hover .sl-adj-title,.setlist-info-bar .sl-adj-btn:focus-visible .sl-adj-title{text-decoration:underline}
 .setlist-info-bar .sl-adj-arrow{color:var(--teal);font-weight:900;font-size:.78rem}
 .setlist-info-bar .sl-open{flex:none;white-space:nowrap;background:var(--panel)}
 body.mode-loops .setlist-info-bar,body.mode-songs .setlist-info-bar,body.mode-settings .setlist-info-bar{display:none}
-@media (max-width:560px){.setlist-info-bar{gap:8px;padding:9px 10px}.setlist-info-bar .sl-open{padding:.3rem .6rem;font-size:.82rem}}
+@media (max-width:560px){.setlist-info-bar{gap:7px;padding:1px 8px}.setlist-info-bar .sl-open{padding:.3rem .6rem;font-size:.82rem}}
 .sl-sample-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
 .sl-sample-row .hint{margin:0}
 .filters{display:block;margin:12px 0}
@@ -1441,7 +1443,6 @@ var PAIRS = [
 ["エラーコード: MEDIA_ERR ", "Error code: MEDIA_ERR "],
 ["① Driveで開いてMP3をダウンロード → ② 「曲の追加」の「ローカルMP3」で追加 → ③ そのまま再生できます。", "① Open it in Drive and download the MP3 → ② Add it via 'Local MP3' in Add Song → ③ Play it right away."],
 ["シームレス再生モード（つなぎ目なし）", "Seamless playback (no gap at the seam)"],
-["YouTubeは早めの巻き戻しでつなぎ目を小さくします", "On YouTube, the loop rewinds a little early to shrink the seam"],
 ["今開いているYouTube動画のコメントから、「1:23」のような時間が書かれた感想を拾って表示します。時間をタップするとその位置から再生でき、「この時間でループを作る」を押すと、その時間からキャプチャ秒数分のループとして保存され、コメントがそのループのノートに入ります。", "Fetches comments on the YouTube video you have open and shows the ones that mention a time like '1:23'. Tap a time to play from there, or press 'Make a loop at this time' to save a loop of the capture length starting there, with the comment saved as the loop's note."],
 ["出典：YouTubeのコメント（公開API「Piped」経由で取得）／ 元の動画：", "Source: YouTube comments (fetched via the public 'Piped' API) / Original video: "],
 ["💬 YouTubeコメントの時間つき感想（試作）", "💬 Timed YouTube comments (prototype)"],
@@ -1608,7 +1609,7 @@ var PAIRS = [
 ["ループの終わりが拍と少しだけずれているときは「細かく」を選ぶと、0.05秒ずつ寄せてぴったり合わせやすくなります。大まかな位置決めだけなら「大きく」で5秒ずつ動かせて早いです。", "If a loop end is just off the beat, pick 'Fine' and nudge it 0.05 seconds at a time until it locks in. For rough positioning only, 'Coarse' moves 5 seconds at a time and is faster."],
 ["ループ編集で終了時間を変えると、合っているか確かめるために、終了の少し前から自動で再生が始まります。その「少し前」が何秒かです（初期は3秒）。", "When you change a loop's end time in the editor, playback automatically starts a little before the end so you can check it. This sets how many seconds before (default 3 seconds)."],
 ["終わりのつなぎ目をじっくり確かめたいときは10秒前にすると、フレーズの流れの中で終わりを確認できます。短いループでは1秒前にすると、待たずにすぐ終わりを確認できます。", "Set 10 seconds before to check the loop seam within the flow of the phrase. For a short loop, 1 second before lets you hear the ending right away, without waiting."],
-["ループ編集で、開始時間と終了時間をキーボードで直接打てる（例：1:23.50）ようにするかです（初期はオフ）。オフのときは、時間の欄を押してもキーボードは開かず、矢印ボタンと「今」ボタンだけで合わせます（キーボードが毎回開いて邪魔にならないための初期設定です）。", "Whether you can type the start and end times directly with the keyboard in the loop editor (for example 1:23.50) (default off). When off, tapping a time field does not open the keyboard — you set times with the arrow buttons and the 'Now' button only (the default, so the keyboard does not keep popping up)."],
+["ループ編集で、開始時間と終了時間をキーボードで直接打てる（例：1:23.50）ようにするかです（初期はオフ）。オフのときは、時間の欄を押してもキーボードは開かず、矢印ボタンと「今」ボタンで合わせます（キーボードが毎回開いて邪魔にならないための初期設定です）。", "Whether you can type the start and end times directly with the keyboard in the loop editor (for example 1:23.50) (default off). When off, tapping a time field does not open the keyboard — you set times with the arrow buttons and the 'Now' button (the default, so the keyboard does not keep popping up)."],
 ["動画を見ながら「1:23.50」のように正確な時間をメモしていて、そのまま打ち込みたいときはオンにします。携帯で矢印ボタンだけで合わせたいときは、オフのままがおすすめです。", "Turn it on when you have noted exact times like 1:23.50 while watching, and want to type them in just as they are. On a phone, leaving it off and using only the arrow buttons is usually easier."],
 ["曲ごとの保存ループの一覧が、どの順番で並ぶかです（初期は開始時間順）。タイムラインの表示も同じ順番になります。", "The order of each song's saved loop list (default: by start time). The timeline uses the same order."],
 ["曲の流れに沿って練習したいときは「開始時間順」（初期設定）のままだと、イントロからサビへ、曲の進み順に並んで探しやすいです。作った順番に振り返りたいときは「作った順」、名前を付けたループを探すときは「名前順」が便利です。", "With 'By start time' (the default), loops line up in song order — intro to chorus — and are easy to find as you follow the song. Use 'In the order made' to look back in the order you created them, and 'By name' when you search by the names you gave them."],
@@ -2597,8 +2598,6 @@ updateSeamlessNote();
 function updateSeamlessNote(){
 var el = $("seamlessNote"); if (!el) return;
 if (mode === "audio" && waActive()) el.textContent = "シームレス再生モード（つなぎ目なし）";
-else if (mode === "audio") el.textContent = "";
-else if (mode === "youtube") el.textContent = "YouTubeは早めの巻き戻しでつなぎ目を小さくします";
 else el.textContent = "";
 }
 function waLoad(song){
@@ -2908,6 +2907,7 @@ clearAB(false);
 stampTime = null; updateStampView();
 $("nowTitle").textContent = song.title;
 $("nowArtist").textContent = song.artist || "";
+var nowCenterEl = document.querySelector(".now-center"); if (nowCenterEl) nowCenterEl.title = song.artist? song.title + " / " + song.artist: song.title;
 $("emptyMsg").style.display = "none";
 $("driveOpenRow").style.display = song.type === "drive"? "block": "none";
 if (song.type === "drive") $("driveOpenLink").href = song.url;
@@ -3633,9 +3633,9 @@ if (!b) return;
 setSpeedAndPlayIfLooping(parseFloat(b.getAttribute("data-speed")));
 });
 });
-/* Hold-to-drag guard for the speed faders. A fader must be pressed and
+/* Hold-to-drag guard for the playback-rate faders. A fader must be pressed and
    held for holdMinSec (the same setting as hold-to-loop, default 0.3s)
-   before it can be dragged left/right to change the rate. Before the
+   before it can be dragged left/right to change its value. Before the
    hold completes the fader never changes value: a touch that turns into
    a page scroll is cancelled by the browser (touch-action: pan-y gives
    pointercancel) and a quick tap or early sideways wiggle is ignored, so
@@ -3643,16 +3643,32 @@ setSpeedAndPlayIfLooping(parseFloat(b.getAttribute("data-speed")));
    the pointer is captured and the value follows the finger / mouse X
    position over the track, firing the fader's normal "input" event so
    every existing handler (player rate, edit-form rate) works unchanged.
-   Keyboard adjustment on a focused fader is unaffected. */
+   Keyboard adjustment on a focused fader is unaffected.
+   Defence in depth: on touch devices the browser can still move a
+   range thumb from the touch itself, past the pointerdown guard, so a
+   capture-phase "input" listener below swallows any value change a
+   not-yet-armed press causes and restores the pre-press value before
+   the app's own handlers can see it. */
 function attachHoldFader(el){
 if (!el || el._holdFaderWired) return;
 el._holdFaderWired = true;
 el.classList.add("hold-fader");
 var press = null;
+var tapTail = null;
+el.addEventListener("input", function(e){
+var guardVal = null;
+if (press && !press.armed) guardVal = press.startValue;
+else if (!press && tapTail && Date.now() <= tapTail.until) guardVal = tapTail.value;
+if (guardVal == null || isNaN(guardVal)) return;
+if (parseFloat(el.value) !== guardVal) el.value = guardVal;
+e.stopImmediatePropagation();
+e.preventDefault();
+}, true);
 function endPress(e){
 if (!press) return;
 if (e && e.pointerId != null && e.pointerId !== press.id) return;
 if (press.timer) clearTimeout(press.timer);
+if (!press.armed) tapTail = { value: press.startValue, until: Date.now() + 150 };
 press = null;
 el.classList.remove("fader-pressing");
 el.classList.remove("fader-armed");
@@ -3677,7 +3693,8 @@ endPress();
 var pid = e.pointerId;
 var delay = 300;
 if (typeof holdMinSec !== "undefined" && !isNaN(holdMinSec)) delay = Math.max(0, Math.round(holdMinSec * 1000));
-press = { id: pid, armed: false, timer: null };
+press = { id: pid, armed: false, timer: null, startValue: parseFloat(el.value) };
+tapTail = null;
 el.classList.add("fader-pressing");
 press.timer = setTimeout(function(){
 if (!press || press.id !== pid) return;
@@ -4359,6 +4376,10 @@ var timeOk = applyLiveTimes(false);
 setSpeed(clampSpeed(v));
 if (timeOk || (loopA!=null && loopB!=null)){ seekTo(loopA); play();}
 });
+/* The edit form's rate fader goes through the same hold-to-drag guard
+   as every other rate fader: it must be held for holdMinSec before
+   sliding left / right changes the rate, so a touch or a scroll that
+   starts on it can never slam the rate (verified at phone widths). */
 if (editSpeedFader) attachHoldFader(editSpeedFader);
 updateEditSpeedUI();
 function readEditValues(){
@@ -6204,7 +6225,7 @@ html += '<div class="settings-box"><h3>6. 終わりを直したときの確認�
 chips("set-endpreview", [1, 3, 5, 10].map(function(v){ return { v: v, label: "終了の" + v + "秒前" }; }), endPreviewSec) +
 ex("終わりのつなぎ目をじっくり確かめたいときは10秒前にすると、フレーズの流れの中で終わりを確認できます。短いループでは1秒前にすると、待たずにすぐ終わりを確認できます。") + "</div>";
 html += '<div class="settings-box"><h3>7. 時間を数字で直接打つ</h3>' +
-'<p class="hint" style="margin:0">ループ編集で、開始時間と終了時間をキーボードで直接打てる（例：1:23.50）ようにするかです（初期はオフ）。オフのときは、時間の欄を押してもキーボードは開かず、矢印ボタンと「今」ボタンだけで合わせます（キーボードが毎回開いて邪魔にならないための初期設定です）。</p>' +
+'<p class="hint" style="margin:0">ループ編集で、開始時間と終了時間をキーボードで直接打てる（例：1:23.50）ようにするかです（初期はオフ）。オフのときは、時間の欄を押してもキーボードは開かず、矢印ボタンと「今」ボタンで合わせます（キーボードが毎回開いて邪魔にならないための初期設定です）。</p>' +
 chips("set-time-input", [{ v: "0", label: "オフ（直接入力できない）" }, { v: "1", label: "オン（直接入力できる）" }], timeInputEnabled? "1": "0") +
 ex("動画を見ながら「1:23.50」のように正確な時間をメモしていて、そのまま打ち込みたいときはオンにします。携帯で矢印ボタンだけで合わせたいときは、オフのままがおすすめです。") + "</div>";
 html += grp("画面の並びと置き場所", "一覧の並び順と、パネルやボタンの場所を決めます");
@@ -6492,7 +6513,7 @@ var nt = ti? ti.value.trim(): "";
 if (!nt){ toast("曲名を入れてください"); return; }
 es.title = nt; es.artist = ar? ar.value.trim(): es.artist;
 editingSongMgmtId = null;
-if (currentSong && currentSong.id === es.id){ $("nowTitle").textContent = es.title; $("nowArtist").textContent = es.artist || ""; }
+if (currentSong && currentSong.id === es.id){ $("nowTitle").textContent = es.title; $("nowArtist").textContent = es.artist || ""; var ncEl = document.querySelector(".now-center"); if (ncEl) ncEl.title = es.artist? es.title + " / " + es.artist: es.title; }
 saveLocal();
 renderSongs(); renderMgmtRows();
 toast("曲名を更新しました");
