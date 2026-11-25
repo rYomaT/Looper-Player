@@ -538,7 +538,6 @@ body.mode-create .loops-card .capture-box h4{font-size:.95rem}
    top mode bar instead of two (mode, then tab). */
 body.mode-manage .library,body.mode-settings .library{display:none}
 body.mode-manage .layout,body.mode-settings .layout{display:none}
-body.mode-manage #gotoMgmt,body.mode-settings #gotoMgmt{display:none}
 body.mode-manage .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
 @media (max-width:920px){
 body.mode-practice #mbLoopToggle{display:none}
@@ -672,14 +671,13 @@ body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .ed
 <p class="note">※ Driveの曲は、共有リンクのままではブラウザから直接再生できない場合があります（大きなファイルではGoogle側の確認画面が返ることがあります）。<strong>おすすめは「MP3をダウンロード → ローカルMP3で追加」の流れです。</strong>① Driveでファイルを開いてMP3をダウンロード、② 上の「ローカルMP3」タブでそのファイルを追加、③ そのまま再生・ループ練習。ローカルMP3なら確実に再生できます。詳しい手順は「Drive / MP3 URL」タブの中にも出ています。<br>
 ※ 保存したループ・追加した曲・コメント・再生速度は、<strong>あなたのブラウザの保存領域（localStorage）に自動保存され、次に開いたときに復元されます。他の人と共有されることはなく、公開範囲のような設定もありません。</strong>ただし保存領域はサイトごとに別々です（このページとGitHub Pages版では別々に保存されます）。サイト間の引っ越しやバックアップには、書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体を保存できないため、曲名などの情報だけが残り、音を再生するにはファイルの再追加が必要です。</p>
 </details>
-<div style="margin-top:12px"><button class="btn" id="gotoMgmt" type="button">🗂 管理画面へ（全ループ・保存ループリスト・曲リスト・曲）</button></div>
 </header>
 
 <nav class="mode-switch" role="tablist" aria-label="モード切り替え">
 <button class="mode-btn" type="button" role="tab" data-mode="practice" aria-selected="true">🎸 練習モード</button>
 <button class="mode-btn" type="button" role="tab" data-mode="create" aria-selected="false">⚑ 作成モード</button>
 <button class="mode-btn" type="button" role="tab" data-mode="manage" aria-selected="false">🗂 管理モード</button>
-<button class="mode-btn" type="button" role="tab" data-mode="settings" aria-selected="false">⚙ 設定モード</button>
+<button class="mode-btn" type="button" role="tab" data-mode="settings" aria-selected="false">⚙ 設定</button>
 </nav>
 <p class="mode-desc" id="modeDesc">プレイヤーと保存ループ、再生速度だけを表示します</p>
 
@@ -1588,7 +1586,6 @@ var PAIRS = [
 ["練習モード", "Practice mode"],
 ["作成モード", "Create mode"],
 ["管理モード", "Manage mode"],
-["設定モード", "Settings mode"],
 ["設定だけを表示します。使い方・解説もここにあります", "Shows just the settings. The guide and explanations live here too"],
 ["プレイヤーと保存ループ、再生速度だけを表示します", "Shows just the player, your saved loops and the playback speed"],
 ["クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります", "Make loops with quick capture and the '⚑ Loop create' button (tap / hold)"],
@@ -5338,8 +5335,6 @@ if (mgmtTab === "settings" && uiMode !== "settings") setMode("settings", { noScr
 else if (mgmtTab !== "settings" && uiMode === "settings") setMode("manage", { noScroll: true });
 });
 });
-var gotoMgmtBtn = $("gotoMgmt");
-if (gotoMgmtBtn) gotoMgmtBtn.addEventListener("click", function(){ setMode("manage"); });
 renderMgmt();
 
 /* ---------- Mode switch （練習／作成／管理／設定） ----------
