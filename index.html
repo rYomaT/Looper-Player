@@ -656,6 +656,11 @@ body.docked #tlCurWrap{font-size:1.05rem}
 .ep-note{font-size:.75rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .edge-edit{flex:none;align-self:center;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:.88rem;padding:.35rem .6rem;min-height:2.5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3em;font-family:inherit}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
+.edge-toggle{flex:none;align-self:center;width:2.6rem;min-height:2.5rem;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:1rem;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
+.edge-toggle:hover{background:var(--accent);color:var(--accent-ink)}
+.edge-toggle.stop{background:var(--danger);border-color:var(--danger);color:#fff;font-size:.82rem}
+.edge-toggle.stop:hover{filter:brightness(1.08)}
+@media (prefers-color-scheme: dark){.edge-toggle.stop{color:#2b100c}}
 .edge-empty{margin:0;padding:12px 10px;font-size:.86rem;color:var(--ink2);line-height:1.6}
 /* Left-edge placement (設定17「サイドパネルの表示位置」, the default):
    everything mirrors — the panel anchors to the left edge, the handle
@@ -725,7 +730,7 @@ header.intro{margin-bottom:6px}
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>サイドパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（サイドパネル風）。初期は左端で、管理画面の「設定」タブの「17. サイドパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。ループ名をタップすると、その場で名前を変更できます（✓かEnterで保存、✕かEscでやめます）。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは「練習」以外では表示されません。</li>
+<li><strong>サイドパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（サイドパネル風）。初期は左端で、管理画面の「設定」タブの「17. サイドパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開きます。各ループの▶ボタンで再生でき、ループ再生中のループには赤い■ボタンが出て、押すとループだけが止まります（曲は止まりません）。ループ名をタップすると、その場で名前を変更できます（✓かEnterで保存、✕かEscでやめます）。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは「練習」以外では表示されません。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、モード表示が画面の一番上に固定されたまま、その下に動画とタイムラインが小さく固定表示されます。小さいプレイヤーでは現在時刻が大きく表示され、前／次の曲へ移る小さなボタンも出るので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたまま、曲の移動もできます。ループを選ぶ（有効化する）と、タイムラインはそのループの区間に合わせて自動でズームします（ループを解除すると全体表示に戻ります）。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -1744,7 +1749,7 @@ return out;
    bodies, fetched comment text…) is data, not UI wording: it is
    never translated. The long how-to paragraphs likewise keep their
    Japanese detail text; their headings and lead-ins translate. */
-var I18N_SKIP_SEL = ".note, .loop-item .name, .mg-title, .song .st, #nowTitle, #nowArtist, .compact-title, .compact-band, .yt-result-title, .yt-result-sub, .ytc-text, .ytc-author, .tl-sec-name, #audioFileName, .comment .body, .comment .who, .ep-name, .ep-note, #edgeSong";
+var I18N_SKIP_SEL = ".note, .edit-note, .loop-item .name, .mg-title, .song .st, #nowTitle, #nowArtist, .compact-title, .compact-band, .yt-result-title, .yt-result-sub, .ytc-text, .ytc-author, .tl-sec-name, #audioFileName, .comment .body, .comment .who, .ep-name, .ep-note, #edgeSong";
 function i18nSkipEl(el){
 if (!el || el.nodeType !== 1) return false;
 if (el.closest && el.closest("script, style")) return true;
@@ -3778,7 +3783,7 @@ SPEED_PRESETS.map(function(v){ return '<button class="btn edit-speed-preset" typ
 '</div>' +
 '<details class="edit-more"><summary>名前・ノートを開く</summary><div class="edit-more-body">' +
 '<div><label for="edit-name-' + sec.id + '">名前</label><input id="edit-name-' + sec.id + '" class="edit-name" type="text" value="' + esc(draft.name) + '"></div>' +
-'<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><input id="edit-note-' + sec.id + '" class="edit-note" type="text" value="' + esc(draft.note || "") + '" placeholder="例：指が引っかかる"></div>' +
+'<div><label for="edit-note-' + sec.id + '">ノート（任意）</label><textarea id="edit-note-' + sec.id + '" class="edit-note" rows="3" placeholder="例：指が引っかかる">' + esc(draft.note || "") + '</textarea></div>' +
 '</div></details>' +
 '<div class="edit-addlist"><label>ループセットに追加</label><div class="loop-addlist">' + addListBtnsHtml + '</div></div>' +
 '<div class="edit-actions"><button class="btn primary edit-save" type="button">保存する</button><button class="btn edit-cancel" type="button">キャンセル</button></div>';
@@ -3792,7 +3797,7 @@ loopEditDraft.bStr = editDiv.querySelector(".edit-b").value;
 loopEditDraft.speedStr = editDiv.querySelector(".edit-speed").value;
 loopEditDraft.note = editDiv.querySelector(".edit-note").value;
 }
-editDiv.querySelectorAll("input").forEach(function(inp){
+editDiv.querySelectorAll("input, textarea").forEach(function(inp){
 inp.addEventListener("input", syncDraftFromInputs);
 inp.addEventListener("change", syncDraftFromInputs);
 });
@@ -4040,7 +4045,11 @@ refreshSongBadges();
    can be changed right there (✓ / Enter saves, ✕ / Esc cancels);
    the row's ✏️ 編集 button is the edit shortcut: it closes the
    panel and opens that loop's edit form in place in the loop list
-   (openLoopEditor). The panel
+   (openLoopEditor). Each row also carries a ▶ / ■ toggle whose
+   icon follows the looper's state (▶ plays the section; while that
+   section is looping it becomes a red ■ that stops only the loop,
+   via stopLoopOnly — the same pair as the loop list's ▶ 有効化 /
+   ループ OFF). The panel
    re-renders from renderSections(), so it follows song changes,
    loop creation / deletion / edits and the playing state for free. */
 var edgeOpen = false;
@@ -4122,7 +4131,7 @@ var secs = currentSong? visibleSections(): [];
    renderSections() also runs on every loop wrap (updateAB), and
    rebuilding the rows then would flicker the open panel and could
    swallow a tap that is already in progress. */
-var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || "", s.note || "", s.speed == null? "": s.speed].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100));
+var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || "", s.note || "", s.speed == null? "": s.speed].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100)) + "|" + (loopOn? "1": "0");
 if (sig === edgeSig && list.childNodes.length) return;
 edgeSig = sig;
 if (cnt) cnt.textContent = secs.length;
@@ -4156,6 +4165,12 @@ var row = document.createElement("div");
 row.className = "edge-row" + (isActiveSection(sec)? " active": "");
 row.style.setProperty("--loop-h", loopHue(sec));
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
+/* Play / stop toggle: the icon follows the looper's state, exactly
+   like the loop list's ▶ 有効化 / ループ OFF button — ▶ starts this
+   section looping, and while THIS section is the one looping the
+   button turns into a red ■ that stops only the loop (the song
+   keeps playing). */
+var isLooping = isLoopingSection(sec);
 row.innerHTML =
 '<div class="edge-main">' +
 '<span class="ep-top"><span class="loop-color-dot" aria-hidden="true"></span>' +
@@ -4165,8 +4180,13 @@ row.innerHTML =
 (sec.note? '<span class="ep-note">' + esc(sec.note) + '</span>': "") +
 '</button>' +
 '</div>' +
+'<button class="edge-toggle' + (isLooping? " stop": "") + '" type="button" aria-pressed="' + (isLooping? "true": "false") + '" aria-label="' + (isLooping? "「" + esc(sec.name || "") + "」のループを止める": "「" + esc(sec.name || "") + "」を再生") + '" title="' + (isLooping? "押すとループだけを止めます（曲は止まりません）": "押すとこの区間のループが始まります") + '">' + (isLooping? "■": "▶") + '</button>' +
 '<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️ 編集</button>';
 row.querySelector(".edge-play").addEventListener("click", function(){ activateSection(sec); });
+row.querySelector(".edge-toggle").addEventListener("click", function(){
+if (isLoopingSection(sec)) stopLoopOnly();
+else activateSection(sec);
+});
 row.querySelector(".ep-name").addEventListener("click", function(){ startEdgeRename(sec, row); });
 row.querySelector(".edge-edit").addEventListener("click", function(){
 setEdgeOpen(false);
