@@ -499,52 +499,44 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .install-steps{margin:12px 0 0;padding-left:1.25em;font-size:.9rem;line-height:1.65}
 .install-steps li{margin:5px 0}
 .install-steps strong{font-weight:900}
-/* Mode switch （練習／作成／管理／設定）: a segmented control pinned near
-   the top of the screen. The current mode only changes WHICH blocks
-   are shown — player / library / loop card / management — never the
-   data.
-   Practice: player + saved loop list + playback speed only.
-   Create:   loop creation (quick capture, hold-to-loop, start/end
-             flags) front and centre, library add forms available.
-   Manage:   the management screen with its tabs (設定 included) only;
-             the player, library, mobile bottom bar and the sticky
-             mini-player dock are hidden in this mode.
-   Settings: like Manage, but the management screen opens directly
-             on its 設定 tab. */
+/* Mode switch （練習／ループ管理／ループリスト管理／曲管理／設定）: a
+   segmented control pinned near the top of the screen. The current
+   mode only changes WHICH blocks are shown — player / library /
+   loop card / management — never the data. There is no separate
+   create mode: creating loops is an everyday action, always
+   available on the practice screen.
+   Practice: the player screen — player, library, saved loop list,
+             playback speed, and loop creation (quick capture,
+             hold-to-loop, ⚑ ループ作成）.
+   Loops / Lists / Songs / Settings: the management screen only,
+             opened on the matching tab （全ループ／保存ループリスト／
+             曲／設定）; the player, library, mobile bottom bar and
+             the sticky mini-player dock are hidden in these modes.
+             The 曲リスト tab has no mode of its own — it belongs to
+             the Songs mode family. */
 .mode-switch{display:flex;gap:6px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);position:sticky;top:8px;z-index:44;margin:0 0 8px}
 .mode-btn{flex:1 1 0;min-width:0;min-height:3rem;border:1.5px solid var(--line2);background:var(--panel2);color:var(--ink);border-radius:10px;font-weight:900;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.45rem .3rem}
 .mode-btn:hover{border-color:var(--accent)}
 .mode-btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .mode-desc{margin:0 0 14px;font-size:.85rem;color:var(--ink2);padding:0 4px}
 #mgmtSection{scroll-margin-top:84px}
-/* Practice mode: focus on playing — creation tools, song-add forms
-   and the management screen are hidden. */
-body.mode-practice .library .add-tabs,
-body.mode-practice .library .add-panel,
-body.mode-practice .sample-order-bar{display:none}
-body.mode-practice .transport .capture-group{display:none}
-body.mode-practice .loops-card .capture-box{display:none}
-body.mode-practice .loops-card .ytc-box{display:none}
+/* Practice mode: the full player screen. Loop creation is always
+   available here (there is no separate create mode); only the
+   management screen is hidden. */
 body.mode-practice #mgmtSection{display:none}
-/* Create mode: loop creation front and centre. */
-body.mode-create #mgmtSection{display:none}
-body.mode-create .loops-card .capture-box{border:2px solid var(--teal);background:var(--teal-soft);border-radius:12px;padding:12px;margin-bottom:14px}
-body.mode-create .loops-card .capture-box h4{font-size:.95rem}
 .flag-row{align-items:center}
 .flag-state{font-size:.85rem;font-weight:700;color:var(--ink2)}
-/* Manage mode: management screen (and its 設定 tab) only. */
-/* Settings mode: same chrome as Manage, but the management screen
-   opens straight on its 設定 tab — settings are one tap from the
-   top mode bar instead of two (mode, then tab). */
-body.mode-manage .library,body.mode-settings .library{display:none}
-body.mode-manage .layout,body.mode-settings .layout{display:none}
-body.mode-manage .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
+/* Management modes （ループ管理／ループリスト管理／曲管理／設定）: the
+   management screen only, opened on the tab matching the mode.
+   The mode buttons and the management tabs stay in sync. */
+body.mode-loops .library,body.mode-lists .library,body.mode-songs .library,body.mode-settings .library{display:none}
+body.mode-loops .layout,body.mode-lists .layout,body.mode-songs .layout,body.mode-settings .layout{display:none}
+body.mode-loops .mgmt-card,body.mode-lists .mgmt-card,body.mode-songs .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
 @media (max-width:920px){
-body.mode-practice #mbLoopToggle{display:none}
-body.mode-practice .mb-capture-row{display:none}
-body.mode-manage .mobile-bar,body.mode-settings .mobile-bar{display:none}
-body.mode-manage .wrap,body.mode-settings .wrap{padding-bottom:64px}
-.mode-btn{font-size:.8rem;min-height:2.8rem;padding:.45rem .1rem;white-space:nowrap}
+body.mode-loops .mobile-bar,body.mode-lists .mobile-bar,body.mode-songs .mobile-bar,body.mode-settings .mobile-bar{display:none}
+body.mode-loops .wrap,body.mode-lists .wrap,body.mode-songs .wrap,body.mode-settings .wrap{padding-bottom:64px}
+.mode-btn{font-size:.72rem;min-height:2.8rem;padding:.4rem .05rem;white-space:normal;line-height:1.2;text-align:center}
+.mode-btn[data-mode="lists"]{flex-grow:1.5}
 }
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
@@ -646,7 +638,7 @@ body.edge-left .edge-panel.open .edge-sheet{animation-name:edgeSlideInL}
 @keyframes edgeSlideInL{from{transform:translateX(-26px);opacity:.35}to{transform:none;opacity:1}}
 body.edge-left .edge-handle .eh-chev{transform:scaleX(-1)}
 body.edge-left .edge-panel.open .edge-handle .eh-chev{transform:rotate(180deg) scaleX(-1)}
-body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .edge-panel,body.mode-settings .edge-scrim{display:none}
+body.mode-loops .edge-panel,body.mode-loops .edge-scrim,body.mode-lists .edge-panel,body.mode-lists .edge-scrim,body.mode-songs .edge-panel,body.mode-songs .edge-scrim,body.mode-settings .edge-panel,body.mode-settings .edge-scrim{display:none}
 @media (max-width:920px){
 .edge-panel{top:auto;bottom:calc(122px + env(safe-area-inset-bottom,0px));transform:none}
 .edge-list{max-height:42vh}
@@ -670,7 +662,7 @@ body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .ed
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>エッジパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（Galaxyのエッジパネル風）。初期は左端で、管理画面の「設定」タブの「17. エッジパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは管理モードでは表示されません。</li>
+<li><strong>エッジパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（Galaxyのエッジパネル風）。初期は左端で、管理画面の「設定」タブの「17. エッジパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは練習モード以外では表示されません。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -690,11 +682,12 @@ body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .ed
 
 <nav class="mode-switch" role="tablist" aria-label="モード切り替え">
 <button class="mode-btn" type="button" role="tab" data-mode="practice" aria-selected="true">🎸 練習モード</button>
-<button class="mode-btn" type="button" role="tab" data-mode="create" aria-selected="false">⚑ 作成モード</button>
-<button class="mode-btn" type="button" role="tab" data-mode="manage" aria-selected="false">🗂 管理モード</button>
+<button class="mode-btn" type="button" role="tab" data-mode="loops" aria-selected="false">ループ管理</button>
+<button class="mode-btn" type="button" role="tab" data-mode="lists" aria-selected="false">⚑ ループリスト管理</button>
+<button class="mode-btn" type="button" role="tab" data-mode="songs" aria-selected="false">♫ 曲管理</button>
 <button class="mode-btn" type="button" role="tab" data-mode="settings" aria-selected="false">⚙ 設定</button>
 </nav>
-<p class="mode-desc" id="modeDesc">プレイヤーと保存ループ、再生速度だけを表示します</p>
+<p class="mode-desc" id="modeDesc">プレイヤーと保存ループで練習します。ループ作成はいつでもできます</p>
 
 <section class="card library" aria-label="ライブラリ">
 <div class="lib-head">
@@ -1603,12 +1596,14 @@ var PAIRS = [
 ["管理画面", "Management"],
 ["モード切り替え", "Switch mode"],
 ["練習モード", "Practice mode"],
-["作成モード", "Create mode"],
-["管理モード", "Manage mode"],
+["ループリスト管理", "Loop list management"],
+["ループ管理", "Loop management"],
+["曲管理", "Song management"],
 ["設定だけを表示します。使い方・解説もここにあります", "Shows just the settings. The guide and explanations live here too"],
-["プレイヤーと保存ループ、再生速度だけを表示します", "Shows just the player, your saved loops and the playback speed"],
-["クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります", "Make loops with quick capture and the '⚑ Loop create' button (tap / hold)"],
-["全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります", "All loops, saved loop lists, song lists and songs, plus the Settings tab"],
+["プレイヤーと保存ループで練習します。ループ作成はいつでもできます", "Practice with the player and your saved loops — loop creation is always available"],
+["全曲の保存ループをまとめて管理します", "Manage the saved loops of every song in one place"],
+["保存ループリストを作って、ループをまとめて練習できます", "Build saved loop lists and practice a set of loops together"],
+["曲の名前の編集など、曲を管理します", "Manage your songs, including renaming them"],
 ["開始旗", "Start flag"],
 ["終了旗", "End flag"],
 ["設定", "Settings"],
@@ -4193,7 +4188,7 @@ stagePh.style.display = "none"; tlPh.style.display = "none";
 }
 }
 function checkDock(){
-if (typeof uiMode !== "undefined" && uiMode === "manage"){ setDocked(false); return; }
+if (typeof uiMode !== "undefined" && uiMode !== "practice"){ setDocked(false); return; }
 var dh = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--dock-h"), 10) || 104;
 var r = (docked? tlPh: tlBlockEl).getBoundingClientRect();
 setDocked(r.top < dh - 4);
@@ -5123,7 +5118,7 @@ var sel = row? row.querySelector(".mgmt-pl-select"): null;
 var target = sel? parseInt(sel.value, 10): (practiceLists[0] && practiceLists[0].id);
 if (target) addLoopToPracticeList(target, songId, loopId);
 }
-else if (act === "goto-practice"){ mgmtTab = "practice"; renderMgmt(); }
+else if (act === "goto-practice"){ mgmtTab = "practice"; renderMgmt(); if (typeof setMode === "function" && uiMode !== "lists") setMode("lists", { noScroll: true }); }
 else if (act === "pl-create"){
 var inp = $("newPracticeName");
 var nm = inp? inp.value.trim(): "";
@@ -5368,55 +5363,63 @@ renderMgmtRows();
 document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
 b.addEventListener("click", function(){
 mgmtTab = b.getAttribute("data-mtab"); renderMgmt();
-/* Keep the top mode bar in sync with the 設定 tab: entering it is
-   Settings mode, leaving it (while in Settings mode) is Manage. */
-if (mgmtTab === "settings" && uiMode !== "settings") setMode("settings", { noScroll: true });
-else if (mgmtTab !== "settings" && uiMode === "settings") setMode("manage", { noScroll: true });
+/* Keep the top mode bar in sync with the management tabs: each tab
+   belongs to a mode （全ループ→ループ管理, 保存ループリスト→
+   ループリスト管理, 曲リスト・曲→曲管理, 設定→設定）. */
+var mFor = MTAB_MODE[mgmtTab];
+if (mFor && mFor !== uiMode) setMode(mFor, { noScroll: true });
 });
 });
 renderMgmt();
 
-/* ---------- Mode switch （練習／作成／管理／設定） ----------
-   Four modes, switched from the tab bar near the top of the screen.
+/* ---------- Mode switch （練習／ループ管理／ループリスト管理／曲管理／設定） ----------
+   Five modes, switched from the tab bar near the top of the screen.
    The mode is in-memory session state only (never written to the
    localStorage save data): it changes which blocks are visible via
    the body.mode-* CSS, and nothing about songs, loops or settings.
-   Practice (default): player + saved loop list + playback speed.
-   Create: loop creation (quick capture, hold-to-loop, start/end
-   flags) front and centre, plus the library's song-add forms.
-   Manage: the management screen only — its tabs, 設定 included, are
-   right there; entering it also undocks the sticky mini player and
-   hides the mobile bottom bar (both are player controls).
-   Settings: the same management-only chrome as Manage, but the
-   screen opens directly on the 設定 tab, so settings (and the
-   guide / explanations kept there) are one tap from the top bar.
-   Picking another management tab while in Settings mode returns
-   the top bar to Manage; picking the 設定 tab enters Settings. */
+   Practice (default): the player screen — player, library, saved
+   loop list and playback speed. Loop creation is NOT a mode of its
+   own: creating loops (quick capture, hold-to-loop, the unified
+   ⚑ ループ作成 button) is an everyday action, always available
+   on the practice screen.
+   Loops / Lists / Songs / Settings: the management screen only,
+   opened on the tab matching the mode （全ループ／保存ループリスト／
+   曲／設定）; entering one also undocks the sticky mini player and
+   hides the mobile bottom bar (both are player controls). The
+   management screen keeps its own tab bar, and the two stay in
+   sync: picking a management tab selects its mode, and the
+   曲リスト tab belongs to the Songs mode (it never overrides the
+   tab the user just picked). */
 var uiMode = "practice";
+var MODE_MTAB = { loops: "loops", lists: "practice", songs: "songs", settings: "settings" };
+var MTAB_MODE = { loops: "loops", practice: "lists", setlists: "songs", songs: "songs", settings: "settings" };
 var MODE_DESCS = {
-practice: "プレイヤーと保存ループ、再生速度だけを表示します",
-create: "クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります",
-manage: "全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります",
+practice: "プレイヤーと保存ループで練習します。ループ作成はいつでもできます",
+loops: "全曲の保存ループをまとめて管理します",
+lists: "保存ループリストを作って、ループをまとめて練習できます",
+songs: "曲の名前の編集など、曲を管理します",
 settings: "設定だけを表示します。使い方・解説もここにあります"
 };
 function setMode(m, opts){
-if (["practice", "create", "manage", "settings"].indexOf(m) < 0) m = "practice";
+if (["practice", "loops", "lists", "songs", "settings"].indexOf(m) < 0) m = "practice";
 uiMode = m;
-document.body.classList.remove("mode-practice", "mode-create", "mode-manage", "mode-settings");
+document.body.classList.remove("mode-practice", "mode-loops", "mode-lists", "mode-songs", "mode-settings");
 document.body.classList.add("mode-" + m);
 document.body.setAttribute("data-mode", m);
 document.querySelectorAll(".mode-btn").forEach(function(b){
 b.setAttribute("aria-selected", b.getAttribute("data-mode") === m? "true": "false");
 });
 var desc = $("modeDesc"); if (desc) desc.textContent = MODE_DESCS[m];
-if (m === "manage" || m === "settings"){
-if (m === "settings") mgmtTab = "settings";
+if (m !== "practice"){
+/* Open the management screen on this mode's tab — unless the tab
+   already showing belongs to this mode （曲リスト under Songs). */
+if (MTAB_MODE[mgmtTab] !== m) mgmtTab = MODE_MTAB[m];
 if (typeof setDocked === "function") setDocked(false);
 if (typeof setEdgeOpen === "function") setEdgeOpen(false);
 renderMgmt();
 }
 if (!opts || !opts.noScroll){
-if (m === "manage" || m === "settings"){
+if (m !== "practice"){
 var sec = $("mgmtSection");
 if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
 } else {
