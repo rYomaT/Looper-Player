@@ -499,15 +499,18 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .install-steps{margin:12px 0 0;padding-left:1.25em;font-size:.9rem;line-height:1.65}
 .install-steps li{margin:5px 0}
 .install-steps strong{font-weight:900}
-/* Mode switch （練習／作成／管理）: a segmented control pinned near the
-   top of the screen. The current mode only changes WHICH blocks are
-   shown — player / library / loop card / management — never the data.
+/* Mode switch （練習／作成／管理／設定）: a segmented control pinned near
+   the top of the screen. The current mode only changes WHICH blocks
+   are shown — player / library / loop card / management — never the
+   data.
    Practice: player + saved loop list + playback speed only.
    Create:   loop creation (quick capture, hold-to-loop, start/end
              flags) front and centre, library add forms available.
    Manage:   the management screen with its tabs (設定 included) only;
              the player, library, mobile bottom bar and the sticky
-             mini-player dock are hidden in this mode. */
+             mini-player dock are hidden in this mode.
+   Settings: like Manage, but the management screen opens directly
+             on its 設定 tab. */
 .mode-switch{display:flex;gap:6px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--shadow);position:sticky;top:8px;z-index:44;margin:0 0 8px}
 .mode-btn{flex:1 1 0;min-width:0;min-height:3rem;border:1.5px solid var(--line2);background:var(--panel2);color:var(--ink);border-radius:10px;font-weight:900;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.45rem .3rem}
 .mode-btn:hover{border-color:var(--accent)}
@@ -530,16 +533,19 @@ body.mode-create .loops-card .capture-box h4{font-size:.95rem}
 .flag-row{align-items:center}
 .flag-state{font-size:.85rem;font-weight:700;color:var(--ink2)}
 /* Manage mode: management screen (and its 設定 tab) only. */
-body.mode-manage .library{display:none}
-body.mode-manage .layout{display:none}
-body.mode-manage #gotoMgmt{display:none}
-body.mode-manage .mgmt-card{margin-top:0}
+/* Settings mode: same chrome as Manage, but the management screen
+   opens straight on its 設定 tab — settings are one tap from the
+   top mode bar instead of two (mode, then tab). */
+body.mode-manage .library,body.mode-settings .library{display:none}
+body.mode-manage .layout,body.mode-settings .layout{display:none}
+body.mode-manage #gotoMgmt,body.mode-settings #gotoMgmt{display:none}
+body.mode-manage .mgmt-card,body.mode-settings .mgmt-card{margin-top:0}
 @media (max-width:920px){
 body.mode-practice #mbLoopToggle{display:none}
 body.mode-practice .mb-capture-row{display:none}
-body.mode-manage .mobile-bar{display:none}
-body.mode-manage .wrap{padding-bottom:64px}
-.mode-btn{font-size:.92rem;min-height:2.8rem}
+body.mode-manage .mobile-bar,body.mode-settings .mobile-bar{display:none}
+body.mode-manage .wrap,body.mode-settings .wrap{padding-bottom:64px}
+.mode-btn{font-size:.8rem;min-height:2.8rem;padding:.45rem .1rem;white-space:nowrap}
 }
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
@@ -626,7 +632,7 @@ body.docked .timeline{height:28px}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
 .edge-empty{margin:0;padding:12px 10px;font-size:.86rem;color:var(--ink2);line-height:1.6}
 .edge-foot{padding:8px 12px 12px;font-size:.76rem;color:var(--ink2);border-top:1.5px dashed var(--line)}
-body.mode-manage .edge-panel,body.mode-manage .edge-scrim{display:none}
+body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .edge-panel,body.mode-settings .edge-scrim{display:none}
 @media (max-width:920px){
 .edge-panel{top:auto;bottom:calc(122px + env(safe-area-inset-bottom,0px));transform:none}
 .edge-list{max-height:42vh}
@@ -673,6 +679,7 @@ body.mode-manage .edge-panel,body.mode-manage .edge-scrim{display:none}
 <button class="mode-btn" type="button" role="tab" data-mode="practice" aria-selected="true">🎸 練習モード</button>
 <button class="mode-btn" type="button" role="tab" data-mode="create" aria-selected="false">⚑ 作成モード</button>
 <button class="mode-btn" type="button" role="tab" data-mode="manage" aria-selected="false">🗂 管理モード</button>
+<button class="mode-btn" type="button" role="tab" data-mode="settings" aria-selected="false">⚙ 設定モード</button>
 </nav>
 <p class="mode-desc" id="modeDesc">プレイヤーと保存ループ、再生速度だけを表示します</p>
 
@@ -1581,6 +1588,8 @@ var PAIRS = [
 ["練習モード", "Practice mode"],
 ["作成モード", "Create mode"],
 ["管理モード", "Manage mode"],
+["設定モード", "Settings mode"],
+["設定だけを表示します。使い方・解説もここにあります", "Shows just the settings. The guide and explanations live here too"],
 ["プレイヤーと保存ループ、再生速度だけを表示します", "Shows just the player, your saved loops and the playback speed"],
 ["クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります", "Make loops with quick capture and the '⚑ Loop create' button (tap / hold)"],
 ["全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります", "All loops, saved loop lists, song lists and songs, plus the Settings tab"],
@@ -5321,14 +5330,20 @@ renderMgmtRows();
 }
 });
 document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
-b.addEventListener("click", function(){ mgmtTab = b.getAttribute("data-mtab"); renderMgmt(); });
+b.addEventListener("click", function(){
+mgmtTab = b.getAttribute("data-mtab"); renderMgmt();
+/* Keep the top mode bar in sync with the 設定 tab: entering it is
+   Settings mode, leaving it (while in Settings mode) is Manage. */
+if (mgmtTab === "settings" && uiMode !== "settings") setMode("settings", { noScroll: true });
+else if (mgmtTab !== "settings" && uiMode === "settings") setMode("manage", { noScroll: true });
+});
 });
 var gotoMgmtBtn = $("gotoMgmt");
 if (gotoMgmtBtn) gotoMgmtBtn.addEventListener("click", function(){ setMode("manage"); });
 renderMgmt();
 
-/* ---------- Mode switch （練習／作成／管理） ----------
-   Three modes, switched from the tab bar near the top of the screen.
+/* ---------- Mode switch （練習／作成／管理／設定） ----------
+   Four modes, switched from the tab bar near the top of the screen.
    The mode is in-memory session state only (never written to the
    localStorage save data): it changes which blocks are visible via
    the body.mode-* CSS, and nothing about songs, loops or settings.
@@ -5337,30 +5352,37 @@ renderMgmt();
    flags) front and centre, plus the library's song-add forms.
    Manage: the management screen only — its tabs, 設定 included, are
    right there; entering it also undocks the sticky mini player and
-   hides the mobile bottom bar (both are player controls). */
+   hides the mobile bottom bar (both are player controls).
+   Settings: the same management-only chrome as Manage, but the
+   screen opens directly on the 設定 tab, so settings (and the
+   guide / explanations kept there) are one tap from the top bar.
+   Picking another management tab while in Settings mode returns
+   the top bar to Manage; picking the 設定 tab enters Settings. */
 var uiMode = "practice";
 var MODE_DESCS = {
 practice: "プレイヤーと保存ループ、再生速度だけを表示します",
 create: "クイックキャプチャと「⚑ ループ作成」ボタン（タップ／長押し）でループを作ります",
-manage: "全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります"
+manage: "全ループ・保存ループリスト・曲リスト・曲と、設定タブがあります",
+settings: "設定だけを表示します。使い方・解説もここにあります"
 };
 function setMode(m, opts){
-if (["practice", "create", "manage"].indexOf(m) < 0) m = "practice";
+if (["practice", "create", "manage", "settings"].indexOf(m) < 0) m = "practice";
 uiMode = m;
-document.body.classList.remove("mode-practice", "mode-create", "mode-manage");
+document.body.classList.remove("mode-practice", "mode-create", "mode-manage", "mode-settings");
 document.body.classList.add("mode-" + m);
 document.body.setAttribute("data-mode", m);
 document.querySelectorAll(".mode-btn").forEach(function(b){
 b.setAttribute("aria-selected", b.getAttribute("data-mode") === m? "true": "false");
 });
 var desc = $("modeDesc"); if (desc) desc.textContent = MODE_DESCS[m];
-if (m === "manage"){
+if (m === "manage" || m === "settings"){
+if (m === "settings") mgmtTab = "settings";
 if (typeof setDocked === "function") setDocked(false);
 if (typeof setEdgeOpen === "function") setEdgeOpen(false);
 renderMgmt();
 }
 if (!opts || !opts.noScroll){
-if (m === "manage"){
+if (m === "manage" || m === "settings"){
 var sec = $("mgmtSection");
 if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
 } else {
