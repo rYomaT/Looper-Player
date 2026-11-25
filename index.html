@@ -584,6 +584,58 @@ body.docked .stage{width:112px}
 body.docked .tl-block{left:130px}
 body.docked .timeline{height:28px}
 }
+/* Edge panel (Samsung Galaxy Edge Panel style): the current song's
+   saved loops peek a little from the right edge of the screen — one
+   small coloured tab per loop, in that loop's own colour, next to a
+   slim 🔁 handle. Tapping the handle (or swiping it left) slides the
+   panel out with the loop list; each row plays the loop, and its
+   ✏️ 編集 button is a shortcut that opens that loop's edit form in
+   place in the loop list. Hidden in manage mode, where the
+   management screen already lists every loop. */
+.edge-scrim{position:fixed;inset:0;z-index:57;background:rgba(20,15,8,.32);opacity:0;pointer-events:none;transition:opacity .25s ease}
+.edge-scrim.show{opacity:1;pointer-events:auto}
+.edge-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:58;display:flex;align-items:center;pointer-events:none}
+.edge-col{pointer-events:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.edge-peek{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.edge-tick{width:14px;height:9px;border-radius:5px 0 0 5px;background:hsl(var(--loop-h,28) 70% 48%);box-shadow:-2px 2px 6px rgba(60,45,20,.25);opacity:.92}
+.edge-tick.more{width:auto;height:auto;font-size:.62rem;font-weight:900;color:var(--ink2);background:var(--chip);border:1px solid var(--line2);border-right:none;padding:1px 3px 1px 5px;line-height:1.5}
+.edge-handle{width:30px;min-height:118px;border:1.5px solid var(--line2);border-right:none;background:var(--panel);color:var(--ink);border-radius:12px 0 0 12px;box-shadow:-6px 8px 22px rgba(60,45,20,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px 0;cursor:pointer;touch-action:pan-y}
+.edge-handle:hover{border-color:var(--accent)}
+.edge-handle .eh-ic{font-size:1.05rem;line-height:1}
+.edge-handle .eh-lb{writing-mode:vertical-rl;font-size:.68rem;font-weight:900;color:var(--ink2);letter-spacing:.18em}
+.edge-handle .eh-count{background:var(--accent);color:var(--accent-ink);border-radius:999px;min-width:1.4em;text-align:center;font-size:.78rem;font-weight:900;padding:.08em .32em;line-height:1.35}
+.edge-handle .eh-chev{font-size:1.05rem;font-weight:900;color:var(--ink2);line-height:1;transition:transform .25s ease}
+.edge-panel.open .edge-handle .eh-chev{transform:rotate(180deg)}
+.edge-sheet{display:none;width:292px;max-width:80vw;background:var(--panel);border:1.5px solid var(--line2);border-right:none;border-radius:14px 0 0 14px;box-shadow:-12px 14px 34px rgba(60,45,20,.22);margin-right:6px}
+.edge-panel.open .edge-sheet{display:block;animation:edgeSlideIn .26s ease}
+@keyframes edgeSlideIn{from{transform:translateX(26px);opacity:.35}to{transform:none;opacity:1}}
+.edge-sheet-head{display:flex;align-items:center;gap:8px;padding:12px 12px 9px;border-bottom:1.5px dashed var(--line)}
+.edge-sheet-title{font-weight:900;font-size:1rem;line-height:1.35}
+.edge-song{font-size:.78rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-sheet-head .btn{flex:none}
+.edge-list{max-height:min(56vh,430px);overflow:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
+.edge-row{display:flex;gap:6px;align-items:stretch;background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 9%,var(--panel));border:1.5px solid color-mix(in srgb,hsl(var(--loop-h,28) 70% 48%) 34%,var(--line));border-radius:10px;padding:6px}
+.edge-row.active{border-color:hsl(var(--loop-h,28) 70% 45%);background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 20%,var(--panel))}
+.edge-play{flex:1;min-width:0;background:transparent;border:none;text-align:left;display:flex;flex-direction:column;gap:1px;padding:3px 4px;cursor:pointer;color:var(--ink);font-family:inherit}
+.edge-play:hover .ep-name{color:var(--accent)}
+.ep-top{display:flex;align-items:center;gap:6px;min-width:0}
+.ep-name{font-weight:900;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ep-range{font-size:.8rem;color:var(--ink2)}
+.ep-note{font-size:.75rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-edit{flex:none;align-self:center;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:.88rem;padding:.35rem .6rem;min-height:2.5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3em;font-family:inherit}
+.edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
+.edge-empty{margin:0;padding:12px 10px;font-size:.86rem;color:var(--ink2);line-height:1.6}
+.edge-foot{padding:8px 12px 12px;font-size:.76rem;color:var(--ink2);border-top:1.5px dashed var(--line)}
+body.mode-manage .edge-panel,body.mode-manage .edge-scrim{display:none}
+@media (max-width:920px){
+.edge-panel{top:auto;bottom:calc(122px + env(safe-area-inset-bottom,0px));transform:none}
+.edge-list{max-height:42vh}
+.edge-handle{min-height:104px}
+}
+@media (prefers-reduced-motion: reduce){
+.edge-scrim,.edge-handle .eh-chev{transition:none}
+.edge-panel.open .edge-sheet{animation:none}
+}
 </style>
 </head>
 <body>
@@ -598,6 +650,7 @@ body.docked .timeline{height:28px}
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
+<li><strong>エッジパネル：</strong>画面の右端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（Galaxyのエッジパネル風）。右端の「🔁」ハンドルをタップするか、左へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは管理モードでは表示されません。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -908,6 +961,30 @@ body.docked .timeline{height:28px}
 
 <div class="dock-bar" id="dockBar" aria-hidden="true"></div>
 
+<div class="edge-scrim" id="edgeScrim"></div>
+<div class="edge-panel" id="edgePanel">
+<div class="edge-sheet" id="edgeSheet" role="complementary" aria-label="保存ループのエッジパネル">
+<div class="edge-sheet-head">
+<div style="flex:1;min-width:0">
+<div class="edge-sheet-title">🔁 ループ</div>
+<div class="edge-song" id="edgeSong"></div>
+</div>
+<button class="btn small" id="edgeClose" type="button" aria-label="エッジパネルを閉じる">✕ 閉じる</button>
+</div>
+<div class="edge-list" id="edgeList"></div>
+<div class="edge-foot">▶＝再生 ／ ✏️ 編集＝そのループの編集をその場で開く</div>
+</div>
+<div class="edge-col">
+<div class="edge-peek" id="edgePeek" aria-hidden="true"></div>
+<button class="edge-handle" id="edgeHandle" type="button" aria-expanded="false" aria-controls="edgeSheet" aria-label="保存ループのエッジパネルを開く">
+<span class="eh-ic" aria-hidden="true">🔁</span>
+<span class="eh-lb" aria-hidden="true">ループ</span>
+<span class="eh-count mono" id="edgeCount">0</span>
+<span class="eh-chev" aria-hidden="true">‹</span>
+</button>
+</div>
+</div>
+
 <nav class="mobile-bar" id="mobileBar" aria-label="プレイヤー操作バー">
 <div class="mb-speed-panel" id="mbSpeedPanel" hidden>
 <div class="mb-speed-head"><span>再生速度 <span class="speed-val mono" id="mbSpeedVal">1.00×</span></span><button class="btn small" id="mbSpeedClose" type="button" aria-label="速度パネルを閉じる">✕ 閉じる</button></div>
@@ -1084,6 +1161,14 @@ var PAIRS = [
 ["まだ曲がありません。下のフォームから追加するか、管理画面の「設定」タブ（10. サンプルデータ）の「サンプルデータを追加」からサンプル曲（全32曲）を読み込んでください。", "No songs yet. Add one with the form below, or load the sample songs (all 32) from 'Add sample data' in the Settings tab (10. Sample data) of the management screen."],
 ["条件に合う曲がありません。絞り込みを変えてみてください。", "No songs match. Try changing the search."],
 ["曲を選ぶと、その曲に保存したループが表示されます。", "Pick a song to see the loops saved for it."],
+["エッジパネル：", "Edge panel: "],
+["保存ループのエッジパネルを開く", "Open the saved-loops edge panel"],
+["保存ループのエッジパネルを閉じる", "Close the saved-loops edge panel"],
+["保存ループのエッジパネル", "Saved-loops edge panel"],
+["エッジパネルを閉じる", "Close the edge panel"],
+["曲を選ぶと、その曲のループがここに並びます。", "Pick a song and its loops will line up here."],
+["この曲のループはまだありません。「⚑ ループ作成」や🎤キャプチャで作ると、ここからすぐ編集できます。", "No loops for this song yet. Make one with '⚑ Loop create' or 🎤 capture, and you can edit it right from here."],
+["▶＝再生 ／ ✏️ 編集＝そのループの編集をその場で開く", "▶ = play / ✏️ Edit = opens that loop's editor in place"],
 ["下部メニューの「⚑ ループ作成」ボタンや、🎤キャプチャボタン各種を押してループ期間を指定してください。", "Use the '⚑ Loop create' button or the 🎤 capture buttons in the bottom menu to set a loop range."],
 ["書き出しファイルを読み込んで以前のループ、セットリストを読み込み", "Or import an export file to bring back earlier loops and setlists"],
 ["書き出しファイルは、保存したループやセットリスト（曲のリスト）をテキストファイル（looper-export.txt）として保存したものです。あとで読み込むと、以前のループやセットリストをそのまま復元できます。", "An export file is a text file (looper-export.txt) holding your saved loops and setlists (song lists). Import it later to restore those loops and setlists exactly as they were."],
@@ -1547,7 +1632,7 @@ return out;
    bodies, fetched comment text…) is data, not UI wording: it is
    never translated. The long how-to paragraphs likewise keep their
    Japanese detail text; their headings and lead-ins translate. */
-var I18N_SKIP_SEL = ".note, .loop-item .name, .mg-title, .song .st, #nowTitle, #nowArtist, .compact-title, .compact-band, .yt-result-title, .yt-result-sub, .ytc-text, .ytc-author, .tl-sec-name, #audioFileName, .comment .body, .comment .who";
+var I18N_SKIP_SEL = ".note, .loop-item .name, .mg-title, .song .st, #nowTitle, #nowArtist, .compact-title, .compact-band, .yt-result-title, .yt-result-sub, .ytc-text, .ytc-author, .tl-sec-name, #audioFileName, .comment .body, .comment .who, .ep-name, .ep-note, #edgeSong";
 function i18nSkipEl(el){
 if (!el || el.nodeType !== 1) return false;
 if (el.closest && el.closest("script, style")) return true;
@@ -3457,6 +3542,7 @@ return "hsl(" + loopHue(sec) + ",65%,46%)";
 }
 function renderSections(){
 var list = $("loopList"); if (!list) return;
+renderEdgePanel();
 saveLocal();
 list.innerHTML = "";
 if (!currentSong){ list.innerHTML = '<p class="loop-empty">曲を選ぶと、その曲に保存したループが表示されます。</p>'; refreshSongBadges(); return;}
@@ -3779,6 +3865,117 @@ list.appendChild(item);
 });
 refreshSongBadges();
 }
+
+/* ---------- Edge panel (Galaxy-style loop shortcut) ----------
+   The current song's saved loops peek a little from the right edge:
+   one small coloured tab per loop (in the loop's own colour) beside
+   a slim handle. Tapping the handle — or swiping it left — slides
+   the panel out. Each row plays its loop; the row's ✏️ 編集 button
+   is the edit shortcut: it closes the panel and opens that loop's
+   edit form in place in the loop list (openLoopEditor). The panel
+   re-renders from renderSections(), so it follows song changes,
+   loop creation / deletion / edits and the playing state for free. */
+var edgeOpen = false;
+function setEdgeOpen(open){
+edgeOpen = !!open;
+var panel = $("edgePanel"), scrim = $("edgeScrim"), handle = $("edgeHandle");
+if (panel) panel.classList.toggle("open", edgeOpen);
+if (scrim) scrim.classList.toggle("show", edgeOpen);
+if (handle){
+handle.setAttribute("aria-expanded", edgeOpen? "true": "false");
+handle.setAttribute("aria-label", edgeOpen? "保存ループのエッジパネルを閉じる": "保存ループのエッジパネルを開く");
+}
+if (edgeOpen) renderEdgePanel();
+}
+var edgeSig = "";
+function renderEdgePanel(){
+var peek = $("edgePeek"), list = $("edgeList"), cnt = $("edgeCount"), songEl = $("edgeSong");
+if (!peek || !list) return;
+var secs = currentSong? visibleSections(): [];
+/* Skip the rebuild when nothing the panel shows has changed —
+   renderSections() also runs on every loop wrap (updateAB), and
+   rebuilding the rows then would flicker the open panel and could
+   swallow a tap that is already in progress. */
+var sig = (currentSong? currentSong.id + ":" + (currentSong.title || ""): "-") + "|" + secs.map(function(s){ return [s.id, s.a, s.b, s.name || "", s.note || "", s.speed == null? "": s.speed].join(","); }).join(";") + "|" + (loopA == null? "-": Math.round(loopA*100)) + "," + (loopB == null? "-": Math.round(loopB*100));
+if (sig === edgeSig && list.childNodes.length) return;
+edgeSig = sig;
+if (cnt) cnt.textContent = secs.length;
+if (songEl) songEl.textContent = currentSong? currentSong.title: "";
+/* Peeking tabs: at most 6 coloured tabs, then a +n tab. */
+peek.innerHTML = "";
+var maxTicks = 6;
+secs.slice(0, maxTicks).forEach(function(sec){
+var tick = document.createElement("span");
+tick.className = "edge-tick";
+tick.style.setProperty("--loop-h", loopHue(sec));
+peek.appendChild(tick);
+});
+if (secs.length > maxTicks){
+var more = document.createElement("span");
+more.className = "edge-tick more mono";
+more.textContent = "+" + (secs.length - maxTicks);
+peek.appendChild(more);
+}
+list.innerHTML = "";
+if (!currentSong){
+list.innerHTML = '<p class="edge-empty">曲を選ぶと、その曲のループがここに並びます。</p>';
+return;
+}
+if (!secs.length){
+list.innerHTML = '<p class="edge-empty">この曲のループはまだありません。「⚑ ループ作成」や🎤キャプチャで作ると、ここからすぐ編集できます。</p>';
+return;
+}
+secs.forEach(function(sec){
+var row = document.createElement("div");
+row.className = "edge-row" + (isActiveSection(sec)? " active": "");
+row.style.setProperty("--loop-h", loopHue(sec));
+var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
+row.innerHTML =
+'<button class="edge-play" type="button" aria-label="' + esc(sec.name || "") + 'を再生">' +
+'<span class="ep-top"><span class="loop-color-dot" aria-hidden="true"></span><span class="ep-name">' + esc(sec.name || "") + '</span>' + speedBadge + '</span>' +
+'<span class="ep-range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
+(sec.note? '<span class="ep-note">' + esc(sec.note) + '</span>': "") +
+'</button>' +
+'<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️ 編集</button>';
+row.querySelector(".edge-play").addEventListener("click", function(){ activateSection(sec); });
+row.querySelector(".edge-edit").addEventListener("click", function(){
+setEdgeOpen(false);
+openLoopEditor(sec);
+});
+list.appendChild(row);
+});
+}
+(function initEdgePanel(){
+var handle = $("edgeHandle"), closeBtn = $("edgeClose"), scrim = $("edgeScrim"), sheet = $("edgeSheet");
+if (!handle) return;
+var dragX = null, dragMoved = false;
+handle.addEventListener("pointerdown", function(e){ dragX = e.clientX; dragMoved = false; });
+handle.addEventListener("pointermove", function(e){
+if (dragX == null) return;
+var dx = e.clientX - dragX;
+if (dx < -36){ setEdgeOpen(true); dragMoved = true; dragX = null; }
+else if (dx > 36){ setEdgeOpen(false); dragMoved = true; dragX = null; }
+});
+handle.addEventListener("pointerup", function(){ dragX = null; setTimeout(function(){ dragMoved = false; }, 60); });
+handle.addEventListener("pointercancel", function(){ dragX = null; dragMoved = false; });
+handle.addEventListener("click", function(){ if (dragMoved) return; setEdgeOpen(!edgeOpen); });
+if (closeBtn) closeBtn.addEventListener("click", function(){ setEdgeOpen(false); });
+if (scrim) scrim.addEventListener("click", function(){ setEdgeOpen(false); });
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && edgeOpen) setEdgeOpen(false); });
+/* Swipe right on the open sheet closes it, like pushing the Galaxy
+   panel back into the edge. */
+if (sheet){
+var sheetX = null;
+sheet.addEventListener("pointerdown", function(e){ sheetX = e.clientX; });
+sheet.addEventListener("pointermove", function(e){
+if (sheetX == null) return;
+if (e.clientX - sheetX > 60){ setEdgeOpen(false); sheetX = null; }
+});
+sheet.addEventListener("pointerup", function(){ sheetX = null; });
+sheet.addEventListener("pointercancel", function(){ sheetX = null; });
+}
+renderEdgePanel();
+})();
 
 /* ---------- Color-coded timeline with zoom + ruler ---------- */
 var SEC_COLORS = ["#c2570b", "#14655a", "#7a4fa3", "#1f6fb2", "#b3372a", "#8a6d1a", "#0e7c86", "#a03d63"];
@@ -5159,6 +5356,7 @@ b.setAttribute("aria-selected", b.getAttribute("data-mode") === m? "true": "fals
 var desc = $("modeDesc"); if (desc) desc.textContent = MODE_DESCS[m];
 if (m === "manage"){
 if (typeof setDocked === "function") setDocked(false);
+if (typeof setEdgeOpen === "function") setEdgeOpen(false);
 renderMgmt();
 }
 if (!opts || !opts.noScroll){
