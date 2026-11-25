@@ -4,6 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#c2570b" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Loooper" />
+<link rel="manifest" href="data:application/octet-stream;base64,eyJiYWNrZ3JvdW5kX2NvbG9yIjoiI2Y0ZjFlYSIsImRlc2NyaXB0aW9uIjoiS2VlcCB5b3VyIHByYWN0aWNlIGxpYnJhcnkgb25lIHRhcCBhd2F5LiBJbnN0YWxsIExvb29wZXIgb24geW91ciBob21lIHNjcmVlbiB0byBsYXVuY2ggZmFzdGVyLCBvcGVuIHNoYXJlZCBzZXRzIGRpcmVjdGx5LCBhbmQgdXNlIGl0IGxpa2UgYW4gYXBwIGR1cmluZyBwcmFjdGljZS4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImljb25zIjpbeyJwdXJwb3NlIjoiYW55Iiwic2l6ZXMiOiIxOTJ4MTkyIiwic3JjIjoiaWNvbi0xOTIucG5nIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsicHVycG9zZSI6ImFueSIsInNpemVzIjoiNTEyeDUxMiIsInNyYyI6Imljb24tNTEyLnBuZyIsInR5cGUiOiJpbWFnZS9wbmcifV0sIm5hbWUiOiJMb29vcGVyIC0g5qW95Zmo5ryU5aWP44Or44O844OR44O8Iiwic2NvcGUiOiIuLi8iLCJzaG9ydF9uYW1lIjoiTG9vb3BlciIsInN0YXJ0X3VybCI6Ii4uL2luZGV4Lmh0bWwiLCJ0aGVtZV9jb2xvciI6IiNjMjU3MGIifQ==" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFiUlEQVR4nO3d3ZHTQBBF4VmKN0hp44AQHQektAHwMJRL2Gsh6c7P7Z7zPcOiGR+3ZAuv3379+FaAq77MPgDERkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUHydfYBuHi/fZz6879/fu90JLG8rfnrXc7mcsSaSS0UUI9oXlknpvwBjezmWfqS0gY0t5tnWUtKGJBbOlv5MkoVkHM6W3pG77cPkxaTBBQlnS2lgLpeh4bCBxQxna1rEdxXPb2hwAFFT2frbAfbtc9tKGRAmdLZOp7Cww5MbCjevbCs9RRhae+3j1nbEiygxPVUygKnbE6YU9iA3bl8Bulh/2B2DmDw6SxGQP73Pgcf4f4/N7KhAAG1fWx6b+6Yo/3vvzKsIfeAWj0e41+ndD3yIz98zJJ9A4qbzlanVRz8sQPWbhqQvu/T36J90HZFx39a731wDEjca7d0tlot7dTP6bohdu8DJa6nyId3bXO6vs3oNYGUdZqn80Bc6bW/3mOL7CbQNbHqKZMOuMccMppAPs+qkcbff2i7Yy4TaM16SuQ3qCqLgJatpzq7EHHhbfdt/idTL9STJp27uqIBNyiab53FBDolXz13+0vTB0/CV2F8Iv3BqwVanba2ZgZEPZ96XqZtPWViQNSzY7tY53qKw0U0XjG8ZH42ZwIxfv4rRD0lxARasB7RyB2bMIF8/itCSoN3LN77QNgx/vk2OiDGTz9Ttst3AlHPKbO2a2hA6T9XOsvEJ5vpqzDGz0HTN2rcBPL5IEEaDhvlew2EfQ71lGH/pZXxkxUTCBICgmREQJy/EmMCQWIUEOMnou4B8e5zbkYTCBG5BMT5KyiXgBBU35upQS+AXh02Y/KZxd14nwdmv3if78jxYRGQg+PDkoy2uAYq5dKpNujZuTkCkr7ipO2RRLR6QGIENNQxIP/NbXKE/svsav4E4mo0tPkBzdJwcqw8hNYNCE0sGlDzmbHsEFo0ILRCQJAQECQEBAkBQUJAkBAQJIsG1Pz+ybI3ZBYNCK2sG1DDmbHs+CkOAS17EyCHjgH5Py+bHKH/MruaP4HmMv8qE3+rB1SECKinEFB1IQXqqfhc2F8Hv7W0kM6/+v6SzaC/m4yPNh/X/be0HmyIxyYoroEgcQmItxODcgkIQXUPiIub3IwmEGexiIwCQkQjAjp+FmMIhcMEgoSAIBkUEGexrJhAkIwLiCGUkukEoqEohgbEu9L5mE6gwhAKYnRAp4YQDfnznUAIYUJADKFMAkwgGnI2J6CzL8cWbCjKkgNMoGW93z78M5oWEENox3ax5gufOYFo6FPPy3Re+ORTGA09eLVA24XHuway3UrdkW9sddP9k6lHXNuaTHfWTu2A1cItJtC1HfF8Rl5wdiFWC7cIqCzcUPQlWJzC7i7vptVUPyjHYl0mkCjc8zjcAb/iNYGKvLNWz85PJVug3QQSN8j8mZ2snmI4gSq9A7e9zreiyjSg0m6WzN33HKvY4RtQFfcBiHvkp7gHVFpf1vR+PGIdrS5AQKXPpXHbx8b/CDuJEVAZ8vLK6rOzIeopgQKqzF+lNxElncrufaB9sTb3gnALDBZQCbjFx0VcWrBT2Fam01nEdKrAAVXRM4qbThU+oCpiRtHTqZIEVEXJKEc6VaqAKueMMqVTJQyocssoXzpV2oDu5paUtZu7/AHdjSwpfTd3CwW0tey9z+YWDejZ2aTWzOUZAUES714YrBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQ/AGp5Rk72t2vegAAAABJRU5ErkJggg==" />
 <link rel="icon" href="data:," />
 <title>楽器演奏ルーパー</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -425,6 +432,16 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .sample-check input[type="checkbox"]{width:1.35rem;height:1.35rem;flex:none;margin-top:.15em;accent-color:var(--accent);cursor:pointer}
 .sample-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .sample-actions .btn{flex:1;min-width:200px}
+.install-en{font-weight:900;font-size:1.02rem;line-height:1.45;margin:0}
+.install-en-sub{font-size:.9rem;color:var(--ink2);line-height:1.6;margin:4px 0 0}
+.install-status{font-size:.9rem;font-weight:700;margin:10px 0 0;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--panel)}
+.install-status.ready{border-color:var(--teal);background:var(--teal-soft);color:var(--teal)}
+.install-status.done{border-color:var(--teal);background:var(--teal-soft);color:var(--teal)}
+.install-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.install-actions .btn{flex:1;min-width:180px}
+.install-steps{margin:12px 0 0;padding-left:1.25em;font-size:.9rem;line-height:1.65}
+.install-steps li{margin:5px 0}
+.install-steps strong{font-weight:900}
 /* Sticky mini player: when the page is scrolled past the timeline, the video
    and a compact timeline stay pinned to the top of the screen in a slim bar,
    so the current time and loop ranges stay visible while capturing or
@@ -487,7 +504,8 @@ body.docked .timeline{height:28px}
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
 <li><strong>自動保存：</strong>保存したループ・追加した曲・コメント・最後に開いていた曲と再生速度は、ブラウザの保存領域（localStorage）に自動で保存され、ページを開き直すと復元されます。保存領域はサイトごとに別々なので、このページとGitHub Pages版の間では自動では引き継がれません。引っ越しやバックアップには書き出しファイル（looper-export.txt）を使ってください。ローカルMP3はファイル自体は保存できないので、曲名などの情報だけが残り、再生するにはファイルの再追加が必要です。</li>
 <li><strong>サンプルデータ：</strong>サンプル曲には「サンプル」の表記が付きます（曲リスト・管理画面の曲／全ループ／曲リスト／保存ループリスト内）。管理画面の「設定」タブ（10. サンプルデータ）で、「読み込み時にサンプルデータのロードを次からやめる」にチェックすると、次に開いたときからサンプル曲は自動で読み込まれません。「サンプルデータを追加」ボタンを押すと、あらゆるサンプル（全32曲）をその場で読み込めます（すでにあるサンプルは重複しません）。サンプル曲に付けたループなどは、サンプルを再び追加すると戻ります。</li>
-<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、サンプルデータの読み込み設定を変更できます（初期値はいままで通りで、変更は保存されます）。</li>
+<li><strong>ホーム画面に追加：</strong>管理画面の「設定」タブ（11. ホーム画面に追加）から、このページをホーム画面に追加してアプリのように使えます。ブラウザ側の案内（「Keep your practice library one tap away / Install / Not now」）で「Not now」を選んだあとでも、ここからいつでも追加できます。ブラウザが自動のインストール画面を出せる場合はInstallボタンでそのまま追加でき、出せない場合（iPhoneのSafariなど）は、共有ボタン→「ホーム画面に追加」などの手順が表示されます。</li>
+<li><strong>管理画面：</strong>ページ下部の「管理画面」では、保存したループを曲をまたいで一覧表示し、検索・再生・編集・削除ができます。ループを集めて「苦手なソロ集」「リフ練習」のような<strong>保存ループリスト</strong>を作ると、その順番で各ループを指定回数ずつ続けて練習できます（各ループの編集画面の「保存ループリストに追加」からも入れられます）。曲を集めた<strong>曲リスト</strong>や、曲の名前の編集もここで管理します。保存ループリストや全体のデータは書き出しファイルで友達と共有でき、相手は管理画面の「共有・書き出し」タブから読み込むだけで同じリストが使えます。「設定」タブでは、再生速度の倍率ボタン／ジャンプする秒数／クイックキャプチャの秒数／長押しループの最小時間／微調整ボタンの刻み／終了時間のプレビュー位置／サンプル曲のシャッフル／保存ループの並び順／自動保存の9項目と、サンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もここからできます（初期値はいままで通りで、変更は保存されます）。</li>
 <li><strong>つなぎ目：</strong>ローカルMP3とDriveの曲は、読み込めた場合にシームレス再生（Web Audio）になり、ループのつなぎ目がほぼ出ません。YouTubeは仕組み上、開始位置を先読みして早めに巻き戻す改善のみで、つなぎ目が少し残ります。</li>
 <li><strong>再生できないYouTube動画：</strong>動画によっては、YouTube側で埋め込み再生が許可されておらず、このページの中では再生できないものがあります。その場合は、プレイヤーに案内が出ます。「YouTubeで開く」を押すと、YouTubeのページでそのまま再生できます（その動画ではループ練習はできません）。ループ一覧など、ほかの機能はそのまま使えます。</li>
 </ul>
@@ -745,7 +763,7 @@ body.docked .timeline{height:28px}
 
 <section class="card mgmt-card" id="mgmtSection" aria-label="管理画面">
 <h2>🗂 管理画面 <span class="count" id="mgmtCount"></span></h2>
-<p class="hint" style="margin:0">曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。保存ループリストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。「設定」タブでは、再生速度の倍率ボタンやジャンプする秒数など9項目とサンプルデータの読み込み設定を変更できます。</p>
+<p class="hint" style="margin:0">曲をまたいで、保存ループ・保存ループリスト・曲リスト・曲をまとめて管理できます。変更は自動保存されます。保存ループリストは「苦手なソロ集」「リフ練習」のように、複数曲のループを集めて順番に練習するためのリストです。「設定」タブでは、再生速度の倍率ボタンやジャンプする秒数など9項目とサンプルデータの読み込み設定を変更でき、ホーム画面への追加（アプリとして使う）もできます。</p>
 <div class="mgmt-tabs" role="tablist" aria-label="管理画面の切り替え">
 <button class="btn small" type="button" data-mtab="loops" aria-selected="true">全ループ</button>
 <button class="btn small" type="button" data-mtab="practice" aria-selected="false">保存ループリスト</button>
@@ -3411,7 +3429,7 @@ if (mgmtTab === "loops") rows.innerHTML = mgmtLoopRowsHtml();
 else if (mgmtTab === "practice") rows.innerHTML = mgmtPracticeHtml();
 else if (mgmtTab === "setlists") rows.innerHTML = mgmtSetlistHtml();
 else if (mgmtTab === "songs") rows.innerHTML = mgmtSongsHtml();
-else if (mgmtTab === "settings") rows.innerHTML = mgmtSettingsHtml();
+else if (mgmtTab === "settings"){ rows.innerHTML = mgmtSettingsHtml(); refreshInstallUI(); }
 else rows.innerHTML = mgmtShareHtml();
 }
 function mgmtLoopRowsHtml(){
@@ -3525,6 +3543,47 @@ return '<div class="mgmt-row"><div class="mg-main"><div class="mg-title">' + esc
 '<div class="mg-actions"><button class="btn small primary" type="button" data-act="song-play" data-song="' + s.id + '">▶ 再生</button><button class="btn small" type="button" data-act="song-edit" data-song="' + s.id + '">名前を編集</button><button class="btn small danger" type="button" data-act="song-del" data-song="' + s.id + '">削除</button></div></div>';
 }).join("");
 }
+/* ---------- Install to home screen (管理画面「設定」11) ----------
+   The browser's own install offer (the "Keep your practice library
+   one tap away / Install / Not now" prompt) can only be shown once,
+   so the same action also lives in the settings tab: when the browser
+   hands us a beforeinstallprompt event we keep it and the Install
+   button re-opens the native prompt; where no native prompt exists
+   (iOS Safari, in-app browsers, already dismissed) the button points
+   to the manual steps listed under it. Standalone display mode means
+   the page is already running as the installed app. */
+var deferredInstallPrompt = null;
+function isStandaloneApp(){
+try{
+return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+}catch (e){ return false; }
+}
+function refreshInstallUI(){
+var st = $("installStatus"), btn = $("installAppBtn");
+if (!st && !btn) return;
+if (isStandaloneApp()){
+if (st){ st.textContent = "この端末では、すでにアプリとして使っています（ホーム画面のアイコンから開いています）。"; st.className = "install-status done"; }
+if (btn){ btn.disabled = true; btn.textContent = "追加済みです"; }
+return;
+}
+if (deferredInstallPrompt){
+if (st){ st.textContent = "この端末では、そのままインストールできます。下のInstallボタンを押してください。"; st.className = "install-status ready"; }
+if (btn){ btn.disabled = false; btn.textContent = "Install（ホーム画面に追加）"; }
+return;
+}
+if (st){ st.textContent = "このブラウザでは自動のインストール画面は出ません。下の手順でホーム画面に追加できます。"; st.className = "install-status"; }
+if (btn){ btn.disabled = false; btn.textContent = "追加の手順を見る"; }
+}
+window.addEventListener("beforeinstallprompt", function(e){
+e.preventDefault();
+deferredInstallPrompt = e;
+refreshInstallUI();
+});
+window.addEventListener("appinstalled", function(){
+deferredInstallPrompt = null;
+refreshInstallUI();
+toast("ホーム画面に追加しました。アイコンからすぐ開けます");
+});
 function mgmtSettingsHtml(){
 function chips(act, options, current){
 return '<div class="sp-chips">' + options.map(function(o){
@@ -3584,6 +3643,18 @@ html += '<div class="settings-box"><h3>10. サンプルデータ</h3>' +
 '<p class="hint" style="margin:8px 0 0">チェックを付けると、次にページを開いたときからサンプル曲は自動で読み込まれなくなります（今表示中のサンプル曲は、そのまま使えます）。自分で追加した曲・保存ループ・保存ループリスト・曲リストは消えません。サンプル曲に付けたループやリストの内容は保存されたままになり、サンプルを再び追加すると戻ります。</p>' +
 '<div class="sample-actions"><button class="btn primary" type="button" data-act="sample-add-all"' + (sampleN >= SAMPLES.length? " disabled": "") + '>サンプルデータを追加（全' + SAMPLES.length + '曲を読み込む）</button></div>' +
 '<p class="hint" style="margin:8px 0 0">このボタンを押すと、あらゆるサンプル（全' + SAMPLES.length + '曲）を今すぐ読み込めます。すでにあるサンプルは重複して追加されません。「次からやめる」にチェックが付いたままだと、次に開いたときはまた読み込まれません。</p></div>';
+html += '<div class="settings-box"><h3>11. ホーム画面に追加（アプリとして使う）</h3>' +
+'<p class="install-en">Keep your practice library one tap away</p>' +
+'<p class="install-en-sub">Install Loooper on your home screen to launch faster, open shared sets directly, and use it like an app during practice.</p>' +
+'<p class="hint" style="margin:8px 0 0">ホーム画面に追加すると、ブラウザを開かなくてもアイコンを1回押すだけで練習ライブラリが開きます。共有されたセットもそのまま開けて、練習中もアプリのように使えます。あとで追加したくなったときは、いつでもここからできます（最初に出る案内で「Not now」を選んでも、ここでやり直せます）。</p>' +
+'<p class="install-status" id="installStatus" role="status">状態を確認しています…</p>' +
+'<div class="install-actions"><button class="btn primary" type="button" data-act="install-app" id="installAppBtn">Install（ホーム画面に追加）</button></div>' +
+'<ol class="install-steps">' +
+'<li><strong>iPhone / iPad（Safari）：</strong>共有ボタン（□に↑）を押して「ホーム画面に追加」を選ぶ</li>' +
+'<li><strong>Android（Chrome）：</strong>メニュー（︙）から「ホーム画面に追加」または「アプリをインストール」を選ぶ（上のInstallボタンで直接出る場合もあります）</li>' +
+'<li><strong>パソコン（Chrome / Edge）：</strong>アドレスバー右端のインストールアイコン、またはメニューから「インストール」を選ぶ</li>' +
+'</ol>' +
+'<p class="hint" style="margin:8px 0 0">アプリ内ブラウザ（SNSやチャットアプリの中）では追加できないことがあります。そのときは、このページをSafariやChromeで開き直してから試してください。追加しても、保存ループや設定は今のまま引き継がれます。</p></div>';
 return html;
 }
 function mgmtShareHtml(){
@@ -3798,6 +3869,30 @@ var combo = SPEED_COMBOS.filter(function(c){ return c.key === btn.getAttribute("
 if (combo){ setSpeedPresetsSel(combo.vals, true); renderMgmtRows(); }
 }
 else if (act === "sample-add-all"){ addAllSamples(true); renderMgmtRows(); }
+else if (act === "install-app"){
+if (isStandaloneApp()){ toast("すでにアプリとして使っています"); return; }
+if (deferredInstallPrompt){
+var promptEvent = deferredInstallPrompt;
+deferredInstallPrompt = null;
+refreshInstallUI();
+/* BeforeInstallPrompt's own show method (not the window dialog):
+   call it through the kept reference so it stays bound. */
+var showNativeInstall = promptEvent.prompt;
+showNativeInstall.call(promptEvent);
+if (promptEvent.userChoice && promptEvent.userChoice.then){
+promptEvent.userChoice.then(function(choice){
+if (choice && choice.outcome === "accepted") toast("ホーム画面に追加しました。アイコンからすぐ開けます");
+else toast("今は追加しませんでした。あとで設定の「11. ホーム画面に追加」からいつでもできます");
+refreshInstallUI();
+});
+}
+} else {
+var box = btn.closest? btn.closest(".settings-box"): null;
+var steps = box? box.querySelector(".install-steps"): null;
+if (steps) steps.scrollIntoView({ behavior: "smooth", block: "center" });
+toast("下の手順でホーム画面に追加できます（iPhoneは共有ボタン→「ホーム画面に追加」）");
+}
+}
 else if (act === "goto-capture"){
 var cb = document.querySelector(".capture-box");
 if (cb) cb.scrollIntoView({ behavior: "smooth", block: "start" });
