@@ -611,7 +611,7 @@ body.docked .timeline{height:28px}
 .edge-handle .eh-count{background:var(--accent);color:var(--accent-ink);border-radius:999px;min-width:1.4em;text-align:center;font-size:.78rem;font-weight:900;padding:.08em .32em;line-height:1.35}
 .edge-handle .eh-chev{font-size:1.05rem;font-weight:900;color:var(--ink2);line-height:1;transition:transform .25s ease}
 .edge-panel.open .edge-handle .eh-chev{transform:rotate(180deg)}
-.edge-sheet{display:none;width:292px;max-width:80vw;background:var(--panel);border:1.5px solid var(--line2);border-right:none;border-radius:14px 0 0 14px;box-shadow:-12px 14px 34px rgba(60,45,20,.22);margin-right:6px}
+.edge-sheet{display:none;pointer-events:auto;width:292px;max-width:80vw;background:var(--panel);border:1.5px solid var(--line2);border-right:none;border-radius:14px 0 0 14px;box-shadow:-12px 14px 34px rgba(60,45,20,.22);margin-right:6px}
 .edge-panel.open .edge-sheet{display:block;animation:edgeSlideIn .26s ease}
 @keyframes edgeSlideIn{from{transform:translateX(26px);opacity:.35}to{transform:none;opacity:1}}
 .edge-sheet-head{display:flex;align-items:center;gap:8px;padding:12px 12px 9px;border-bottom:1.5px dashed var(--line)}
@@ -631,6 +631,21 @@ body.docked .timeline{height:28px}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
 .edge-empty{margin:0;padding:12px 10px;font-size:.86rem;color:var(--ink2);line-height:1.6}
 .edge-foot{padding:8px 12px 12px;font-size:.76rem;color:var(--ink2);border-top:1.5px dashed var(--line)}
+/* Left-edge placement (設定17「エッジパネルの表示位置」, the default):
+   everything mirrors — the panel anchors to the left edge, the handle
+   and peeking tabs hug that edge, the sheet opens to the right of the
+   handle, and the chevron / slide-in direction flip. The base rules
+   above stay the right-edge variant. */
+body.edge-left .edge-panel{right:auto;left:0;flex-direction:row-reverse}
+body.edge-left .edge-col,body.edge-left .edge-peek{align-items:flex-start}
+body.edge-left .edge-tick{border-radius:0 5px 5px 0;box-shadow:2px 2px 6px rgba(60,45,20,.25)}
+body.edge-left .edge-tick.more{border:1px solid var(--line2);border-left:none;padding:1px 5px 1px 3px}
+body.edge-left .edge-handle{border:1.5px solid var(--line2);border-left:none;border-radius:0 12px 12px 0;box-shadow:6px 8px 22px rgba(60,45,20,.18)}
+body.edge-left .edge-sheet{border:1.5px solid var(--line2);border-left:none;border-radius:0 14px 14px 0;box-shadow:12px 14px 34px rgba(60,45,20,.22);margin-right:0;margin-left:6px}
+body.edge-left .edge-panel.open .edge-sheet{animation-name:edgeSlideInL}
+@keyframes edgeSlideInL{from{transform:translateX(-26px);opacity:.35}to{transform:none;opacity:1}}
+body.edge-left .edge-handle .eh-chev{transform:scaleX(-1)}
+body.edge-left .edge-panel.open .edge-handle .eh-chev{transform:rotate(180deg) scaleX(-1)}
 body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .edge-panel,body.mode-settings .edge-scrim{display:none}
 @media (max-width:920px){
 .edge-panel{top:auto;bottom:calc(122px + env(safe-area-inset-bottom,0px));transform:none}
@@ -643,7 +658,7 @@ body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .ed
 }
 </style>
 </head>
-<body>
+<body class="edge-left">
 <div class="wrap">
 
 <header class="intro">
@@ -655,7 +670,7 @@ body.mode-manage .edge-panel,body.mode-manage .edge-scrim,body.mode-settings .ed
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>エッジパネル：</strong>画面の右端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（Galaxyのエッジパネル風）。右端の「🔁」ハンドルをタップするか、左へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは管理モードでは表示されません。</li>
+<li><strong>エッジパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（Galaxyのエッジパネル風）。初期は左端で、管理画面の「設定」タブの「17. エッジパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは管理モードでは表示されません。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、動画とタイムラインが画面の上部に小さく固定表示されるので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたままになります。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -1569,6 +1584,10 @@ var PAIRS = [
 ["時間指定入力をオンにしました", "Direct time entry turned on"],
 ["時間指定入力をオフにしました（時間は矢印ボタンと「今」で合わせます）", "Direct time entry turned off (set times with the arrow buttons and 'Now')"],
 ["⌨ 時間の直接入力はオフです。時間は下の矢印ボタンと「今」で合わせられます（設定の「16. 時間指定入力」でオンにできます）", "⌨ Direct time entry is off. Set times with the arrow buttons and 'Now' below (turn it on in Settings, '16. Direct time entry')"],
+["17. エッジパネルの表示位置", "17. Edge panel position"],
+["保存ループのエッジパネル（画面の端から少し顔を出すループ一覧）を、画面の左端と右端のどちらに出すかです（初期は左）。利き手や持ち方に合わせて変えられます。", "Which edge of the screen the saved-loops edge panel (the loop list peeking from the screen edge) sits on (default left). Change it to suit your hand or how you hold the device."],
+["エッジパネルの表示位置を左にしました", "Edge panel position set to the left"],
+["エッジパネルの表示位置を右にしました", "Edge panel position set to the right"],
 ["このループを削除しますか？", "Delete this loop?"],
 ["この曲を削除しますか？保存したループも消えます。", "Delete this song? Its saved loops will be deleted too."],
 ["この保存ループリストを削除しますか？", "Delete this saved loop list?"],
@@ -1856,6 +1875,7 @@ var loopSortOrder = "start";    // saved-loop order: start | created | name | sp
 var autoSave = true;            // localStorage auto-save (default on)
 var confirmDelete = true;       // ask before deleting (default on; 管理画面「設定」13)
 var timeInputEnabled = false;   // direct time entry in the loop editor (default OFF; 管理画面「設定」16) — when off, the start/end fields are read-only so tapping them never opens the keyboard; times change only with the <<< >>> fine-adjust buttons and the 「今」 button
+var edgeSide = "left";          // エッジパネルの表示位置: "left" | "right" (default LEFT; 管理画面「設定」17) — body.edge-left mirrors the panel CSS to the left edge
 var LOOP_SORTS = [
 { key: "start", label: "開始時間順" },
 { key: "created", label: "作った順" },
@@ -3882,6 +3902,12 @@ refreshSongBadges();
    re-renders from renderSections(), so it follows song changes,
    loop creation / deletion / edits and the playing state for free. */
 var edgeOpen = false;
+/* Which screen edge the panel sits on (設定17, default left). The
+   body class drives the mirrored CSS; the swipe handlers below read
+   edgeSide directly so their directions follow the placement. */
+function applyEdgeSide(){
+document.body.classList.toggle("edge-left", edgeSide !== "right");
+}
 function setEdgeOpen(open){
 edgeOpen = !!open;
 var panel = $("edgePanel"), scrim = $("edgeScrim"), handle = $("edgeHandle");
@@ -3958,9 +3984,11 @@ var dragX = null, dragMoved = false;
 handle.addEventListener("pointerdown", function(e){ dragX = e.clientX; dragMoved = false; });
 handle.addEventListener("pointermove", function(e){
 if (dragX == null) return;
-var dx = e.clientX - dragX;
-if (dx < -36){ setEdgeOpen(true); dragMoved = true; dragX = null; }
-else if (dx > 36){ setEdgeOpen(false); dragMoved = true; dragX = null; }
+/* "toward" is positive when the swipe heads for the centre of the
+   screen (the opening direction) on whichever edge the panel uses. */
+var toward = (edgeSide === "right"? -1: 1) * (e.clientX - dragX);
+if (toward > 36){ setEdgeOpen(true); dragMoved = true; dragX = null; }
+else if (toward < -36){ setEdgeOpen(false); dragMoved = true; dragX = null; }
 });
 handle.addEventListener("pointerup", function(){ dragX = null; setTimeout(function(){ dragMoved = false; }, 60); });
 handle.addEventListener("pointercancel", function(){ dragX = null; dragMoved = false; });
@@ -3975,7 +4003,8 @@ var sheetX = null;
 sheet.addEventListener("pointerdown", function(e){ sheetX = e.clientX; });
 sheet.addEventListener("pointermove", function(e){
 if (sheetX == null) return;
-if (e.clientX - sheetX > 60){ setEdgeOpen(false); sheetX = null; }
+var back = (edgeSide === "right"? 1: -1) * (e.clientX - sheetX);
+if (back > 60){ setEdgeOpen(false); sheetX = null; }
 });
 sheet.addEventListener("pointerup", function(){ sheetX = null; });
 sheet.addEventListener("pointercancel", function(){ sheetX = null; });
@@ -5039,6 +5068,9 @@ html += '<div class="settings-box"><h3>15. 使い方・解説</h3><div id="setti
 html += '<div class="settings-box"><h3>16. 時間指定入力</h3>' +
 '<p class="hint" style="margin:0">ループ編集で、開始時間・終了時間をキーボードで直接入力（例：1:23.50）できるようにするかです（初期はオフ）。オフのときは時間の欄を押してもキーボードは開かず、時間は「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンだけで合わせます。オンにすると、今まで通り欄を押して直接入力できます。</p>' +
 chips("set-time-input", [{ v: "0", label: "オフ（直接入力できない）" }, { v: "1", label: "オン（直接入力できる）" }], timeInputEnabled? "1": "0") + "</div>";
+html += '<div class="settings-box"><h3>17. エッジパネルの表示位置</h3>' +
+'<p class="hint" style="margin:0">保存ループのエッジパネル（画面の端から少し顔を出すループ一覧）を、画面の左端と右端のどちらに出すかです（初期は左）。利き手や持ち方に合わせて変えられます。</p>' +
+chips("set-edge-side", [{ v: "left", label: "左" }, { v: "right", label: "右" }], edgeSide) + "</div>";
 return html;
 }
 function mgmtShareHtml(){
@@ -5256,6 +5288,13 @@ timeInputEnabled = btn.getAttribute("data-v") === "1";
 saveSettingsNow();
 renderSections();
 toast(timeInputEnabled? "時間指定入力をオンにしました": "時間指定入力をオフにしました（時間は矢印ボタンと「今」で合わせます）");
+renderMgmtRows();
+}
+else if (act === "set-edge-side"){
+edgeSide = btn.getAttribute("data-v") === "right"? "right": "left";
+applyEdgeSide();
+saveSettingsNow();
+toast(edgeSide === "left"? "エッジパネルの表示位置を左にしました": "エッジパネルの表示位置を右にしました");
 renderMgmtRows();
 }
 else if (act === "sp-toggle"){
@@ -5487,6 +5526,7 @@ loopSortOrder: loopSortOrder,
 autoSave: autoSave,
 confirmDelete: confirmDelete,
 timeInputEnabled: timeInputEnabled,
+edgeSide: edgeSide,
 practiceLists: builtPractice,
 songLists: builtSongLists
 };
@@ -5585,6 +5625,7 @@ if (["start", "created", "name", "speed"].indexOf(data.loopSortOrder) >= 0) loop
 if (typeof data.autoSave === "boolean") autoSave = data.autoSave;
 if (typeof data.confirmDelete === "boolean") confirmDelete = data.confirmDelete;
 if (typeof data.timeInputEnabled === "boolean") timeInputEnabled = data.timeInputEnabled;
+if (data.edgeSide === "left" || data.edgeSide === "right") edgeSide = data.edgeSide;
 if (typeof data.sampleAutoLoad === "boolean") sampleAutoLoad = data.sampleAutoLoad;
 if (data.lang === "en" || data.lang === "ja") LANG = data.lang;
 }
@@ -5607,6 +5648,7 @@ renderSpeedPresetButtons();
 applySpeed();
 syncCaptureSecUI();
 syncJumpUI();
+applyEdgeSide();
 applyLanguage();
 setMode("practice", { noScroll: true });
 })();
