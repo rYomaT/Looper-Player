@@ -478,6 +478,7 @@ footer{margin-top:26px;color:var(--ink2);font-size:.85rem;text-align:center}
 .mgmt-card h2 .count{font-size:.78rem;font-weight:700;background:var(--chip);border-radius:999px;padding:.1em .7em;color:var(--ink2)}
 .mgmt-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
 .mgmt-tabs .btn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mtab-count{font-weight:700;font-variant-numeric:tabular-nums}
 .mgmt-search{margin-bottom:10px}
 .mgmt-row{display:flex;gap:10px;align-items:flex-start;background:var(--panel2);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;flex-wrap:wrap}
 .mgmt-row .mg-main{flex:1;min-width:200px}
@@ -1008,13 +1009,13 @@ header.intro{margin-bottom:6px}
 </div>
 
 <section class="card mgmt-card" id="mgmtSection" aria-label="管理画面">
-<h2 id="mgmtTitle">🔁 ループ <span class="count" id="mgmtCount"></span></h2>
+<h2 id="mgmtTitle">🔁 ループ</h2>
 <p class="hint" id="mgmtDesc" style="margin:0">ループ管理：ループとループセットを編集できます。</p>
 <div class="mgmt-tabs" id="mgmtTabs" role="tablist" aria-label="管理画面の切り替え">
-<button class="btn small" type="button" data-mtab="loops" data-group="loops" aria-selected="true">ループ</button>
-<button class="btn small" type="button" data-mtab="practice" data-group="loops" aria-selected="false">ループセット</button>
-<button class="btn small" type="button" data-mtab="songs" data-group="songs" aria-selected="false">曲</button>
-<button class="btn small" type="button" data-mtab="setlists" data-group="songs" aria-selected="false">ライブラリ</button>
+<button class="btn small" type="button" data-mtab="loops" data-group="loops" aria-selected="true">ループ<span class="mtab-count" data-count-for="loops">(0)</span></button>
+<button class="btn small" type="button" data-mtab="practice" data-group="loops" aria-selected="false">ループセット<span class="mtab-count" data-count-for="practice">(0)</span></button>
+<button class="btn small" type="button" data-mtab="songs" data-group="songs" aria-selected="false">曲<span class="mtab-count" data-count-for="songs">(0)</span></button>
+<button class="btn small" type="button" data-mtab="setlists" data-group="songs" aria-selected="false">ライブラリ<span class="mtab-count" data-count-for="setlists">(0)</span></button>
 <button class="btn small" type="button" data-mtab="settings" data-group="settings" aria-selected="false">設定</button>
 </div>
 <div id="mgmtBody"></div>
@@ -4915,8 +4916,12 @@ setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
 toast("保存ループリスト「" + list.name + "」を書き出しました");
 }
 /* --- Rendering --- */
-function mgmtCountText(){
-return "ループ " + allLoopsFlat().length + "件 ・ ループセット " + practiceLists.length + "件 ・ ライブラリ " + songLists.length + "件 ・ 曲 " + songs.length + "曲";
+function updateMgmtTabCounts(){
+var counts = { loops: allLoopsFlat().length, practice: practiceLists.length, songs: songs.length, setlists: songLists.length };
+document.querySelectorAll(".mtab-count").forEach(function(el){
+var k = el.getAttribute("data-count-for");
+if (k && (k in counts)) el.textContent = "(" + counts[k] + ")";
+});
 }
 function renderMgmt(){
 var body = $("mgmtBody"); if (!body) return;
@@ -4926,14 +4931,14 @@ var grp = (typeof uiMode !== "undefined" && uiMode)? uiMode: (typeof MTAB_MODE !
 if (grp === "practice") grp = "loops";
 var titles = { loops: "🔁 ループ", songs: "♫ 曲", settings: "⚙ 設定" };
 var descs = { loops: "ループ管理：ループとループセットを編集できます。", songs: "曲管理：曲とライブラリを編集できます。", settings: "設定：各種設定と使い方・解説です。" };
-var ttl = $("mgmtTitle"); if (ttl){ var cntSpan = ttl.querySelector(".count"); ttl.textContent = (titles[grp] || titles.loops) + " "; var cs = document.createElement("span"); cs.className="count"; cs.id="mgmtCount"; ttl.appendChild(cs); }
+var ttl = $("mgmtTitle"); if (ttl){ ttl.textContent = titles[grp] || titles.loops; }
 var dsc = $("mgmtDesc"); if (dsc) dsc.textContent = descs[grp] || descs.loops;
 document.querySelectorAll(".mgmt-tabs .btn").forEach(function(b){
 b.setAttribute("aria-selected", b.getAttribute("data-mtab") === mgmtTab? "true": "false");
 var g = b.getAttribute("data-group");
 b.style.display = (!g || g === grp)? "": "none";
 });
-var cnt = $("mgmtCount"); if (cnt) cnt.textContent = mgmtCountText();
+updateMgmtTabCounts();
 if (mgmtTab === "loops"){
 body.innerHTML = '<input class="mgmt-search" id="mgmtLoopSearch" type="search" placeholder="曲名・ループ名・ノートで検索" aria-label="全ループを検索" value="' + esc(mgmtLoopQuery) + '"><div id="mgmtRows"></div>';
 } else if (mgmtTab === "practice"){
@@ -4949,7 +4954,7 @@ renderMgmtRows();
 }
 function renderMgmtRows(){
 var rows = $("mgmtRows"); if (!rows) return;
-var cnt = $("mgmtCount"); if (cnt) cnt.textContent = mgmtCountText();
+updateMgmtTabCounts();
 if (mgmtTab === "loops") rows.innerHTML = mgmtLoopRowsHtml();
 else if (mgmtTab === "practice") rows.innerHTML = mgmtPracticeHtml();
 else if (mgmtTab === "setlists") rows.innerHTML = mgmtSetlistHtml();
