@@ -643,16 +643,20 @@ body.docked #tlCurWrap{font-size:1.05rem}
 .edge-list{max-height:min(56vh,430px);overflow:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
 .edge-row{display:flex;gap:6px;align-items:stretch;background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 9%,var(--panel));border:1.5px solid color-mix(in srgb,hsl(var(--loop-h,28) 70% 48%) 34%,var(--line));border-radius:10px;padding:6px}
 .edge-row.active{border-color:hsl(var(--loop-h,28) 70% 45%);background:color-mix(in srgb,hsl(var(--loop-h,28) 75% 52%) 20%,var(--panel))}
-.edge-play{flex:1;min-width:0;background:transparent;border:none;text-align:left;display:flex;flex-direction:column;gap:1px;padding:3px 4px;cursor:pointer;color:var(--ink);font-family:inherit}
-.edge-play:hover .ep-name{color:var(--accent)}
+.edge-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.edge-play{background:transparent;border:none;text-align:left;display:flex;flex-direction:column;gap:1px;padding:2px 4px;cursor:pointer;color:var(--ink);font-family:inherit;width:100%}
+.edge-play:hover .ep-range{color:var(--accent)}
+.ep-name{background:transparent;border:none;border-bottom:1.5px dashed var(--line2);border-radius:0;padding:0 1px;font-family:inherit;font-weight:900;font-size:.9rem;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ep-name:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.ep-rename{display:flex;gap:5px;align-items:center;flex:1;min-width:0}
+.ep-rename input{flex:1;min-width:0;padding:.3rem .5rem;font-size:.9rem;font-weight:700}
+.ep-rename .btn{flex:none;padding:.25rem .55rem}
 .ep-top{display:flex;align-items:center;gap:6px;min-width:0}
-.ep-name{font-weight:900;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ep-range{font-size:.8rem;color:var(--ink2)}
 .ep-note{font-size:.75rem;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .edge-edit{flex:none;align-self:center;border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:9px;font-weight:900;font-size:.88rem;padding:.35rem .6rem;min-height:2.5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.3em;font-family:inherit}
 .edge-edit:hover{background:var(--accent);color:var(--accent-ink)}
 .edge-empty{margin:0;padding:12px 10px;font-size:.86rem;color:var(--ink2);line-height:1.6}
-.edge-foot{padding:8px 12px 12px;font-size:.76rem;color:var(--ink2);border-top:1.5px dashed var(--line)}
 /* Left-edge placement (設定17「サイドパネルの表示位置」, the default):
    everything mirrors — the panel anchors to the left edge, the handle
    and peeking tabs hug that edge, the sheet opens to the right of the
@@ -721,7 +725,7 @@ header.intro{margin-bottom:6px}
 <li><strong>クイックキャプチャ（かんたんループ作成）：</strong>プレイヤーの操作ボタン列やループリスト上部の「クイックキャプチャ」の「10秒間」を押すと、押した瞬間を開始時間に、10秒あとを終了時間にしたループが、「今までの10秒間」を押すと、押した瞬間の10秒前を開始時間に、押した瞬間を終了時間にしたループがそのまま保存され、すぐ再生が始まります。ループは今の再生倍率で保存されます。キャプチャの秒数は固定ではなく、管理画面の「設定」タブで5秒／10秒／15秒／20秒のプリセットか、任意の秒数の入力（1〜120秒）で変更できます（設定は保存され、次回も使えます）。旗で細かく決める前に、まず大まかに繰り返したいときにおすすめです。ループ作成は「⚑ ループ作成」ボタン1つにまとまっています：短くタップすると開始→終了・保存のトグルになり、長押しすると押している間だけがループ区間になって、離した瞬間に今の再生倍率で保存し、すぐ再生します（長押しの判定時間＝初期0.3秒＝より短い押下はホールドではなくタップとして扱われます）。前の曲／次の曲は動画上部のタイトル（中央）の左右に、ループの状態ボタンは操作ボタン列の最後にあります。再生速度は、操作ボタン列の下・全体表示（タイムライン）の上にコンパクトに表示され、プリセットのボタン（初期は0.50×／0.75×／1.00×）か、フェーダー（25%〜200%、つまり0.25〜2.00×）でその場で変えられます。右側カードの再生速度欄にも同じボタンとフェーダーがあります。⏪／⏩のジャンプ秒数（初期10秒）、表示する倍率ボタン、長押しの最小時間などは、管理画面の「設定」タブで変更できます（設定は保存され、次回も使えます）。</li>
 <li><strong>ループ練習：</strong>「⚑ ループ作成」ボタンをタップすると、その位置から再生が始まり、それまで設定されていた現在のループは解除されます（終了は外れ、新しい開始位置だけが残ります）。続けて同じボタンをもう一度タップすると、その区間を繰り返し、そのままループとして保存されます（別途「保存」を押す必要はありません）。作成されるループには「ループ1」「ループ2」のような名前が自動で付きます。名前は後から「編集」で変更できます。終了を押し直すと、保存済みの同じ区間の終了位置が新しい位置に更新されます。開始・終了位置は、時間の表示を押すと出てくる「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」ボタンで直せて（刻みは初期1秒／0.1秒／0.01秒、管理画面の「設定」で変更できます）、開始位置を変えると新しい開始位置から、終了位置を変えると終了の少し前（初期3秒前、「設定」で変更できます）から即プレビューします。決めた区間は何個でも保存できます。ノートは最初は付けず、保存したあとに「編集」から付けられます。保存したループは、行を押しても、「▶ 有効化」を押しても、その区間に切り替えて先頭から再生が始まります。行を長押しすると、そのループの編集フォームがその場で開きます。ループが始まると、そのカードのボタンは「ループ OFF」に変わります。「ループ OFF」を押すと、曲は止めずにループだけを止めます（A–Bは残るので、もう一度「▶ 有効化」を押すと同じループを再開できます）。保存したループは曲ごとに分かれています。</li>
 <li><strong>保存したループの編集：</strong>各ループの「編集」を押すか、行を長押しすると、その場で開始・終了時間と再生倍率（速度）を変更でき、ノートもここで付けたり直したりできます。時間は、初期設定ではキーボードで直接入力できません（キーボードが毎回開かないようにするためです）。時間の欄を押してもキーボードは開かず、「&lt;&lt;&lt; &lt;&lt; &lt; &gt; &gt;&gt; &gt;&gt;&gt;」の矢印ボタンと「今」ボタンで合わせます。「1:23.50」のような表記や秒数（例：83.5）で直接入力したいときは、管理画面の「設定」タブの「16. 時間指定入力」をオンにしてください。倍率は大きなプリセットボタン（管理画面の「設定」で選んだ倍率）とフェーダーだけで変えられます。開始・終了時間や倍率を変えると、変更直後にプレイヤーへ反映され、その区間が新しい設定で再生されます（終了時間を変えたときは、終了の少し前＝初期3秒前＝から再生して確認できます）。「保存」で確定します。保存時に設定されていた速度も一緒に記録され、有効化するとその速度で再生されます。再生速度のボタンも同じ倍率の並びで、フェーダーでは0.25〜2.00×の範囲で自由に変えられます。保存したループのリストでは、1行目に倍率タグとボタン類（有効化／ループ OFF・編集・削除）が、2行目に「開始時間 〜 終了時間」とループ名が表示されます。倍率は色付きの丸いタグで表示されます（遅い倍率ほど青く、速い倍率ほど赤くなります）。各ループには、色が重ならないよう自動で割り振った色が少しだけ付き、その色は全体表示（タイムライン）の同じループの色とそろっています。</li>
-<li><strong>サイドパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（サイドパネル風）。初期は左端で、管理画面の「設定」タブの「17. サイドパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは「練習」以外では表示されません。</li>
+<li><strong>サイドパネル：</strong>画面の端に、今の曲の保存ループが色付きのタブで少しだけ顔を出しています（サイドパネル風）。初期は左端で、管理画面の「設定」タブの「17. サイドパネルの表示位置」で右端にも変えられます。端の「🔁」ハンドルをタップするか、画面の中央へスワイプするとパネルが開き、ループの一覧から▶再生できます。ループ名をタップすると、その場で名前を変更できます（✓かEnterで保存、✕かEscでやめます）。各ループの「✏️ 編集」はショートカットで、押すとそのループの編集フォームがループリストの中でその場で開きます。パネルは「練習」以外では表示されません。</li>
 <li><strong>タイムライン：</strong>プレイヤー下の色分けバーが全体表示です。保存したループが色付きで並び、幅のある区間には名前も出ます。色付きの区間をタップすると、そのループがそのまま先頭から再生されます。現在のループの開始・終了位置には A／B の旗印が付きます。＋／−でズームでき、ズームに合わせて下の目盛り（30秒・10秒・1秒・0.1秒…）が切り替わります。バーをタップするとその位置へ移動し、ドラッグでも再生位置を動かせます。ページを下にスクロールすると、モード表示が画面の一番上に固定されたまま、その下に動画とタイムラインが小さく固定表示されます。小さいプレイヤーでは現在時刻が大きく表示され、前／次の曲へ移る小さなボタンも出るので、ループを作ったり編集したりする途中でも、再生位置と時間が見えたまま、曲の移動もできます。ループを選ぶ（有効化する）と、タイムラインはそのループの区間に合わせて自動でズームします（ループを解除すると全体表示に戻ります）。ループを選ぶ（有効化・編集）と、そのループの表示は、ほかのループと重なっていても一番手前に出ます。</li>
 <li><strong>曲リスト：</strong>サンプルの曲リストは最初は隠れています。「全表示」を押すと一覧が出て、キーワードで検索できます。曲名の横には保存ループ（🔁）のアイコンがあり、件数があるときだけ数が付きます。隠れている間は今の曲だけの細い表示になり、そこでも同じアイコンが見え、前／次の曲へも移れます。プレイヤーの「前の曲／次の曲」ボタンは、検索で絞り込んだ並びで動き、端では無効になります。</li>
 <li><strong>サンプル曲のシャッフル：</strong>サンプル曲（16バンド・32曲）は、開くたびにランダムな順番のプレイリストとして並びます。曲リストの「🔀 シャッフル」を押すたびに並びが新しくシャッフルされ、その順番で「前の曲／次の曲」の連続再生も進みます。元のバンド順（Pink Floyd → The Beatles → … → Green Day）に戻したいときは「バンド順に戻す」を押してください。シャッフルされるのはサンプル曲だけで、自分で追加した曲の並びや、保存したループには影響しません。</li>
@@ -1049,7 +1053,6 @@ header.intro{margin-bottom:6px}
 <button class="btn small" id="edgeClose" type="button" aria-label="サイドパネルを閉じる">✕ 閉じる</button>
 </div>
 <div class="edge-list" id="edgeList"></div>
-<div class="edge-foot">▶＝再生 ／ ✏️ 編集＝そのループの編集をその場で開く</div>
 </div>
 <div class="edge-col">
 <div class="edge-peek" id="edgePeek" aria-hidden="true"></div>
@@ -1268,7 +1271,7 @@ var PAIRS = [
 ["追加先のループセット", "Loop set to add to"],
 ["曲を選ぶと、その曲のループがここに並びます。", "Pick a song and its loops will line up here."],
 ["この曲のループはまだありません。「⚑ ループ作成」や🎤キャプチャで作ると、ここからすぐ編集できます。", "No loops for this song yet. Make one with '⚑ Loop create' or 🎤 capture, and you can edit it right from here."],
-["▶＝再生 ／ ✏️ 編集＝そのループの編集をその場で開く", "▶ = play / ✏️ Edit = opens that loop's editor in place"],
+["タップで名前を変更", "Tap to rename"],
 ["下部メニューの「⚑ ループ作成」ボタンや、🎤キャプチャボタン各種を押してループ期間を指定してください。", "Use the '⚑ Loop create' button or the 🎤 capture buttons in the bottom menu to set a loop range."],
 ["書き出しファイルを読み込んで以前のループ、セットリストを読み込み", "Or import an export file to bring back earlier loops and setlists"],
 ["書き出しファイルは、保存したループやセットリスト（曲のリスト）をテキストファイル（looper-export.txt）として保存したものです。あとで読み込むと、以前のループやセットリストをそのまま復元できます。", "An export file is a text file (looper-export.txt) holding your saved loops and setlists (song lists). Import it later to restore those loops and setlists exactly as they were."],
@@ -4032,9 +4035,12 @@ refreshSongBadges();
    The current song's saved loops peek a little from the right edge:
    one small coloured tab per loop (in the loop's own colour) beside
    a slim handle. Tapping the handle — or swiping it left — slides
-   the panel out. Each row plays its loop; the row's ✏️ 編集 button
-   is the edit shortcut: it closes the panel and opens that loop's
-   edit form in place in the loop list (openLoopEditor). The panel
+   the panel out. Each row plays its loop from the time-range area;
+   tapping the loop's name swaps it for an inline input so the name
+   can be changed right there (✓ / Enter saves, ✕ / Esc cancels);
+   the row's ✏️ 編集 button is the edit shortcut: it closes the
+   panel and opens that loop's edit form in place in the loop list
+   (openLoopEditor). The panel
    re-renders from renderSections(), so it follows song changes,
    loop creation / deletion / edits and the playing state for free. */
 var edgeOpen = false;
@@ -4054,6 +4060,58 @@ handle.setAttribute("aria-expanded", edgeOpen? "true": "false");
 handle.setAttribute("aria-label", edgeOpen? "保存ループのサイドパネルを閉じる": "保存ループのサイドパネルを開く");
 }
 if (edgeOpen) renderEdgePanel();
+}
+/* Inline rename inside the side panel: tapping a loop's name swaps
+   the name line for a text input (prefilled, selected) with ✓ / ✕
+   buttons. Saving writes sec.name and goes through renderSections()
+   — the same save + re-render path as the loop edit form — while
+   cancelling just forces the panel to rebuild (edgeSig reset). An
+   empty name keeps the old one, matching the edit form. While the
+   input is open, renderEdgePanel's signature check leaves the row
+   untouched (the name only enters the signature once saved). */
+function startEdgeRename(sec, row){
+var top = row.querySelector(".ep-top");
+if (!top || top.querySelector(".ep-rename")) return;
+var ren = document.createElement("span");
+ren.className = "ep-rename";
+var input = document.createElement("input");
+input.type = "text";
+input.value = sec.name || "";
+input.setAttribute("aria-label", "ループ名");
+var okBtn = document.createElement("button");
+okBtn.type = "button";
+okBtn.className = "btn small";
+okBtn.textContent = "✓";
+okBtn.setAttribute("aria-label", "名前を保存");
+var cancelBtn = document.createElement("button");
+cancelBtn.type = "button";
+cancelBtn.className = "btn small";
+cancelBtn.textContent = "✕";
+cancelBtn.setAttribute("aria-label", "名前の変更をやめる");
+ren.appendChild(input); ren.appendChild(okBtn); ren.appendChild(cancelBtn);
+top.innerHTML = "";
+top.appendChild(ren);
+var done = false;
+function finish(save){
+if (done) return; done = true;
+var v = input.value.trim();
+edgeSig = "";
+if (save && v && v !== (sec.name || "")){
+sec.name = v;
+renderSections();
+toast("名前を「" + v + "」に変更しました");
+} else {
+renderEdgePanel();
+}
+}
+okBtn.addEventListener("click", function(){ finish(true); });
+cancelBtn.addEventListener("click", function(){ finish(false); });
+input.addEventListener("keydown", function(e){
+if (e.key === "Enter"){ e.preventDefault(); finish(true); }
+else if (e.key === "Escape"){ e.preventDefault(); finish(false); }
+});
+input.focus();
+try{ input.select(); }catch(_){ }
 }
 var edgeSig = "";
 function renderEdgePanel(){
@@ -4099,13 +4157,17 @@ row.className = "edge-row" + (isActiveSection(sec)? " active": "");
 row.style.setProperty("--loop-h", loopHue(sec));
 var speedBadge = (sec.speed != null && !isNaN(sec.speed))? '<span class="loop-speed-badge mono" style="' + speedTagStyle(Number(sec.speed)) + '">' + Number(sec.speed).toFixed(2) + '×</span>': "";
 row.innerHTML =
+'<div class="edge-main">' +
+'<span class="ep-top"><span class="loop-color-dot" aria-hidden="true"></span>' +
+'<button class="ep-name" type="button" title="タップで名前を変更" aria-label="「' + esc(sec.name || "") + '」の名前を変更">' + esc(sec.name || "") + '</button>' + speedBadge + '</span>' +
 '<button class="edge-play" type="button" aria-label="' + esc(sec.name || "") + 'を再生">' +
-'<span class="ep-top"><span class="loop-color-dot" aria-hidden="true"></span><span class="ep-name">' + esc(sec.name || "") + '</span>' + speedBadge + '</span>' +
 '<span class="ep-range mono">' + fmtH(sec.a) + " 〜 " + fmtH(sec.b) + '</span>' +
 (sec.note? '<span class="ep-note">' + esc(sec.note) + '</span>': "") +
 '</button>' +
+'</div>' +
 '<button class="edge-edit" type="button" aria-label="' + esc(sec.name || "") + 'を編集">✏️ 編集</button>';
 row.querySelector(".edge-play").addEventListener("click", function(){ activateSection(sec); });
+row.querySelector(".ep-name").addEventListener("click", function(){ startEdgeRename(sec, row); });
 row.querySelector(".edge-edit").addEventListener("click", function(){
 setEdgeOpen(false);
 openLoopEditor(sec);
@@ -4136,7 +4198,7 @@ document.addEventListener("keydown", function(e){ if (e.key === "Escape" && edge
    panel back into the edge. */
 if (sheet){
 var sheetX = null;
-sheet.addEventListener("pointerdown", function(e){ sheetX = e.clientX; });
+sheet.addEventListener("pointerdown", function(e){ sheetX = (e.target && e.target.closest && e.target.closest("input, textarea"))? null: e.clientX; });
 sheet.addEventListener("pointermove", function(e){
 if (sheetX == null) return;
 var back = (edgeSide === "right"? 1: -1) * (e.clientX - sheetX);
